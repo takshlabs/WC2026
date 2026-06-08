@@ -1,11 +1,14 @@
 {
   "name": "worldcup2026",
   "version": "1.0.0",
+  "homepage": "https://takshlabs.github.io/WC2026",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "react": "^18.3.1",
