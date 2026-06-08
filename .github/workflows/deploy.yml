@@ -28,8 +28,7 @@ jobs:
           VITE_FOOTBALL_DATA_KEY: ${{ secrets.VITE_FOOTBALL_DATA_KEY }}
 
       - name: Deploy to gh-pages
-        uses: peaceiris/actions-gh-pages@v4
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          cname: ''
+          folder: dist
+          branch: gh-pages
