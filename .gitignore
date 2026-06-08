@@ -4,3 +4,4 @@ dist/
 *.log
 serve.log
 .DS_Store
+package-lock.json
