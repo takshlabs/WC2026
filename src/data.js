@@ -105,7 +105,7 @@ export const VENUES = {
 export const MATCHES = [
   // GROUP A
   { id:  1, date:'2026-06-11', time:'19:00', home:'MEX', away:'RSA', venue:'AZTECA', group:'A', md:1, round:'gs' },
-  { id:  2, date:'2026-06-12', time:'02:00', home:'KOR', away:'CZE', venue:'NRG', group:'A', md:1, round:'gs' },
+  { id:  2, date:'2026-06-12', time:'02:00', home:'KOR', away:'CZE', venue:'AKRON', group:'A', md:1, round:'gs' },
   { id:  3, date:'2026-06-25', time:'01:00', home:'CZE', away:'MEX', venue:'AZTECA', group:'A', md:3, round:'gs' },
   { id:  4, date:'2026-06-25', time:'01:00', home:'RSA', away:'KOR', venue:'HARDROCK', group:'A', md:3, round:'gs' },
   { id:  5, date:'2026-06-19', time:'01:00', home:'MEX', away:'KOR', venue:'AZTECA', group:'A', md:2, round:'gs' },

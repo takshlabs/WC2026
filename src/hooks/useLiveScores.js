@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react'
 import { MATCHES } from '../data'
 
-// TLA codes that differ between our data and football-data.org
-const TLA_MAP = {
-  'CIV': 'CIV', 'CPV': 'CPV', 'CUW': 'CUW', 'COD': 'COD',
-  'HAI': 'HAI', 'UZB': 'UZB', 'KSA': 'KSA', 'IRN': 'IRI',
-  'IRQ': 'IRQ', 'NOR': 'NOR',
-}
+// Map football-data.org TLAs → our data.js codes where they differ
+const TLA_MAP = { 'URY': 'URU' }
 function normalizeTla(code) { return TLA_MAP[code] || code }
+
+// Works on GitHub Pages (direct) and local dev (proxy)
+const API_BASE = import.meta.env.VITE_API_BASE || 'https://api.football-data.org/v4'
 
 export function useLiveScores() {
   const [liveMap, setLiveMap] = useState(new Map())
@@ -16,7 +15,7 @@ export function useLiveScores() {
     async function poll() {
       try {
         const today = new Date().toISOString().slice(0, 10)
-        const res = await fetch(`/api/football/competitions/2000/matches?dateFrom=${today}&dateTo=${today}`, {
+        const res = await fetch(`${API_BASE}/competitions/2000/matches?dateFrom=${today}&dateTo=${today}`, {
           headers: { 'X-Auth-Token': import.meta.env.VITE_FOOTBALL_DATA_KEY || '' }
         })
         if (!res.ok) return
