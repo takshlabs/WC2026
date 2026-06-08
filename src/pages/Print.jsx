@@ -1,0 +1,240 @@
+import React, { useState } from 'react'
+import { MATCHES, TEAMS, VENUES } from '../data'
+import { convertTime, groupColor, calcStandings } from '../utils'
+import { useApp } from '../App'
+import FlagImg from '../components/FlagImg'
+
+const ALL_GROUPS = ['A','B','C','D','E','F','G','H','I','J','K','L']
+
+const KO_ROUNDS = [
+  { label: 'Round of 32',    ids: [73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88] },
+  { label: 'Round of 16',    ids: [89,90,91,92,93,94,95,96] },
+  { label: 'Quarter-Finals', ids: [97,98,99,100] },
+  { label: 'Semi-Finals',    ids: [101,102] },
+  { label: '3rd Place',      ids: [103] },
+  { label: 'Final',          ids: [104] },
+]
+
+export default function Print() {
+  const { tz, liveMap } = useApp()
+  const [section, setSection] = useState('all')
+
+  const showGroups   = section === 'all' || section === 'groups'
+  const showSchedule = section === 'all' || section === 'schedule'
+  const showBracket  = section === 'all' || section === 'bracket'
+
+  return (
+    <div>
+      {/* ── Screen-only controls ───────────────────────────────────────── */}
+      <div className="print-controls no-print">
+        <div className="container">
+          <div className="print-controls-inner">
+            <div>
+              <h1 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 700 }}>
+                Print / Wall Chart
+              </h1>
+              <p style={{ margin: '3px 0 0', fontSize: '0.75rem', color: 'var(--text-3)' }}>
+                Pick a section → hit Print. Optimised for A4 / US Letter.
+              </p>
+            </div>
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
+              {[['all','All sections'],['groups','Groups'],['schedule','Schedule'],['bracket','Knockout']].map(([v, l]) => (
+                <button
+                  key={v}
+                  className={`btn${section === v ? ' btn-gold' : ' btn-ghost'}`}
+                  style={{ height: 30, fontSize: '0.73rem', padding: '0 12px' }}
+                  onClick={() => setSection(v)}
+                >
+                  {l}
+                </button>
+              ))}
+              <button
+                className="btn btn-gold"
+                style={{ height: 30, fontSize: '0.73rem', padding: '0 14px' }}
+                onClick={() => window.print()}
+              >
+                🖨 Print
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Printable document ─────────────────────────────────────────── */}
+      <div className="print-doc">
+
+        {/* Cover */}
+        <div className="print-cover">
+          <div className="print-cover-title">FIFA World Cup 2026™</div>
+          <div className="print-cover-sub">USA · Canada · Mexico &nbsp;|&nbsp; 11 June – 19 July 2026</div>
+          <div className="print-cover-meta">48 teams &nbsp;·&nbsp; 104 matches &nbsp;·&nbsp; 16 venues &nbsp;·&nbsp; 3 host countries</div>
+          <div style={{ marginTop: '1.2rem', fontSize: '0.6rem', fontFamily: 'var(--font-mono)', color: 'rgba(232,184,75,0.8)', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+            Made by Taksh✦Labs
+          </div>
+        </div>
+
+        {/* ── Group Standings ──────────────────────────────────────────── */}
+        {showGroups && (
+          <div className="print-section">
+            <div className="print-section-title">Group Stage — Standings</div>
+            <div className="print-groups-grid">
+              {ALL_GROUPS.map(g => (
+                <PrintGroup key={g} group={g} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── Match Schedule ───────────────────────────────────────────── */}
+        {showSchedule && (
+          <div className="print-section">
+            <div className="print-section-title">Match Schedule ({tz.abbr})</div>
+            <PrintSchedule tz={tz} liveMap={liveMap} />
+          </div>
+        )}
+
+        {/* ── Knockout Bracket ─────────────────────────────────────────── */}
+        {showBracket && (
+          <div className="print-section">
+            <div className="print-section-title">Knockout Stage</div>
+            <PrintBracket tz={tz} liveMap={liveMap} />
+          </div>
+        )}
+
+        <div className="print-footer no-print-footer">
+          worldcup2026 &nbsp;·&nbsp; Taksh✦Labs &nbsp;·&nbsp; Printed {new Date().toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' })}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* ── Group standings table — DIY fill-it-yourself for print ─────────────── */
+function PrintGroup({ group }) {
+  // Use initial seeding order (alphabetical by name within group), not live standings
+  const teams = Object.entries(TEAMS)
+    .filter(([, t]) => t.group === group)
+    .sort((a, b) => a[1].name.localeCompare(b[1].name))
+  const color = groupColor(group)
+  return (
+    <div className="print-group">
+      <div className="print-group-hdr" style={{ borderTopColor: color }}>
+        Group {group}
+      </div>
+      <table className="print-tbl">
+        <thead>
+          <tr>
+            <th className="print-tbl-team">Team</th>
+            <th>P</th><th>W</th><th>D</th><th>L</th>
+            <th>GF</th><th>GA</th><th>GD</th><th>Pts</th>
+          </tr>
+        </thead>
+        <tbody>
+          {teams.map(([code, t], i) => (
+            <tr key={code} className={i < 2 ? 'print-q' : i === 2 ? 'print-q3' : ''}>
+              <td className="print-tbl-team">
+                <span className="print-flag"><FlagImg code={code} size={12} /></span> {t.name}
+              </td>
+              {/* Blank fill-in boxes for all stat columns */}
+              {['','','','','','','',''].map((_, ci) => (
+                <td key={ci} className={ci === 7 ? 'print-pts' : ''}>
+                  <span className="print-diy-box" />
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div className="print-group-adv">
+        <span className="print-adv-dot print-adv-green" /> advance &nbsp;
+        <span className="print-adv-dot print-adv-gold" /> best 3rd
+      </div>
+    </div>
+  )
+}
+
+/* ── Match schedule ─────────────────────────────────────────────────────── */
+function PrintSchedule({ tz, liveMap }) {
+  const matches = MATCHES
+    .filter(m => m.round === 'gs')
+    .sort((a, b) => new Date(`${a.date}T${a.time}:00Z`) - new Date(`${b.date}T${b.time}:00Z`))
+
+  const byDate = new Map()
+  matches.forEach(m => {
+    const conv = convertTime(m.date, m.time, tz)
+    if (!byDate.has(conv.date)) byDate.set(conv.date, [])
+    byDate.get(conv.date).push({ ...m, conv, live: liveMap.get(m.id) })
+  })
+
+  return (
+    <div className="print-schedule">
+      {[...byDate.entries()].map(([date, ms]) => (
+        <div key={date}>
+          <div className="print-date-hdr">{date}</div>
+          <div className="print-matches-grid">
+            {ms.map(m => {
+              const ht  = TEAMS[m.home]
+              const at  = TEAMS[m.away]
+              const hs  = m.live?.homeScore ?? m.homeScore
+              const as_ = m.live?.awayScore ?? m.awayScore
+              const v   = VENUES[m.venue]
+              return (
+                <div key={m.id} className="print-match">
+                  <span className="print-match-time">{m.conv.time}</span>
+                  <span className="print-match-home"><FlagImg code={m.home} size={12} /> {ht?.name}</span>
+                  <span className="print-match-score">
+                    {hs !== undefined ? `${hs}–${as_}` : 'v'}
+                  </span>
+                  <span className="print-match-away">{at?.name} <FlagImg code={m.away} size={12} /></span>
+                  <span className="print-match-venue">{v?.city}</span>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+/* ── Knockout bracket ───────────────────────────────────────────────────── */
+function PrintBracket({ tz, liveMap }) {
+  const matchById = Object.fromEntries(MATCHES.map(m => [m.id, m]))
+
+  return (
+    <div className="print-bracket">
+      {KO_ROUNDS.map(round => (
+        <div key={round.label} className="print-ko-round">
+          <div className="print-ko-label">{round.label}</div>
+          <div className="print-ko-matches">
+            {round.ids.map(id => {
+              const m = matchById[id]
+              if (!m) return null
+              const conv = convertTime(m.date, m.time, tz)
+              const ht   = TEAMS[m.home]
+              const at   = TEAMS[m.away]
+              const live = liveMap.get(id)
+              const hs   = live?.homeScore ?? m.homeScore
+              const as_  = live?.awayScore ?? m.awayScore
+              return (
+                <div key={id} className="print-ko-match">
+                  <span className="print-ko-date">{conv.dateShort}</span>
+                  <span className="print-ko-team">
+                    {ht ? <><FlagImg code={m.home} size={12} /> {ht.name}</> : (m.homeLabel || 'TBD')}
+                    {hs !== undefined && <b> {hs}</b>}
+                  </span>
+                  <span className="print-ko-sep">–</span>
+                  <span className="print-ko-team">
+                    {as_ !== undefined && <b>{as_} </b>}
+                    {at ? <>{at.name} <FlagImg code={m.away} size={12} /></> : (m.awayLabel || 'TBD')}
+                  </span>
+                  <span className="print-ko-venue">{VENUES[m.venue]?.city}</span>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
