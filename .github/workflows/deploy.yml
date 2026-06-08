@@ -27,11 +27,14 @@ jobs:
           VITE_FOOTBALL_DATA_KEY: ${{ secrets.VITE_FOOTBALL_DATA_KEY }}
 
       - name: Deploy dist to gh-pages branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           cd dist
-          git init
+          git init -b gh-pages
           git add -A
           git commit -m "deploy: $(date -u '+%Y-%m-%d %H:%M UTC')"
-          git push --force https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:gh-pages
+          git remote add origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
+          git push origin gh-pages --force
