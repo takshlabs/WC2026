@@ -5,7 +5,7 @@ import { useApp } from '../App'
 import FlagImg from '../components/FlagImg'
 
 export default function Home() {
-  const { tz, navigate, setFixtureFilter, liveMap, setTeamModal } = useApp()
+  const { tz, timeFormat, navigate, setFixtureFilter, liveMap, setTeamModal } = useApp()
   const [countdown, setCountdown] = useState(null)
 
   // Countdown to Jun 11 2026 21:00 UTC
@@ -141,7 +141,7 @@ export default function Home() {
           <div className="home-fx-grid">
           {(liveMatches.length > 0 ? liveMatches : upcoming).map(m => {
             const live = liveMap.get(m.id)
-            const conv = convertTime(m.date, m.time, tz)
+            const conv = convertTime(m.date, m.time, tz, timeFormat)
             const homeT = TEAMS[m.home]
             const awayT = TEAMS[m.away]
             const v = VENUES[m.venue]

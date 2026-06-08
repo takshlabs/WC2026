@@ -13,7 +13,7 @@ const ROUNDS_ORDER = [
 ]
 
 export default function Bracket() {
-  const { tz, setTeamModal, liveMap } = useApp()
+  const { tz, timeFormat, setTeamModal, liveMap } = useApp()
   const matchById = Object.fromEntries(MATCHES.map(m => [m.id, m]))
 
   return (
@@ -39,6 +39,7 @@ export default function Bracket() {
                     key={id}
                     m={m}
                     tz={tz}
+                    timeFormat={timeFormat}
                     liveMap={liveMap}
                     isFinal={round.key === 'final'}
                     onTeamClick={setTeamModal}
@@ -57,6 +58,7 @@ export default function Bracket() {
           <BracketMatch
             m={matchById[103]}
             tz={tz}
+            timeFormat={timeFormat}
             liveMap={liveMap}
             isFinal={false}
             onTeamClick={setTeamModal}
@@ -67,9 +69,9 @@ export default function Bracket() {
   )
 }
 
-function BracketMatch({ m, tz, liveMap, isFinal, onTeamClick }) {
+function BracketMatch({ m, tz, timeFormat, liveMap, isFinal, onTeamClick }) {
   if (!m) return null
-  const conv  = convertTime(m.date, m.time, tz)
+  const conv  = convertTime(m.date, m.time, tz, timeFormat)
   const live  = liveMap.get(m.id)
   const homeT = TEAMS[m.home]
   const awayT = TEAMS[m.away]

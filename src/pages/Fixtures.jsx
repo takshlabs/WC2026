@@ -16,7 +16,7 @@ const ROUNDS  = [
 ]
 
 export default function Fixtures() {
-  const { tz, setTeamModal, liveMap, fixtureFilter, setFixtureFilter } = useApp()
+  const { tz, timeFormat, setTeamModal, liveMap, fixtureFilter, setFixtureFilter } = useApp()
   const { group, round, team, focus } = fixtureFilter
   const [localTeam, setLocalTeam] = useState(team || '')
 
@@ -31,11 +31,11 @@ export default function Fixtures() {
       (a, b) => new Date(`${a.date}T${a.time}:00Z`) - new Date(`${b.date}T${b.time}:00Z`)
     )
     return sorted.map(m => {
-      const conv = convertTime(m.date, m.time, tz)
+      const conv = convertTime(m.date, m.time, tz, timeFormat)
       const live = liveMap.get(m.id)
       return { ...m, conv, live }
     })
-  }, [tz, liveMap])
+  }, [tz, timeFormat, liveMap])
 
   const filtered = useMemo(() => {
     const teamQ = localTeam.toLowerCase()
@@ -69,8 +69,8 @@ export default function Fixtures() {
   const focusTeam = focus ? TEAMS[focus] : null
 
   return (
-    <div className="container" style={{ paddingTop: '1.5rem' }}>
-      <div className="page-header">
+    <div className="container fixtures-page" style={{ paddingTop: '1rem' }}>
+      <div className="page-header page-header-compact">
         <h1>Match Schedule</h1>
         <p>104 matches · 11 June – 19 July 2026 · Click any team name to view their profile</p>
       </div>
@@ -132,20 +132,22 @@ export default function Fixtures() {
           No matches found
         </div>
       ) : (
-        byDate.map(([dateLabel, matches]) => (
-          <div key={dateLabel}>
-            <div className="fixture-date-header">{dateLabel}</div>
-            <div className="fx-grid">
-              {matches.map(m => <MatchCard key={m.id} m={m} focus={focus} />)}
+        <div className="fixture-schedule">
+          {byDate.map(([dateLabel, matches]) => (
+            <div key={dateLabel} className="fixture-day-block">
+              <div className="fixture-date-header">{dateLabel}</div>
+              <div className="fixture-day-rows">
+                {matches.map(m => <MatchRow key={m.id} m={m} focus={focus} />)}
+              </div>
             </div>
-          </div>
-        ))
+          ))}
+        </div>
       )}
     </div>
   )
 }
 
-function MatchCard({ m, focus }) {
+function MatchRow({ m, focus }) {
   const { setTeamModal } = useApp()
   const homeT = TEAMS[m.home]
   const awayT = TEAMS[m.away]
@@ -158,48 +160,39 @@ function MatchCard({ m, focus }) {
   const color   = m.group ? groupColor(m.group) : 'var(--border-2)'
 
   return (
-    <div className={`fx-card${isLive ? ' is-live' : ''}${isFocus ? ' is-focus' : ''}`}>
-      <div className="fx-card-accent" style={{ background: color }} />
-
-      <div className="fx-card-header">
-        <div className="fx-card-time">
-          {isLive
-            ? <span className="live-badge"><span className="live-dot" />LIVE</span>
-            : `${m.conv.time} ${m.conv.abbr}`}
-        </div>
-        <div className="fx-card-badges">
-          {m.group && <span className="badge badge-group" style={{ background: color }}>Grp {m.group}</span>}
-          {m.md    && <span className="badge badge-md">MD{m.md}</span>}
-          {m.md === 3 && m.group && <span className="badge badge-simul">SIM</span>}
-          {!m.group && <span className="badge badge-round">{m.matchLabel}</span>}
-        </div>
+    <div className={`fx-row${isLive ? ' is-live' : ''}${isFocus ? ' is-focus' : ''}`}>
+      <div className="fx-accent" style={{ background: color }} />
+      <div className="fx-time">
+        {isLive
+          ? <span className="live-badge" style={{ fontSize: '0.55rem' }}><span className="live-dot" />LIVE</span>
+          : m.conv.time}
       </div>
-
-      <div className="fx-card-body">
-        <div
-          className={`fx-card-team home${!homeT ? ' tbd' : ''}${isFocus && m.home === focus ? ' focused' : ''}`}
-          onClick={() => homeT && setTeamModal(m.home)}
-        >
-          <FlagImg code={m.home} size={22} />
-          <span className="fx-card-team-name">{homeT ? homeT.name : (m.homeLabel || 'TBD')}</span>
-        </div>
-
-        <div className="fx-card-center">
-          {hs !== undefined
-            ? <span className="fx-card-score">{hs}–{as_}</span>
-            : <span className="fx-card-vs">vs</span>}
-        </div>
-
-        <div
-          className={`fx-card-team away${!awayT ? ' tbd' : ''}${isFocus && m.away === focus ? ' focused' : ''}`}
-          onClick={() => awayT && setTeamModal(m.away)}
-        >
-          <span className="fx-card-team-name">{awayT ? awayT.name : (m.awayLabel || 'TBD')}</span>
-          <FlagImg code={m.away} size={22} />
-        </div>
+      <div
+        className={`fx-team home${!homeT ? ' tbd' : ''}`}
+        onClick={() => homeT && setTeamModal(m.home)}
+      >
+        {homeT && <FlagImg code={m.home} size={16} />}
+        {homeT ? homeT.name : (m.homeLabel || 'TBD')}
       </div>
-
-      {v && <div className="fx-card-footer">{v.city}</div>}
+      <div>
+        {hs !== undefined
+          ? <span className="fx-score">{hs}–{as_}</span>
+          : <span className="fx-vs">vs</span>}
+      </div>
+      <div
+        className={`fx-team away${!awayT ? ' tbd' : ''}`}
+        onClick={() => awayT && setTeamModal(m.away)}
+      >
+        {awayT ? awayT.name : (m.awayLabel || 'TBD')}
+        {awayT && <FlagImg code={m.away} size={16} />}
+      </div>
+      <div className="fx-venue">{v?.city || '—'}</div>
+      <div className="fx-badge">
+        {m.group && <span className="badge badge-group" style={{ background: color }}>G{m.group}</span>}
+        {m.md    && <span className="badge badge-md">MD{m.md}</span>}
+        {m.md === 3 && m.group && <span className="badge badge-simul">SIM</span>}
+        {!m.group && <span className="badge badge-round">{m.matchLabel}</span>}
+      </div>
     </div>
   )
 }

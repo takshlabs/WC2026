@@ -1,7 +1,7 @@
 import { TIMEZONES, MATCHES, TEAMS, VENUES } from './data'
 
 // ── Time conversion ────────────────────────────────────────────────────────────
-export function convertTime(dateStr, timeStr, tz) {
+export function convertTime(dateStr, timeStr, tz, timeFormat = '24') {
   const [h, m] = timeStr.split(':').map(Number)
   const [yr, mo, dy] = dateStr.split('-').map(Number)
   const utcMs = Date.UTC(yr, mo - 1, dy, h, m)
@@ -9,12 +9,22 @@ export function convertTime(dateStr, timeStr, tz) {
   const d = new Date(localMs)
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-  const hh = String(d.getUTCHours()).padStart(2, '0')
+  const h24 = d.getUTCHours()
   const mm = String(d.getUTCMinutes()).padStart(2, '0')
+  const hh = String(h24).padStart(2, '0')
+  let time
+  if (timeFormat === '12') {
+    const ampm = h24 >= 12 ? 'PM' : 'AM'
+    const h12 = h24 % 12 || 12
+    time = `${h12}:${mm} ${ampm}`
+  } else {
+    time = `${hh}:${mm}`
+  }
   return {
     date: `${days[d.getUTCDay()]} ${d.getUTCDate()} ${months[d.getUTCMonth()]}`,
     dateShort: `${d.getUTCDate()} ${months[d.getUTCMonth()]}`,
-    time: `${hh}:${mm}`,
+    time,
+    time24: `${hh}:${mm}`,
     abbr: tz.abbr,
     sortKey: localMs,
   }

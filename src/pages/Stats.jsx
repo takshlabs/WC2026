@@ -45,8 +45,21 @@ const PLAYERS = [
 ]
 
 const ECHART_THEME = {
-  textStyle: { color: '#7A8BA0', fontFamily: "'DM Sans', sans-serif" },
-  title: { textStyle: { color: '#D4DCE8', fontSize: 13 } },
+  textStyle: { color: '#8EADD0', fontFamily: "'DM Sans', sans-serif" },
+  title: { textStyle: { color: '#E6EDF8', fontSize: 13 } },
+}
+
+/* Readable axis / legend labels on dark charts */
+const CHART_AXIS = {
+  name:  '#8EADD0',
+  label: '#8EADD0',
+  line:  '#1A3868',
+  split: '#1A3868',
+}
+const CHART_TIP = {
+  backgroundColor: '#051829',
+  borderColor: '#1A3868',
+  textStyle: { color: '#E6EDF8' },
 }
 
 export default function Stats() {
@@ -98,7 +111,7 @@ function PlayersTab() {
     backgroundColor: 'transparent',
     tooltip: { trigger: 'axis', backgroundColor: '#051829', borderColor: '#1A3868', textStyle: { color: '#E6EDF8' } },
     grid: { top: 20, bottom: 80, left: 140, right: 60 },
-    xAxis: { type: 'value', axisLine: { lineStyle: { color: '#1A3868' } }, splitLine: { lineStyle: { color: '#1A3868' } }, axisLabel: { color: '#354F72', fontSize: 10 } },
+    xAxis: { type: 'value', axisLine: { lineStyle: { color: '#1A3868' } }, splitLine: { lineStyle: { color: '#1A3868' } }, axisLabel: { color: CHART_AXIS.label, fontSize: 10 } },
     yAxis: {
       type: 'category',
       data: [...PLAYERS].sort((a,b) => b.wcGoals - a.wcGoals).slice(0, 10).map(p => p.name),
@@ -124,8 +137,8 @@ function PlayersTab() {
       formatter: (p) => `<b>${p.data.name}</b><br/>Caps: ${p.data.value[0]}<br/>Int'l goals: ${p.data.value[1]}<br/>WC goals: ${p.data.value[2]}`
     },
     grid: { top: 20, bottom: 50, left: 60, right: 20 },
-    xAxis: { type: 'value', name: 'Caps', nameTextStyle: { color: '#354F72' }, axisLine: { lineStyle: { color: '#1A3868' } }, splitLine: { lineStyle: { color: '#1A3868' } }, axisLabel: { color: '#354F72' } },
-    yAxis: { type: 'value', name: "Int'l Goals", nameTextStyle: { color: '#354F72' }, axisLine: { lineStyle: { color: '#1A3868' } }, splitLine: { lineStyle: { color: '#1A3868' } }, axisLabel: { color: '#354F72' } },
+    xAxis: { type: 'value', name: 'Caps', nameTextStyle: { color: CHART_AXIS.name }, axisLine: { lineStyle: { color: '#1A3868' } }, splitLine: { lineStyle: { color: '#1A3868' } }, axisLabel: { color: CHART_AXIS.label } },
+    yAxis: { type: 'value', name: "Int'l Goals", nameTextStyle: { color: CHART_AXIS.name }, axisLine: { lineStyle: { color: '#1A3868' } }, splitLine: { lineStyle: { color: '#1A3868' } }, axisLabel: { color: CHART_AXIS.label } },
     series: [{
       type: 'scatter',
       symbolSize: (d) => Math.max(d[2] * 3 + 8, 8),
@@ -247,7 +260,7 @@ function RankingsTab() {
     backgroundColor: 'transparent',
     tooltip: { trigger: 'axis', backgroundColor: '#0C1018', borderColor: '#1E2738', textStyle: { color: '#D4DCE8' } },
     grid: { top: 20, bottom: 80, left: 100, right: 20 },
-    xAxis: { type: 'value', inverse: true, max: 120, axisLine: { lineStyle: { color: '#1E2738' } }, splitLine: { lineStyle: { color: '#1E2738' } }, axisLabel: { color: '#3E4E66', fontSize: 10 } },
+    xAxis: { type: 'value', inverse: true, max: 120, axisLine: { lineStyle: { color: '#1E2738' } }, splitLine: { lineStyle: { color: '#1E2738' } }, axisLabel: { color: CHART_AXIS.label, fontSize: 10 } },
     yAxis: {
       type: 'category',
       data: teams.map(([,t]) => t.name),
@@ -269,7 +282,7 @@ function RankingsTab() {
     backgroundColor: 'transparent',
     tooltip: { trigger: 'axis', backgroundColor: '#0C1018', borderColor: '#1E2738', textStyle: { color: '#D4DCE8' } },
     grid: { top: 20, bottom: 80, left: 100, right: 20 },
-    xAxis: { type: 'value', axisLine: { lineStyle: { color: '#1E2738' } }, splitLine: { lineStyle: { color: '#1E2738' } }, axisLabel: { color: '#3E4E66', fontSize: 10 } },
+    xAxis: { type: 'value', axisLine: { lineStyle: { color: '#1E2738' } }, splitLine: { lineStyle: { color: '#1E2738' } }, axisLabel: { color: CHART_AXIS.label, fontSize: 10 } },
     yAxis: {
       type: 'category',
       data: Object.entries(TEAMS).sort((a,b) => b[1].wcApps - a[1].wcApps).slice(0,15).map(([,t]) => t.name),
@@ -326,8 +339,8 @@ function HistoryTab() {
     backgroundColor: 'transparent',
     tooltip: { trigger: 'item', backgroundColor: '#0C1018', borderColor: '#1E2738', textStyle: { color: '#D4DCE8' } },
     grid: { top: 30, bottom: 60, left: 100, right: 30 },
-    xAxis: { type: 'value', name: 'Appearances', nameTextStyle: { color: '#3E4E66' }, axisLine: { lineStyle: { color: '#1E2738' } }, splitLine: { lineStyle: { color: '#1E2738' } }, axisLabel: { color: '#3E4E66' } },
-    yAxis: { type: 'value', name: 'WC Titles', nameTextStyle: { color: '#3E4E66' }, axisLine: { lineStyle: { color: '#1E2738' } }, splitLine: { lineStyle: { color: '#1E2738' } }, axisLabel: { color: '#3E4E66' } },
+    xAxis: { type: 'value', name: 'Appearances', nameTextStyle: { color: CHART_AXIS.name }, axisLine: { lineStyle: { color: '#1E2738' } }, splitLine: { lineStyle: { color: '#1E2738' } }, axisLabel: { color: CHART_AXIS.label } },
+    yAxis: { type: 'value', name: 'WC Titles', nameTextStyle: { color: CHART_AXIS.name }, axisLine: { lineStyle: { color: '#1E2738' } }, splitLine: { lineStyle: { color: '#1E2738' } }, axisLabel: { color: CHART_AXIS.label } },
     series: [{
       type: 'scatter',
       symbolSize: (d) => Math.max(d[2] * 6 + 10, 10),
@@ -371,7 +384,7 @@ function GroupsTab({ liveMap }) {
     tooltip: { trigger: 'axis', backgroundColor: '#0C1018', borderColor: '#1E2738', textStyle: { color: '#D4DCE8' }, formatter: (p) => `Group ${p[0].name}<br/>Avg rank: #${p[0].value}<br/>Best team: #${groupData[p[0].dataIndex].minRank}` },
     grid: { top: 20, bottom: 30, left: 50, right: 20 },
     xAxis: { type: 'category', data: groups, axisLabel: { color: '#7A8BA0', fontSize: 12, fontWeight: 700 }, axisLine: { lineStyle: { color: '#1E2738' } } },
-    yAxis: { type: 'value', inverse: true, min: 0, max: 120, name: 'Avg FIFA Rank (lower = stronger)', nameTextStyle: { color: '#3E4E66', fontSize: 10 }, axisLine: { lineStyle: { color: '#1E2738' } }, splitLine: { lineStyle: { color: '#1E2738' } }, axisLabel: { color: '#3E4E66', formatter: '#{value}' } },
+    yAxis: { type: 'value', inverse: true, min: 0, max: 120, name: 'Avg FIFA Rank (lower = stronger)', nameTextStyle: { color: CHART_AXIS.name, fontSize: 10 }, axisLine: { lineStyle: { color: '#1E2738' } }, splitLine: { lineStyle: { color: '#1E2738' } }, axisLabel: { color: CHART_AXIS.label, formatter: '#{value}' } },
     series: [{
       type: 'bar',
       data: groupData.map(d => ({ value: d.avgRank, itemStyle: { color: d.color } })),
@@ -386,7 +399,7 @@ function GroupsTab({ liveMap }) {
     legend: { bottom: 0, textStyle: { color: '#7A8BA0', fontSize: 10 } },
     grid: { top: 20, bottom: 50, left: 50, right: 20 },
     xAxis: { type: 'category', data: groups, axisLabel: { color: '#7A8BA0', fontSize: 12, fontWeight: 700 }, axisLine: { lineStyle: { color: '#1E2738' } } },
-    yAxis: { type: 'value', axisLine: { lineStyle: { color: '#1E2738' } }, splitLine: { lineStyle: { color: '#1E2738' } }, axisLabel: { color: '#3E4E66' } },
+    yAxis: { type: 'value', axisLine: { lineStyle: { color: '#1E2738' } }, splitLine: { lineStyle: { color: '#1E2738' } }, axisLabel: { color: CHART_AXIS.label } },
     series: groups.map((g, gi) => {
       const rows = calcStandings(g, liveMap)
       return null // placeholder until matches start
@@ -447,7 +460,7 @@ function VenuesTab() {
     backgroundColor: 'transparent',
     tooltip: { trigger: 'axis', backgroundColor: '#0C1018', borderColor: '#1E2738', textStyle: { color: '#D4DCE8' } },
     grid: { top: 20, bottom: 20, left: 160, right: 80 },
-    xAxis: { type: 'value', axisLine: { lineStyle: { color: '#1E2738' } }, splitLine: { lineStyle: { color: '#1E2738' } }, axisLabel: { color: '#3E4E66', fontSize: 10, formatter: (v) => (v/1000).toFixed(0)+'k' } },
+    xAxis: { type: 'value', axisLine: { lineStyle: { color: '#1E2738' } }, splitLine: { lineStyle: { color: '#1E2738' } }, axisLabel: { color: CHART_AXIS.label, fontSize: 10, formatter: (v) => (v/1000).toFixed(0)+'k' } },
     yAxis: {
       type: 'category',
       data: venueList.map(([,v]) => v.city),
@@ -507,9 +520,25 @@ function ContinentalTab() {
       bottom: 0,
       textStyle: { color: '#7A8BA0', fontSize: 10 },
     },
-    grid: { top: 20, bottom: 60, left: 50, right: 20 },
-    xAxis: { type: 'value', name: 'FIFA Rank', nameTextStyle: { color: '#3E4E66' }, axisLine: { lineStyle: { color: '#1E2738' } }, splitLine: { lineStyle: { color: '#1E2738' } }, axisLabel: { color: '#3E4E66', formatter: '#{value}' } },
-    yAxis: { type: 'value', name: 'WC Appearances', nameTextStyle: { color: '#3E4E66' }, axisLine: { lineStyle: { color: '#1E2738' } }, splitLine: { lineStyle: { color: '#1E2738' } }, axisLabel: { color: '#3E4E66' } },
+    grid: { top: 28, bottom: 60, left: 68, right: 20 },
+    xAxis: {
+      type: 'value',
+      name: 'FIFA Rank',
+      nameTextStyle: { color: CHART_AXIS.name, fontSize: 11, fontWeight: 600 },
+      axisLine: { lineStyle: { color: CHART_AXIS.line } },
+      splitLine: { lineStyle: { color: CHART_AXIS.split } },
+      axisLabel: { color: CHART_AXIS.label, formatter: '#{value}' },
+    },
+    yAxis: {
+      type: 'value',
+      name: 'WC Appearances',
+      nameLocation: 'middle',
+      nameGap: 48,
+      nameTextStyle: { color: CHART_AXIS.name, fontSize: 11, fontWeight: 600 },
+      axisLine: { lineStyle: { color: CHART_AXIS.line } },
+      splitLine: { lineStyle: { color: CHART_AXIS.split } },
+      axisLabel: { color: CHART_AXIS.label },
+    },
     series: Object.entries(CONF_COLORS).map(([conf, color]) => ({
       name: conf,
       type: 'scatter',

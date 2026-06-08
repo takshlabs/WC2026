@@ -105,7 +105,7 @@ function GroupCard({ group, liveMap, onTeamClick, onFixturesClick }) {
 }
 
 function GroupMatches({ group, liveMap, onTeamClick }) {
-  const { tz } = useApp()
+  const { tz, timeFormat } = useApp()
   const matches = MATCHES.filter(m => m.group === group)
 
   return (
@@ -124,7 +124,7 @@ function GroupMatches({ group, liveMap, onTeamClick }) {
               const isLive = live?.status === 'live'
               const homeT = TEAMS[m.home]
               const awayT = TEAMS[m.away]
-              const conv  = convertTime(m.date, m.time, tz)
+              const conv  = convertTime(m.date, m.time, tz, timeFormat)
 
               return (
                 <div key={m.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 14px', borderBottom: '1px solid rgba(255,255,255,0.03)', fontSize: '0.78rem' }}>

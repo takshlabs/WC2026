@@ -5,7 +5,7 @@ import { convertTime, groupColor, roundLabel } from '../utils'
 import { useApp } from '../App'
 
 export default function TeamModal({ code, onClose }) {
-  const { tz, navigate, setFixtureFilter } = useApp()
+  const { tz, timeFormat, navigate, setFixtureFilter } = useApp()
   const t = TEAMS[code]
   if (!t) return null
 
@@ -55,7 +55,7 @@ export default function TeamModal({ code, onClose }) {
           const isHome = m.home === code
           const opp    = isHome ? m.away : m.home
           const oppT   = opp ? TEAMS[opp] : null
-          const conv   = convertTime(m.date, m.time, tz)
+          const conv   = convertTime(m.date, m.time, tz, timeFormat)
           const hs     = m.homeScore
           const as_    = m.awayScore
           const score  = hs !== undefined

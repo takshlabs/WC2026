@@ -14,9 +14,15 @@ import TeamModal from './components/TeamModal'
 export const AppCtx = createContext(null)
 export function useApp() { return useContext(AppCtx) }
 
+function loadPref(key, fallback) {
+  try { return localStorage.getItem(key) || fallback } catch { return fallback }
+}
+
 export default function App() {
   const [page,      setPage]      = useState('home')
   const [tz,        setTzState]   = useState(() => detectUserTz())
+  const [timeFormat, setTimeFormatState] = useState(() => loadPref('wc2026-time', '24'))
+  const [theme,     setThemeState] = useState(() => loadPref('wc2026-theme', 'dark'))
   const [teamModal, setTeamModal] = useState(null)   // team code or null
   const [fixtureFilter, setFixtureFilter] = useState({ group: '', round: '', team: '', focus: null })
   const liveMap = useLiveScores()
@@ -26,6 +32,19 @@ export default function App() {
     if (!found) return
     setTzState(found)
     try { localStorage.setItem('wc2026-tz', id) } catch {}
+  }
+
+  function setTimeFormat(fmt) {
+    setTimeFormatState(fmt)
+    try { localStorage.setItem('wc2026-time', fmt) } catch {}
+  }
+
+  function toggleTheme() {
+    setThemeState(t => {
+      const next = t === 'dark' ? 'light' : 'dark'
+      try { localStorage.setItem('wc2026-theme', next) } catch {}
+      return next
+    })
   }
 
   function navigate(p, opts) {
@@ -40,7 +59,15 @@ export default function App() {
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
-  const ctx = { page, navigate, tz, setTz, liveMap, teamModal, setTeamModal, fixtureFilter, setFixtureFilter }
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme
+    document.documentElement.style.colorScheme = theme
+  }, [theme])
+
+  const ctx = {
+    page, navigate, tz, setTz, timeFormat, setTimeFormat,
+    theme, toggleTheme, liveMap, teamModal, setTeamModal, fixtureFilter, setFixtureFilter,
+  }
 
   return (
     <AppCtx.Provider value={ctx}>
@@ -60,7 +87,7 @@ export default function App() {
 
 // ── Navbar ─────────────────────────────────────────────────────────────────────
 function Nav() {
-  const { page, navigate, tz, setTz, liveMap } = useApp()
+  const { page, navigate, tz, setTz, timeFormat, setTimeFormat, theme, toggleTheme, liveMap } = useApp()
   const hasLive = [...liveMap.values()].some(v => v.status === 'live')
 
   const LINKS = [
@@ -99,6 +126,27 @@ function Nav() {
       </ul>
 
       <div className="nav-actions">
+        <div className="nav-toggle-group" role="group" aria-label="Time format">
+          {['12', '24'].map(fmt => (
+            <button
+              key={fmt}
+              type="button"
+              className={`nav-toggle${timeFormat === fmt ? ' active' : ''}`}
+              onClick={() => setTimeFormat(fmt)}
+            >
+              {fmt}h
+            </button>
+          ))}
+        </div>
+        <button
+          type="button"
+          className="nav-icon-btn"
+          onClick={toggleTheme}
+          aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+          title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
+        >
+          {theme === 'dark' ? '☀' : '☾'}
+        </button>
         <select
           className="tz-select"
           value={tz.id}
