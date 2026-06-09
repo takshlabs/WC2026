@@ -9,7 +9,9 @@ import Bracket  from './pages/Bracket'
 import Stats    from './pages/Stats'
 import Print    from './pages/Print'
 import Venues   from './pages/Venues'
-import TeamModal from './components/TeamModal'
+import TeamModal   from './components/TeamModal'
+import ScrollToTop from './components/ScrollToTop'
+import ChatBot     from './components/ChatBot'
 
 // ── Global context ─────────────────────────────────────────────────────────────
 export const AppCtx = createContext(null)
@@ -95,6 +97,8 @@ export default function App() {
         {page === 'print'    && <Print />}
       </div>
       {teamModal && <TeamModal code={teamModal} onClose={() => setTeamModal(null)} />}
+      <ScrollToTop />
+      <ChatBot />
     </AppCtx.Provider>
   )
 }
