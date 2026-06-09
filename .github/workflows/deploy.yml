@@ -28,6 +28,9 @@ jobs:
         run: npm run build
         env:
           VITE_FOOTBALL_DATA_KEY: ${{ secrets.VITE_FOOTBALL_DATA_KEY }}
+          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+          VITE_FIREBASE_DB_URL: ${{ secrets.VITE_FIREBASE_DB_URL }}
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
