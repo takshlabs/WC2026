@@ -148,6 +148,7 @@ function PrintGroup({ group }) {
       <table className="print-tbl">
         <thead>
           <tr>
+            <th className="print-tbl-pos">#</th>
             <th className="print-tbl-team">Team</th>
             <th>P</th><th>W</th><th>D</th><th>L</th>
             <th>GF</th><th>GA</th><th>GD</th><th>Pts</th>
@@ -156,6 +157,9 @@ function PrintGroup({ group }) {
         <tbody>
           {teams.map(([code, t], i) => (
             <tr key={code} className={i < 2 ? 'print-q' : i === 2 ? 'print-q3' : ''}>
+              <td className="print-tbl-pos">
+                <span className={`print-pos-badge${i < 2 ? ' print-pos-adv' : i === 2 ? ' print-pos-3rd' : ''}`}>{i + 1}</span>
+              </td>
               <td className="print-tbl-team">
                 <PrintTeamLine code={code} name={t.name} side="list" />
               </td>

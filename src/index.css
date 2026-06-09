@@ -1965,6 +1965,9 @@ img { display: block; max-width: 100%; }
   text-transform: uppercase;
   border-top: 3px solid;
   background: rgba(255,255,255,0.025);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .print-tbl {
   width: 100%;
@@ -2001,8 +2004,30 @@ img { display: block; max-width: 100%; }
 .print-tbl td:not(.print-tbl-team) { width: 6.4%; }
 .print-flag { margin-right: 4px; }
 .print-pts { font-weight: 700; color: var(--gold); }
-.print-q  { background: rgba(0,214,143,0.05); }
-.print-q3 { background: rgba(232,184,75,0.05); }
+.print-q  { background: rgba(0,214,143,0.05); border-left: 2.5px solid rgba(0,214,143,0.35); }
+.print-q3 { background: rgba(232,184,75,0.05);  border-left: 2.5px solid rgba(232,184,75,0.28); }
+
+/* Position badge in group table */
+.print-tbl-pos {
+  width: 16px !important;
+  text-align: center !important;
+  padding-left: 3px !important;
+  padding-right: 1px !important;
+}
+.print-pos-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 13px;
+  height: 13px;
+  border-radius: 2px;
+  font-size: 0.5rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--text-3);
+}
+.print-pos-adv { color: var(--green); }
+.print-pos-3rd { color: var(--gold); }
 
 /* Schedule - compact table (inspired by wall-chart print layouts) */
 .print-schedule-tbl {
@@ -2107,8 +2132,8 @@ img { display: block; max-width: 100%; }
 .print-diy-box {
   display: block;
   width: 28px;
-  height: 14px;
-  border-bottom: 1.5px solid rgba(255,255,255,0.18);
+  height: 18px;
+  border-bottom: 1.5px solid rgba(255,255,255,0.2);
   margin: 0 auto;
 }
 .print-group-adv {
@@ -2673,15 +2698,19 @@ img { display: block; max-width: 100%; }
   }
   .print-tbl { font-size: 6.5pt; }
   .print-tbl th { color: #666 !important; border-bottom-color: #ddd !important; font-size: 5.5pt; padding: 2px; }
-  .print-tbl td { border-bottom-color: #f0f0f0 !important; color: #111 !important; padding: 2px; }
+  .print-tbl td { border-bottom-color: #f0f0f0 !important; color: #111 !important; padding: 3px 2px; }
   .print-tbl-team { width: 38%; }
+  .print-tbl-pos { width: 14px !important; }
   .print-pts { color: #c09000 !important; }
-  .print-q  { background: rgba(0,180,100,0.08) !important; }
-  .print-q3 { background: rgba(200,150,0,0.08) !important; }
-  .print-diy-box { border-bottom-color: #aaa !important; width: 100%; max-width: 22px; height: 12px; }
+  .print-q  { background: rgba(0,180,100,0.07) !important; border-left: 2pt solid #00a651 !important; }
+  .print-q3 { background: rgba(200,150,0,0.06) !important;  border-left: 2pt solid #c09000 !important; }
+  .print-diy-box { border-bottom: 0.75pt solid #888 !important; width: 100%; max-width: 24px; height: 16px; }
   .print-group-adv { border-top-color: #ddd !important; color: #888 !important; font-size: 5.5pt; padding: 3px 6px; }
   .print-adv-green { background: #00a651 !important; }
   .print-adv-gold  { background: #c09000 !important; }
+  .print-pos-badge { font-size: 5pt; color: #bbb !important; background: transparent !important; }
+  .print-pos-adv   { color: #00a651 !important; }
+  .print-pos-3rd   { color: #c09000 !important; }
 
   /* Schedule table */
   .print-doc--schedule .print-section--schedule,

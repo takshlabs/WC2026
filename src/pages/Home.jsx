@@ -257,8 +257,9 @@ export default function Home() {
                   </div>
                   {rows.map((r, i) => (
                     <div className="preview-team-row preview-group-cols" key={r.code}>
-                      <span className="preview-team-name" style={{ color: i < 2 ? 'var(--text)' : 'var(--text-3)', display: 'inline-flex', alignItems: 'center', gap: 5 }}>
-                        <FlagImg code={r.code} size={13} />{TEAMS[r.code]?.name}
+                      <span className="preview-team-name" style={{ color: i < 2 ? 'var(--text)' : 'var(--text-3)', display: 'flex', alignItems: 'center', gap: 5, overflow: 'hidden', minWidth: 0 }}>
+                        <FlagImg code={r.code} size={13} />
+                        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{TEAMS[r.code]?.name}</span>
                       </span>
                       <span className="preview-col-stat">{r.P}</span>
                       <span className="preview-col-stat">{r.W}</span>
