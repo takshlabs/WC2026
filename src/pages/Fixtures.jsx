@@ -17,10 +17,10 @@ const ROUNDS  = [
 
 const TIME_SLOTS = [
   { id: '',          label: 'All Times' },
-  { id: 'morning',   label: '🌅 Morning',   hours: [5, 6, 7, 8, 9, 10, 11] },
+  { id: 'morning',   label: '🌅 Morning',   hours: [6, 7, 8, 9, 10, 11] },
   { id: 'afternoon', label: '☀️ Afternoon',  hours: [12, 13, 14, 15, 16, 17] },
-  { id: 'evening',   label: '🌆 Evening',    hours: [18, 19, 20, 21] },
-  { id: 'latenight', label: '🌙 Late Night', hours: [22, 23, 0, 1, 2, 3, 4] },
+  { id: 'evening',   label: '🌆 Evening',    hours: [18, 19, 20, 21, 22, 23] },
+  { id: 'latenight', label: '🌙 Late Night', hours: [0, 1, 2, 3, 4, 5] },
 ]
 
 export default function Fixtures() {
@@ -64,8 +64,14 @@ export default function Fixtures() {
       if (focus && m.home !== focus && m.away !== focus) return false
       if (venue && m.venue !== venue) return false
       if (slotHours) {
-        const localHour = new Date(`${m.date}T${m.time}:00Z`).toLocaleString('en-US', { timeZone: tz.id || 'UTC', hour: 'numeric', hour12: false })
-        const h = parseInt(localHour, 10) % 24
+        const dt = new Date(`${m.date}T${m.time}:00Z`)
+        const parts = new Intl.DateTimeFormat('en-US', {
+          timeZone: tz?.id || 'UTC',
+          hour: '2-digit',
+          hour12: false,
+        }).formatToParts(dt)
+        const hourStr = parts.find(p => p.type === 'hour')?.value ?? '0'
+        const h = parseInt(hourStr, 10) % 24
         if (!slotHours.includes(h)) return false
       }
       return true
