@@ -132,15 +132,17 @@ export default function Fixtures() {
           No matches found
         </div>
       ) : (
-        <div className="fixture-schedule">
-          {byDate.map(([dateLabel, matches]) => (
-            <div key={dateLabel} className="fixture-day-block">
-              <div className="fixture-date-header">{dateLabel}</div>
-              <div className="fixture-day-rows">
-                {matches.map(m => <MatchRow key={m.id} m={m} focus={focus} />)}
+        <div className="fixture-schedule-outer">
+          <div className="fixture-schedule">
+            {byDate.map(([dateLabel, matches]) => (
+              <div key={dateLabel} className="fixture-day-block">
+                <div className="fixture-date-header">{dateLabel}</div>
+                <div className="fixture-day-rows">
+                  {matches.map(m => <MatchRow key={m.id} m={m} focus={focus} />)}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
     </div>

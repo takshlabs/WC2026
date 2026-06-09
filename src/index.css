@@ -548,7 +548,30 @@ img { display: block; max-width: 100%; }
   width: 100%;
   border-collapse: collapse;
 }
+/* Outer wrapper — creates the ambient glow on wide screens */
+.fixture-schedule-outer {
+  position: relative;
+  padding: 0.5rem 0 2rem;
+}
+@media (min-width: 900px) {
+  .fixture-schedule-outer {
+    background:
+      radial-gradient(ellipse 28% 70% at 0% 50%, rgba(200,16,46,0.055) 0%, transparent 100%),
+      radial-gradient(ellipse 28% 70% at 100% 50%, rgba(30,95,196,0.065) 0%, transparent 100%);
+  }
+}
+/* Constrained lane — match rows never stretch beyond comfortable reading width */
 .fixture-schedule { display: flex; flex-direction: column; gap: 0.35rem; }
+@media (min-width: 900px) {
+  .fixture-schedule {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  /* Sticky date headers need full-bleed background even inside the narrow lane */
+  .fixture-date-header {
+    padding-left: 0;
+  }
+}
 .fixture-day-block { margin-bottom: 0.15rem; }
 .fixture-day-rows {
   border: 1px solid var(--border);
