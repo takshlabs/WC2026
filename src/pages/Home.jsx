@@ -10,7 +10,7 @@ export default function Home() {
 
   // Countdown to Jun 11 2026 21:00 UTC
   useEffect(() => {
-    const target = new Date('2026-06-11T21:00:00Z').getTime()
+    const target = new Date('2026-06-11T19:00:00Z').getTime()
     function tick() {
       const diff = target - Date.now()
       if (diff <= 0) { setCountdown(null); return }

@@ -3,6 +3,7 @@ import { TIMEZONES } from './data'
 import { detectUserTz } from './utils'
 import { useLiveScores } from './hooks/useLiveScores'
 import { useVisitorCount } from './hooks/useVisitorCount'
+import { useMyTeamsSync } from './hooks/useMyTeamsSync'
 import Home     from './pages/Home'
 import Fixtures from './pages/Fixtures'
 import Groups   from './pages/Groups'
@@ -29,18 +30,8 @@ export default function App() {
   const [theme,     setThemeState] = useState(() => loadPref('wc2026-theme', 'light'))
   const [teamModal, setTeamModal] = useState(null)
   const [fixtureFilter, setFixtureFilter] = useState({ group: '', round: '', team: '', focus: null, timeSlot: '', venue: '' })
-  const [myTeams, setMyTeamsState] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('wc2026-myteams') || '[]') } catch { return [] }
-  })
+  const { myTeams, toggleMyTeam, syncId, importFromSyncId, syncing } = useMyTeamsSync()
   const liveMap = useLiveScores()
-
-  function toggleMyTeam(code) {
-    setMyTeamsState(prev => {
-      const next = prev.includes(code) ? prev.filter(c => c !== code) : [...prev, code]
-      try { localStorage.setItem('wc2026-myteams', JSON.stringify(next)) } catch {}
-      return next
-    })
-  }
 
   function setTz(id) {
     const found = TIMEZONES.find(t => t.id === id)
@@ -82,7 +73,7 @@ export default function App() {
   const ctx = {
     page, navigate, tz, setTz, timeFormat, setTimeFormat,
     theme, toggleTheme, liveMap, teamModal, setTeamModal, fixtureFilter, setFixtureFilter,
-    myTeams, toggleMyTeam,
+    myTeams, toggleMyTeam, syncId, importFromSyncId, syncing,
   }
 
   return (
@@ -106,9 +97,11 @@ export default function App() {
 
 // ── Navbar ─────────────────────────────────────────────────────────────────────
 function Nav() {
-  const { page, navigate, tz, setTz, timeFormat, setTimeFormat, theme, toggleTheme, liveMap } = useApp()
+  const { page, navigate, tz, setTz, timeFormat, setTimeFormat, theme, toggleTheme, liveMap, syncId, importFromSyncId, syncing } = useApp()
   const hasLive = [...liveMap.values()].some(v => v.status === 'live')
   const visitCount = useVisitorCount()
+  const [importInput, setImportInput] = useState('')
+  const [importMsg,   setImportMsg]   = useState('')
   const [menuOpen,  setMenuOpen]  = useState(false)
   const [coffeeOpen, setCoffeeOpen] = useState(false)
   const [copied, setCopied] = useState(false)
@@ -165,9 +158,10 @@ function Nav() {
 
         <div className="nav-actions">
           {visitCount !== null && (
-            <span className="nav-visits" title="Total visits">
+            <span className="nav-visits" title="Total all-time visits">
               <span className="nav-visits-dot" />
               {visitCount.toLocaleString()}
+              <span className="nav-visits-label">VISITS</span>
             </span>
           )}
           <div className="nav-toggle-group" role="group" aria-label="Time format">
@@ -243,6 +237,44 @@ function Nav() {
                   ))}
                 </select>
               </div>
+
+              {visitCount !== null && (
+                <div className="mobile-nav-settings-row">
+                  <span className="mobile-settings-label">Visits</span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--gold)', fontWeight: 700 }}>{visitCount.toLocaleString()}</span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.55rem', color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>all-time</span>
+                </div>
+              )}
+
+              {syncId && (
+                <div className="mobile-sync-section">
+                  <div className="mobile-nav-settings-row">
+                    <span className="mobile-settings-label">Sync ID</span>
+                    <code className="sync-id-chip">{syncId}</code>
+                    <button className="sync-copy-btn" onClick={() => navigator.clipboard?.writeText(syncId)}>Copy</button>
+                  </div>
+                  <div className="mobile-nav-settings-row" style={{ gap: 6 }}>
+                    <input
+                      className="sync-import-input"
+                      placeholder="Enter another device's ID"
+                      value={importInput}
+                      onChange={e => { setImportInput(e.target.value); setImportMsg('') }}
+                      maxLength={8}
+                    />
+                    <button
+                      className="btn btn-ghost sync-import-btn"
+                      disabled={syncing || importInput.trim().length < 4}
+                      onClick={async () => {
+                        const result = await importFromSyncId(importInput)
+                        if (result === 'empty') setImportMsg('No teams found for that ID.')
+                        else if (result === 'same') setImportMsg('That\'s your current ID.')
+                        else if (result === 'error') setImportMsg('Could not connect.')
+                      }}
+                    >{syncing ? '…' : 'Import'}</button>
+                  </div>
+                  {importMsg && <p className="sync-msg">{importMsg}</p>}
+                </div>
+              )}
             </div>
           </div>
         </>

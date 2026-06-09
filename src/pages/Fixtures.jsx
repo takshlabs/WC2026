@@ -3,6 +3,7 @@ import { MATCHES, TEAMS, VENUES } from '../data'
 import { convertTime, groupColor, roundLabel } from '../utils'
 import { useApp } from '../App'
 import FlagImg from '../components/FlagImg'
+import { useMatchReactions, REACTIONS } from '../hooks/useMatchReactions'
 
 const GROUPS = ['A','B','C','D','E','F','G','H','I','J','K','L']
 const ROUNDS  = [
@@ -197,6 +198,7 @@ function MatchRow({ m, focus }) {
   const awayT = TEAMS[m.away]
   const v     = VENUES[m.venue]
   const live  = m.live
+  const { counts, react } = useMatchReactions(m.id, live?.status === 'live')
   const hs    = live?.homeScore ?? m.homeScore
   const as_   = live?.awayScore ?? m.awayScore
   const isLive  = live?.status === 'live'
@@ -245,6 +247,16 @@ function MatchRow({ m, focus }) {
         {m.md === 3 && m.group && <span className="badge badge-simul">SIM</span>}
         {!m.group && <span className="badge badge-round">{m.matchLabel}</span>}
       </div>
+      {isLive && (
+        <div className="fx-reactions">
+          {REACTIONS.map(({ key, emoji }) => (
+            <button key={key} className="rx-btn" onClick={() => react(key)}>
+              {emoji}<span className="rx-count">{counts[key] ? ` ${counts[key]}` : ''}</span>
+            </button>
+          ))}
+          <span className="rx-label">React</span>
+        </div>
+      )}
     </div>
   )
 }
