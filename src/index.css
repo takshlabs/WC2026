@@ -1540,6 +1540,7 @@ img { display: block; max-width: 100%; }
   .fx-row { grid-template-columns: 3px 48px 1fr 34px 1fr; gap: 0 4px; }
   .fx-time { font-size: 0.6rem; }
   .fx-team { font-size: 0.65rem; gap: 3px; }
+  .fx-star { display: none; }
   .preview-groups-grid { grid-template-columns: 1fr; }
   .qs-item { flex: 1 1 45%; }
 }
@@ -2473,9 +2474,11 @@ img { display: block; max-width: 100%; }
   border-radius: 7px;
   padding: 12px 16px;
   min-width: 160px;
+  max-width: min(220px, calc(100% - 28px));
   box-shadow: 0 6px 24px rgba(0,0,0,0.4);
   animation: fade-in 0.12s ease;
   z-index: 5;
+  word-break: break-word;
 }
 .venue-tooltip-name {
   font-family: var(--font-display);

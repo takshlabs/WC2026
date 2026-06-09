@@ -26,13 +26,19 @@ export function useLiveScores() {
           const awayTla = normalizeTla(m.awayTeam?.tla || '')
           const local = MATCHES.find(lm => lm.home === homeTla && lm.away === awayTla)
           if (!local) continue
+          // fullTime holds the running score during IN_PLAY; fall back to
+          // halfTime (populated during HALFTIME) then regularTime for extra time
           const hs = m.score?.fullTime?.home
+                  ?? m.score?.halfTime?.home
+                  ?? m.score?.regularTime?.home
           const as_ = m.score?.fullTime?.away
+                   ?? m.score?.halfTime?.away
+                   ?? m.score?.regularTime?.away
           if (hs == null && as_ == null) continue
           map.set(local.id, {
             homeScore: hs ?? 0,
             awayScore: as_ ?? 0,
-            status: ['IN_PLAY','PAUSED'].includes(m.status) ? 'live'
+            status: ['IN_PLAY','PAUSED','HALFTIME'].includes(m.status) ? 'live'
                    : m.status === 'FINISHED' ? 'finished'
                    : 'upcoming',
           })
