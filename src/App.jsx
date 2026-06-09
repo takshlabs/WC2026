@@ -108,7 +108,7 @@ function Nav() {
   const [copied, setCopied] = useState(false)
 
   function copyUPI() {
-    navigator.clipboard?.writeText('saswatbiswas@ybl').then(() => {
+    navigator.clipboard?.writeText('saswatbiswas@ibl').then(() => {
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     })
@@ -246,13 +246,13 @@ function Nav() {
               <div className="coffee-emoji">☕</div>
               <h2 className="coffee-title">Buy me a coffee?</h2>
               <p className="coffee-sub">
-                Enjoying the tracker? Fuel the developer with coffee — or tokens, same energy.
+                Enjoying the tracker? Fuel the developer with coffee or tokens, same energy.
               </p>
 
               <div className="coffee-upi-wrap">
                 <span className="coffee-upi-label">UPI ID</span>
                 <div className="coffee-upi-row">
-                  <code className="coffee-upi-id">saswatbiswas@ybl</code>
+                  <code className="coffee-upi-id">saswatbiswas@ibl</code>
                   <button className="coffee-copy-btn" onClick={copyUPI}>
                     {copied ? '✓ Copied!' : 'Copy'}
                   </button>
@@ -260,7 +260,7 @@ function Nav() {
               </div>
 
               <p className="coffee-thanks">
-                Thank you for the support — it means a lot. 🙏
+                Thank you for the support, it means a lot. 🙏
               </p>
               <p className="coffee-brand">Built by Saswat Biswas · Taksh✦Labs</p>
             </div>
