@@ -1,5 +1,5 @@
 /* =============================================================================
-   FIFA World Cup 2026 — Design System
+   FIFA World Cup 2026 - Design System
    Fonts: Chakra Petch (display) · DM Sans (UI) · Fira Code (data/mono)
 ============================================================================= */
 
@@ -11,7 +11,7 @@
      Night Navy backgrounds · Trophy Gold · FIFA Crimson · Host-nation Blue
   ──────────────────────────────────────────────────────────────────────────── */
 
-  /* Core palette — "midnight stadium" navy */
+  /* Core palette - "midnight stadium" navy */
   --bg:           #010B1C;
   --surface:      #051829;
   --surface-2:    #0C2340;
@@ -24,19 +24,19 @@
   --text-2:       #8EADD0;
   --text-3:       #5A7FA3;
 
-  /* Trophy Gold — the FIFA World Cup trophy colour */
+  /* Trophy Gold - the FIFA World Cup trophy colour */
   --gold:         #D4A843;
   --gold-dim:     rgba(212,168,67,0.14);
 
-  /* Qualifying Green — nod to Mexico (host) + advancement indicator */
+  /* Qualifying Green - nod to Mexico (host) + advancement indicator */
   --green:        #00A651;
   --green-dim:    rgba(0,166,81,0.12);
 
-  /* FIFA Crimson — official tournament red */
+  /* FIFA Crimson - official tournament red */
   --red:          #C8102E;
   --red-dim:      rgba(200,16,46,0.12);
 
-  /* USA Blue — host-nation accent */
+  /* USA Blue - host-nation accent */
   --blue:         #1E5FC4;
 
   /* Typography */
@@ -332,7 +332,7 @@ img { display: block; max-width: 100%; }
   overflow: hidden;
   border-bottom: 1px solid var(--border);
 }
-/* Diagonal crimson sweep — the WC 2026 signature move */
+/* Diagonal crimson sweep - the WC 2026 signature move */
 .hero::before {
   content: '';
   position: absolute;
@@ -560,7 +560,7 @@ img { display: block; max-width: 100%; }
   width: 100%;
   border-collapse: collapse;
 }
-/* Outer wrapper — creates the ambient glow on wide screens */
+/* Outer wrapper - creates the ambient glow on wide screens */
 .fixture-schedule-outer {
   position: relative;
   padding: 0.5rem 0 2rem;
@@ -572,7 +572,7 @@ img { display: block; max-width: 100%; }
       radial-gradient(ellipse 28% 70% at 100% 50%, rgba(30,95,196,0.065) 0%, transparent 100%);
   }
 }
-/* Constrained lane — match rows never stretch beyond comfortable reading width */
+/* Constrained lane - match rows never stretch beyond comfortable reading width */
 .fixture-schedule { display: flex; flex-direction: column; gap: 0.35rem; }
 @media (min-width: 900px) {
   .fixture-schedule {
@@ -1901,7 +1901,7 @@ img { display: block; max-width: 100%; }
   text-transform: uppercase;
 }
 
-/* Flag + team name — always kept as one unit */
+/* Flag + team name - always kept as one unit */
 .print-team-line {
   display: inline-flex;
   align-items: center;
@@ -2003,7 +2003,7 @@ img { display: block; max-width: 100%; }
 .print-q  { background: rgba(0,214,143,0.05); }
 .print-q3 { background: rgba(232,184,75,0.05); }
 
-/* Schedule — compact table (inspired by wall-chart print layouts) */
+/* Schedule - compact table (inspired by wall-chart print layouts) */
 .print-schedule-tbl {
   width: 100%;
   table-layout: fixed;
@@ -2613,7 +2613,7 @@ img { display: block; max-width: 100%; }
     box-shadow: none !important;
   }
 
-  /* Cover — only on "All sections"; gets its own page */
+  /* Cover - only on "All sections"; gets its own page */
   .print-doc--all .print-cover {
     border: 1px solid #ccc !important;
     background: #f9f9f9 !important;
@@ -2627,7 +2627,7 @@ img { display: block; max-width: 100%; }
   .print-cover-meta  { color: #888 !important; }
   .print-cover-brand { color: #888 !important; }
 
-  /* Single-section header — flows into content, no page break */
+  /* Single-section header - flows into content, no page break */
   .print-sheet-header {
     border-bottom-color: #ccc !important;
     margin-bottom: 0.75rem !important;
@@ -2640,7 +2640,7 @@ img { display: block; max-width: 100%; }
   .print-sheet-meta    { color: #555 !important; }
   .print-sheet-brand   { color: #aaa !important; }
 
-  /* Sections — allow breaks between groups/rows, not whole sections */
+  /* Sections - allow breaks between groups/rows, not whole sections */
   .print-section { margin-bottom: 1rem; break-inside: auto; page-break-inside: auto; }
   .print-section-title {
     color: #c09000 !important;
@@ -2650,7 +2650,7 @@ img { display: block; max-width: 100%; }
     page-break-after: avoid;
   }
 
-  /* Groups — 4 per row on A4, compact tables */
+  /* Groups - 4 per row on A4, compact tables */
   .print-doc--groups .print-groups-grid,
   .print-doc--all .print-groups-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -2708,7 +2708,7 @@ img { display: block; max-width: 100%; }
   /* Page layout */
   @page { size: A4 portrait; margin: 10mm 8mm; }
 
-  /* Single-section docs start on page 1 — no orphan blank page */
+  /* Single-section docs start on page 1 - no orphan blank page */
   .print-doc--groups .print-sheet-header,
   .print-doc--schedule .print-sheet-header,
   .print-doc--bracket .print-sheet-header {

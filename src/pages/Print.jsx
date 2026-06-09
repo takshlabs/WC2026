@@ -18,7 +18,7 @@ const KO_ROUNDS = [
 const SECTION_META = {
   all:      { title: 'Complete Wall Chart',   subtitle: 'Groups · Schedule · Knockout' },
   groups:   { title: 'Group Stage Standings', subtitle: 'Fill in results as matches play' },
-  schedule: { title: 'Match Schedule',        subtitle: 'Group stage — all 72 matches' },
+  schedule: { title: 'Match Schedule',        subtitle: 'Group stage - all 72 matches' },
   bracket:  { title: 'Knockout Stage',        subtitle: 'Round of 32 through Final' },
 }
 
@@ -100,7 +100,7 @@ export default function Print() {
         {/* ── Group Standings ──────────────────────────────────────────── */}
         {showGroups && (
           <div className="print-section print-section--groups">
-            {showCover && <div className="print-section-title">Group Stage — Standings</div>}
+            {showCover && <div className="print-section-title">Group Stage - Standings</div>}
             <div className="print-groups-grid">
               {ALL_GROUPS.map(g => (
                 <PrintGroup key={g} group={g} />
@@ -133,7 +133,7 @@ export default function Print() {
   )
 }
 
-/* ── Group standings table — DIY fill-it-yourself for print ─────────────── */
+/* ── Group standings table - DIY fill-it-yourself for print ─────────────── */
 function PrintGroup({ group }) {
   // Use initial seeding order (alphabetical by name within group), not live standings
   const teams = Object.entries(TEAMS)
@@ -276,7 +276,7 @@ function PrintBracket({ tz, timeFormat, liveMap }) {
   )
 }
 
-/* Flag + name kept together — home aligns right, away aligns left */
+/* Flag + name kept together - home aligns right, away aligns left */
 function PrintTeamLine({ code, name, side }) {
   const label = name || 'TBD'
   const flagBefore = side === 'home' || side === 'list'

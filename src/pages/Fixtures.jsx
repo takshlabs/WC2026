@@ -235,7 +235,7 @@ function MatchRow({ m, focus }) {
             title={myTeams.includes(m.away) ? 'Unwatch' : 'Watch team'}>★</button>
         )}
       </div>
-      <div className="fx-venue">{v?.city || '—'}</div>
+      <div className="fx-venue">{v?.city || '-'}</div>
       <div className="fx-badge">
         {m.group && <span className="badge badge-group" style={{ background: color }}>G{m.group}</span>}
         {m.md    && <span className="badge badge-md">MD{m.md}</span>}

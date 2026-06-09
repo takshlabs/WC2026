@@ -4,11 +4,11 @@ import React, { useState, useRef, useEffect } from 'react'
 const FAQ = [
   {
     keys: ['india', 'jio', 'sony'],
-    a: 'In India, FIFA World Cup 2026 is expected on JioCinema (streaming) and Sony Sports Network (TV). Final broadcast deals are typically confirmed closer to the tournament — check JioCinema and Sony LIV apps for updates.',
+    a: 'In India, FIFA World Cup 2026 is expected on JioCinema (streaming) and Sony Sports Network (TV). Final broadcast deals are typically confirmed closer to the tournament - check JioCinema and Sony LIV apps for updates.',
   },
   {
     keys: ['uk', 'england', 'britain', 'bbc', 'itv', 'scotland', 'wales'],
-    a: 'In the UK, World Cup rights are shared between BBC and ITV — both free-to-air. You can also stream on BBC iPlayer and ITVX. Full fixture allocation will be announced closer to the tournament.',
+    a: 'In the UK, World Cup rights are shared between BBC and ITV - both free-to-air. You can also stream on BBC iPlayer and ITVX. Full fixture allocation will be announced closer to the tournament.',
   },
   {
     keys: ['usa', 'united states', 'america', 'fox', 'telemundo'],
@@ -40,7 +40,7 @@ const FAQ = [
   },
   {
     keys: ['when', 'start', 'begin', 'kick', 'opening'],
-    a: 'The FIFA World Cup 2026 kicks off on 11 June 2026 with the opening match, running until the Final on 19 July 2026 — 39 days of football across 3 host nations.',
+    a: 'The FIFA World Cup 2026 kicks off on 11 June 2026 with the opening match, running until the Final on 19 July 2026 - 39 days of football across 3 host nations.',
   },
   {
     keys: ['final', 'end', 'finish', 'last match'],
@@ -48,7 +48,7 @@ const FAQ = [
   },
   {
     keys: ['host', 'country', 'countries', 'where is it', 'held', 'venue'],
-    a: 'FIFA World Cup 2026 is hosted by three countries: USA, Canada, and Mexico — making it the first World Cup with three co-hosts. 16 stadiums across all three nations.',
+    a: 'FIFA World Cup 2026 is hosted by three countries: USA, Canada, and Mexico - making it the first World Cup with three co-hosts. 16 stadiums across all three nations.',
   },
   {
     keys: ['teams', 'how many', '48', 'qualify'],
@@ -60,7 +60,7 @@ const FAQ = [
   },
   {
     keys: ['ticket', 'buy', 'purchase', 'seat'],
-    a: 'Tickets are sold exclusively through FIFA\'s official platform. Visit FIFA.com/tickets for availability. Demand is extremely high — sign up for alerts on the official site.',
+    a: 'Tickets are sold exclusively through FIFA\'s official platform. Visit FIFA.com/tickets for availability. Demand is extremely high - sign up for alerts on the official site.',
   },
   {
     keys: ['schedule', 'fixture', 'match', 'game', 'when does'],
@@ -111,7 +111,7 @@ function googleLink(q) {
   return `https://www.google.com/search?q=${encodeURIComponent('FIFA World Cup 2026 ' + q)}`
 }
 
-const WELCOME = "Hi! I'm Wibey Bot 🏆 Ask me anything about FIFA World Cup 2026 — schedules, where to watch, teams, venues, format, and more."
+const WELCOME = "Hi! I'm Pibe 🎭 Ask me anything about FIFA World Cup 2026 - schedules, where to watch, teams, venues, format, and more."
 
 export default function ChatBot() {
   const [open, setOpen]     = useState(false)

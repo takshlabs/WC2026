@@ -25,7 +25,7 @@ export default function Home() {
     return () => clearInterval(id)
   }, [])
 
-  // Next 8 upcoming matches — sorted chronologically
+  // Next 8 upcoming matches - sorted chronologically
   const now = Date.now()
   const msToTs = m => new Date(`${m.date}T${m.time}:00Z`).getTime()
   const upcoming = MATCHES
@@ -33,7 +33,7 @@ export default function Home() {
     .sort((a, b) => msToTs(a) - msToTs(b))
     .slice(0, 8)
 
-  // Live matches — sorted by kickoff time
+  // Live matches - sorted by kickoff time
   const liveMatches = MATCHES
     .filter(m => liveMap.get(m.id)?.status === 'live')
     .sort((a, b) => msToTs(a) - msToTs(b))
@@ -64,7 +64,7 @@ export default function Home() {
 
             {liveMatches.length > 0 && (
               <div style={{ marginBottom: '1rem' }}>
-                <span className="live-badge"><span className="live-dot" />LIVE NOW — {liveMatches.length} match{liveMatches.length > 1 ? 'es' : ''}</span>
+                <span className="live-badge"><span className="live-dot" />LIVE NOW - {liveMatches.length} match{liveMatches.length > 1 ? 'es' : ''}</span>
               </div>
             )}
 

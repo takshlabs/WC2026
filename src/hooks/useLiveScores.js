@@ -39,7 +39,7 @@ export function useLiveScores() {
         }
         if (map.size > 0) setLiveMap(map)
       } catch {
-        // Network failure or no API key — silently fall through to static data
+        // Network failure or no API key - silently fall through to static data
       }
     }
 

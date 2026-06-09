@@ -15,7 +15,7 @@ const TABS = [
   { id: 'continental', label: 'Continental'  },
 ]
 
-// Notable players at WC 2026 — career WC stats + tournament tracker
+// Notable players at WC 2026 - career WC stats + tournament tracker
 const PLAYERS = [
   { name: 'Lionel Messi',      team: 'ARG', pos: 'FW', age: 38, wcApps: 26, wcGoals: 13, wcAssists: 8,  caps: 188, goals: 109 },
   { name: 'Kylian Mbappé',     team: 'FRA', pos: 'FW', age: 26, wcApps: 14, wcGoals: 12, wcAssists: 4,  caps: 84,  goals: 48  },
@@ -158,7 +158,7 @@ function PlayersTab() {
       {/* Chart row */}
       <div className="charts-grid" style={{ marginBottom: '1.5rem' }}>
         <div className="chart-block">
-          <div className="chart-block-title">WC Career Goals — Top 10</div>
+          <div className="chart-block-title">WC Career Goals - Top 10</div>
           <ReactECharts option={topWcGoalOpt} style={{ height: 340 }} theme={ECHART_THEME} />
         </div>
         <div className="chart-block">
@@ -170,7 +170,7 @@ function PlayersTab() {
       {/* Sortable player table */}
       <div className="chart-block">
         <div className="chart-block-title" style={{ justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
-          <span>Player Profiles — {filtered.length} players</span>
+          <span>Player Profiles - {filtered.length} players</span>
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
             {['all','FW','MF','DF'].map(p => (
               <button
@@ -303,7 +303,7 @@ function RankingsTab() {
   return (
     <div className="charts-grid">
       <div className="chart-block">
-        <div className="chart-block-title">FIFA Rankings — Top 20 at 2026</div>
+        <div className="chart-block-title">FIFA Rankings - Top 20 at 2026</div>
         <ReactECharts option={rankingOpt} style={{ height: 460 }} theme={ECHART_THEME} />
       </div>
       <div className="chart-block">
@@ -415,7 +415,7 @@ function GroupsTab({ liveMap }) {
 
       {/* Group ranking table */}
       <div className="chart-block" style={{ gridColumn: '1 / -1' }}>
-        <div className="chart-block-title">All Teams by Group — FIFA Rankings</div>
+        <div className="chart-block-title">All Teams by Group - FIFA Rankings</div>
         <div style={{ overflowX: 'auto' }}>
           <table className="standings-table" style={{ minWidth: 800 }}>
             <thead>
@@ -481,7 +481,7 @@ function VenuesTab() {
   return (
     <div className="charts-grid">
       <div className="chart-block" style={{ gridColumn: '1 / -1' }}>
-        <div className="chart-block-title">Venue Capacities — Blue: USA · Green: Mexico · Gold: Canada</div>
+        <div className="chart-block-title">Venue Capacities - Blue: USA · Green: Mexico · Gold: Canada</div>
         <ReactECharts option={capOpt} style={{ height: 460 }} theme={ECHART_THEME} />
       </div>
     </div>
