@@ -304,7 +304,7 @@ function Nav() {
               </div>
 
               <p className="coffee-thanks">
-                Thank you for the support, it means a lot. 🙏
+                Thank you for the support. 🙏
               </p>
               <p className="coffee-brand">Built by Saswat Biswas · Taksh✦Labs</p>
             </div>

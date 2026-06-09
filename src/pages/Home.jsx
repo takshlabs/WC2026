@@ -156,7 +156,7 @@ export default function Home() {
                         <div className="home-fx-card" key={m.id} onClick={() => goGroup(m.group)}>
                           <div className="home-fx-accent" style={{ background: color }} />
                           <div className="home-fx-header">
-                            <span className="home-fx-time">{live?.status === 'live' ? <span className="live-badge" style={{fontSize:'0.55rem'}}><span className="live-dot"/>LIVE</span> : `${conv.time} ${conv.abbr}`}</span>
+                            <span className="home-fx-time">{live?.status === 'live' ? <span className="live-badge" style={{fontSize:'0.55rem'}}><span className="live-dot"/>LIVE</span> : `${conv.dateShort} · ${conv.time} ${conv.abbr}`}</span>
                             <span className="badge badge-group" style={{ background: color, fontSize: '0.55rem' }}>Grp {m.group}</span>
                           </div>
                           <div className="home-fx-matchup">
