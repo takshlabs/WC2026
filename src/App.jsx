@@ -190,21 +190,7 @@ function Nav() {
       {menuOpen && (
         <>
           <div className="mobile-nav-overlay" onClick={() => setMenuOpen(false)} />
-          <div className="mobile-nav-drawer">
-            {LINKS.map(l => (
-              <span
-                key={l.id}
-                className={`mobile-nav-link${page === l.id ? ' active' : ''}`}
-                onClick={() => goTo(l.id)}
-              >
-                {l.id === 'fixtures' && hasLive
-                  ? <><span className="live-dot" />{l.label}</>
-                  : l.label}
-              </span>
-            ))}
-
-            {/* ── Settings section ── */}
-            <div className="mobile-nav-divider" />
+          <div className="mobile-nav-drawer mobile-nav-drawer--settings">
             <div className="mobile-nav-settings">
               <div className="mobile-nav-settings-row">
                 <span className="mobile-settings-label">Time</span>

@@ -1454,9 +1454,65 @@ img { display: block; max-width: 100%; }
 }
 
 @media (max-width: 640px) {
-  .navbar { gap: 0.5rem; padding: 0 1rem; }
-  .nav-links { display: none; }
-  .nav-hamburger { display: flex; }
+  /* ── Two-row mobile navbar ── */
+  :root { --nav-h: 92px; }
+  .navbar {
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 92px;
+    padding: 0;
+    gap: 0;
+    align-content: flex-start;
+  }
+  /* Row 1: brand (left) + actions + settings btn (right) */
+  .nav-brand {
+    order: 1;
+    padding: 0 0.85rem;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .nav-actions {
+    order: 2;
+    margin-left: auto;
+    padding: 0 0.5rem 0 0;
+    height: 50px;
+    gap: 6px;
+  }
+  .nav-hamburger {
+    display: flex;
+    order: 3;
+    margin-left: 0;
+    margin-right: 0.75rem;
+    height: 50px;
+    width: auto;
+    border: none;
+    border-radius: 0;
+    background: none;
+    font-size: 0.9rem;
+    align-self: center;
+  }
+  /* Row 2: scrollable nav tabs (always visible) */
+  .nav-links {
+    display: flex !important;
+    order: 10;
+    width: 100%;
+    flex: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 0.5rem 6px;
+    gap: 2px;
+    height: 42px;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    background: var(--nav-bg);
+  }
+  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-links li { flex-shrink: 0; }
+  .nav-link { font-size: 0.68rem; padding: 5px 10px; white-space: nowrap; }
+  /* Hide desktop-only tz-select (it lives in settings drawer) */
   .nav-tz-desktop { display: none; }
   .container, .container-wide { padding: 0 0.85rem; }
   .fx-row { grid-template-columns: 3px 52px 1fr 38px 1fr; gap: 0 6px; }
@@ -1548,6 +1604,8 @@ img { display: block; max-width: 100%; }
   background: var(--gold);
   font-weight: 700;
 }
+
+.mobile-nav-drawer--settings { padding: 0.6rem 1rem 0.85rem; }
 
 /* Overlay behind drawer */
 .mobile-nav-overlay {
