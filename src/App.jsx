@@ -103,7 +103,16 @@ export default function App() {
 function Nav() {
   const { page, navigate, tz, setTz, timeFormat, setTimeFormat, theme, toggleTheme, liveMap } = useApp()
   const hasLive = [...liveMap.values()].some(v => v.status === 'live')
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [menuOpen,  setMenuOpen]  = useState(false)
+  const [coffeeOpen, setCoffeeOpen] = useState(false)
+  const [copied, setCopied] = useState(false)
+
+  function copyUPI() {
+    navigator.clipboard?.writeText('saswatbiswas@ybl').then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
+  }
 
   const LINKS = [
     { id: 'home',     label: 'Home' },
@@ -141,6 +150,11 @@ function Nav() {
               </span>
             </li>
           ))}
+          <li>
+            <span className="nav-link nav-link-coffee" onClick={() => setCoffeeOpen(true)}>
+              ☕ Support
+            </span>
+          </li>
         </ul>
 
         <div className="nav-actions">
@@ -220,6 +234,38 @@ function Nav() {
             </div>
           </div>
         </>
+      )}
+
+      {/* ── ☕ Support modal ──────────────────────────────────────────────── */}
+      {coffeeOpen && (
+        <div className="modal-overlay" onClick={() => setCoffeeOpen(false)}>
+          <div className="modal-box coffee-modal" onClick={e => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setCoffeeOpen(false)}>✕</button>
+
+            <div className="coffee-modal-body">
+              <div className="coffee-emoji">☕</div>
+              <h2 className="coffee-title">Buy me a coffee?</h2>
+              <p className="coffee-sub">
+                Enjoying the tracker? Fuel the developer with coffee — or tokens, same energy.
+              </p>
+
+              <div className="coffee-upi-wrap">
+                <span className="coffee-upi-label">UPI ID</span>
+                <div className="coffee-upi-row">
+                  <code className="coffee-upi-id">saswatbiswas@ybl</code>
+                  <button className="coffee-copy-btn" onClick={copyUPI}>
+                    {copied ? '✓ Copied!' : 'Copy'}
+                  </button>
+                </div>
+              </div>
+
+              <p className="coffee-thanks">
+                Thank you for the support — it means a lot. 🙏
+              </p>
+              <p className="coffee-brand">Built by Saswat Biswas · Taksh✦Labs</p>
+            </div>
+          </div>
+        </div>
       )}
     </>
   )
