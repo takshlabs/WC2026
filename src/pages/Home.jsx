@@ -72,17 +72,8 @@ export default function Home() {
               <button className="btn btn-gold" onClick={() => navigate('fixtures')}>View Schedule</button>
               <button className="btn btn-ghost" onClick={() => navigate('stats')}>Stats Dashboard</button>
             </div>
-            <div style={{
-              marginTop: '1.4rem',
-              display: 'inline-flex', alignItems: 'center', gap: 7,
-              fontFamily: 'var(--font-mono)', fontSize: '0.6rem',
-              color: 'rgba(232,184,75,0.8)', letterSpacing: '0.1em',
-              textTransform: 'uppercase',
-            }}>
-              <span style={{
-                width: 16, height: 1.5, background: 'linear-gradient(90deg, var(--gold), transparent)',
-                display: 'inline-block', borderRadius: 1,
-              }} />
+            <div className="hero-byline">
+              <span className="hero-byline-rule" />
               Built by Saswat Biswas at Taksh✦Labs
             </div>
           </div>

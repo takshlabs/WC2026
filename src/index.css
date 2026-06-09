@@ -177,6 +177,18 @@ img { display: block; max-width: 100%; }
   flex-shrink: 0;
 }
 .nav-brand span { color: var(--gold); }
+.nav-brand-sub {
+  font-size: 0.52rem;
+  font-weight: 600;
+  color: rgba(212,168,67,0.75);
+  border-left: 1px solid rgba(212,168,67,0.25);
+  padding-left: 8px;
+  margin-left: 8px;
+  letter-spacing: 0.12em;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+[data-theme="light"] .nav-brand-sub { color: rgba(120,80,0,0.7); }
 
 .nav-links {
   display: flex;
@@ -1445,6 +1457,7 @@ img { display: block; max-width: 100%; }
   .navbar { gap: 0.5rem; padding: 0 1rem; }
   .nav-links { display: none; }
   .nav-hamburger { display: flex; }
+  .nav-tz-desktop { display: none; }
   .container, .container-wide { padding: 0 0.85rem; }
   .fx-row { grid-template-columns: 3px 52px 1fr 38px 1fr; gap: 0 6px; }
   .fx-team { font-size: 0.7rem; }
@@ -1970,6 +1983,55 @@ img { display: block; max-width: 100%; }
   padding-top: 1rem;
   border-top: 1px solid var(--border);
   margin-top: 2rem;
+}
+
+/* ── Hero byline ─────────────────────────────────────────────────────────────── */
+.hero-byline {
+  margin-top: 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: rgba(212,168,67,0.85);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+[data-theme="light"] .hero-byline { color: rgba(100,62,0,0.8); }
+.hero-byline-rule {
+  width: 16px;
+  height: 1.5px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  display: inline-block;
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+
+/* ── Mobile nav drawer: settings section ─────────────────────────────────────── */
+.mobile-nav-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 6px 0;
+}
+.mobile-nav-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 4px 2px 2px;
+}
+.mobile-nav-settings-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.mobile-settings-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-3);
+  white-space: nowrap;
+  min-width: 56px;
 }
 
 /* ── Light-mode hero overrides ───────────────────────────────────────────────── */
