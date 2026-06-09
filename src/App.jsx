@@ -89,6 +89,7 @@ export default function App() {
 function Nav() {
   const { page, navigate, tz, setTz, timeFormat, setTimeFormat, theme, toggleTheme, liveMap } = useApp()
   const hasLive = [...liveMap.values()].some(v => v.status === 'live')
+  const [menuOpen, setMenuOpen] = useState(false)
 
   const LINKS = [
     { id: 'home',     label: 'Home' },
@@ -99,65 +100,100 @@ function Nav() {
     { id: 'print',    label: '🖨 Print' },
   ]
 
+  function goTo(id) {
+    navigate(id)
+    setMenuOpen(false)
+  }
+
   return (
-    <nav className="navbar">
-      <div className="nav-brand" onClick={() => navigate('home')}>
-        World Cup <span>2026</span>
-        <span style={{
-          fontSize: '0.52rem', fontWeight: 600, color: 'rgba(232,184,75,0.75)',
-          borderLeft: '1px solid rgba(232,184,75,0.25)', paddingLeft: 8, marginLeft: 8,
-          letterSpacing: '0.12em', fontFamily: 'var(--font-mono)', textTransform: 'uppercase',
-        }}>Taksh✦Labs</span>
-      </div>
-
-      <ul className="nav-links">
-        {LINKS.map(l => (
-          <li key={l.id}>
-            <span
-              className={`nav-link${page === l.id ? ' active' : ''}`}
-              onClick={() => navigate(l.id)}
-            >
-              {l.id === 'fixtures' && hasLive
-                ? <><span className="live-dot" style={{marginRight:5}} />{l.label}</>
-                : l.label}
-            </span>
-          </li>
-        ))}
-      </ul>
-
-      <div className="nav-actions">
-        <div className="nav-toggle-group" role="group" aria-label="Time format">
-          {['12', '24'].map(fmt => (
-            <button
-              key={fmt}
-              type="button"
-              className={`nav-toggle${timeFormat === fmt ? ' active' : ''}`}
-              onClick={() => setTimeFormat(fmt)}
-            >
-              {fmt}h
-            </button>
-          ))}
+    <>
+      <nav className="navbar">
+        <div className="nav-brand" onClick={() => goTo('home')}>
+          World Cup <span>2026</span>
+          <span style={{
+            fontSize: '0.52rem', fontWeight: 600, color: 'rgba(232,184,75,0.75)',
+            borderLeft: '1px solid rgba(232,184,75,0.25)', paddingLeft: 8, marginLeft: 8,
+            letterSpacing: '0.12em', fontFamily: 'var(--font-mono)', textTransform: 'uppercase',
+          }}>Taksh✦Labs</span>
         </div>
+
+        <ul className="nav-links">
+          {LINKS.map(l => (
+            <li key={l.id}>
+              <span
+                className={`nav-link${page === l.id ? ' active' : ''}`}
+                onClick={() => goTo(l.id)}
+              >
+                {l.id === 'fixtures' && hasLive
+                  ? <><span className="live-dot" style={{marginRight:5}} />{l.label}</>
+                  : l.label}
+              </span>
+            </li>
+          ))}
+        </ul>
+
+        <div className="nav-actions">
+          <div className="nav-toggle-group" role="group" aria-label="Time format">
+            {['12', '24'].map(fmt => (
+              <button
+                key={fmt}
+                type="button"
+                className={`nav-toggle${timeFormat === fmt ? ' active' : ''}`}
+                onClick={() => setTimeFormat(fmt)}
+              >
+                {fmt}h
+              </button>
+            ))}
+          </div>
+          <button
+            type="button"
+            className="nav-icon-btn"
+            onClick={toggleTheme}
+            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
+          >
+            {theme === 'dark' ? '☀' : '☾'}
+          </button>
+          <select
+            className="tz-select"
+            value={tz.id}
+            onChange={e => setTz(e.target.value)}
+            aria-label="Timezone"
+          >
+            {TIMEZONES.map(t => (
+              <option key={t.id} value={t.id}>{t.label} ({t.abbr})</option>
+            ))}
+          </select>
+        </div>
+
         <button
           type="button"
-          className="nav-icon-btn"
-          onClick={toggleTheme}
-          aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-          title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
+          className="nav-hamburger"
+          onClick={() => setMenuOpen(o => !o)}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
         >
-          {theme === 'dark' ? '☀' : '☾'}
+          {menuOpen ? '✕' : '☰'}
         </button>
-        <select
-          className="tz-select"
-          value={tz.id}
-          onChange={e => setTz(e.target.value)}
-          aria-label="Timezone"
-        >
-          {TIMEZONES.map(t => (
-            <option key={t.id} value={t.id}>{t.label} ({t.abbr})</option>
-          ))}
-        </select>
-      </div>
-    </nav>
+      </nav>
+
+      {menuOpen && (
+        <>
+          <div className="mobile-nav-overlay" onClick={() => setMenuOpen(false)} />
+          <div className="mobile-nav-drawer">
+            {LINKS.map(l => (
+              <span
+                key={l.id}
+                className={`mobile-nav-link${page === l.id ? ' active' : ''}`}
+                onClick={() => goTo(l.id)}
+              >
+                {l.id === 'fixtures' && hasLive
+                  ? <><span className="live-dot" />{l.label}</>
+                  : l.label}
+              </span>
+            ))}
+          </div>
+        </>
+      )}
+    </>
   )
 }

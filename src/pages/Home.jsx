@@ -83,7 +83,7 @@ export default function Home() {
                 width: 16, height: 1.5, background: 'linear-gradient(90deg, var(--gold), transparent)',
                 display: 'inline-block', borderRadius: 1,
               }} />
-              Built by Taksh✦Labs
+              Built by Saswat Biswas at Taksh✦Labs
             </div>
           </div>
 

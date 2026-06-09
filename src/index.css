@@ -618,11 +618,10 @@ img { display: block; max-width: 100%; }
   min-width: 0;
 }
 .fx-team.home {
-  justify-content: flex-end;
-  text-align: right;
-  flex-direction: row-reverse;
+  justify-content: center;
+  text-align: center;
 }
-.fx-team.away { justify-content: flex-start; }
+.fx-team.away { justify-content: center; }
 .fx-team:hover { color: var(--gold); }
 .fx-team.tbd   { color: var(--text-3); font-style: italic; font-weight: 400; }
 .fx-score {
@@ -1420,14 +1419,107 @@ img { display: block; max-width: 100%; }
 }
 
 @media (max-width: 640px) {
-  .navbar { gap: 0.75rem; padding: 0 1rem; }
+  .navbar { gap: 0.5rem; padding: 0 1rem; }
   .nav-links { display: none; }
-  .container, .container-wide { padding: 0 1rem; }
-  .fx-row { grid-template-columns: 3px 60px 1fr 40px 1fr; gap: 0 8px; }
+  .nav-hamburger { display: flex; }
+  .container, .container-wide { padding: 0 0.85rem; }
+  .fx-row { grid-template-columns: 3px 52px 1fr 38px 1fr; gap: 0 6px; }
+  .fx-team { font-size: 0.7rem; }
   .hero { padding: 3rem 1rem 2.5rem; }
+  .hero-title { font-size: clamp(2.2rem, 9vw, 3.5rem); }
+  .countdown { gap: 4px; }
+  .cd-item { padding: 0.65rem 0.8rem; min-width: 58px; }
+  .cd-num  { font-size: clamp(1.5rem, 6vw, 2.2rem); }
   .groups-grid { grid-template-columns: 1fr; }
   .fx-card-body { grid-template-columns: 1fr 48px 1fr; padding: 12px 10px 10px; gap: 4px; }
   .fx-card-team { font-size: 0.75rem; gap: 6px; }
+  .quick-stats { flex-wrap: wrap; }
+  .qs-item { flex: 1 1 30%; min-width: 90px; }
+  .home-section { padding: 1.4rem 0; }
+  .preview-groups-grid { grid-template-columns: repeat(2, 1fr); }
+  .home-section-header h2 { font-size: 0.9rem; }
+  .filters-row { gap: 8px; }
+  .filter-group select,
+  .filter-group input { font-size: 0.72rem; }
+  .tz-select { max-width: 130px; font-size: 0.68rem; }
+}
+
+@media (max-width: 420px) {
+  .fx-row { grid-template-columns: 3px 48px 1fr 34px 1fr; gap: 0 4px; }
+  .fx-time { font-size: 0.6rem; }
+  .fx-team { font-size: 0.65rem; gap: 3px; }
+  .preview-groups-grid { grid-template-columns: 1fr; }
+  .qs-item { flex: 1 1 45%; }
+}
+
+/* ── Mobile nav hamburger ────────────────────────────────────────────────────── */
+.nav-hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface-2);
+  color: var(--text-2);
+  font-size: 1rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.15s, border-color 0.15s;
+  margin-left: auto;
+}
+.nav-hamburger:hover { color: var(--gold); border-color: rgba(212,168,67,0.4); }
+
+.mobile-nav-drawer {
+  position: fixed;
+  top: var(--nav-h);
+  left: 0; right: 0;
+  background: var(--nav-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  z-index: 99;
+  padding: 0.5rem 1rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  animation: drawer-slide 0.15s ease;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+@keyframes drawer-slide {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: none; }
+}
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 14px;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-2);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+}
+.mobile-nav-link:hover { background: var(--hover-surface); color: var(--text); }
+.mobile-nav-link.active {
+  color: var(--on-gold);
+  background: var(--gold);
+  font-weight: 700;
+}
+
+/* Overlay behind drawer */
+.mobile-nav-overlay {
+  position: fixed;
+  inset: 0;
+  top: var(--nav-h);
+  z-index: 98;
+  background: transparent;
 }
 
 /* ── Home: compact fixture cards ─────────────────────────────────────────────── */
@@ -1482,8 +1574,8 @@ img { display: block; max-width: 100%; }
   min-width: 0;
 }
 .home-fx-team span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.home-fx-team.away { justify-content: flex-end; flex-direction: row-reverse; }
-.home-fx-team.away span { text-align: right; }
+.home-fx-team { justify-content: center; }
+.home-fx-team.away { justify-content: center; }
 .home-fx-center { text-align: center; min-width: 28px; }
 .home-fx-score {
   font-family: var(--font-display);
