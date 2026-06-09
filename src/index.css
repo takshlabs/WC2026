@@ -1972,6 +1972,72 @@ img { display: block; max-width: 100%; }
   margin-top: 2rem;
 }
 
+/* ── Light-mode hero overrides ───────────────────────────────────────────────── */
+[data-theme="light"] .hero {
+  background: var(--bg);
+}
+[data-theme="light"] .hero::before {
+  background:
+    linear-gradient(135deg, rgba(200,16,46,0.10) 0%, rgba(200,16,46,0.03) 28%, transparent 55%),
+    radial-gradient(ellipse 90% 70% at 75% 60%, rgba(180,130,0,0.06) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 50% at 10% 90%, rgba(30,95,196,0.06) 0%, transparent 50%);
+}
+[data-theme="light"] .hero-title {
+  background: linear-gradient(160deg, #0c1a2e 20%, #1a4a8a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+[data-theme="light"] .hero-title .year {
+  background: linear-gradient(135deg, #8a5c00 0%, #b07800 50%, #9a6500 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+[data-theme="light"] .hero-sub  { color: var(--text-2); }
+[data-theme="light"] .hero-meta { color: var(--text-2); }
+[data-theme="light"] .cd-item   { background: rgba(0,0,0,0.04); border-color: var(--border-2); }
+[data-theme="light"] .cd-item::before {
+  background: linear-gradient(90deg, transparent, rgba(180,130,0,0.3), transparent);
+}
+
+/* ── Venue SVG map ───────────────────────────────────────────────────────────── */
+.vm-water  { fill: #061828; }
+.vm-canada { fill: rgba(200,16,46,0.14);  stroke: rgba(200,16,46,0.45);  stroke-width: 0.7; }
+.vm-usa    { fill: rgba(30,95,196,0.14);  stroke: rgba(30,95,196,0.45);  stroke-width: 0.7; }
+.vm-mexico { fill: rgba(0,166,81,0.14);   stroke: rgba(0,166,81,0.45);   stroke-width: 0.7; }
+.vm-lake   { fill: #061828; stroke: rgba(30,95,196,0.2); stroke-width: 0.5; }
+.vm-label  { font-weight: 700; font-family: sans-serif; opacity: 0.22; fill: currentColor; }
+.vm-label-usa { color: rgba(30,95,196,1); }
+.vm-label-can { color: rgba(200,16,46,1); }
+.vm-label-mex { color: rgba(0,166,81,1); }
+
+[data-theme="light"] .vm-water  { fill: #c8dff0; }
+[data-theme="light"] .vm-canada { fill: rgba(200,16,46,0.10); stroke: rgba(200,16,46,0.5); }
+[data-theme="light"] .vm-usa    { fill: rgba(30,95,196,0.10); stroke: rgba(30,95,196,0.5); }
+[data-theme="light"] .vm-mexico { fill: rgba(0,166,81,0.10);  stroke: rgba(0,166,81,0.5); }
+[data-theme="light"] .vm-lake   { fill: #c8dff0; }
+
+/* ── Bracket print ───────────────────────────────────────────────────────────── */
+@media print {
+  .bracket-tab, .predictor-bar, .bracket-print-btn, .navbar,
+  .page-header .btn, .page-header button { display: none !important; }
+
+  .bracket-wrap { overflow: visible !important; padding: 0 !important; }
+  .bracket-grid { min-width: 0 !important; }
+  .bracket-match { border-color: #ccc !important; background: #fff !important; break-inside: avoid; }
+  .bm-meta  { color: #888 !important; border-bottom-color: #eee !important; }
+  .bm-team  { border-bottom-color: #eee !important; color: #111 !important; }
+  .bm-score { color: #b08000 !important; }
+  .bracket-col-label { color: #666 !important; border-bottom-color: #ccc !important; }
+  .bracket-match.final-match { border-color: #b08000 !important; }
+  .section-title { color: #555 !important; border-bottom-color: #ccc !important; }
+  .page-header h1 { color: #111 !important; }
+  .page-header p  { color: #666 !important; }
+
+  @page { size: A3 landscape; margin: 8mm; }
+}
+
 /* ── Home: compact section & facts ──────────────────────────────────────────── */
 .home-section-compact { padding: 1.2rem 0; }
 .facts-list-compact {

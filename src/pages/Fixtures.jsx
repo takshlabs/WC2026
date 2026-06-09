@@ -25,14 +25,15 @@ const TIME_SLOTS = [
 
 export default function Fixtures() {
   const { tz, timeFormat, setTeamModal, liveMap, fixtureFilter, setFixtureFilter } = useApp()
-  const { group, round, team, focus, timeSlot } = fixtureFilter
+  const { group, round, team, focus, timeSlot, venue } = fixtureFilter
   const [localTeam, setLocalTeam] = useState(team || '')
 
   function clearAll() {
-    setFixtureFilter({ group: '', round: '', team: '', focus: null })
+    setFixtureFilter({ group: '', round: '', team: '', focus: null, timeSlot: '', venue: '' })
     setLocalTeam('')
   }
   function clearFocus() { setFixtureFilter(f => ({ ...f, focus: null })) }
+  function clearVenue() { setFixtureFilter(f => ({ ...f, venue: '' })) }
 
   const enriched = useMemo(() => {
     const sorted = [...MATCHES].sort(
@@ -61,6 +62,7 @@ export default function Fixtures() {
         if (!hn.includes(teamQ) && !an.includes(teamQ)) return false
       }
       if (focus && m.home !== focus && m.away !== focus) return false
+      if (venue && m.venue !== venue) return false
       if (slotHours) {
         const localHour = new Date(`${m.date}T${m.time}:00Z`).toLocaleString('en-US', { timeZone: tz.id || 'UTC', hour: 'numeric', hour12: false })
         const h = parseInt(localHour, 10) % 24
@@ -68,7 +70,7 @@ export default function Fixtures() {
       }
       return true
     })
-  }, [enriched, group, round, localTeam, focus, timeSlot, tz])
+  }, [enriched, group, round, localTeam, focus, timeSlot, venue, tz])
 
   const byDate = useMemo(() => {
     const map = new Map()
@@ -81,6 +83,7 @@ export default function Fixtures() {
   }, [filtered])
 
   const focusTeam = focus ? TEAMS[focus] : null
+  const venueObj = venue ? VENUES[venue] : null
 
   return (
     <div className="container fixtures-page" style={{ paddingTop: '1rem' }}>
@@ -150,6 +153,12 @@ export default function Fixtures() {
         )}
       </div>
 
+      {venueObj && (
+        <div className="focus-banner">
+          <span>🏟 <strong>{venueObj.name}</strong> · {venueObj.city}</span>
+          <button className="focus-clear" onClick={clearVenue}>✕ Clear</button>
+        </div>
+      )}
       {focusTeam && (
         <div className="focus-banner">
           <span>Showing fixtures for <strong>{focusTeam.flag} {focusTeam.name}</strong></span>

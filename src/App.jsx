@@ -23,9 +23,9 @@ export default function App() {
   const [page,      setPage]      = useState('home')
   const [tz,        setTzState]   = useState(() => detectUserTz())
   const [timeFormat, setTimeFormatState] = useState(() => loadPref('wc2026-time', '24'))
-  const [theme,     setThemeState] = useState(() => loadPref('wc2026-theme', 'dark'))
+  const [theme,     setThemeState] = useState(() => loadPref('wc2026-theme', 'light'))
   const [teamModal, setTeamModal] = useState(null)
-  const [fixtureFilter, setFixtureFilter] = useState({ group: '', round: '', team: '', focus: null, timeSlot: '' })
+  const [fixtureFilter, setFixtureFilter] = useState({ group: '', round: '', team: '', focus: null, timeSlot: '', venue: '' })
   const [myTeams, setMyTeamsState] = useState(() => {
     try { return JSON.parse(localStorage.getItem('wc2026-myteams') || '[]') } catch { return [] }
   })

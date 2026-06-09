@@ -68,6 +68,7 @@ export default function Bracket() {
                 {t === 'live' ? '📡 Live' : '🔮 Predict'}
               </button>
             ))}
+            <button className="bracket-tab bracket-print-btn" onClick={() => window.print()}>🖨 Print</button>
           </div>
         </div>
       </div>
