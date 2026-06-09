@@ -69,7 +69,7 @@ export default function App() {
 
   useEffect(() => {
     function onKey(e) { if (e.key === 'Escape') setTeamModal(null) }
-    window.addEventListener('keydown', onKey)
+    window.addEventListener('keydown', onKey, { passive: true })
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 

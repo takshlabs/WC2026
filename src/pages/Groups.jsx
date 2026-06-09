@@ -34,17 +34,28 @@ export default function Groups() {
 
 function qualifyStatus(rows, totalMatches, played) {
   // Returns per-team status: 'safe' | 'alive' | 'eliminated'
-  // Pre-tournament: all alive
   if (played === 0) return rows.map(() => 'alive')
-  const remaining = totalMatches - played
+  const groupLetter = rows[0]?.group
   return rows.map((r, i) => {
-    // Max possible points = current + 3 * remaining matches involving this team
-    const teamRemaining = MATCHES.filter(m => m.group === rows[0].group && (m.home === r.code || m.away === r.code) && m.homeScore === undefined).length
+    // Max possible points = current pts + 3 per remaining match
+    const teamRemaining = MATCHES.filter(
+      m => m.group === groupLetter &&
+           (m.home === r.code || m.away === r.code) &&
+           m.homeScore === undefined
+    ).length
     const maxPts = r.Pts + teamRemaining * 3
-    // 2nd place current pts
-    const p2 = rows[1]?.Pts ?? 0
-    if (i < 2 && r.Pts > (rows[2]?.Pts ?? 0) + (MATCHES.filter(m => m.group === rows[2]?.code).length) * 3) return 'safe'
-    if (maxPts < p2) return 'eliminated'
+    // Remaining matches for 3rd-placed team (to calculate their max points)
+    const third = rows[2]
+    const thirdRemaining = third
+      ? MATCHES.filter(
+          m => m.group === groupLetter &&
+               (m.home === third.code || m.away === third.code) &&
+               m.homeScore === undefined
+        ).length
+      : 0
+    const thirdMaxPts = (third?.Pts ?? 0) + thirdRemaining * 3
+    if (i < 2 && r.Pts > thirdMaxPts) return 'safe'
+    if (maxPts < (rows[1]?.Pts ?? 0)) return 'eliminated'
     return 'alive'
   })
 }

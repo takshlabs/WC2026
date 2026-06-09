@@ -65,13 +65,10 @@ export default function Fixtures() {
       if (venue && m.venue !== venue) return false
       if (slotHours) {
         const dt = new Date(`${m.date}T${m.time}:00Z`)
-        const parts = new Intl.DateTimeFormat('en-US', {
-          timeZone: tz?.id || 'UTC',
-          hour: '2-digit',
-          hour12: false,
-        }).formatToParts(dt)
-        const hourStr = parts.find(p => p.type === 'hour')?.value ?? '0'
-        const h = parseInt(hourStr, 10) % 24
+        const utcMins = dt.getUTCHours() * 60 + dt.getUTCMinutes()
+        const offsetMins = Math.round((tz?.offset ?? 0) * 60)
+        const localMins = ((utcMins + offsetMins) % 1440 + 1440) % 1440
+        const h = Math.floor(localMins / 60)
         if (!slotHours.includes(h)) return false
       }
       return true

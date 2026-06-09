@@ -47,8 +47,10 @@ export default function Bracket() {
     TEAMS[c]?.name.toLowerCase().includes(searchQ.toLowerCase())
   ).slice(0, 8)
 
-  const matchCount = ROUNDS_ORDER.reduce((n, r) => n + r.ids.length, 0) + 2 // +2 for 3rd place
-  const filledCount = Object.keys(predictions).length
+  const filledCount = Object.values(predictions).reduce(
+    (n, p) => n + (p.home ? 1 : 0) + (p.away ? 1 : 0), 0
+  )
+  const totalSlots = ROUNDS_ORDER.reduce((n, r) => n + r.ids.length * 2, 0) + 2 // +2 for 3rd place both sides
 
   return (
     <div className="container-wide" style={{ paddingTop: '1.5rem' }}>
@@ -76,7 +78,7 @@ export default function Bracket() {
       {tab === 'predict' && (
         <div className="predictor-bar">
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-2)' }}>
-            Your bracket prediction · {filledCount} / {ROUNDS_ORDER.reduce((n, r) => n + r.ids.length * 2, 0)} slots filled
+            Your bracket prediction · {filledCount} / {totalSlots} slots filled
           </span>
           <button className="btn btn-ghost" style={{ height: 28, fontSize: '0.65rem', padding: '0 12px' }} onClick={clearAll}>
             Reset
