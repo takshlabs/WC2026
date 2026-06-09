@@ -5,7 +5,7 @@ import { useApp } from '../App'
 import FlagImg from '../components/FlagImg'
 
 export default function Home() {
-  const { tz, timeFormat, navigate, setFixtureFilter, liveMap, setTeamModal } = useApp()
+  const { tz, timeFormat, navigate, setFixtureFilter, liveMap, setTeamModal, myTeams, toggleMyTeam } = useApp()
   const [countdown, setCountdown] = useState(null)
 
   // Countdown to Jun 11 2026 21:00 UTC
@@ -126,6 +126,62 @@ export default function Home() {
       </div>
 
       <div className="container">
+
+        {/* ── My Teams ───────────────────────────────────────────────────── */}
+        {myTeams.length > 0 && (() => {
+          const myNext = MATCHES
+            .filter(m => m.home && (myTeams.includes(m.home) || myTeams.includes(m.away)) && new Date(`${m.date}T${m.time}:00Z`) >= new Date())
+            .sort((a, b) => new Date(`${a.date}T${a.time}:00Z`) - new Date(`${b.date}T${b.time}:00Z`))
+            .slice(0, 4)
+          return (
+            <div className="home-section">
+              <div className="home-section-header">
+                <h2>⭐ Your Teams</h2>
+                <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                  {myTeams.map(code => {
+                    const t = TEAMS[code]
+                    return (
+                      <span key={code} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 20, padding: '2px 8px 2px 5px', fontSize: '0.7rem', cursor: 'pointer' }}
+                        onClick={() => toggleMyTeam(code)}>
+                        <FlagImg code={code} size={12} /> {t?.name}
+                        <span style={{ color: 'var(--text-3)', fontSize: '0.6rem' }}>✕</span>
+                      </span>
+                    )
+                  })}
+                </div>
+              </div>
+              {myNext.length === 0
+                ? <p style={{ color: 'var(--text-3)', fontSize: '0.8rem', fontFamily: 'var(--font-mono)' }}>No upcoming fixtures for your teams.</p>
+                : (
+                  <div className="home-fx-grid">
+                    {myNext.map(m => {
+                      const live = liveMap.get(m.id)
+                      const conv = convertTime(m.date, m.time, tz, timeFormat)
+                      const homeT = TEAMS[m.home]; const awayT = TEAMS[m.away]
+                      const v = VENUES[m.venue]
+                      const hs = live?.homeScore ?? m.homeScore; const as_ = live?.awayScore ?? m.awayScore
+                      const color = groupColor(m.group)
+                      return (
+                        <div className="home-fx-card" key={m.id} onClick={() => goGroup(m.group)}>
+                          <div className="home-fx-accent" style={{ background: color }} />
+                          <div className="home-fx-header">
+                            <span className="home-fx-time">{live?.status === 'live' ? <span className="live-badge" style={{fontSize:'0.55rem'}}><span className="live-dot"/>LIVE</span> : `${conv.time} ${conv.abbr}`}</span>
+                            <span className="badge badge-group" style={{ background: color, fontSize: '0.55rem' }}>Grp {m.group}</span>
+                          </div>
+                          <div className="home-fx-matchup">
+                            <div className="home-fx-team home"><FlagImg code={m.home} size={18} /><span>{homeT?.name}</span></div>
+                            <div className="home-fx-center">{hs !== undefined ? <span className="home-fx-score">{hs}–{as_}</span> : <span className="home-fx-vs">vs</span>}</div>
+                            <div className="home-fx-team away"><span>{awayT?.name}</span><FlagImg code={m.away} size={18} /></div>
+                          </div>
+                          <div className="home-fx-venue">{v?.city}</div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
+            </div>
+          )
+        })()}
 
         {/* ── Live scores or upcoming ────────────────────────────────────── */}
         <div className="home-section">
@@ -265,37 +321,16 @@ export default function Home() {
         </div>
 
         {/* ── Tournament facts ───────────────────────────────────────────── */}
-        <div className="home-section">
+        <div className="home-section home-section-compact">
           <div className="home-section-header">
             <h2>Tournament Facts</h2>
             <span className="see-all" onClick={() => navigate('stats')}>Stats →</span>
           </div>
-          <div className="facts-list">
+          <div className="facts-list facts-list-compact">
             {facts.map(f => (
               <div className="fact-row" key={f.label}>
                 <span className="fact-label">{f.label}</span>
                 <span className="fact-value">{f.value}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* ── Host countries ─────────────────────────────────────────────── */}
-        <div className="home-section">
-          <div className="home-section-header">
-            <h2>Host Countries</h2>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(240px,1fr))', gap: '1px', background: 'var(--border)', border: '1px solid var(--border)', borderRadius: 6, overflow: 'hidden' }}>
-            {[
-              { flag: '🇺🇸', name: 'United States', venues: 11, matches: 60, cities: 'New York · LA · Dallas · Miami · Atlanta · Seattle · Boston · Houston · KC · Philadelphia · San Jose' },
-              { flag: '🇨🇦', name: 'Canada',         venues: 2,  matches: 10, cities: 'Toronto · Vancouver' },
-              { flag: '🇲🇽', name: 'Mexico',         venues: 3,  matches: 13, cities: 'Mexico City · Guadalajara · Monterrey' },
-            ].map(h => (
-              <div key={h.name} style={{ background: 'var(--surface)', padding: '1.2rem' }}>
-                <div style={{ fontSize: '2rem', marginBottom: 8 }}>{h.flag}</div>
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1rem', marginBottom: 4 }}>{h.name}</div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--gold)', marginBottom: 8 }}>{h.venues} venues · {h.matches} matches</div>
-                <div style={{ fontSize: '0.72rem', color: 'var(--text-3)' }}>{h.cities}</div>
               </div>
             ))}
           </div>

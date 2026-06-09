@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import { MATCHES, TEAMS, VENUES } from '../data'
 import { convertTime, groupColor } from '../utils'
 import { useApp } from '../App'
@@ -12,16 +12,79 @@ const ROUNDS_ORDER = [
   { key: 'final', label: 'Final',         ids: [104] },
 ]
 
+const ALL_TEAM_CODES = Object.keys(TEAMS)
+
+function loadPredictions() {
+  try { return JSON.parse(localStorage.getItem('wc2026-predictions') || '{}') } catch { return {} }
+}
+function savePredictions(p) {
+  try { localStorage.setItem('wc2026-predictions', JSON.stringify(p)) } catch {}
+}
+
 export default function Bracket() {
   const { tz, timeFormat, setTeamModal, liveMap } = useApp()
+  const [tab, setTab] = useState('live')
+  const [predictions, setPredictions] = useState(loadPredictions)
+  const [editSlot, setEditSlot] = useState(null) // { matchId, side: 'home'|'away' }
+  const [searchQ, setSearchQ] = useState('')
+
   const matchById = Object.fromEntries(MATCHES.map(m => [m.id, m]))
+
+  function setPick(matchId, side, code) {
+    const next = { ...predictions, [matchId]: { ...(predictions[matchId] || {}), [side]: code } }
+    setPredictions(next)
+    savePredictions(next)
+    setEditSlot(null)
+    setSearchQ('')
+  }
+
+  function clearAll() {
+    setPredictions({})
+    savePredictions({})
+  }
+
+  const filteredTeams = ALL_TEAM_CODES.filter(c =>
+    TEAMS[c]?.name.toLowerCase().includes(searchQ.toLowerCase())
+  ).slice(0, 8)
+
+  const matchCount = ROUNDS_ORDER.reduce((n, r) => n + r.ids.length, 0) + 2 // +2 for 3rd place
+  const filledCount = Object.keys(predictions).length
 
   return (
     <div className="container-wide" style={{ paddingTop: '1.5rem' }}>
       <div className="page-header">
-        <h1>Knockout Stage</h1>
-        <p>Round of 32 → Round of 16 → Quarter-Finals → Semi-Finals → Final</p>
+        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+          <div>
+            <h1>Knockout Stage</h1>
+            <p>Round of 32 → Round of 16 → Quarter-Finals → Semi-Finals → Final</p>
+          </div>
+          <div style={{ display: 'flex', gap: 4 }}>
+            {['live', 'predict'].map(t => (
+              <button
+                key={t}
+                className={`bracket-tab${tab === t ? ' active' : ''}`}
+                onClick={() => setTab(t)}
+              >
+                {t === 'live' ? '📡 Live' : '🔮 Predict'}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
+
+      {tab === 'predict' && (
+        <div className="predictor-bar">
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-2)' }}>
+            Your bracket prediction · {filledCount} / {ROUNDS_ORDER.reduce((n, r) => n + r.ids.length * 2, 0)} slots filled
+          </span>
+          <button className="btn btn-ghost" style={{ height: 28, fontSize: '0.65rem', padding: '0 12px' }} onClick={clearAll}>
+            Reset
+          </button>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-3)' }}>
+            Auto-saved to browser
+          </span>
+        </div>
+      )}
 
       <div className="bracket-wrap">
         <div
@@ -34,15 +97,31 @@ export default function Bracket() {
               {round.ids.map(id => {
                 const m = matchById[id]
                 if (!m) return null
+                if (tab === 'live') {
+                  return (
+                    <BracketMatch
+                      key={id}
+                      m={m}
+                      tz={tz}
+                      timeFormat={timeFormat}
+                      liveMap={liveMap}
+                      isFinal={round.key === 'final'}
+                      onTeamClick={setTeamModal}
+                    />
+                  )
+                }
                 return (
-                  <BracketMatch
+                  <PredictMatch
                     key={id}
                     m={m}
-                    tz={tz}
-                    timeFormat={timeFormat}
-                    liveMap={liveMap}
                     isFinal={round.key === 'final'}
-                    onTeamClick={setTeamModal}
+                    predictions={predictions}
+                    editSlot={editSlot}
+                    setEditSlot={setEditSlot}
+                    searchQ={searchQ}
+                    setSearchQ={setSearchQ}
+                    filteredTeams={filteredTeams}
+                    setPick={setPick}
                   />
                 )
               })}
@@ -51,18 +130,13 @@ export default function Bracket() {
         </div>
       </div>
 
-      {/* Third place separately */}
       <div style={{ marginTop: '2rem' }}>
         <div className="section-title">3rd Place Match</div>
         <div style={{ maxWidth: 240 }}>
-          <BracketMatch
-            m={matchById[103]}
-            tz={tz}
-            timeFormat={timeFormat}
-            liveMap={liveMap}
-            isFinal={false}
-            onTeamClick={setTeamModal}
-          />
+          {tab === 'live'
+            ? <BracketMatch m={matchById[103]} tz={tz} timeFormat={timeFormat} liveMap={liveMap} isFinal={false} onTeamClick={setTeamModal} />
+            : <PredictMatch m={matchById[103]} isFinal={false} predictions={predictions} editSlot={editSlot} setEditSlot={setEditSlot} searchQ={searchQ} setSearchQ={setSearchQ} filteredTeams={filteredTeams} setPick={setPick} />
+          }
         </div>
       </div>
     </div>
@@ -75,7 +149,6 @@ function BracketMatch({ m, tz, timeFormat, liveMap, isFinal, onTeamClick }) {
   const live  = liveMap.get(m.id)
   const homeT = TEAMS[m.home]
   const awayT = TEAMS[m.away]
-  const v     = VENUES[m.venue]
   const isLive = live?.status === 'live'
   const hs    = live?.homeScore ?? m.homeScore
   const as_   = live?.awayScore ?? m.awayScore
@@ -88,36 +161,85 @@ function BracketMatch({ m, tz, timeFormat, liveMap, isFinal, onTeamClick }) {
           {isLive ? 'LIVE' : conv.dateShort}
         </span>
       </div>
-
-      {/* Home */}
-      <div
-        className={`bm-team${!homeT ? ' tbd' : ''}`}
-        onClick={() => homeT && onTeamClick(m.home)}
-      >
+      <div className={`bm-team${!homeT ? ' tbd' : ''}`} onClick={() => homeT && onTeamClick(m.home)}>
         <span className="bm-name" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
           {homeT ? <><FlagImg code={m.home} size={16} />{homeT.name}</> : (m.homeLabel || 'TBD')}
         </span>
         {hs !== undefined && (
-          <span className="bm-score" style={{ color: hs > as_ ? 'var(--green)' : hs < as_ ? 'var(--red)' : 'var(--gold)' }}>
-            {hs}
-          </span>
+          <span className="bm-score" style={{ color: hs > as_ ? 'var(--green)' : hs < as_ ? 'var(--red)' : 'var(--gold)' }}>{hs}</span>
         )}
       </div>
-
-      {/* Away */}
-      <div
-        className={`bm-team${!awayT ? ' tbd' : ''}`}
-        onClick={() => awayT && onTeamClick(m.away)}
-      >
+      <div className={`bm-team${!awayT ? ' tbd' : ''}`} onClick={() => awayT && onTeamClick(m.away)}>
         <span className="bm-name" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
           {awayT ? <><FlagImg code={m.away} size={16} />{awayT.name}</> : (m.awayLabel || 'TBD')}
         </span>
         {as_ !== undefined && (
-          <span className="bm-score" style={{ color: as_ > hs ? 'var(--green)' : as_ < hs ? 'var(--red)' : 'var(--gold)' }}>
-            {as_}
-          </span>
+          <span className="bm-score" style={{ color: as_ > hs ? 'var(--green)' : as_ < hs ? 'var(--red)' : 'var(--gold)' }}>{as_}</span>
         )}
       </div>
+    </div>
+  )
+}
+
+function PredictMatch({ m, isFinal, predictions, editSlot, setEditSlot, searchQ, setSearchQ, filteredTeams, setPick }) {
+  if (!m) return null
+  const pred = predictions[m.id] || {}
+  const homeCode = m.home || pred.home
+  const awayCode = m.away || pred.away
+  const homeT = homeCode ? TEAMS[homeCode] : null
+  const awayT = awayCode ? TEAMS[awayCode] : null
+  const editingHome = editSlot?.matchId === m.id && editSlot.side === 'home'
+  const editingAway = editSlot?.matchId === m.id && editSlot.side === 'away'
+
+  function SlotPicker({ side, code, teamObj, isEditing }) {
+    const label = side === 'home' ? (m.homeLabel || 'Pick team') : (m.awayLabel || 'Pick team')
+    return (
+      <div className={`bm-team predict-slot${!code ? ' tbd' : ''}${isEditing ? ' editing' : ''}`}
+        onClick={() => !code && setEditSlot({ matchId: m.id, side })}>
+        {isEditing ? (
+          <div className="predict-search" onClick={e => e.stopPropagation()}>
+            <input
+              autoFocus
+              className="predict-input"
+              placeholder="Search team…"
+              value={searchQ}
+              onChange={e => setSearchQ(e.target.value)}
+            />
+            <div className="predict-dropdown">
+              {filteredTeams.map(c => (
+                <div key={c} className="predict-option" onClick={() => setPick(m.id, side, c)}>
+                  <FlagImg code={c} size={14} />{TEAMS[c]?.name}
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <span className="bm-name" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            {teamObj
+              ? <><FlagImg code={code} size={16} />{teamObj.name}</>
+              : code
+                ? <span style={{ cursor: 'pointer', color: 'var(--gold)' }} onClick={() => setEditSlot({ matchId: m.id, side })}>
+                    <FlagImg code={code} size={16} />{TEAMS[code]?.name}
+                  </span>
+                : <span className="predict-empty" onClick={() => setEditSlot({ matchId: m.id, side })}>{label}</span>
+            }
+          </span>
+        )}
+        {code && !isEditing && (
+          <button className="predict-clear" onClick={e => { e.stopPropagation(); setPick(m.id, side, undefined) }}>✕</button>
+        )}
+      </div>
+    )
+  }
+
+  return (
+    <div className={`bracket-match${isFinal ? ' final-match' : ''} predict-match`}>
+      <div className="bm-meta">
+        <span>{m.matchLabel}</span>
+        <span style={{ color: 'var(--text-3)', fontSize: '0.55rem' }}>{m.date?.slice(5)}</span>
+      </div>
+      <SlotPicker side="home" code={homeCode} teamObj={homeT} isEditing={editingHome} />
+      <SlotPicker side="away" code={awayCode} teamObj={awayT} isEditing={editingAway} />
     </div>
   )
 }

@@ -32,16 +32,34 @@ export default function Groups() {
   )
 }
 
+function qualifyStatus(rows, totalMatches, played) {
+  // Returns per-team status: 'safe' | 'alive' | 'eliminated'
+  // Pre-tournament: all alive
+  if (played === 0) return rows.map(() => 'alive')
+  const remaining = totalMatches - played
+  return rows.map((r, i) => {
+    // Max possible points = current + 3 * remaining matches involving this team
+    const teamRemaining = MATCHES.filter(m => m.group === rows[0].group && (m.home === r.code || m.away === r.code) && m.homeScore === undefined).length
+    const maxPts = r.Pts + teamRemaining * 3
+    // 2nd place current pts
+    const p2 = rows[1]?.Pts ?? 0
+    if (i < 2 && r.Pts > (rows[2]?.Pts ?? 0) + (MATCHES.filter(m => m.group === rows[2]?.code).length) * 3) return 'safe'
+    if (maxPts < p2) return 'eliminated'
+    return 'alive'
+  })
+}
+
 function GroupCard({ group, liveMap, onTeamClick, onFixturesClick }) {
   const rows = calcStandings(group, liveMap)
   const color = groupColor(group)
 
-  // Compute how many matches have been played
   const gsMatches = MATCHES.filter(m => m.group === group)
   const played = gsMatches.filter(m => {
     const live = liveMap.get(m.id)
     return m.homeScore !== undefined || live?.homeScore !== undefined
   }).length
+
+  const statuses = qualifyStatus(rows, gsMatches.length, played)
 
   return (
     <div className="group-section">
@@ -74,11 +92,14 @@ function GroupCard({ group, liveMap, onTeamClick, onFixturesClick }) {
             {rows.map((r, i) => {
               const t = TEAMS[r.code]
               const qClass = i < 2 ? 'qualify-top' : i === 2 ? 'qualify-3rd' : 'qualify-out'
+              const status = statuses[i]
               return (
                 <tr key={r.code} className={qClass}>
                   <td style={{ paddingLeft: 10, minWidth: 140 }} onClick={() => onTeamClick(r.code)}>
                     <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}>
                       <FlagImg code={r.code} size={14} />{t.name}
+                      {status === 'safe' && <span className="qualify-pill qualify-safe">✓ Safe</span>}
+                      {status === 'eliminated' && <span className="qualify-pill qualify-elim">✕ Out</span>}
                     </span>
                   </td>
                   <td>{r.P}</td>

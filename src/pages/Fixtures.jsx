@@ -15,9 +15,17 @@ const ROUNDS  = [
   { value: 'final', label: 'Final'          },
 ]
 
+const TIME_SLOTS = [
+  { id: '',          label: 'All Times' },
+  { id: 'morning',   label: '🌅 Morning',   hours: [5, 6, 7, 8, 9, 10, 11] },
+  { id: 'afternoon', label: '☀️ Afternoon',  hours: [12, 13, 14, 15, 16, 17] },
+  { id: 'evening',   label: '🌆 Evening',    hours: [18, 19, 20, 21] },
+  { id: 'latenight', label: '🌙 Late Night', hours: [22, 23, 0, 1, 2, 3, 4] },
+]
+
 export default function Fixtures() {
   const { tz, timeFormat, setTeamModal, liveMap, fixtureFilter, setFixtureFilter } = useApp()
-  const { group, round, team, focus } = fixtureFilter
+  const { group, round, team, focus, timeSlot } = fixtureFilter
   const [localTeam, setLocalTeam] = useState(team || '')
 
   function clearAll() {
@@ -39,6 +47,7 @@ export default function Fixtures() {
 
   const filtered = useMemo(() => {
     const teamQ = localTeam.toLowerCase()
+    const slotHours = TIME_SLOTS.find(s => s.id === timeSlot)?.hours
     return enriched.filter(m => {
       if (group && group !== 'KO') {
         if (m.group !== group) return false
@@ -52,9 +61,14 @@ export default function Fixtures() {
         if (!hn.includes(teamQ) && !an.includes(teamQ)) return false
       }
       if (focus && m.home !== focus && m.away !== focus) return false
+      if (slotHours) {
+        const localHour = new Date(`${m.date}T${m.time}:00Z`).toLocaleString('en-US', { timeZone: tz.id || 'UTC', hour: 'numeric', hour12: false })
+        const h = parseInt(localHour, 10) % 24
+        if (!slotHours.includes(h)) return false
+      }
       return true
     })
-  }, [enriched, group, round, localTeam, focus])
+  }, [enriched, group, round, localTeam, focus, timeSlot, tz])
 
   const byDate = useMemo(() => {
     const map = new Map()
@@ -120,6 +134,22 @@ export default function Fixtures() {
         </span>
       </div>
 
+      {/* Time-of-day filter */}
+      <div className="timeslot-bar">
+        {TIME_SLOTS.map(s => (
+          <button
+            key={s.id}
+            className={`timeslot-chip${timeSlot === s.id ? ' active' : ''}`}
+            onClick={() => setFixtureFilter(f => ({ ...f, timeSlot: s.id }))}
+          >{s.label}</button>
+        ))}
+        {timeSlot && (
+          <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-3)', alignSelf: 'center' }}>
+            In your timezone ({tz.abbr})
+          </span>
+        )}
+      </div>
+
       {focusTeam && (
         <div className="focus-banner">
           <span>Showing fixtures for <strong>{focusTeam.flag} {focusTeam.name}</strong></span>
@@ -150,7 +180,7 @@ export default function Fixtures() {
 }
 
 function MatchRow({ m, focus }) {
-  const { setTeamModal } = useApp()
+  const { setTeamModal, myTeams, toggleMyTeam } = useApp()
   const homeT = TEAMS[m.home]
   const awayT = TEAMS[m.away]
   const v     = VENUES[m.venue]
@@ -169,24 +199,32 @@ function MatchRow({ m, focus }) {
           ? <span className="live-badge" style={{ fontSize: '0.55rem' }}><span className="live-dot" />LIVE</span>
           : m.conv.time}
       </div>
-      <div
-        className={`fx-team home${!homeT ? ' tbd' : ''}`}
-        onClick={() => homeT && setTeamModal(m.home)}
-      >
-        {homeT && <FlagImg code={m.home} size={16} />}
-        {homeT ? homeT.name : (m.homeLabel || 'TBD')}
+      <div className={`fx-team home${!homeT ? ' tbd' : ''}`}>
+        {homeT && (
+          <button className={`fx-star${myTeams.includes(m.home) ? ' starred' : ''}`}
+            onClick={e => { e.stopPropagation(); toggleMyTeam(m.home) }}
+            title={myTeams.includes(m.home) ? 'Unwatch' : 'Watch team'}>★</button>
+        )}
+        <span onClick={() => homeT && setTeamModal(m.home)} style={{ display:'inline-flex', alignItems:'center', gap:5, cursor: homeT ? 'pointer' : 'default' }}>
+          {homeT && <FlagImg code={m.home} size={16} />}
+          {homeT ? homeT.name : (m.homeLabel || 'TBD')}
+        </span>
       </div>
       <div>
         {hs !== undefined
           ? <span className="fx-score">{hs}–{as_}</span>
           : <span className="fx-vs">vs</span>}
       </div>
-      <div
-        className={`fx-team away${!awayT ? ' tbd' : ''}`}
-        onClick={() => awayT && setTeamModal(m.away)}
-      >
-        {awayT ? awayT.name : (m.awayLabel || 'TBD')}
-        {awayT && <FlagImg code={m.away} size={16} />}
+      <div className={`fx-team away${!awayT ? ' tbd' : ''}`}>
+        <span onClick={() => awayT && setTeamModal(m.away)} style={{ display:'inline-flex', alignItems:'center', gap:5, cursor: awayT ? 'pointer' : 'default' }}>
+          {awayT ? awayT.name : (m.awayLabel || 'TBD')}
+          {awayT && <FlagImg code={m.away} size={16} />}
+        </span>
+        {awayT && (
+          <button className={`fx-star${myTeams.includes(m.away) ? ' starred' : ''}`}
+            onClick={e => { e.stopPropagation(); toggleMyTeam(m.away) }}
+            title={myTeams.includes(m.away) ? 'Unwatch' : 'Watch team'}>★</button>
+        )}
       </div>
       <div className="fx-venue">{v?.city || '—'}</div>
       <div className="fx-badge">

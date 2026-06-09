@@ -8,6 +8,7 @@ import Groups   from './pages/Groups'
 import Bracket  from './pages/Bracket'
 import Stats    from './pages/Stats'
 import Print    from './pages/Print'
+import Venues   from './pages/Venues'
 import TeamModal from './components/TeamModal'
 
 // ── Global context ─────────────────────────────────────────────────────────────
@@ -23,9 +24,20 @@ export default function App() {
   const [tz,        setTzState]   = useState(() => detectUserTz())
   const [timeFormat, setTimeFormatState] = useState(() => loadPref('wc2026-time', '24'))
   const [theme,     setThemeState] = useState(() => loadPref('wc2026-theme', 'dark'))
-  const [teamModal, setTeamModal] = useState(null)   // team code or null
-  const [fixtureFilter, setFixtureFilter] = useState({ group: '', round: '', team: '', focus: null })
+  const [teamModal, setTeamModal] = useState(null)
+  const [fixtureFilter, setFixtureFilter] = useState({ group: '', round: '', team: '', focus: null, timeSlot: '' })
+  const [myTeams, setMyTeamsState] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('wc2026-myteams') || '[]') } catch { return [] }
+  })
   const liveMap = useLiveScores()
+
+  function toggleMyTeam(code) {
+    setMyTeamsState(prev => {
+      const next = prev.includes(code) ? prev.filter(c => c !== code) : [...prev, code]
+      try { localStorage.setItem('wc2026-myteams', JSON.stringify(next)) } catch {}
+      return next
+    })
+  }
 
   function setTz(id) {
     const found = TIMEZONES.find(t => t.id === id)
@@ -67,6 +79,7 @@ export default function App() {
   const ctx = {
     page, navigate, tz, setTz, timeFormat, setTimeFormat,
     theme, toggleTheme, liveMap, teamModal, setTeamModal, fixtureFilter, setFixtureFilter,
+    myTeams, toggleMyTeam,
   }
 
   return (
@@ -77,6 +90,7 @@ export default function App() {
         {page === 'fixtures' && <Fixtures />}
         {page === 'groups'   && <Groups />}
         {page === 'bracket'  && <Bracket />}
+        {page === 'venues'   && <Venues />}
         {page === 'stats'    && <Stats />}
         {page === 'print'    && <Print />}
       </div>
@@ -96,6 +110,7 @@ function Nav() {
     { id: 'groups',   label: 'Groups' },
     { id: 'fixtures', label: 'Fixtures' },
     { id: 'bracket',  label: 'Bracket' },
+    { id: 'venues',   label: 'Venues' },
     { id: 'stats',    label: 'Stats' },
     { id: 'print',    label: '🖨 Print' },
   ]
