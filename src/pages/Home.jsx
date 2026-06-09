@@ -3,7 +3,6 @@ import { MATCHES, TEAMS, VENUES } from '../data'
 import { convertTime, groupColor, calcStandings, computeFacts } from '../utils'
 import { useApp } from '../App'
 import FlagImg from '../components/FlagImg'
-import { useVisitorCount } from '../hooks/useVisitorCount'
 
 export default function Home() {
   const { tz, timeFormat, navigate, setFixtureFilter, liveMap, setTeamModal, myTeams, toggleMyTeam } = useApp()
@@ -43,7 +42,6 @@ export default function Home() {
   const previewGroups = ['A','B','C','D','E','F','G','H','I','J','K','L']
   const facts = computeFacts()
 
-  const visitorCount = useVisitorCount()
   const pad = n => String(n).padStart(2, '0')
 
   function goGroup(g) {
@@ -116,12 +114,6 @@ export default function Home() {
             <span className="qs-label">{l}</span>
           </div>
         ))}
-        {visitorCount !== null && (
-          <div className="qs-item qs-item--visits">
-            <span className="qs-num">{visitorCount.toLocaleString()}</span>
-            <span className="qs-label">VISITS</span>
-          </div>
-        )}
       </div>
 
       <div className="container">

@@ -2,6 +2,7 @@ import React, { useState, createContext, useContext, useEffect } from 'react'
 import { TIMEZONES } from './data'
 import { detectUserTz } from './utils'
 import { useLiveScores } from './hooks/useLiveScores'
+import { useVisitorCount } from './hooks/useVisitorCount'
 import Home     from './pages/Home'
 import Fixtures from './pages/Fixtures'
 import Groups   from './pages/Groups'
@@ -107,6 +108,7 @@ export default function App() {
 function Nav() {
   const { page, navigate, tz, setTz, timeFormat, setTimeFormat, theme, toggleTheme, liveMap } = useApp()
   const hasLive = [...liveMap.values()].some(v => v.status === 'live')
+  const visitCount = useVisitorCount()
   const [menuOpen,  setMenuOpen]  = useState(false)
   const [coffeeOpen, setCoffeeOpen] = useState(false)
   const [copied, setCopied] = useState(false)
@@ -162,6 +164,12 @@ function Nav() {
         </ul>
 
         <div className="nav-actions">
+          {visitCount !== null && (
+            <span className="nav-visits" title="Total visits">
+              <span className="nav-visits-dot" />
+              {visitCount.toLocaleString()}
+            </span>
+          )}
           <div className="nav-toggle-group" role="group" aria-label="Time format">
             {['12', '24'].map(fmt => (
               <button

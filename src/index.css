@@ -288,6 +288,32 @@ img { display: block; max-width: 100%; }
   color: var(--gold);
 }
 
+/* Visitor counter chip in navbar */
+.nav-visits {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--text-2);
+  letter-spacing: 0.04em;
+  padding: 0 6px;
+  height: 30px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface-2);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.nav-visits-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
 /* ── Page scaffold ───────────────────────────────────────────────────────────── */
 .page-wrap {
   padding-top: var(--nav-h);
