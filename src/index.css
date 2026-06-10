@@ -3245,11 +3245,23 @@ img { display: block; max-width: 100%; }
 /* Input area */
 .gchat-form {
   display: flex;
-  gap: 6px;
+  flex-direction: column;
+  gap: 4px;
   padding: 8px 10px;
   border-top: 1px solid var(--border);
   background: var(--surface);
   flex-shrink: 0;
+}
+.gchat-form-row {
+  display: flex;
+  gap: 6px;
+}
+.gchat-send-err {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: #e74c3c;
+  text-align: center;
+  padding: 2px 0;
 }
 .gchat-input {
   flex: 1;

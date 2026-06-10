@@ -32,20 +32,27 @@ export function useGlobalChat() {
     return unsub
   }, [])
 
+  // Returns a Promise on success, or null if validation/cooldown blocks
   const sendMessage = useCallback((text) => {
     const db = getDb()
     const currentName = nameRef.current
-    if (!db || !text.trim() || !currentName.trim()) return false
+    if (!db || !text.trim() || !currentName.trim()) return null
     const coolKey = 'wc2026-chat-last'
-    const last = parseInt(sessionStorage.getItem(coolKey) || '0')
-    if (Date.now() - last < COOLDOWN_MS) return false
-    sessionStorage.setItem(coolKey, String(Date.now()))
-    push(ref(db, CHAT_PATH), {
+    try {
+      const last = parseInt(sessionStorage.getItem(coolKey) || '0')
+      if (Date.now() - last < COOLDOWN_MS) return null
+      sessionStorage.setItem(coolKey, String(Date.now()))
+    } catch { /* sessionStorage unavailable — proceed anyway */ }
+    const promise = push(ref(db, CHAT_PATH), {
       name: currentName.trim().slice(0, 20),
       text: text.trim().slice(0, 300),
       ts:   Date.now(),
-    }).catch(() => {})
-    return true
+    })
+    // On Firebase rejection, lift the cooldown so user can retry
+    promise.catch(() => {
+      try { sessionStorage.removeItem(coolKey) } catch {}
+    })
+    return promise
   }, [])
 
   return { messages, name, setName, sendMessage }

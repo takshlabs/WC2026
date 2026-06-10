@@ -24,6 +24,8 @@ export default function GlobalChat() {
   const [nameInput,  setNameInput] = useState('')
   const [needName,   setNeedName]  = useState(!name)
   const [unread,     setUnread]    = useState(0)
+  const [sendErr,    setSendErr]   = useState('')
+  const [sending,    setSending]   = useState(false)
   const listRef      = useRef(null)
   const panelRef     = useRef(null)
   const prevLenRef   = useRef(0)
@@ -78,11 +80,28 @@ export default function GlobalChat() {
     atBottomRef.current = el.scrollHeight - el.scrollTop - el.clientHeight < 40
   }
 
-  function handleSend() {
-    if (!input.trim()) return
-    sendMessage(input)
+  async function handleSend() {
+    const text = input.trim()
+    if (!text || sending) return
+    const promise = sendMessage(text)
+    if (!promise) {
+      // No Firebase / cooldown / empty name — keep input so user knows it wasn't sent
+      setSendErr('Not connected — check Firebase settings')
+      setTimeout(() => setSendErr(''), 3000)
+      return
+    }
+    setSending(true)
     setInput('')
     atBottomRef.current = true
+    try {
+      await promise
+    } catch {
+      setInput(text)  // restore message so user can retry
+      setSendErr('Failed to send — check connection')
+      setTimeout(() => setSendErr(''), 3000)
+    } finally {
+      setSending(false)
+    }
   }
 
   function handleSetName(e) {
@@ -98,7 +117,7 @@ export default function GlobalChat() {
     showName: i === 0 || messages[i - 1].name !== msg.name,
   }))
 
-  const canSend = !!input.trim()
+  const canSend = !!input.trim() && !sending
 
   return (
     <>
@@ -146,20 +165,24 @@ export default function GlobalChat() {
               </div>
 
               <div className="gchat-form">
-                <input
-                  className="gchat-input"
-                  placeholder="Say something…"
-                  value={input}
-                  onChange={e => setInput(e.target.value)}
-                  onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend() } }}
-                  maxLength={300}
-                />
-                <button
-                  className={`gchat-send${canSend ? '' : ' gchat-send--dim'}`}
-                  type="button"
-                  onPointerDown={e => { e.preventDefault(); handleSend() }}
-                  aria-label="Send message"
-                >↑</button>
+                {sendErr && <div className="gchat-send-err">{sendErr}</div>}
+                <div className="gchat-form-row">
+                  <input
+                    className="gchat-input"
+                    placeholder="Say something…"
+                    value={input}
+                    onChange={e => setInput(e.target.value)}
+                    onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend() } }}
+                    maxLength={300}
+                    disabled={sending}
+                  />
+                  <button
+                    className={`gchat-send${canSend ? '' : ' gchat-send--dim'}`}
+                    type="button"
+                    onPointerDown={e => { e.preventDefault(); handleSend() }}
+                    aria-label="Send message"
+                  >{sending ? '…' : '↑'}</button>
+                </div>
               </div>
 
               <div className="gchat-footer">
