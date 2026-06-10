@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { ref, push, onValue, query, limitToLast } from 'firebase/database'
+import { ref, push, set, onValue, query, limitToLast } from 'firebase/database'
 import { getDb } from '../lib/firebase'
 
 const CHAT_PATH  = 'wc2026/chat/messages'
@@ -51,7 +51,8 @@ export function useGlobalChat() {
       if (Date.now() - last < COOLDOWN_MS) return null
       sessionStorage.setItem(coolKey, String(Date.now()))
     } catch { /* sessionStorage unavailable — proceed anyway */ }
-    const promise = push(ref(db, CHAT_PATH), {
+    const newRef = push(ref(db, CHAT_PATH))
+    const promise = set(newRef, {
       name: currentName.trim().slice(0, 20),
       text: text.trim().slice(0, 300),
       ts:   Date.now(),
