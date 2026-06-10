@@ -153,7 +153,10 @@ export default function GlobalChat() {
         title="Fan Chat"
         aria-label={open ? 'Close fan chat' : 'Open fan chat'}
       >
-        {open ? '✕' : '💬'}
+        {open
+          ? '✕'
+          : <><span className="gchat-fab-icon">💬</span><span className="gchat-fab-text">Fan Chat</span></>
+        }
         {!open && unread > 0 && (
           <span className="gchat-badge">{unread > 9 ? '9+' : unread}</span>
         )}
