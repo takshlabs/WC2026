@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { ref, push, set, onValue, query, limitToLast } from 'firebase/database'
+import { ref, push, set, onValue, query, orderByKey, limitToLast } from 'firebase/database'
 import { getDb } from '../lib/firebase'
 
 const CHAT_PATH  = 'wc2026/chat/messages'
@@ -30,12 +30,14 @@ export function useGlobalChat() {
     const unsubConn = onValue(connRef, snap => setConnected(snap.val() === true))
 
     // Subscribe to chat messages
-    const q = query(ref(db, CHAT_PATH), limitToLast(MAX_VISIBLE))
+    const q = query(ref(db, CHAT_PATH), orderByKey(), limitToLast(MAX_VISIBLE))
     const unsubMsgs = onValue(q, snap => {
       const msgs = []
       snap.forEach(child => msgs.push({ id: child.key, ...child.val() }))
       setMessages(msgs)
-    }, () => {})
+    }, (err) => {
+      console.error('[chat] onValue error', err?.code, err?.message)
+    })
 
     return () => { unsubConn(); unsubMsgs() }
   }, [])
