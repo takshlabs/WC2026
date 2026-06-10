@@ -57,8 +57,7 @@ export default function GlobalChat() {
     atBottomRef.current = el.scrollHeight - el.scrollTop - el.clientHeight < 40
   }
 
-  function handleSend(e) {
-    e?.preventDefault()
+  function handleSend() {
     if (!input.trim()) return
     sendMessage(input)
     setInput('')
@@ -123,16 +122,22 @@ export default function GlobalChat() {
                 ))}
               </div>
 
-              <form className="gchat-form" onSubmit={handleSend}>
+              <div className="gchat-form">
                 <input
                   className="gchat-input"
                   placeholder="Say something…"
                   value={input}
                   onChange={e => setInput(e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend() } }}
                   maxLength={300}
                 />
-                <button className="gchat-send" type="submit" disabled={!input.trim()}>↑</button>
-              </form>
+                <button
+                  className="gchat-send"
+                  type="button"
+                  onClick={handleSend}
+                  disabled={!input.trim()}
+                >↑</button>
+              </div>
 
               <div className="gchat-footer">
                 Chatting as&nbsp;
