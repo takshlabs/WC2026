@@ -4,8 +4,132 @@ import { convertTime, groupColor, calcStandings, computeFacts } from '../utils'
 import { useApp } from '../App'
 import FlagImg from '../components/FlagImg'
 
+// ── Team picker (shown in Your Teams empty state or when + is clicked) ────────
+function TeamPicker() {
+  const { myTeams, toggleMyTeam, notifPermission, requestPermission } = useApp()
+  const sorted = Object.entries(TEAMS).sort(([,a],[,b]) =>
+    a.group.localeCompare(b.group) || a.name.localeCompare(b.name)
+  )
+  return (
+    <div className="teams-picker-grid">
+      {sorted.map(([code, t]) => {
+        const picked = myTeams.includes(code)
+        return (
+          <button
+            key={code}
+            className={`team-pick-btn${picked ? ' picked' : ''}`}
+            onClick={() => {
+              toggleMyTeam(code)
+              if (!picked && notifPermission === 'default') requestPermission()
+            }}
+          >
+            <FlagImg code={code} size={14} />
+            <span>{t.name}</span>
+            {picked && <span className="team-pick-check">✓</span>}
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
+// ── Your Teams section (always visible) ──────────────────────────────────────
+function YourTeamsSection({ goGroup }) {
+  const { tz, timeFormat, liveMap, myTeams, toggleMyTeam, notifPermission, requestPermission } = useApp()
+  const [showPicker, setShowPicker] = useState(false)
+
+  const myNext = MATCHES
+    .filter(m => m.home && (myTeams.includes(m.home) || myTeams.includes(m.away)) && new Date(`${m.date}T${m.time}:00Z`) >= new Date())
+    .sort((a, b) => new Date(`${a.date}T${a.time}:00Z`) - new Date(`${b.date}T${b.time}:00Z`))
+    .slice(0, 4)
+
+  const isEmpty = myTeams.length === 0
+
+  return (
+    <div className="home-section">
+      <div className="home-section-header">
+        <h2>⭐ Your Teams</h2>
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
+          {myTeams.map(code => {
+            const t = TEAMS[code]
+            return (
+              <span key={code} className="my-team-chip" onClick={() => toggleMyTeam(code)}>
+                <FlagImg code={code} size={12} /> {t?.name}
+                <span className="my-team-chip-x">✕</span>
+              </span>
+            )
+          })}
+          <button
+            className={`my-teams-add-btn${isEmpty ? ' large' : ''}`}
+            onClick={() => setShowPicker(v => !v)}
+            title={showPicker ? 'Close' : 'Add team'}
+          >{showPicker ? '✕' : '+'}</button>
+        </div>
+      </div>
+
+      {/* Empty state */}
+      {isEmpty && !showPicker && (
+        <div className="teams-empty-hint">
+          <p>Track teams, get live score alerts, and match reminders — right here.</p>
+          <p>Tap <strong>+</strong> to add your teams.</p>
+        </div>
+      )}
+
+      {/* Team picker */}
+      {showPicker && <TeamPicker />}
+
+      {/* Notification permission banner */}
+      {!isEmpty && notifPermission === 'default' && !showPicker && (
+        <div className="notif-banner">
+          <span>🔔 Get kickoff reminders &amp; goal alerts for your teams</span>
+          <button className="btn btn-gold notif-banner-btn" onClick={requestPermission}>Enable</button>
+        </div>
+      )}
+
+      {/* Upcoming fixtures */}
+      {!isEmpty && !showPicker && (
+        myNext.length === 0
+          ? <p className="teams-no-fixtures">No upcoming fixtures scheduled yet.</p>
+          : (
+            <div className="home-fx-grid">
+              {myNext.map(m => {
+                const live = liveMap.get(m.id)
+                const conv = convertTime(m.date, m.time, tz, timeFormat)
+                const homeT = TEAMS[m.home]; const awayT = TEAMS[m.away]
+                const v = VENUES[m.venue]
+                const hs = live?.homeScore ?? m.homeScore; const as_ = live?.awayScore ?? m.awayScore
+                const color = groupColor(m.group)
+                return (
+                  <div className="home-fx-card" key={m.id} onClick={() => goGroup(m.group)}>
+                    <div className="home-fx-accent" style={{ background: color }} />
+                    <div className="home-fx-header">
+                      <span className="home-fx-time">
+                        {live?.status === 'live'
+                          ? <span className="live-badge" style={{fontSize:'0.55rem'}}><span className="live-dot"/>LIVE</span>
+                          : `${conv.dateShort} · ${conv.time} ${conv.abbr}`}
+                      </span>
+                      <span className="badge badge-group" style={{ background: color, fontSize: '0.55rem' }}>Grp {m.group}</span>
+                    </div>
+                    <div className="home-fx-matchup">
+                      <div className="home-fx-team home"><FlagImg code={m.home} size={18} /><span>{homeT?.name}</span></div>
+                      <div className="home-fx-center">
+                        {hs !== undefined ? <span className="home-fx-score">{hs}–{as_}</span> : <span className="home-fx-vs">vs</span>}
+                      </div>
+                      <div className="home-fx-team away"><span>{awayT?.name}</span><FlagImg code={m.away} size={18} /></div>
+                    </div>
+                    <div className="home-fx-venue">{v?.city}</div>
+                  </div>
+                )
+              })}
+            </div>
+          )
+      )}
+    </div>
+  )
+}
+
 export default function Home() {
-  const { tz, timeFormat, navigate, setFixtureFilter, liveMap, setTeamModal, myTeams, toggleMyTeam } = useApp()
+  const { tz, timeFormat, navigate, setFixtureFilter, liveMap, setTeamModal, myTeams, toggleMyTeam, notifPermission, requestPermission } = useApp()
   const [countdown, setCountdown] = useState(null)
 
   // Countdown to Jun 11 2026 21:00 UTC
@@ -119,60 +243,7 @@ export default function Home() {
       <div className="container">
 
         {/* ── My Teams ───────────────────────────────────────────────────── */}
-        {myTeams.length > 0 && (() => {
-          const myNext = MATCHES
-            .filter(m => m.home && (myTeams.includes(m.home) || myTeams.includes(m.away)) && new Date(`${m.date}T${m.time}:00Z`) >= new Date())
-            .sort((a, b) => new Date(`${a.date}T${a.time}:00Z`) - new Date(`${b.date}T${b.time}:00Z`))
-            .slice(0, 4)
-          return (
-            <div className="home-section">
-              <div className="home-section-header">
-                <h2>⭐ Your Teams</h2>
-                <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                  {myTeams.map(code => {
-                    const t = TEAMS[code]
-                    return (
-                      <span key={code} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 20, padding: '2px 8px 2px 5px', fontSize: '0.7rem', cursor: 'pointer' }}
-                        onClick={() => toggleMyTeam(code)}>
-                        <FlagImg code={code} size={12} /> {t?.name}
-                        <span style={{ color: 'var(--text-3)', fontSize: '0.6rem' }}>✕</span>
-                      </span>
-                    )
-                  })}
-                </div>
-              </div>
-              {myNext.length === 0
-                ? <p style={{ color: 'var(--text-3)', fontSize: '0.8rem', fontFamily: 'var(--font-mono)' }}>No upcoming fixtures for your teams.</p>
-                : (
-                  <div className="home-fx-grid">
-                    {myNext.map(m => {
-                      const live = liveMap.get(m.id)
-                      const conv = convertTime(m.date, m.time, tz, timeFormat)
-                      const homeT = TEAMS[m.home]; const awayT = TEAMS[m.away]
-                      const v = VENUES[m.venue]
-                      const hs = live?.homeScore ?? m.homeScore; const as_ = live?.awayScore ?? m.awayScore
-                      const color = groupColor(m.group)
-                      return (
-                        <div className="home-fx-card" key={m.id} onClick={() => goGroup(m.group)}>
-                          <div className="home-fx-accent" style={{ background: color }} />
-                          <div className="home-fx-header">
-                            <span className="home-fx-time">{live?.status === 'live' ? <span className="live-badge" style={{fontSize:'0.55rem'}}><span className="live-dot"/>LIVE</span> : `${conv.dateShort} · ${conv.time} ${conv.abbr}`}</span>
-                            <span className="badge badge-group" style={{ background: color, fontSize: '0.55rem' }}>Grp {m.group}</span>
-                          </div>
-                          <div className="home-fx-matchup">
-                            <div className="home-fx-team home"><FlagImg code={m.home} size={18} /><span>{homeT?.name}</span></div>
-                            <div className="home-fx-center">{hs !== undefined ? <span className="home-fx-score">{hs}–{as_}</span> : <span className="home-fx-vs">vs</span>}</div>
-                            <div className="home-fx-team away"><span>{awayT?.name}</span><FlagImg code={m.away} size={18} /></div>
-                          </div>
-                          <div className="home-fx-venue">{v?.city}</div>
-                        </div>
-                      )
-                    })}
-                  </div>
-                )}
-            </div>
-          )
-        })()}
+        <YourTeamsSection goGroup={goGroup} />
 
         {/* ── Live scores or upcoming ────────────────────────────────────── */}
         <div className="home-section">

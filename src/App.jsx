@@ -1,9 +1,10 @@
-import React, { useState, createContext, useContext, useEffect } from 'react'
-import { TIMEZONES } from './data'
+import React, { useState, useRef, createContext, useContext, useEffect } from 'react'
+import { TIMEZONES, MATCHES } from './data'
 import { detectUserTz } from './utils'
 import { useLiveScores } from './hooks/useLiveScores'
 import { useVisitorCount } from './hooks/useVisitorCount'
 import { useMyTeamsSync } from './hooks/useMyTeamsSync'
+import { useNotifications, showGoalNotif } from './hooks/useNotifications'
 import Home     from './pages/Home'
 import Fixtures from './pages/Fixtures'
 import Groups   from './pages/Groups'
@@ -32,6 +33,8 @@ export default function App() {
   const [fixtureFilter, setFixtureFilter] = useState({ group: '', round: '', team: '', focus: null, timeSlot: '', venue: '' })
   const { myTeams, toggleMyTeam, syncId, importFromSyncId, syncing } = useMyTeamsSync()
   const liveMap = useLiveScores()
+  const { permission: notifPermission, requestPermission, scheduleNotifications } = useNotifications()
+  const prevScoresRef = useRef(new Map())
 
   function setTz(id) {
     const found = TIMEZONES.find(t => t.id === id)
@@ -70,10 +73,28 @@ export default function App() {
     document.documentElement.style.colorScheme = theme
   }, [theme])
 
+  // Reschedule kickoff notifications when starred teams or permission changes
+  useEffect(() => { scheduleNotifications(myTeams) }, [myTeams, notifPermission]) // eslint-disable-line
+
+  // Goal notifications — fires whenever live scores update
+  useEffect(() => {
+    if (notifPermission !== 'granted' || !myTeams.length) return
+    liveMap.forEach((live, matchId) => {
+      if (live.status !== 'live') return
+      const m = MATCHES.find(mm => mm.id === matchId)
+      if (!m || (!myTeams.includes(m.home) && !myTeams.includes(m.away))) return
+      const key = `${live.homeScore}-${live.awayScore}`
+      const prev = prevScoresRef.current.get(matchId)
+      if (prev !== undefined && prev !== key) showGoalNotif(m, live.homeScore, live.awayScore)
+      prevScoresRef.current.set(matchId, key)
+    })
+  }, [liveMap]) // eslint-disable-line
+
   const ctx = {
     page, navigate, tz, setTz, timeFormat, setTimeFormat,
     theme, toggleTheme, liveMap, teamModal, setTeamModal, fixtureFilter, setFixtureFilter,
     myTeams, toggleMyTeam, syncId, importFromSyncId, syncing,
+    notifPermission, requestPermission,
   }
 
   return (
