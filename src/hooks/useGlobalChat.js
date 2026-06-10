@@ -29,17 +29,32 @@ export function useGlobalChat() {
     const connRef = ref(db, '.info/connected')
     const unsubConn = onValue(connRef, snap => setConnected(snap.val() === true))
 
-    // Subscribe to chat messages
-    const q = query(ref(db, CHAT_PATH), orderByKey(), limitToLast(MAX_VISIBLE))
-    const unsubMsgs = onValue(q, snap => {
-      const msgs = []
-      snap.forEach(child => msgs.push({ id: child.key, ...child.val() }))
-      setMessages(msgs)
-    }, (err) => {
-      console.error('[chat] onValue error', err?.code, err?.message)
-    })
+    // Subscribe to chat messages — auto-restarts on error
+    let unsubMsgs = null
+    let retryTimer = null
+    let cancelled = false
 
-    return () => { unsubConn(); unsubMsgs() }
+    function subscribe() {
+      if (cancelled) return
+      const q = query(ref(db, CHAT_PATH), orderByKey(), limitToLast(MAX_VISIBLE))
+      unsubMsgs = onValue(q, snap => {
+        const msgs = []
+        snap.forEach(child => msgs.push({ id: child.key, ...child.val() }))
+        setMessages(msgs)
+      }, (err) => {
+        console.error('[chat] onValue error', err?.code, err?.message)
+        if (!cancelled) retryTimer = setTimeout(subscribe, 5000)
+      })
+    }
+
+    subscribe()
+
+    return () => {
+      cancelled = true
+      clearTimeout(retryTimer)
+      unsubConn()
+      if (unsubMsgs) unsubMsgs()
+    }
   }, [])
 
   // Returns a Promise on success, or null if validation/cooldown blocks

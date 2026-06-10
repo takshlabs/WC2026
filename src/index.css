@@ -3189,7 +3189,7 @@ img { display: block; max-width: 100%; }
   border: 1px solid var(--border);
   background: var(--surface-2);
   color: var(--text);
-  font-size: 0.8rem;
+  font-size: 16px;
   outline: none;
   text-align: center;
 }
@@ -3270,7 +3270,7 @@ img { display: block; max-width: 100%; }
   border: 1px solid var(--border);
   background: var(--surface-2);
   color: var(--text);
-  font-size: 0.73rem;
+  font-size: 16px;
   outline: none;
   transition: border-color 0.15s;
 }
