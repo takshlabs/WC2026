@@ -14,7 +14,7 @@ import Print    from './pages/Print'
 import Venues   from './pages/Venues'
 import TeamModal   from './components/TeamModal'
 import ScrollToTop from './components/ScrollToTop'
-import ChatBot     from './components/ChatBot'
+import GlobalChat  from './components/GlobalChat'
 
 // ── Global context ─────────────────────────────────────────────────────────────
 export const AppCtx = createContext(null)
@@ -111,7 +111,7 @@ export default function App() {
       </div>
       {teamModal && <TeamModal code={teamModal} onClose={() => setTeamModal(null)} />}
       <ScrollToTop />
-      <ChatBot />
+      <GlobalChat />
     </AppCtx.Provider>
   )
 }
