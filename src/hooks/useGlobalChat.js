@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { ref, push, onValue, query, limitToLast } from 'firebase/database'
 import { getDb } from '../lib/firebase'
 
@@ -11,10 +11,12 @@ export function useGlobalChat() {
   const [name, setNameState] = useState(() => {
     try { return localStorage.getItem('wc2026-chatname') || '' } catch { return '' }
   })
+  const nameRef = useRef(name)
 
   function setName(n) {
     const clean = n.trim().slice(0, 20)
     setNameState(clean)
+    nameRef.current = clean
     try { localStorage.setItem('wc2026-chatname', clean) } catch {}
   }
 
@@ -32,18 +34,19 @@ export function useGlobalChat() {
 
   const sendMessage = useCallback((text) => {
     const db = getDb()
-    if (!db || !text.trim() || !name.trim()) return false
+    const currentName = nameRef.current
+    if (!db || !text.trim() || !currentName.trim()) return false
     const coolKey = 'wc2026-chat-last'
     const last = parseInt(sessionStorage.getItem(coolKey) || '0')
     if (Date.now() - last < COOLDOWN_MS) return false
     sessionStorage.setItem(coolKey, String(Date.now()))
     push(ref(db, CHAT_PATH), {
-      name: name.trim().slice(0, 20),
+      name: currentName.trim().slice(0, 20),
       text: text.trim().slice(0, 300),
       ts:   Date.now(),
     }).catch(() => {})
     return true
-  }, [name])
+  }, [])
 
   return { messages, name, setName, sendMessage }
 }
