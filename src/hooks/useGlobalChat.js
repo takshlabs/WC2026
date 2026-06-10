@@ -1,14 +1,15 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { ref, push, set, get, onValue } from 'firebase/database'
-import { getDb } from '../lib/firebase'
 
 const CHAT_PATH   = 'wc2026/chat/messages'
 const MAX_VISIBLE = 150
 const COOLDOWN_MS = 3000
 const POLL_MS     = 3000
 
+// Firebase REST base — same var the SDK uses, but we bypass the SDK entirely
+const DB_BASE = (import.meta.env.VITE_FIREBASE_DB_URL || '').replace(/\/$/, '')
+
 export function useGlobalChat() {
-  const [messages, setMessages] = useState([])
+  const [messages, setMessages]   = useState([])
   const [connected, setConnected] = useState(false)
   const [readError, setReadError] = useState('')
   const [name, setNameState] = useState(() => {
@@ -24,12 +25,7 @@ export function useGlobalChat() {
   }
 
   useEffect(() => {
-    const db = getDb()
-    if (!db) return
-
-    // Monitor Firebase connection state (this onValue works fine for scalars)
-    const connRef = ref(db, '.info/connected')
-    const unsubConn = onValue(connRef, snap => setConnected(snap.val() === true))
+    if (!DB_BASE) { setReadError('DB URL not configured'); return }
 
     let cancelled = false
     let pollTimer = null
@@ -37,52 +33,63 @@ export function useGlobalChat() {
     async function fetchMessages() {
       if (cancelled) return
       try {
-        const snap = await get(ref(db, CHAT_PATH))
+        const res = await fetch(`${DB_BASE}/${CHAT_PATH}.json`, { cache: 'no-store' })
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        const data = await res.json()
         if (cancelled) return
-        const msgs = []
-        snap.forEach(child => msgs.push({ id: child.key, ...child.val() }))
+        const msgs = data
+          ? Object.entries(data).map(([id, val]) => ({ id, ...val }))
+          : []
+        msgs.sort((a, b) => (a.ts || 0) - (b.ts || 0))
         setMessages(msgs.slice(-MAX_VISIBLE))
         setReadError('')
+        setConnected(true)
       } catch (err) {
         if (cancelled) return
-        const code = err?.code || err?.message || 'unknown'
-        console.error('[chat] fetch error', code)
+        const code = err?.message || 'fetch failed'
+        console.error('[chat] REST fetch error', code)
         setReadError(code)
+        setConnected(false)
       }
     }
 
-    // Initial fetch immediately, then poll
     fetchMessages()
     pollTimer = setInterval(fetchMessages, POLL_MS)
 
     return () => {
       cancelled = true
       clearInterval(pollTimer)
-      unsubConn()
     }
   }, [])
 
-  // Returns a Promise on success, or null if validation/cooldown blocks
   const sendMessage = useCallback((text) => {
-    const db = getDb()
+    if (!DB_BASE) return null
     const currentName = nameRef.current
-    if (!db || !text.trim() || !currentName.trim()) return null
+    if (!text.trim() || !currentName.trim()) return null
+
     const coolKey = 'wc2026-chat-last'
     try {
       const last = parseInt(sessionStorage.getItem(coolKey) || '0')
       if (Date.now() - last < COOLDOWN_MS) return null
       sessionStorage.setItem(coolKey, String(Date.now()))
-    } catch { /* sessionStorage unavailable — proceed anyway */ }
-    const newRef = push(ref(db, CHAT_PATH))
-    const promise = set(newRef, {
-      name: currentName.trim().slice(0, 20),
-      text: text.trim().slice(0, 300),
-      ts:   Date.now(),
+    } catch { /* proceed anyway */ }
+
+    const promise = fetch(`${DB_BASE}/${CHAT_PATH}.json`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({
+        name: currentName.trim().slice(0, 20),
+        text: text.trim().slice(0, 300),
+        ts:   Date.now(),
+      }),
+    }).then(res => {
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
     })
-    // On Firebase rejection, lift the cooldown so user can retry
+
     promise.catch(() => {
       try { sessionStorage.removeItem(coolKey) } catch {}
     })
+
     return promise
   }, [])
 
