@@ -79,20 +79,31 @@ const ROUND_LABELS = {
 }
 export function roundLabel(r) { return ROUND_LABELS[r] || r }
 
-// ── Default timezone detection ────────────────────────────────────────────────
+// ── Timezone auto-detection ───────────────────────────────────────────────────
+// Uses the OS/browser IANA timezone (Intl API) — same info your phone uses when
+// you set "Set time zone automatically". Not GPS; no permission prompt.
+export function autoDetectTz() {
+  try {
+    const ianaZone  = Intl.DateTimeFormat().resolvedOptions().timeZone
+    const byIana    = TIMEZONES.find(t => t.iana?.includes(ianaZone))
+    if (byIana) return byIana
+    // Fallback: match by UTC offset
+    const offsetHr  = -new Date().getTimezoneOffset() / 60
+    return TIMEZONES.find(t => t.offset === offsetHr) || TIMEZONES.find(t => t.id === 'utc')
+  } catch {
+    return TIMEZONES.find(t => t.id === 'utc')
+  }
+}
+
+// On first load: respect saved user preference; otherwise auto-detect.
 export function detectUserTz() {
   try {
-    const offsetMin = -new Date().getTimezoneOffset()
-    const offsetHr  = offsetMin / 60
-    const saved     = localStorage.getItem('wc2026-tz')
+    const saved = localStorage.getItem('wc2026-tz')
     if (saved) {
       const found = TIMEZONES.find(t => t.id === saved)
       if (found) return found
     }
-    return (
-      TIMEZONES.find(t => t.offset === offsetHr) ||
-      TIMEZONES.find(t => t.id === 'utc')
-    )
+    return autoDetectTz()
   } catch {
     return TIMEZONES.find(t => t.id === 'utc')
   }

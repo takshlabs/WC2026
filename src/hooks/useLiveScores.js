@@ -1,8 +1,20 @@
 import { useState, useEffect } from 'react'
 import { MATCHES } from '../data'
 
-// Map football-data.org TLAs → our data.js codes where they differ
-const TLA_MAP = { 'URY': 'URU' }
+// Map football-data.org TLAs → our data.js codes where they differ.
+// football-data.org mostly uses FIFA codes (which match ours), but a few diverge.
+// Add entries here whenever DevTools shows "[live] unmatched X vs Y" after kickoff.
+const TLA_MAP = {
+  'URY': 'URU',  // Uruguay (confirmed)
+  'IRI': 'IRN',  // Iran (AFC sometimes uses IRI)
+  'PRY': 'PAR',  // Paraguay ISO alpha-3
+  'CHE': 'SUI',  // Switzerland ISO alpha-3
+  'DZA': 'ALG',  // Algeria ISO alpha-3
+  'NLD': 'NED',  // Netherlands ISO alpha-3
+  'DEU': 'GER',  // Germany ISO alpha-3
+  'PRT': 'POR',  // Portugal ISO alpha-3
+  'AUS': 'AUS',  // Australia (same – included for completeness)
+}
 function normalizeTla(code) { return TLA_MAP[code] || code }
 
 // Works on GitHub Pages (direct) and local dev (proxy)
@@ -25,7 +37,10 @@ export function useLiveScores() {
           const homeTla = normalizeTla(m.homeTeam?.tla || '')
           const awayTla = normalizeTla(m.awayTeam?.tla || '')
           const local = MATCHES.find(lm => lm.home === homeTla && lm.away === awayTla)
-          if (!local) continue
+          if (!local) {
+            if (homeTla && awayTla) console.warn('[live] unmatched TLA pair:', homeTla, 'vs', awayTla, '— add to TLA_MAP in useLiveScores.js')
+            continue
+          }
           // fullTime holds the running score during IN_PLAY; fall back to
           // halfTime (populated during HALFTIME) then regularTime for extra time
           const hs = m.score?.fullTime?.home
@@ -43,7 +58,7 @@ export function useLiveScores() {
                    : 'upcoming',
           })
         }
-        if (map.size > 0) setLiveMap(map)
+        setLiveMap(map)
       } catch {
         // Network failure or no API key - silently fall through to static data
       }

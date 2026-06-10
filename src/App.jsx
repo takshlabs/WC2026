@@ -1,6 +1,6 @@
 import React, { useState, createContext, useContext, useEffect } from 'react'
 import { TIMEZONES } from './data'
-import { detectUserTz } from './utils'
+import { detectUserTz, autoDetectTz } from './utils'
 import { useLiveScores } from './hooks/useLiveScores'
 import { useVisitorCount } from './hooks/useVisitorCount'
 import { useMyTeamsSync } from './hooks/useMyTeamsSync'
@@ -185,16 +185,24 @@ function Nav() {
           >
             {theme === 'dark' ? '☀' : '☾'}
           </button>
-          <select
-            className="tz-select nav-tz-desktop"
-            value={tz.id}
-            onChange={e => setTz(e.target.value)}
-            aria-label="Timezone"
-          >
-            {TIMEZONES.map(t => (
-              <option key={t.id} value={t.id}>{t.label} ({t.abbr})</option>
-            ))}
-          </select>
+          <div className="nav-tz-wrap nav-tz-desktop">
+            <select
+              className="tz-select"
+              value={tz.id}
+              onChange={e => setTz(e.target.value)}
+              aria-label="Timezone"
+            >
+              {TIMEZONES.map(t => (
+                <option key={t.id} value={t.id}>{t.label} ({t.abbr})</option>
+              ))}
+            </select>
+            <button
+              type="button"
+              className="nav-icon-btn nav-locate-btn"
+              onClick={() => { const d = autoDetectTz(); setTz(d.id) }}
+              title="Auto-detect my timezone"
+            >📍</button>
+          </div>
         </div>
 
         <button
@@ -236,6 +244,13 @@ function Nav() {
                     <option key={t.id} value={t.id}>{t.label} ({t.abbr})</option>
                   ))}
                 </select>
+                <button
+                  type="button"
+                  className="nav-icon-btn"
+                  onClick={() => { const d = autoDetectTz(); setTz(d.id) }}
+                  title="Auto-detect my timezone"
+                  style={{ flexShrink: 0 }}
+                >📍</button>
               </div>
 
               {visitCount !== null && (
