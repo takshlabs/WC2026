@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { ref, push, set, onValue, query, orderByKey, limitToLast } from 'firebase/database'
+import { ref, push, set, onValue } from 'firebase/database'
 import { getDb } from '../lib/firebase'
 
 const CHAT_PATH  = 'wc2026/chat/messages'
@@ -9,6 +9,7 @@ const COOLDOWN_MS = 3000
 export function useGlobalChat() {
   const [messages, setMessages] = useState([])
   const [connected, setConnected] = useState(false)
+  const [readError, setReadError] = useState('')
   const [name, setNameState] = useState(() => {
     try { return localStorage.getItem('wc2026-chatname') || '' } catch { return '' }
   })
@@ -29,20 +30,23 @@ export function useGlobalChat() {
     const connRef = ref(db, '.info/connected')
     const unsubConn = onValue(connRef, snap => setConnected(snap.val() === true))
 
-    // Subscribe to chat messages — auto-restarts on error
+    // Plain ref — no query constraints (sorts client-side, avoids SDK query errors)
     let unsubMsgs = null
     let retryTimer = null
     let cancelled = false
 
     function subscribe() {
       if (cancelled) return
-      const q = query(ref(db, CHAT_PATH), orderByKey(), limitToLast(MAX_VISIBLE))
-      unsubMsgs = onValue(q, snap => {
+      if (unsubMsgs) { try { unsubMsgs() } catch {} }
+      unsubMsgs = onValue(ref(db, CHAT_PATH), snap => {
+        setReadError('')
         const msgs = []
         snap.forEach(child => msgs.push({ id: child.key, ...child.val() }))
-        setMessages(msgs)
+        setMessages(msgs.slice(-MAX_VISIBLE))
       }, (err) => {
-        console.error('[chat] onValue error', err?.code, err?.message)
+        const code = err?.code || err?.message || 'unknown'
+        console.error('[chat] onValue error', code)
+        setReadError(code)
         if (!cancelled) retryTimer = setTimeout(subscribe, 5000)
       })
     }
@@ -81,5 +85,5 @@ export function useGlobalChat() {
     return promise
   }, [])
 
-  return { messages, name, setName, sendMessage, connected }
+  return { messages, name, setName, sendMessage, connected, readError }
 }

@@ -18,7 +18,7 @@ function relTime(ts) {
 }
 
 export default function GlobalChat() {
-  const { messages, name, setName, sendMessage, connected } = useGlobalChat()
+  const { messages, name, setName, sendMessage, connected, readError } = useGlobalChat()
   const [open,       setOpen]      = useState(false)
   const [input,      setInput]     = useState('')
   const [nameInput,  setNameInput] = useState('')
@@ -151,7 +151,10 @@ export default function GlobalChat() {
           ) : (
             <>
               <div className="gchat-messages" ref={listRef} onScroll={handleScroll}>
-                {messages.length === 0 && (
+                {readError && (
+                  <p className="gchat-empty" style={{color:'#e74c3c'}}>Chat error: {readError}</p>
+                )}
+                {!readError && messages.length === 0 && (
                   <p className="gchat-empty">No messages yet — be the first! ⚽</p>
                 )}
                 {grouped.map(msg => (
