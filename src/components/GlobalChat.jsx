@@ -62,7 +62,13 @@ export default function GlobalChat() {
       const el = panelRef.current
       if (!el) return
       const keyboardH = Math.max(0, window.innerHeight - vv.height - (vv.offsetTop || 0))
-      el.style.bottom = keyboardH > 0 ? `calc(4.5rem + ${keyboardH}px)` : ''
+      if (keyboardH > 0) {
+        el.style.bottom = `calc(4.5rem + ${keyboardH}px)`
+        el.style.maxHeight = `${Math.max(200, vv.height - 80)}px`
+      } else {
+        el.style.bottom = ''
+        el.style.maxHeight = ''
+      }
     }
     vv.addEventListener('resize', adjust)
     vv.addEventListener('scroll', adjust)
@@ -70,7 +76,7 @@ export default function GlobalChat() {
     return () => {
       vv.removeEventListener('resize', adjust)
       vv.removeEventListener('scroll', adjust)
-      if (panelRef.current) panelRef.current.style.bottom = ''
+      if (panelRef.current) { panelRef.current.style.bottom = ''; panelRef.current.style.maxHeight = '' }
     }
   }, [open])
 
