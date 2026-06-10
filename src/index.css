@@ -3306,6 +3306,13 @@ img { display: block; max-width: 100%; }
   gap: 4px;
   flex-shrink: 0;
 }
+.gchat-conn {
+  font-size: 0.5rem;
+  color: var(--text-3);
+  flex-shrink: 0;
+  transition: color 0.4s;
+}
+.gchat-conn--on { color: #27ae60; }
 .gchat-rename {
   background: none;
   border: none;

@@ -18,7 +18,7 @@ function relTime(ts) {
 }
 
 export default function GlobalChat() {
-  const { messages, name, setName, sendMessage } = useGlobalChat()
+  const { messages, name, setName, sendMessage, connected } = useGlobalChat()
   const [open,       setOpen]      = useState(false)
   const [input,      setInput]     = useState('')
   const [nameInput,  setNameInput] = useState('')
@@ -85,9 +85,8 @@ export default function GlobalChat() {
     if (!text || sending) return
     const promise = sendMessage(text)
     if (!promise) {
-      // No Firebase / cooldown / empty name — keep input so user knows it wasn't sent
-      setSendErr('Not connected — check Firebase settings')
-      setTimeout(() => setSendErr(''), 3000)
+      setSendErr(connected ? 'Please wait 3s between messages' : 'Firebase not connected — check repo secrets')
+      setTimeout(() => setSendErr(''), 4000)
       return
     }
     setSending(true)
@@ -186,6 +185,7 @@ export default function GlobalChat() {
               </div>
 
               <div className="gchat-footer">
+                <span className={`gchat-conn${connected ? ' gchat-conn--on' : ''}`} title={connected ? 'Connected' : 'Connecting…'}>●</span>
                 Chatting as&nbsp;
                 <span style={{ color: nameColor(name), fontWeight: 600 }}>{name}</span>
                 <button className="gchat-rename" onClick={() => { setNeedName(true); setNameInput('') }}>

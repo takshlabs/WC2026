@@ -8,6 +8,7 @@ const COOLDOWN_MS = 3000
 
 export function useGlobalChat() {
   const [messages, setMessages] = useState([])
+  const [connected, setConnected] = useState(false)
   const [name, setNameState] = useState(() => {
     try { return localStorage.getItem('wc2026-chatname') || '' } catch { return '' }
   })
@@ -23,13 +24,20 @@ export function useGlobalChat() {
   useEffect(() => {
     const db = getDb()
     if (!db) return
+
+    // Monitor Firebase connection state
+    const connRef = ref(db, '.info/connected')
+    const unsubConn = onValue(connRef, snap => setConnected(snap.val() === true))
+
+    // Subscribe to chat messages
     const q = query(ref(db, CHAT_PATH), limitToLast(MAX_VISIBLE))
-    const unsub = onValue(q, snap => {
+    const unsubMsgs = onValue(q, snap => {
       const msgs = []
       snap.forEach(child => msgs.push({ id: child.key, ...child.val() }))
       setMessages(msgs)
     }, () => {})
-    return unsub
+
+    return () => { unsubConn(); unsubMsgs() }
   }, [])
 
   // Returns a Promise on success, or null if validation/cooldown blocks
@@ -55,5 +63,5 @@ export function useGlobalChat() {
     return promise
   }, [])
 
-  return { messages, name, setName, sendMessage }
+  return { messages, name, setName, sendMessage, connected }
 }
