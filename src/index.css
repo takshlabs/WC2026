@@ -3265,7 +3265,7 @@ img { display: block; max-width: 100%; }
 .gchat-input:focus { border-color: var(--gold); }
 .gchat-input::placeholder { color: var(--text-3); }
 .gchat-send {
-  width: 32px; height: 32px;
+  width: 36px; height: 36px;
   border-radius: 8px;
   background: var(--gold);
   color: var(--on-gold);
@@ -3275,9 +3275,13 @@ img { display: block; max-width: 100%; }
   border: none; cursor: pointer;
   transition: background 0.15s, opacity 0.15s;
   align-self: center;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
-.gchat-send:hover:not(:disabled) { background: #c9991a; }
-.gchat-send:disabled { opacity: 0.4; cursor: not-allowed; }
+.gchat-send:hover { background: #c9991a; }
+.gchat-send:active { background: #b8881a; transform: scale(0.94); }
+.gchat-send--dim { opacity: 0.4; cursor: not-allowed; }
 
 /* Footer */
 .gchat-footer {

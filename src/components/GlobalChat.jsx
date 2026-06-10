@@ -25,6 +25,7 @@ export default function GlobalChat() {
   const [needName,   setNeedName]  = useState(!name)
   const [unread,     setUnread]    = useState(0)
   const listRef      = useRef(null)
+  const panelRef     = useRef(null)
   const prevLenRef   = useRef(0)
   const atBottomRef  = useRef(true)
 
@@ -48,6 +49,26 @@ export default function GlobalChat() {
       setUnread(0)
       atBottomRef.current = true
       if (listRef.current) listRef.current.scrollTop = listRef.current.scrollHeight
+    }
+  }, [open])
+
+  // Push panel above virtual keyboard on mobile (visualViewport API)
+  useEffect(() => {
+    if (!open || !window.visualViewport) return
+    const vv = window.visualViewport
+    function adjust() {
+      const el = panelRef.current
+      if (!el) return
+      const keyboardH = Math.max(0, window.innerHeight - vv.height - (vv.offsetTop || 0))
+      el.style.bottom = keyboardH > 0 ? `calc(4.5rem + ${keyboardH}px)` : ''
+    }
+    vv.addEventListener('resize', adjust)
+    vv.addEventListener('scroll', adjust)
+    adjust()
+    return () => {
+      vv.removeEventListener('resize', adjust)
+      vv.removeEventListener('scroll', adjust)
+      if (panelRef.current) panelRef.current.style.bottom = ''
     }
   }, [open])
 
@@ -77,11 +98,13 @@ export default function GlobalChat() {
     showName: i === 0 || messages[i - 1].name !== msg.name,
   }))
 
+  const canSend = !!input.trim()
+
   return (
     <>
       {/* Panel */}
       {open && (
-        <div className="gchat-panel">
+        <div className="gchat-panel" ref={panelRef}>
           <div className="gchat-header">
             <span>🌍 Fan Chat</span>
             <span className="gchat-msgcount">{messages.length} messages</span>
@@ -132,10 +155,10 @@ export default function GlobalChat() {
                   maxLength={300}
                 />
                 <button
-                  className="gchat-send"
+                  className={`gchat-send${canSend ? '' : ' gchat-send--dim'}`}
                   type="button"
-                  onClick={handleSend}
-                  disabled={!input.trim()}
+                  onPointerDown={e => { e.preventDefault(); handleSend() }}
+                  aria-label="Send message"
                 >↑</button>
               </div>
 
