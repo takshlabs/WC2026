@@ -1,10 +1,11 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { ref, push, set, onValue } from 'firebase/database'
+import { ref, push, set, get, onValue } from 'firebase/database'
 import { getDb } from '../lib/firebase'
 
-const CHAT_PATH  = 'wc2026/chat/messages'
+const CHAT_PATH   = 'wc2026/chat/messages'
 const MAX_VISIBLE = 150
 const COOLDOWN_MS = 3000
+const POLL_MS     = 3000
 
 export function useGlobalChat() {
   const [messages, setMessages] = useState([])
@@ -26,38 +27,38 @@ export function useGlobalChat() {
     const db = getDb()
     if (!db) return
 
-    // Monitor Firebase connection state
+    // Monitor Firebase connection state (this onValue works fine for scalars)
     const connRef = ref(db, '.info/connected')
     const unsubConn = onValue(connRef, snap => setConnected(snap.val() === true))
 
-    // Plain ref — no query constraints (sorts client-side, avoids SDK query errors)
-    let unsubMsgs = null
-    let retryTimer = null
     let cancelled = false
+    let pollTimer = null
 
-    function subscribe() {
+    async function fetchMessages() {
       if (cancelled) return
-      if (unsubMsgs) { try { unsubMsgs() } catch {} }
-      unsubMsgs = onValue(ref(db, CHAT_PATH), snap => {
-        setReadError('')
+      try {
+        const snap = await get(ref(db, CHAT_PATH))
+        if (cancelled) return
         const msgs = []
         snap.forEach(child => msgs.push({ id: child.key, ...child.val() }))
         setMessages(msgs.slice(-MAX_VISIBLE))
-      }, (err) => {
+        setReadError('')
+      } catch (err) {
+        if (cancelled) return
         const code = err?.code || err?.message || 'unknown'
-        console.error('[chat] onValue error', code)
+        console.error('[chat] fetch error', code)
         setReadError(code)
-        if (!cancelled) retryTimer = setTimeout(subscribe, 5000)
-      })
+      }
     }
 
-    subscribe()
+    // Initial fetch immediately, then poll
+    fetchMessages()
+    pollTimer = setInterval(fetchMessages, POLL_MS)
 
     return () => {
       cancelled = true
-      clearTimeout(retryTimer)
+      clearInterval(pollTimer)
       unsubConn()
-      if (unsubMsgs) unsubMsgs()
     }
   }, [])
 
