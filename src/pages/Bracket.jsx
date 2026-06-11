@@ -43,14 +43,13 @@ export default function Bracket() {
     savePredictions({})
   }
 
-  function printLandscape() {
-    const styleId = 'bracket-landscape-page'
-    if (!document.getElementById(styleId)) {
-      const s = document.createElement('style')
-      s.id = styleId
-      s.textContent = '@page { size: landscape; margin: 8mm; }'
-      document.head.appendChild(s)
-    }
+  function triggerPrint(orientation) {
+    const styleId = 'bracket-page-orientation'
+    document.getElementById(styleId)?.remove()
+    const s = document.createElement('style')
+    s.id = styleId
+    s.textContent = `@page { size: ${orientation}; margin: 8mm; }`
+    document.head.appendChild(s)
     window.print()
     const cleanup = () => {
       document.getElementById(styleId)?.remove()
@@ -82,7 +81,8 @@ export default function Bracket() {
                 {t === 'live' ? '📡 Live' : '🔮 Predict'}
               </button>
             ))}
-            <button className="bracket-tab bracket-print-btn" onClick={printLandscape}>🖨 Print</button>
+            <button className="bracket-tab bracket-print-btn" onClick={() => triggerPrint('landscape')} title="Print landscape (wide)">🖨 ↔</button>
+            <button className="bracket-tab bracket-print-btn" onClick={() => triggerPrint('portrait')} title="Print portrait">🖨 ↕</button>
           </div>
         </div>
       </div>
