@@ -199,7 +199,7 @@ function PredictMatch({ m, isFinal, predictions, editSlot, setEditSlot, searchQ,
         pool = ALL_TEAM_CODES.filter(c => groups.includes(TEAMS[c]?.group))
       }
     }
-    return pool.filter(c => TEAMS[c]?.name.toLowerCase().includes(searchQ.toLowerCase())).slice(0, 8)
+    return pool.filter(c => TEAMS[c]?.name.toLowerCase().includes(searchQ.toLowerCase())).slice(0, isR32 ? 16 : 8)
   }
 
   function SlotPicker({ side, code, teamObj, isEditing }) {
