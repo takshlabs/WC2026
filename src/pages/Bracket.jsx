@@ -43,20 +43,6 @@ export default function Bracket() {
     savePredictions({})
   }
 
-  function triggerPrint(orientation) {
-    const styleId = 'bracket-page-orientation'
-    document.getElementById(styleId)?.remove()
-    const s = document.createElement('style')
-    s.id = styleId
-    s.textContent = `@page { size: ${orientation}; margin: 8mm; }`
-    document.head.appendChild(s)
-    window.print()
-    const cleanup = () => {
-      document.getElementById(styleId)?.remove()
-      window.removeEventListener('afterprint', cleanup)
-    }
-    window.addEventListener('afterprint', cleanup)
-  }
 
   const filledCount = Object.values(predictions).reduce(
     (n, p) => n + (p.home ? 1 : 0) + (p.away ? 1 : 0), 0
@@ -81,8 +67,7 @@ export default function Bracket() {
                 {t === 'live' ? '📡 Live' : '🔮 Predict'}
               </button>
             ))}
-            <button className="bracket-tab bracket-print-btn" onClick={() => triggerPrint('landscape')} title="Print landscape (wide)">🖨 ↔</button>
-            <button className="bracket-tab bracket-print-btn" onClick={() => triggerPrint('portrait')} title="Print portrait">🖨 ↕</button>
+            <button className="bracket-tab bracket-print-btn" onClick={() => window.print()}>🖨 Print</button>
           </div>
         </div>
       </div>
