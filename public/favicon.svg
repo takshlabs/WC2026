@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#1a2538"/>
+      <stop offset="100%" stop-color="#0d1117"/>
+    </radialGradient>
+    <radialGradient id="ball" cx="38%" cy="32%" r="65%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#dcdcdc"/>
+    </radialGradient>
+    <clipPath id="c">
+      <circle cx="16" cy="16" r="11.5"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background rounded square -->
+  <rect width="32" height="32" rx="7" fill="url(#bg)"/>
+
+  <!-- Ball base with 3D gradient -->
+  <circle cx="16" cy="16" r="11.5" fill="url(#ball)"/>
+
+  <!-- Gold Telstar patches, clipped to ball -->
+  <g clip-path="url(#c)" fill="#d4a843">
+    <!-- Centre pentagon -->
+    <path d="M16,9.2 L20.2,12.1 L18.6,16.8 L13.4,16.8 L11.8,12.1 Z"/>
+    <!-- Top arch patch -->
+    <path d="M12.8,5.5 L19.2,5.5 L21.4,11 L20.2,12.1 L16,9.2 L11.8,12.1 L10.6,11 Z"/>
+    <!-- Right patch -->
+    <path d="M20.2,12.1 L21.4,11 L26,14.5 L25.5,20 L21.8,21.5 L18.6,16.8 Z"/>
+    <!-- Left patch -->
+    <path d="M11.8,12.1 L10.6,11 L6,14.5 L6.5,20 L10.2,21.5 L13.4,16.8 Z"/>
+    <!-- Bottom-right patch -->
+    <path d="M18.6,16.8 L21.8,21.5 L20.2,26 L16,27.5 L16,22.2 Z"/>
+    <!-- Bottom-left patch -->
+    <path d="M13.4,16.8 L10.2,21.5 L11.8,26 L16,27.5 L16,22.2 Z"/>
+  </g>
+
+  <!-- Ball edge seam -->
+  <circle cx="16" cy="16" r="11.5" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="0.6"/>
+  <!-- Highlight glint -->
+  <ellipse cx="13" cy="11.5" rx="2.5" ry="1.5" fill="rgba(255,255,255,0.18)" transform="rotate(-30,13,11.5)"/>
+</svg>
