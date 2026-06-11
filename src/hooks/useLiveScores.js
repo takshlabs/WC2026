@@ -27,10 +27,15 @@ export function useLiveScores() {
     async function poll() {
       try {
         const today = new Date().toISOString().slice(0, 10)
+        const key = import.meta.env.VITE_FOOTBALL_DATA_KEY || ''
+        if (!key) { console.warn('[live] VITE_FOOTBALL_DATA_KEY not set — live scores disabled'); return }
         const res = await fetch(`${API_BASE}/competitions/2000/matches?dateFrom=${today}&dateTo=${today}`, {
-          headers: { 'X-Auth-Token': import.meta.env.VITE_FOOTBALL_DATA_KEY || '' }
+          headers: { 'X-Auth-Token': key }
         })
-        if (!res.ok) return
+        if (!res.ok) {
+          console.warn(`[live] API ${res.status}: ${res.statusText} — check key or competition access`)
+          return
+        }
         const json = await res.json()
         const map = new Map()
         for (const m of (json.matches || [])) {

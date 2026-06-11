@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { MATCHES, TEAMS, VENUES } from '../data'
 import { convertTime, groupColor, calcStandings, computeFacts } from '../utils'
 import { useApp } from '../App'
+import { isPwa, isIos } from '../hooks/useNotifications'
 import FlagImg from '../components/FlagImg'
 
 // ── Team picker (shown in Your Teams empty state or when + is clicked) ────────
@@ -79,12 +80,22 @@ function YourTeamsSection({ goGroup }) {
       {showPicker && <TeamPicker />}
 
       {/* Notification permission banner */}
-      {!isEmpty && notifPermission === 'default' && !showPicker && (
-        <div className="notif-banner">
-          <span>🔔 Get kickoff reminders &amp; goal alerts for your teams</span>
-          <button className="btn btn-gold notif-banner-btn" onClick={requestPermission}>Enable</button>
-        </div>
-      )}
+      {!isEmpty && !showPicker && (() => {
+        const onIosNonPwa = isIos() && !isPwa()
+        if (onIosNonPwa) return (
+          <div className="notif-banner">
+            <span>🔔 Add to Home Screen to enable goal &amp; kickoff alerts</span>
+            <span className="notif-banner-hint">Safari → Share → Add to Home Screen</span>
+          </div>
+        )
+        if (notifPermission === 'default') return (
+          <div className="notif-banner">
+            <span>🔔 Get kickoff reminders &amp; goal alerts for your teams</span>
+            <button className="btn btn-gold notif-banner-btn" onClick={requestPermission}>Enable</button>
+          </div>
+        )
+        return null
+      })()}
 
       {/* Upcoming fixtures */}
       {!isEmpty && !showPicker && (

@@ -1363,6 +1363,11 @@ img { display: block; max-width: 100%; }
   white-space: nowrap;
   flex-shrink: 0;
 }
+.notif-banner-hint {
+  font-size: 0.6rem;
+  color: var(--text-3);
+  white-space: nowrap;
+}
 .teams-no-fixtures {
   color: var(--text-3);
   font-size: 0.8rem;

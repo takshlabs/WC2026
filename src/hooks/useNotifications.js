@@ -2,8 +2,20 @@ import { useState } from 'react'
 import { MATCHES, TEAMS } from '../data'
 
 const BASE = import.meta.env.BASE_URL || '/'
+const ICON = `${BASE}favicon.svg`
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
+
+// Detect standalone PWA (added to home screen on iOS/Android)
+export function isPwa() {
+  return window.matchMedia('(display-mode: standalone)').matches
+      || window.navigator.standalone === true
+}
+
+// Detect iOS browser
+export function isIos() {
+  return /iphone|ipad|ipod/i.test(navigator.userAgent)
+}
 
 async function _show(title, opts) {
   try {
@@ -18,7 +30,7 @@ export async function showGoalNotif(m, homeScore, awayScore) {
   const title = `⚽ GOAL! ${homeT?.name} ${homeScore}–${awayScore} ${awayT?.name}`
   await _show(title, {
     body: `Group ${m.group} · tap to open`,
-    icon: `${BASE}favicon.ico`,
+    icon: ICON,
     tag: `goal-${m.id}-${homeScore}-${awayScore}`,
     data: { url: BASE },
   })
@@ -43,7 +55,7 @@ function scheduleUpcomingNotifs(myTeams) {
           const label = mins === 60 ? '⏰ Kickoff in 1 hour!' : '🔔 Kickoff in 15 min!'
           _show(label, {
             body: matchup,
-            icon: `${BASE}favicon.ico`,
+            icon: ICON,
             tag: `ko-${m.id}-${mins}`,
             data: { url: BASE },
           })
