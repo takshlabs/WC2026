@@ -651,8 +651,8 @@ function Leagues({ auth, notify }) {
         </div>
         <div className="fpl-league-panel">
           <h3>Join with a code</h3>
-          <input className="fpl-input" placeholder="6-char code" maxLength={6} value={code} onChange={e => setCode(e.target.value.toUpperCase())} />
-          <button className="fpl-btn" onClick={join} disabled={busy || code.length !== 6}>Join</button>
+          <input className="fpl-input" placeholder="7-char code" maxLength={7} value={code} onChange={e => setCode(e.target.value.toUpperCase())} />
+          <button className="fpl-btn" onClick={join} disabled={busy || code.length !== 7}>Join</button>
         </div>
       </div>
 
