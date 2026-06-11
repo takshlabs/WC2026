@@ -43,9 +43,6 @@ export default function Bracket() {
     savePredictions({})
   }
 
-  const filteredTeams = ALL_TEAM_CODES.filter(c =>
-    TEAMS[c]?.name.toLowerCase().includes(searchQ.toLowerCase())
-  ).slice(0, 8)
 
   const filledCount = Object.values(predictions).reduce(
     (n, p) => n + (p.home ? 1 : 0) + (p.away ? 1 : 0), 0
@@ -64,7 +61,7 @@ export default function Bracket() {
             {['live', 'predict'].map(t => (
               <button
                 key={t}
-                className={`bracket-tab${tab === t ? ' active' : ''}`}
+                className={`bracket-tab${tab === t ? ' active' : ''}${t === 'predict' ? ' predict-tab-hint' : ''}`}
                 onClick={() => setTab(t)}
               >
                 {t === 'live' ? '📡 Live' : '🔮 Predict'}
@@ -123,8 +120,8 @@ export default function Bracket() {
                     setEditSlot={setEditSlot}
                     searchQ={searchQ}
                     setSearchQ={setSearchQ}
-                    filteredTeams={filteredTeams}
                     setPick={setPick}
+                    isR32={round.key === 'r32'}
                   />
                 )
               })}
@@ -138,7 +135,7 @@ export default function Bracket() {
         <div style={{ maxWidth: 240 }}>
           {tab === 'live'
             ? <BracketMatch m={matchById[103]} tz={tz} timeFormat={timeFormat} liveMap={liveMap} isFinal={false} onTeamClick={setTeamModal} />
-            : <PredictMatch m={matchById[103]} isFinal={false} predictions={predictions} editSlot={editSlot} setEditSlot={setEditSlot} searchQ={searchQ} setSearchQ={setSearchQ} filteredTeams={filteredTeams} setPick={setPick} />
+            : <PredictMatch m={matchById[103]} isFinal={false} predictions={predictions} editSlot={editSlot} setEditSlot={setEditSlot} searchQ={searchQ} setSearchQ={setSearchQ} setPick={setPick} />
           }
         </div>
       </div>
@@ -184,7 +181,7 @@ function BracketMatch({ m, tz, timeFormat, liveMap, isFinal, onTeamClick }) {
   )
 }
 
-function PredictMatch({ m, isFinal, predictions, editSlot, setEditSlot, searchQ, setSearchQ, filteredTeams, setPick }) {
+function PredictMatch({ m, isFinal, predictions, editSlot, setEditSlot, searchQ, setSearchQ, setPick, isR32 }) {
   if (!m) return null
   const pred = predictions[m.id] || {}
   const homeCode = m.home || pred.home
@@ -194,8 +191,21 @@ function PredictMatch({ m, isFinal, predictions, editSlot, setEditSlot, searchQ,
   const editingHome = editSlot?.matchId === m.id && editSlot.side === 'home'
   const editingAway = editSlot?.matchId === m.id && editSlot.side === 'away'
 
+  function getSlotTeams(label) {
+    if (!isR32 && !searchQ.trim()) return []
+    let pool = ALL_TEAM_CODES
+    if (isR32 && label) {
+      const groups = label.match(/[A-L]/g) || []
+      if (groups.length > 0) {
+        pool = ALL_TEAM_CODES.filter(c => groups.includes(TEAMS[c]?.group))
+      }
+    }
+    return pool.filter(c => TEAMS[c]?.name.toLowerCase().includes(searchQ.toLowerCase())).slice(0, isR32 ? 24 : 8)
+  }
+
   function SlotPicker({ side, code, teamObj, isEditing }) {
     const label = side === 'home' ? (m.homeLabel || 'Pick team') : (m.awayLabel || 'Pick team')
+    const slotTeams = getSlotTeams(side === 'home' ? m.homeLabel : m.awayLabel)
     return (
       <div className={`bm-team predict-slot${!code ? ' tbd' : ''}${isEditing ? ' editing' : ''}`}
         onClick={() => !code && setEditSlot({ matchId: m.id, side })}>
@@ -209,7 +219,7 @@ function PredictMatch({ m, isFinal, predictions, editSlot, setEditSlot, searchQ,
               onChange={e => setSearchQ(e.target.value)}
             />
             <div className="predict-dropdown">
-              {filteredTeams.map(c => (
+              {slotTeams.map(c => (
                 <div key={c} className="predict-option" onClick={() => setPick(m.id, side, c)}>
                   <FlagImg code={c} size={14} />{TEAMS[c]?.name}
                 </div>

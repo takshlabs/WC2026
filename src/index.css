@@ -2522,23 +2522,39 @@ img { display: block; max-width: 100%; }
 [data-theme="light"] .vm-lake   { fill: #c8dff0; }
 
 /* ── Bracket print ───────────────────────────────────────────────────────────── */
+/* @page landscape rule is injected dynamically by printLandscape() in Bracket.jsx
+   so it only fires when the bracket print button is clicked, not on every print. */
 @media print {
-  .bracket-tab, .predictor-bar, .bracket-print-btn, .navbar,
-  .page-header .btn, .page-header button { display: none !important; }
+  body { background: #fff !important; color: #111 !important; }
 
+  .bracket-tab, .predictor-bar, .bracket-print-btn, .navbar,
+  .page-header .btn, .page-header button,
+  .scroll-top-btn, .gchat-fab { display: none !important; }
+
+  /* Override inline gridTemplateColumns so columns shrink-to-fit the page */
   .bracket-wrap { overflow: visible !important; padding: 0 !important; }
-  .bracket-grid { min-width: 0 !important; }
-  .bracket-match { border-color: #ccc !important; background: #fff !important; break-inside: avoid; }
-  .bm-meta  { color: #888 !important; border-bottom-color: #eee !important; }
-  .bm-team  { border-bottom-color: #eee !important; color: #111 !important; }
+  .bracket-grid {
+    min-width: 0 !important;
+    width: 100% !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+    gap: 0 10px !important;
+  }
+
+  /* Compact match cards */
+  .bracket-match {
+    border-color: #ccc !important;
+    background: #fff !important;
+    break-inside: avoid;
+  }
+  .bm-meta  { color: #888 !important; border-bottom-color: #eee !important; font-size: 0.5rem !important; }
+  .bm-team  { border-bottom-color: #eee !important; color: #111 !important; padding: 4px 8px !important; }
+  .bm-name  { font-size: 0.65rem !important; }
   .bm-score { color: #b08000 !important; }
-  .bracket-col-label { color: #666 !important; border-bottom-color: #ccc !important; }
+  .bracket-col-label { color: #666 !important; border-bottom-color: #ccc !important; font-size: 0.55rem !important; }
   .bracket-match.final-match { border-color: #b08000 !important; }
   .section-title { color: #555 !important; border-bottom-color: #ccc !important; }
   .page-header h1 { color: #111 !important; }
   .page-header p  { color: #666 !important; }
-
-  @page { size: A3 landscape; margin: 8mm; }
 }
 
 /* ── Home: compact section & facts ──────────────────────────────────────────── */
@@ -2650,6 +2666,14 @@ img { display: block; max-width: 100%; }
   color: var(--on-gold);
   box-shadow: 0 0 10px rgba(212,168,67,0.3);
 }
+.bracket-tab.predict-tab-hint:not(.active) {
+  border-color: rgba(212,168,67,0.55);
+  color: var(--gold);
+}
+.bracket-tab.predict-tab-hint:not(.active):hover {
+  border-color: var(--gold);
+  box-shadow: 0 0 8px rgba(212,168,67,0.2);
+}
 
 .predictor-bar {
   display: flex;
@@ -2664,7 +2688,7 @@ img { display: block; max-width: 100%; }
 }
 
 /* ── Bracket predict match slots ─────────────────────────────────────────────── */
-.predict-match { cursor: default; }
+.predict-match { cursor: default; overflow: visible !important; }
 .predict-slot {
   position: relative !important;
   cursor: pointer;
@@ -3113,7 +3137,7 @@ img { display: block; max-width: 100%; }
   bottom: 4.5rem;
   right: 1.25rem;
   width: 340px;
-  height: 480px;
+  height: min(480px, calc(100svh - 7rem));
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 14px;
@@ -3189,7 +3213,7 @@ img { display: block; max-width: 100%; }
   border: 1px solid var(--border);
   background: var(--surface-2);
   color: var(--text);
-  font-size: 0.8rem;
+  font-size: 16px;
   outline: none;
   text-align: center;
 }
@@ -3270,7 +3294,7 @@ img { display: block; max-width: 100%; }
   border: 1px solid var(--border);
   background: var(--surface-2);
   color: var(--text);
-  font-size: 0.73rem;
+  font-size: 16px;
   outline: none;
   transition: border-color 0.15s;
 }
@@ -3306,6 +3330,13 @@ img { display: block; max-width: 100%; }
   gap: 4px;
   flex-shrink: 0;
 }
+.gchat-conn {
+  font-size: 0.5rem;
+  color: var(--text-3);
+  flex-shrink: 0;
+  transition: color 0.4s;
+}
+.gchat-conn--on { color: #27ae60; }
 .gchat-rename {
   background: none;
   border: none;
@@ -3324,10 +3355,6 @@ img { display: block; max-width: 100%; }
   .gchat-fab { right: 1rem; padding: 0 14px 0 11px; }
   .gchat-fab-text { font-size: 0.72rem; }
 }
-
-/* =============================================================================
-   Fantasy World Cup (FPL) page
-============================================================================= */
 .nav-link-fpl {
   margin-left: 1rem;
   font:bold !important;

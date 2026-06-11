@@ -18,7 +18,7 @@ function relTime(ts) {
 }
 
 export default function GlobalChat() {
-  const { messages, name, setName, sendMessage } = useGlobalChat()
+  const { messages, name, setName, sendMessage, connected, readError } = useGlobalChat()
   const [open,       setOpen]      = useState(false)
   const [input,      setInput]     = useState('')
   const [nameInput,  setNameInput] = useState('')
@@ -62,7 +62,13 @@ export default function GlobalChat() {
       const el = panelRef.current
       if (!el) return
       const keyboardH = Math.max(0, window.innerHeight - vv.height - (vv.offsetTop || 0))
-      el.style.bottom = keyboardH > 0 ? `calc(4.5rem + ${keyboardH}px)` : ''
+      if (keyboardH > 0) {
+        el.style.bottom = `calc(4.5rem + ${keyboardH}px)`
+        el.style.maxHeight = `${Math.max(200, vv.height - 80)}px`
+      } else {
+        el.style.bottom = ''
+        el.style.maxHeight = ''
+      }
     }
     vv.addEventListener('resize', adjust)
     vv.addEventListener('scroll', adjust)
@@ -70,7 +76,7 @@ export default function GlobalChat() {
     return () => {
       vv.removeEventListener('resize', adjust)
       vv.removeEventListener('scroll', adjust)
-      if (panelRef.current) panelRef.current.style.bottom = ''
+      if (panelRef.current) { panelRef.current.style.bottom = ''; panelRef.current.style.maxHeight = '' }
     }
   }, [open])
 
@@ -85,9 +91,8 @@ export default function GlobalChat() {
     if (!text || sending) return
     const promise = sendMessage(text)
     if (!promise) {
-      // No Firebase / cooldown / empty name — keep input so user knows it wasn't sent
-      setSendErr('Not connected — check Firebase settings')
-      setTimeout(() => setSendErr(''), 3000)
+      setSendErr(connected ? 'Please wait 3s between messages' : 'Firebase not connected — check repo secrets')
+      setTimeout(() => setSendErr(''), 4000)
       return
     }
     setSending(true)
@@ -146,7 +151,10 @@ export default function GlobalChat() {
           ) : (
             <>
               <div className="gchat-messages" ref={listRef} onScroll={handleScroll}>
-                {messages.length === 0 && (
+                {readError && (
+                  <p className="gchat-empty" style={{color:'#e74c3c'}}>Chat error: {readError}</p>
+                )}
+                {!readError && messages.length === 0 && (
                   <p className="gchat-empty">No messages yet — be the first! ⚽</p>
                 )}
                 {grouped.map(msg => (
@@ -186,6 +194,7 @@ export default function GlobalChat() {
               </div>
 
               <div className="gchat-footer">
+                <span className={`gchat-conn${connected ? ' gchat-conn--on' : ''}`} title={connected ? 'Connected' : 'Connecting…'}>●</span>
                 Chatting as&nbsp;
                 <span style={{ color: nameColor(name), fontWeight: 600 }}>{name}</span>
                 <button className="gchat-rename" onClick={() => { setNeedName(true); setNameInput('') }}>
