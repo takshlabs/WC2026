@@ -5,3 +5,5 @@ dist/
 serve.log
 .DS_Store
 package-lock.json
+/docs
+.env.example

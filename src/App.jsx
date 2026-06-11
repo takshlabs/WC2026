@@ -12,6 +12,7 @@ import Bracket  from './pages/Bracket'
 import Stats    from './pages/Stats'
 import Print    from './pages/Print'
 import Venues   from './pages/Venues'
+import FPL      from './pages/FPL'
 import TeamModal   from './components/TeamModal'
 import ScrollToTop from './components/ScrollToTop'
 import GlobalChat  from './components/GlobalChat'
@@ -107,6 +108,7 @@ export default function App() {
         {page === 'bracket'  && <Bracket />}
         {page === 'venues'   && <Venues />}
         {page === 'stats'    && <Stats />}
+        {page === 'fpl'      && <FPL />}
         {page === 'print'    && <Print />}
       </div>
       {teamModal && <TeamModal code={teamModal} onClose={() => setTeamModal(null)} />}
@@ -173,6 +175,14 @@ function Nav() {
           <li>
             <span className="nav-link nav-link-coffee" onClick={() => setCoffeeOpen(true)}>
               ☕ Support
+            </span>
+          </li>
+          <li>
+            <span
+              className={`nav-link nav-link-fpl${page === 'fpl' ? ' active' : ''}`}
+              onClick={() => goTo('fpl')}
+            >
+              FPL
             </span>
           </li>
         </ul>
