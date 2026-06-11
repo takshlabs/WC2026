@@ -274,7 +274,7 @@ export default function Home() {
                   <span className="home-fx-time">
                     {live?.status === 'live'
                       ? <span className="live-badge" style={{fontSize:'0.55rem'}}><span className="live-dot"/>LIVE</span>
-                      : `${conv.time} ${conv.abbr}`}
+                      : `${conv.dateShort} · ${conv.time} ${conv.abbr}`}
                   </span>
                   <span className="badge badge-group" style={{ background: color, fontSize: '0.55rem' }}>
                     Grp {m.group}
