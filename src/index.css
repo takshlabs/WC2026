@@ -2650,6 +2650,14 @@ img { display: block; max-width: 100%; }
   color: var(--on-gold);
   box-shadow: 0 0 10px rgba(212,168,67,0.3);
 }
+.bracket-tab.predict-tab-hint:not(.active) {
+  border-color: rgba(212,168,67,0.55);
+  color: var(--gold);
+}
+.bracket-tab.predict-tab-hint:not(.active):hover {
+  border-color: var(--gold);
+  box-shadow: 0 0 8px rgba(212,168,67,0.2);
+}
 
 .predictor-bar {
   display: flex;
@@ -2664,7 +2672,7 @@ img { display: block; max-width: 100%; }
 }
 
 /* ── Bracket predict match slots ─────────────────────────────────────────────── */
-.predict-match { cursor: default; }
+.predict-match { cursor: default; overflow: visible !important; }
 .predict-slot {
   position: relative !important;
   cursor: pointer;
