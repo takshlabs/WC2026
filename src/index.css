@@ -2522,23 +2522,39 @@ img { display: block; max-width: 100%; }
 [data-theme="light"] .vm-lake   { fill: #c8dff0; }
 
 /* ── Bracket print ───────────────────────────────────────────────────────────── */
+/* @page landscape rule is injected dynamically by printLandscape() in Bracket.jsx
+   so it only fires when the bracket print button is clicked, not on every print. */
 @media print {
-  .bracket-tab, .predictor-bar, .bracket-print-btn, .navbar,
-  .page-header .btn, .page-header button { display: none !important; }
+  body { background: #fff !important; color: #111 !important; }
 
+  .bracket-tab, .predictor-bar, .bracket-print-btn, .navbar,
+  .page-header .btn, .page-header button,
+  .scroll-top-btn, .gchat-fab { display: none !important; }
+
+  /* Override inline gridTemplateColumns so columns shrink-to-fit the page */
   .bracket-wrap { overflow: visible !important; padding: 0 !important; }
-  .bracket-grid { min-width: 0 !important; }
-  .bracket-match { border-color: #ccc !important; background: #fff !important; break-inside: avoid; }
-  .bm-meta  { color: #888 !important; border-bottom-color: #eee !important; }
-  .bm-team  { border-bottom-color: #eee !important; color: #111 !important; }
+  .bracket-grid {
+    min-width: 0 !important;
+    width: 100% !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+    gap: 0 10px !important;
+  }
+
+  /* Compact match cards */
+  .bracket-match {
+    border-color: #ccc !important;
+    background: #fff !important;
+    break-inside: avoid;
+  }
+  .bm-meta  { color: #888 !important; border-bottom-color: #eee !important; font-size: 0.5rem !important; }
+  .bm-team  { border-bottom-color: #eee !important; color: #111 !important; padding: 4px 8px !important; }
+  .bm-name  { font-size: 0.65rem !important; }
   .bm-score { color: #b08000 !important; }
-  .bracket-col-label { color: #666 !important; border-bottom-color: #ccc !important; }
+  .bracket-col-label { color: #666 !important; border-bottom-color: #ccc !important; font-size: 0.55rem !important; }
   .bracket-match.final-match { border-color: #b08000 !important; }
   .section-title { color: #555 !important; border-bottom-color: #ccc !important; }
   .page-header h1 { color: #111 !important; }
   .page-header p  { color: #666 !important; }
-
-  @page { size: A3 landscape; margin: 8mm; }
 }
 
 /* ── Home: compact section & facts ──────────────────────────────────────────── */
@@ -3338,5 +3354,4 @@ img { display: block; max-width: 100%; }
   .scroll-top-btn { right: 1rem; bottom: 5.25rem; }
   .gchat-fab { right: 1rem; padding: 0 14px 0 11px; }
   .gchat-fab-text { font-size: 0.72rem; }
-}
 }

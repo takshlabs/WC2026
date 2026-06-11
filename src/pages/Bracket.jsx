@@ -43,6 +43,22 @@ export default function Bracket() {
     savePredictions({})
   }
 
+  function printLandscape() {
+    const styleId = 'bracket-landscape-page'
+    if (!document.getElementById(styleId)) {
+      const s = document.createElement('style')
+      s.id = styleId
+      s.textContent = '@page { size: landscape; margin: 8mm; }'
+      document.head.appendChild(s)
+    }
+    window.print()
+    const cleanup = () => {
+      document.getElementById(styleId)?.remove()
+      window.removeEventListener('afterprint', cleanup)
+    }
+    window.addEventListener('afterprint', cleanup)
+  }
+
   const filledCount = Object.values(predictions).reduce(
     (n, p) => n + (p.home ? 1 : 0) + (p.away ? 1 : 0), 0
   )
@@ -66,7 +82,7 @@ export default function Bracket() {
                 {t === 'live' ? '📡 Live' : '🔮 Predict'}
               </button>
             ))}
-            <button className="bracket-tab bracket-print-btn" onClick={() => window.print()}>🖨 Print</button>
+            <button className="bracket-tab bracket-print-btn" onClick={printLandscape}>🖨 Print</button>
           </div>
         </div>
       </div>
