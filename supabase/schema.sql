@@ -250,7 +250,7 @@ begin
   perform public.ensure_profile();
 
   loop
-    v_code := upper(substr(md5(random()::text), 1, 6));
+    v_code := upper(substr(md5(random()::text), 1, 7));
     exit when not exists (select 1 from public.leagues where invite_code = v_code);
   end loop;
 
