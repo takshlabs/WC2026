@@ -191,6 +191,7 @@ function PredictMatch({ m, isFinal, predictions, editSlot, setEditSlot, searchQ,
   const editingAway = editSlot?.matchId === m.id && editSlot.side === 'away'
 
   function getSlotTeams(label) {
+    if (!isR32 && !searchQ.trim()) return []
     let pool = ALL_TEAM_CODES
     if (isR32 && label) {
       const groups = label.match(/[A-L]/g) || []
