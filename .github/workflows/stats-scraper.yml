@@ -1,15 +1,18 @@
-name: Scrape WC2026 Stats
+name: Compute WC2026 Stats
 
 on:
   schedule:
-    - cron: '0 */12 * * *'   # every 12 hours
-  workflow_dispatch:           # manual trigger
+    - cron: '15 */6 * * *'    # every 6 hours (offset from live-scores cron)
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Update Live Scores"]
+    types: [completed]
 
 permissions:
   contents: write
 
 jobs:
-  scrape:
+  compute:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout gh-pages
@@ -18,128 +21,144 @@ jobs:
           ref: gh-pages
 
       - name: Install Python deps
-        run: pip install requests beautifulsoup4 lxml -q
+        run: pip install requests -q
 
-      - name: Scrape FBRef WC2026 stats
+      - name: Build wc2026-stats.json
         run: |
           python3 << 'PYEOF'
-          import requests, json, re, time, sys
+          import requests, json, time, sys
           from datetime import datetime
-          from bs4 import BeautifulSoup, Comment
 
-          HEADERS = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
-            'Accept-Language': 'en-US,en;q=0.9',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'Cache-Control': 'no-cache',
-          }
+          # ── 1. Team stats — computed from live-scores.json (always reliable) ──
+          team_stats = {}
 
-          def fetch(url):
-            r = requests.get(url, headers=HEADERS, timeout=30)
-            r.raise_for_status()
-            return r.text
+          def ensure_team(tla, name):
+              if tla not in team_stats:
+                  team_stats[tla] = {'tla': tla, 'name': name, 'mp': 0, 'w': 0, 'd': 0, 'l': 0, 'gf': 0, 'ga': 0}
+              return team_stats[tla]
 
-          def uncomment_soup(html):
-            """Parse HTML and surface any tables hidden inside HTML comments (FBRef lazy loading)."""
-            soup = BeautifulSoup(html, 'lxml')
-            for comment in soup.find_all(string=lambda t: isinstance(t, Comment)):
-              inner = BeautifulSoup(str(comment), 'lxml')
-              if inner.find('table'):
-                comment.replace_with(inner)
-            return soup
+          try:
+              with open('live-scores.json') as f:
+                  raw = json.load(f)
+              for m in raw.get('matches', []):
+                  if m.get('status') not in ('FINISHED',):
+                      continue
+                  ht = m.get('homeTeam', {})
+                  at = m.get('awayTeam', {})
+                  h_tla  = ht.get('tla') or ht.get('shortName', '?')
+                  a_tla  = at.get('tla') or at.get('shortName', '?')
+                  h_name = ht.get('name', h_tla)
+                  a_name = at.get('name', a_tla)
+                  ft = (m.get('score') or {}).get('fullTime') or {}
+                  hg = ft.get('home') or 0
+                  ag = ft.get('away') or 0
+                  winner = (m.get('score') or {}).get('winner', '')
 
-          def stat(row, name):
-            cell = row.find(['td', 'th'], {'data-stat': name})
-            return cell.get_text(strip=True) if cell else ''
+                  h = ensure_team(h_tla, h_name)
+                  a = ensure_team(a_tla, a_name)
+                  h['mp'] += 1;  a['mp'] += 1
+                  h['gf'] += hg; h['ga'] += ag
+                  a['gf'] += ag; a['ga'] += hg
+                  if winner == 'HOME_TEAM': h['w'] += 1; a['l'] += 1
+                  elif winner == 'AWAY_TEAM': a['w'] += 1; h['l'] += 1
+                  else: h['d'] += 1; a['d'] += 1
 
-          def numstat(row, name):
-            v = stat(row, name)
-            try: return int(v)
-            except:
-              try: return float(v)
-              except: return 0
+              print(f'Team stats: {len(team_stats)} teams from live-scores.json')
+          except Exception as e:
+              print(f'WARNING team stats: {e}', file=sys.stderr)
 
-          # ── 1. Player standard stats ──────────────────────────────────────────
+          team_list = sorted(team_stats.values(), key=lambda t: (t['gf'], t['w']), reverse=True)
+
+          # ── 2. Player stats — Sofascore unofficial API ────────────────────────
           players = []
-          try:
-            print('Fetching player stats...')
-            html = fetch('https://fbref.com/en/comps/1/stats/FIFA-World-Cup-Stats')
-            soup = uncomment_soup(html)
-            table = soup.find('table', id=re.compile(r'stats_standard'))
-            if table:
-              for row in table.find('tbody').find_all('tr'):
-                classes = row.get('class') or []
-                if any(c in classes for c in ('thead', 'spacer', 'partial_table')):
-                  continue
-                name = stat(row, 'player')
-                if not name:
-                  continue
-                players.append({
-                  'name':    name,
-                  'team':    stat(row, 'team'),
-                  'pos':     stat(row, 'position'),
-                  'mp':      numstat(row, 'games'),
-                  'goals':   numstat(row, 'goals'),
-                  'assists': numstat(row, 'assists'),
-                  'yc':      numstat(row, 'yellow_cards'),
-                  'rc':      numstat(row, 'red_cards'),
-                })
-              players.sort(key=lambda x: (x['goals'], x['assists']), reverse=True)
-              print(f'  → {len(players)} players scraped')
-            else:
-              print('  WARNING: standard stats table not found', file=sys.stderr)
-            time.sleep(6)
-          except Exception as e:
-            print(f'  ERROR player stats: {e}', file=sys.stderr)
+          source  = 'live-scores.json'
 
-          # ── 2. Team / squad stats ─────────────────────────────────────────────
-          team_stats = []
+          SS_HDR = {
+              'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
+              'Referer':    'https://www.sofascore.com/',
+              'Accept':     'application/json, text/plain, */*',
+              'Accept-Language': 'en-US,en;q=0.9',
+              'Origin':     'https://www.sofascore.com',
+          }
+          SS = 'https://api.sofascore.com/api/v1'
+
+          def ss_get(path):
+              r = requests.get(f'{SS}{path}', headers=SS_HDR, timeout=20)
+              r.raise_for_status()
+              return r.json()
+
           try:
-            print('Fetching team stats...')
-            html2 = fetch('https://fbref.com/en/comps/1/FIFA-World-Cup-Stats')
-            soup2 = uncomment_soup(html2)
-            # Try squad standard stats table (for/against)
-            sq_table = (
-              soup2.find('table', id=re.compile(r'stats_squads_standard_for')) or
-              soup2.find('table', id=re.compile(r'stats_squads_standard'))     or
-              soup2.find('table', id=re.compile(r'stats_squads'))
-            )
-            if sq_table:
-              for row in sq_table.find('tbody').find_all('tr'):
-                classes = row.get('class') or []
-                if any(c in classes for c in ('thead', 'spacer', 'partial_table')):
-                  continue
-                squad = stat(row, 'team') or stat(row, 'squad')
-                if not squad:
-                  continue
-                team_stats.append({
-                  'name':    squad,
-                  'mp':      numstat(row, 'games'),
-                  'goals':   numstat(row, 'goals'),
-                  'assists': numstat(row, 'assists'),
-                  'shots':   numstat(row, 'shots'),
-                  'sot':     numstat(row, 'shots_on_target'),
-                  'xg':      numstat(row, 'xg'),
-                })
-              team_stats.sort(key=lambda x: (x['goals'], x['shots']), reverse=True)
-              print(f'  → {len(team_stats)} teams scraped')
-            else:
-              print('  WARNING: squad stats table not found', file=sys.stderr)
+              # Discover current WC 2026 season ID
+              seasons_data = ss_get('/unique-tournament/16/seasons')
+              seasons = seasons_data.get('seasons', [])
+              # Take the season with highest year (most recent = WC 2026)
+              season = max(seasons, key=lambda s: s.get('year', 0) or int(str(s.get('name', '0'))[:4] or 0))
+              season_id = season['id']
+              print(f'Sofascore WC season id={season_id}  name={season.get("name")}')
+              time.sleep(1)
+
+              # Top scorers
+              goals_data = ss_get(f'/unique-tournament/16/season/{season_id}/top-players/goals')
+              seen = {}
+              for item in goals_data.get('topPlayers', []):
+                  p = item.get('player', {})
+                  s = item.get('statistics', {})
+                  name = p.get('name') or p.get('shortName', '')
+                  if not name: continue
+                  team = p.get('team', {}).get('name', '')
+                  seen[name] = {
+                      'name':    name,
+                      'team':    team,
+                      'pos':     p.get('position', ''),
+                      'mp':      s.get('appearances', 0),
+                      'goals':   s.get('goals', 0),
+                      'assists': s.get('goalAssist', 0),
+                      'yc':      s.get('yellowCards', 0),
+                      'rc':      s.get('redCards', 0),
+                  }
+              time.sleep(1)
+
+              # Top assisters — merge in assist counts for players not yet in list
+              assists_data = ss_get(f'/unique-tournament/16/season/{season_id}/top-players/goalAssist')
+              for item in assists_data.get('topPlayers', []):
+                  p = item.get('player', {})
+                  s = item.get('statistics', {})
+                  name = p.get('name') or p.get('shortName', '')
+                  if not name: continue
+                  if name in seen:
+                      seen[name]['assists'] = max(seen[name]['assists'], s.get('goalAssist', 0))
+                  else:
+                      seen[name] = {
+                          'name':    name,
+                          'team':    p.get('team', {}).get('name', ''),
+                          'pos':     p.get('position', ''),
+                          'mp':      s.get('appearances', 0),
+                          'goals':   s.get('goals', 0),
+                          'assists': s.get('goalAssist', 0),
+                          'yc':      s.get('yellowCards', 0),
+                          'rc':      s.get('redCards', 0),
+                      }
+
+              players = sorted(seen.values(), key=lambda x: (x['goals'], x['assists']), reverse=True)
+              source  = 'sofascore.com'
+              print(f'Player stats: {len(players)} players from Sofascore')
+
           except Exception as e:
-            print(f'  ERROR team stats: {e}', file=sys.stderr)
+              print(f'WARNING Sofascore failed: {e}', file=sys.stderr)
+              print('Player stats will be empty this run.', file=sys.stderr)
 
           # ── 3. Write output ───────────────────────────────────────────────────
-          data = {
-            'updated':    datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
-            'source':     'fbref.com',
-            'topScorers': players[:25],
-            'teamStats':  team_stats[:32],
+          result = {
+              'updated':    datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
+              'source':     source,
+              'topScorers': players[:25],
+              'teamStats':  team_list[:32],
           }
 
           with open('wc2026-stats.json', 'w') as f:
-            json.dump(data, f, indent=2)
+              json.dump(result, f, indent=2)
 
-          print(f'wc2026-stats.json written — {len(players)} players, {len(team_stats)} teams')
+          print(f'wc2026-stats.json written — {len(players)} players, {len(team_list)} teams')
           PYEOF
 
       - name: Commit and push if changed

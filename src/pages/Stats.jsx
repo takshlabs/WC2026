@@ -129,6 +129,8 @@ const FBREF_OVERRIDES = {
 }
 function codeByName(name) {
   if (!name) return null
+  // Direct 3-letter code match first (e.g. "USA", "MEX")
+  if (TEAMS[name.toUpperCase()]) return name.toUpperCase()
   const lower = name.toLowerCase()
   return FBREF_OVERRIDES[lower] || TEAM_BY_NAME[lower] || null
 }
@@ -150,10 +152,10 @@ function WC2026Tab() {
       <div className="wc-live-section" style={{ padding: '2rem', textAlign: 'center' }}>
         <div className="wc-live-badge" style={{ margin: '0 auto 1rem' }}>WC2026 LIVE STATS</div>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-3)' }}>
-          Stats are scraped from FBRef every 12 hours via GitHub Actions.
+          Player stats via Sofascore · Team stats computed from match scores · Updated every 6 h.
         </p>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-3)', marginTop: 4 }}>
-          {error ? `Error: ${error}` : 'No data yet — check back after the next scraper run.'}
+          {error ? `Error: ${error}` : 'No data yet — check back after the first GitHub Actions run.'}
         </p>
       </div>
     )
@@ -178,8 +180,8 @@ function WC2026Tab() {
           </span>
         </div>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', color: 'var(--text-3)', display: 'flex', gap: 12, alignItems: 'center' }}>
-          {updatedAt && <span>Updated {updatedAt} UTC</span>}
-          <span>Source: <a href="https://fbref.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-2)' }}>FBRef</a> · every 12 h</span>
+          {updatedAt && <span>Updated {updatedAt}</span>}
+          <span>Players: <a href="https://www.sofascore.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-2)' }}>Sofascore</a> · Teams: match data · 6 h</span>
         </div>
       </div>
 
@@ -256,17 +258,21 @@ function WC2026Tab() {
                     <th style={{ paddingLeft: 10 }}>#</th>
                     <th style={{ textAlign: 'left' }}>Team</th>
                     <th title="Matches played">MP</th>
-                    <th title="Goals" style={{ color: 'var(--gold)' }}>G</th>
-                    <th title="Assists">A</th>
-                    <th title="Shots">Sh</th>
-                    <th title="Shots on target">SoT</th>
-                    <th title="Expected goals (xG)">xG</th>
+                    <th title="Wins">W</th>
+                    <th title="Draws">D</th>
+                    <th title="Losses">L</th>
+                    <th title="Goals for" style={{ color: 'var(--gold)' }}>GF</th>
+                    <th title="Goals against">GA</th>
+                    <th title="Goal difference">GD</th>
                   </tr>
                 </thead>
                 <tbody>
                   {teams.map((t, i) => {
-                    const code = codeByName(t.name)
+                    const code = codeByName(t.tla || t.name) || codeByName(t.name)
                     const team = code ? TEAMS[code] : null
+                    const gf = t.gf ?? t.goals ?? 0
+                    const ga = t.ga ?? t.conceded ?? 0
+                    const gd = gf - ga
                     return (
                       <tr key={`${t.name}-${i}`}>
                         <td style={{ paddingLeft: 10, color: 'var(--text-3)', fontFamily: 'var(--font-mono)', fontSize: '0.7rem' }}>{i + 1}</td>
@@ -277,11 +283,12 @@ function WC2026Tab() {
                           </span>
                         </td>
                         <td style={{ color: 'var(--text-3)', fontFamily: 'var(--font-mono)' }}>{t.mp || 0}</td>
-                        <td style={{ fontWeight: 700, color: t.goals > 0 ? 'var(--gold)' : 'var(--text-3)', fontFamily: 'var(--font-mono)' }}>{t.goals || 0}</td>
-                        <td style={{ color: t.assists > 0 ? 'var(--text)' : 'var(--text-3)', fontFamily: 'var(--font-mono)' }}>{t.assists || 0}</td>
-                        <td style={{ color: 'var(--text-2)', fontFamily: 'var(--font-mono)' }}>{t.shots || 0}</td>
-                        <td style={{ color: 'var(--text-2)', fontFamily: 'var(--font-mono)' }}>{t.sot || 0}</td>
-                        <td style={{ color: 'var(--text-3)', fontFamily: 'var(--font-mono)', fontSize: '0.68rem' }}>{t.xg ? t.xg.toFixed(1) : '—'}</td>
+                        <td style={{ color: (t.w||0) > 0 ? 'var(--green)' : 'var(--text-3)', fontFamily: 'var(--font-mono)' }}>{t.w || 0}</td>
+                        <td style={{ color: 'var(--text-3)', fontFamily: 'var(--font-mono)' }}>{t.d || 0}</td>
+                        <td style={{ color: (t.l||0) > 0 ? 'var(--red)' : 'var(--text-3)', fontFamily: 'var(--font-mono)' }}>{t.l || 0}</td>
+                        <td style={{ fontWeight: 700, color: gf > 0 ? 'var(--gold)' : 'var(--text-3)', fontFamily: 'var(--font-mono)' }}>{gf}</td>
+                        <td style={{ color: ga > 0 ? 'var(--text-2)' : 'var(--text-3)', fontFamily: 'var(--font-mono)' }}>{ga}</td>
+                        <td style={{ color: gd > 0 ? 'var(--green)' : gd < 0 ? 'var(--red)' : 'var(--text-3)', fontFamily: 'var(--font-mono)', fontWeight: gd !== 0 ? 600 : 400 }}>{gd > 0 ? `+${gd}` : gd}</td>
                       </tr>
                     )
                   })}
