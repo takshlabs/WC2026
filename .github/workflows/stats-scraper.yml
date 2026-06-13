@@ -20,13 +20,10 @@ jobs:
         with:
           ref: gh-pages
 
-      - name: Install Python deps
-        run: pip install requests -q
-
       - name: Build wc2026-stats.json
         run: |
           python3 << 'PYEOF'
-          import requests, json, time, sys
+          import json, sys, os
           from datetime import datetime
 
           # ── 1. Team stats — computed from live-scores.json (always reliable) ──
@@ -37,6 +34,7 @@ jobs:
                   team_stats[tla] = {'tla': tla, 'name': name, 'mp': 0, 'w': 0, 'd': 0, 'l': 0, 'gf': 0, 'ga': 0}
               return team_stats[tla]
 
+          raw = None
           try:
               with open('live-scores.json') as f:
                   raw = json.load(f)
@@ -69,96 +67,82 @@ jobs:
 
           team_list = sorted(team_stats.values(), key=lambda t: (t['gf'], t['w']), reverse=True)
 
-          # ── 2. Player stats — Sofascore unofficial API ────────────────────────
-          players = []
-          source  = 'live-scores.json'
-
-          SS_HDR = {
-              'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
-              'Referer':    'https://www.sofascore.com/',
-              'Accept':     'application/json, text/plain, */*',
-              'Accept-Language': 'en-US,en;q=0.9',
-              'Origin':     'https://www.sofascore.com',
-          }
-          SS = 'https://api.sofascore.com/api/v1'
-
-          def ss_get(path):
-              r = requests.get(f'{SS}{path}', headers=SS_HDR, timeout=20)
-              r.raise_for_status()
-              return r.json()
+          # ── 2. Player stats — aggregated from ESPN events in live-scores.json ──
+          # ESPN match events (goals + bookings) are embedded in live-scores.json
+          # by the live-scores workflow (Step 3 merge). No external API needed.
+          players = {}
 
           try:
-              # Discover current WC 2026 season ID
-              seasons_data = ss_get('/unique-tournament/16/seasons')
-              seasons = seasons_data.get('seasons', [])
-              # Take the season with highest year (most recent = WC 2026)
-              season = max(seasons, key=lambda s: s.get('year', 0) or int(str(s.get('name', '0'))[:4] or 0))
-              season_id = season['id']
-              print(f'Sofascore WC season id={season_id}  name={season.get("name")}')
-              time.sleep(1)
+              if raw is None:
+                  with open('live-scores.json') as f:
+                      raw = json.load(f)
 
-              # Top scorers
-              goals_data = ss_get(f'/unique-tournament/16/season/{season_id}/top-players/goals')
-              seen = {}
-              for item in goals_data.get('topPlayers', []):
-                  p = item.get('player', {})
-                  s = item.get('statistics', {})
-                  name = p.get('name') or p.get('shortName', '')
-                  if not name: continue
-                  team = p.get('team', {}).get('name', '')
-                  seen[name] = {
-                      'name':    name,
-                      'team':    team,
-                      'pos':     p.get('position', ''),
-                      'mp':      s.get('appearances', 0),
-                      'goals':   s.get('goals', 0),
-                      'assists': s.get('goalAssist', 0),
-                      'yc':      s.get('yellowCards', 0),
-                      'rc':      s.get('redCards', 0),
+              for m in raw.get('matches', []):
+                  if m.get('status') != 'FINISHED':
+                      continue
+
+                  ht = m.get('homeTeam', {})
+                  at = m.get('awayTeam', {})
+                  team_names = {
+                      ht.get('id'): ht.get('name', ''),
+                      at.get('id'): at.get('name', ''),
                   }
-              time.sleep(1)
 
-              # Top assisters — merge in assist counts for players not yet in list
-              assists_data = ss_get(f'/unique-tournament/16/season/{season_id}/top-players/goalAssist')
-              for item in assists_data.get('topPlayers', []):
-                  p = item.get('player', {})
-                  s = item.get('statistics', {})
-                  name = p.get('name') or p.get('shortName', '')
-                  if not name: continue
-                  if name in seen:
-                      seen[name]['assists'] = max(seen[name]['assists'], s.get('goalAssist', 0))
-                  else:
-                      seen[name] = {
-                          'name':    name,
-                          'team':    p.get('team', {}).get('name', ''),
-                          'pos':     p.get('position', ''),
-                          'mp':      s.get('appearances', 0),
-                          'goals':   s.get('goals', 0),
-                          'assists': s.get('goalAssist', 0),
-                          'yc':      s.get('yellowCards', 0),
-                          'rc':      s.get('redCards', 0),
-                      }
+                  for goal in m.get('goals', []):
+                      scorer = goal.get('scorer', {})
+                      s_name = scorer.get('name') or scorer.get('shortName', '')
+                      if s_name:
+                          tid   = goal.get('team', {}).get('id')
+                          tname = team_names.get(tid, '')
+                          if s_name not in players:
+                              players[s_name] = {'name': s_name, 'team': tname, 'goals': 0, 'assists': 0, 'yc': 0, 'rc': 0, 'mp': 0}
+                          # Own goals count in match score but not for scorer's tally
+                          if goal.get('type') != 'OWN_GOAL':
+                              players[s_name]['goals'] += 1
 
-              players = sorted(seen.values(), key=lambda x: (x['goals'], x['assists']), reverse=True)
-              source  = 'sofascore.com'
-              print(f'Player stats: {len(players)} players from Sofascore')
+                      assist = goal.get('assist')
+                      if assist:
+                          a_name = assist.get('name') or assist.get('shortName', '')
+                          if a_name:
+                              tid   = goal.get('team', {}).get('id')
+                              tname = team_names.get(tid, '')
+                              if a_name not in players:
+                                  players[a_name] = {'name': a_name, 'team': tname, 'goals': 0, 'assists': 0, 'yc': 0, 'rc': 0, 'mp': 0}
+                              players[a_name]['assists'] += 1
+
+                  for booking in m.get('bookings', []):
+                      player = booking.get('player', {})
+                      p_name = player.get('name') or player.get('shortName', '')
+                      if p_name:
+                          tid   = booking.get('team', {}).get('id')
+                          tname = team_names.get(tid, '')
+                          if p_name not in players:
+                              players[p_name] = {'name': p_name, 'team': tname, 'goals': 0, 'assists': 0, 'yc': 0, 'rc': 0, 'mp': 0}
+                          card = booking.get('card', '')
+                          if card in ('YELLOW_RED_CARD', 'RED_CARD'):
+                              players[p_name]['rc'] += 1
+                          elif card == 'YELLOW_CARD':
+                              players[p_name]['yc'] += 1
+
+              players_list = sorted(players.values(), key=lambda x: (x['goals'], x['assists']), reverse=True)
+              print(f'Player stats: {len(players_list)} players from live-scores.json events')
 
           except Exception as e:
-              print(f'WARNING Sofascore failed: {e}', file=sys.stderr)
-              print('Player stats will be empty this run.', file=sys.stderr)
+              print(f'WARNING player stats: {e}', file=sys.stderr)
+              players_list = []
 
           # ── 3. Write output ───────────────────────────────────────────────────
           result = {
               'updated':    datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
-              'source':     source,
-              'topScorers': players[:25],
+              'source':     'live-scores.json (ESPN events)',
+              'topScorers': players_list[:25],
               'teamStats':  team_list[:32],
           }
 
           with open('wc2026-stats.json', 'w') as f:
               json.dump(result, f, indent=2)
 
-          print(f'wc2026-stats.json written — {len(players)} players, {len(team_list)} teams')
+          print(f'wc2026-stats.json written — {len(players_list)} players, {len(team_list)} teams')
           PYEOF
 
       - name: Commit and push if changed

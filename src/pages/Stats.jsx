@@ -152,7 +152,7 @@ function WC2026Tab() {
       <div className="wc-live-section" style={{ padding: '2rem', textAlign: 'center' }}>
         <div className="wc-live-badge" style={{ margin: '0 auto 1rem' }}>WC2026 LIVE STATS</div>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-3)' }}>
-          Player stats via Sofascore · Team stats computed from match scores · Updated every 6 h.
+          Player stats via ESPN match events · Team stats computed from match scores · Updated every 6 h.
         </p>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-3)', marginTop: 4 }}>
           {error ? `Error: ${error}` : 'No data yet — check back after the first GitHub Actions run.'}
@@ -181,7 +181,7 @@ function WC2026Tab() {
         </div>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', color: 'var(--text-3)', display: 'flex', gap: 12, alignItems: 'center' }}>
           {updatedAt && <span>Updated {updatedAt}</span>}
-          <span>Players: <a href="https://www.sofascore.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-2)' }}>Sofascore</a> · Teams: match data · 6 h</span>
+          <span>Players: ESPN match events · Teams: match data · 6 h</span>
         </div>
       </div>
 
