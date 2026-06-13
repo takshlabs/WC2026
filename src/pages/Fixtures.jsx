@@ -3,7 +3,7 @@ import { MATCHES, TEAMS, VENUES } from '../data'
 import { convertTime, groupColor, roundLabel } from '../utils'
 import { useApp } from '../App'
 import FlagImg from '../components/FlagImg'
-import { useMatchReactions, REACTIONS } from '../hooks/useMatchReactions'
+import MatchFacts from '../components/MatchFacts'
 
 const GROUPS = ['A','B','C','D','E','F','G','H','I','J','K','L']
 const ROUNDS  = [
@@ -214,24 +214,12 @@ export default function Fixtures() {
   )
 }
 
-function MatchEventBadge({ event }) {
-  const minStr = event.injTime ? `${event.minute}+${event.injTime}'` : `${event.minute}'`
-  if (event.card) {
-    const icon = event.card === 'RED_CARD' || event.card === 'YELLOW_RED_CARD' ? '🟥' : '🟨'
-    return <span className="fx-event-item">{icon} {minStr} {event.player}</span>
-  }
-  const icon = event.type === 'OWN_GOAL' ? '⚽ OG' : event.type === 'PENALTY' ? '⚽ P' : '⚽'
-  const assistStr = event.assist ? ` (${event.assist})` : ''
-  return <span className="fx-event-item">{icon} {minStr} {event.player}{assistStr}</span>
-}
-
 function MatchRow({ m, focus }) {
   const { setTeamModal, myTeams, toggleMyTeam } = useApp()
   const homeT = TEAMS[m.home]
   const awayT = TEAMS[m.away]
   const v     = VENUES[m.venue]
   const live  = m.live
-  const { counts, react } = useMatchReactions(m.id, live?.status === 'live')
   const hs    = live?.homeScore ?? m.homeScore
   const as_   = live?.awayScore ?? m.awayScore
   const isLive     = live?.status === 'live'
@@ -239,18 +227,21 @@ function MatchRow({ m, focus }) {
   const isFocus = focus && (m.home === focus || m.away === focus)
   const color   = m.group ? groupColor(m.group) : 'var(--border-2)'
 
-  const hasEvents = (live?.goals?.length > 0 || live?.bookings?.length > 0)
-  const homeEvents = (isLive || isFinished) && hasEvents
-    ? [...(live.goals || []).filter(g => g.side === 'home'), ...(live.bookings || []).filter(b => b.side === 'home')]
-        .sort((a, b) => a.minute - b.minute)
-    : []
-  const awayEvents = (isLive || isFinished) && hasEvents
-    ? [...(live.goals || []).filter(g => g.side === 'away'), ...(live.bookings || []).filter(b => b.side === 'away')]
-        .sort((a, b) => a.minute - b.minute)
-    : []
+  const recentCutoff = Date.now() - 36 * 60 * 60 * 1000
+  const matchTime = new Date(`${m.date}T${m.time}:00Z`).getTime()
+  const isRecent = isFinished && matchTime > recentCutoff
+  const canExpand = !!(live?.goals?.length > 0 || live?.bookings?.length > 0)
+  const autoExpand = (isLive || isRecent) && canExpand
+  const [expanded, setExpanded] = useState(autoExpand)
+
+  useEffect(() => { if (autoExpand) setExpanded(true) }, [autoExpand])
 
   return (
-    <div className={`fx-row${isLive ? ' is-live' : ''}${isFocus ? ' is-focus' : ''}`}>
+    <div
+      className={`fx-row${isLive ? ' is-live' : ''}${isFocus ? ' is-focus' : ''}${canExpand ? ' is-expandable' : ''}`}
+      onClick={() => canExpand && setExpanded(prev => !prev)}
+      style={{ cursor: canExpand ? 'pointer' : 'default' }}
+    >
       <div className="fx-accent" style={{ background: color }} />
       <div className="fx-time">
         {isLive
@@ -265,7 +256,10 @@ function MatchRow({ m, focus }) {
             onClick={e => { e.stopPropagation(); toggleMyTeam(m.home) }}
             title={myTeams.includes(m.home) ? 'Unwatch' : 'Watch team'}>★</button>
         )}
-        <span onClick={() => homeT && setTeamModal(m.home)} style={{ display:'inline-flex', alignItems:'center', gap:5, cursor: homeT ? 'pointer' : 'default' }}>
+        <span
+          onClick={e => { e.stopPropagation(); homeT && setTeamModal(m.home) }}
+          style={{ display:'inline-flex', alignItems:'center', gap:5, cursor: homeT ? 'pointer' : 'default' }}
+        >
           {homeT && <FlagImg code={m.home} size={16} />}
           {homeT ? homeT.name : (m.homeLabel || 'TBD')}
         </span>
@@ -276,7 +270,10 @@ function MatchRow({ m, focus }) {
           : <span className="fx-vs">vs</span>}
       </div>
       <div className={`fx-team away${!awayT ? ' tbd' : ''}`}>
-        <span onClick={() => awayT && setTeamModal(m.away)} style={{ display:'inline-flex', alignItems:'center', gap:5, cursor: awayT ? 'pointer' : 'default' }}>
+        <span
+          onClick={e => { e.stopPropagation(); awayT && setTeamModal(m.away) }}
+          style={{ display:'inline-flex', alignItems:'center', gap:5, cursor: awayT ? 'pointer' : 'default' }}
+        >
           {awayT ? awayT.name : (m.awayLabel || 'TBD')}
           {awayT && <FlagImg code={m.away} size={16} />}
         </span>
@@ -293,24 +290,9 @@ function MatchRow({ m, focus }) {
         {m.md === 3 && m.group && <span className="badge badge-simul">SIM</span>}
         {!m.group && <span className="badge badge-round">{m.matchLabel}</span>}
       </div>
-      {isLive && (
-        <div className="fx-reactions">
-          {REACTIONS.map(({ key, emoji }) => (
-            <button key={key} className="rx-btn" onClick={() => react(key)}>
-              {emoji}<span className="rx-count">{counts[key] ? ` ${counts[key]}` : ''}</span>
-            </button>
-          ))}
-          <span className="rx-label">React</span>
-        </div>
-      )}
-      {(homeEvents.length > 0 || awayEvents.length > 0) && (
-        <div className="fx-events">
-          <div className="fx-events-home">
-            {homeEvents.map((e, i) => <MatchEventBadge key={i} event={e} />)}
-          </div>
-          <div className="fx-events-away">
-            {awayEvents.map((e, i) => <MatchEventBadge key={i} event={e} />)}
-          </div>
+      {expanded && canExpand && (
+        <div className="fx-facts">
+          <MatchFacts live={live} />
         </div>
       )}
     </div>

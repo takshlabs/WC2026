@@ -2,17 +2,20 @@ import React, { useState, lazy, Suspense } from 'react'
 import { TEAMS, WC_HISTORY, VENUES } from '../data'
 import { groupColor, calcStandings } from '../utils'
 import { useApp } from '../App'
+import { useWC2026Stats } from '../hooks/useWC2026Stats'
+import FlagImg from '../components/FlagImg'
 
 // Lazy load ECharts - only bundle it if Stats tab is visited
 const ReactECharts = lazy(() => import('echarts-for-react'))
 
 const TABS = [
-  { id: 'players',     label: 'Players'      },
-  { id: 'rankings',    label: 'Team Rankings'},
-  { id: 'history',     label: 'WC History'   },
-  { id: 'groups',      label: 'Groups'       },
-  { id: 'venues',      label: 'Venues'       },
-  { id: 'continental', label: 'Continental'  },
+  { id: 'wc2026',      label: 'WC2026',       live: true  },
+  { id: 'players',     label: 'Players'                   },
+  { id: 'rankings',    label: 'Team Rankings'             },
+  { id: 'history',     label: 'WC History'                },
+  { id: 'groups',      label: 'Groups'                    },
+  { id: 'venues',      label: 'Venues'                    },
+  { id: 'continental', label: 'Continental'               },
 ]
 
 // Notable players at WC 2026 - career WC stats + tournament tracker
@@ -64,7 +67,7 @@ const CHART_TIP = {
 
 export default function Stats() {
   const { liveMap } = useApp()
-  const [tab, setTab] = useState('rankings')
+  const [tab, setTab] = useState('wc2026')
 
   return (
     <div className="container" style={{ paddingTop: '1.5rem' }}>
@@ -77,14 +80,16 @@ export default function Stats() {
           {TABS.map(t => (
             <button
               key={t.id}
-              className={`stats-tab${tab === t.id ? ' active' : ''}`}
+              className={`stats-tab${tab === t.id ? ' active' : ''}${t.live ? ' wc-live-tab' : ''}`}
               onClick={() => setTab(t.id)}
             >
+              {t.live && <span className="live-dot" style={{ marginRight: 5 }}/>}
               {t.label}
             </button>
           ))}
         </div>
 
+        {tab === 'wc2026' && <WC2026Tab />}
         <Suspense fallback={<div style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-3)', fontFamily: 'var(--font-mono)' }}>Loading charts…</div>}>
           {tab === 'players'     && <PlayersTab />}
           {tab === 'rankings'    && <RankingsTab />}
@@ -93,6 +98,199 @@ export default function Stats() {
           {tab === 'venues'      && <VenuesTab />}
           {tab === 'continental' && <ContinentalTab />}
         </Suspense>
+      </div>
+    </div>
+  )
+}
+
+// ── Reverse-lookup: FBRef team name → our 3-letter code ──────────────────────
+const TEAM_BY_NAME = {}
+Object.entries(TEAMS).forEach(([code, t]) => {
+  TEAM_BY_NAME[t.name.toLowerCase()] = code
+})
+// Common FBRef name differences
+const FBREF_OVERRIDES = {
+  'united states': 'USA', 'united states men\'s national soccer team': 'USA',
+  'south korea': 'KOR', 'korea republic': 'KOR',
+  'iran': 'IRN',
+  'netherlands': 'NED',
+  'germany': 'GER',
+  'portugal': 'POR',
+  'switzerland': 'SUI',
+  'south africa': 'RSA',
+  'côte d\'ivoire': 'CIV', 'ivory coast': 'CIV',
+  "dr congo": 'COD', 'democratic republic of the congo': 'COD',
+  'bosnia and herzegovina': 'BIH',
+  'czech republic': 'CZE', 'czechia': 'CZE',
+  'new zealand': 'NZL',
+  'saudi arabia': 'KSA',
+  'haiti': 'HAI',
+  'paraguay': 'PAR',
+}
+function codeByName(name) {
+  if (!name) return null
+  const lower = name.toLowerCase()
+  return FBREF_OVERRIDES[lower] || TEAM_BY_NAME[lower] || null
+}
+
+// ── WC2026 Live Stats ─────────────────────────────────────────────────────────
+function WC2026Tab() {
+  const { stats, loading, error } = useWC2026Stats()
+
+  if (loading) {
+    return (
+      <div style={{ padding: '3rem', textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-3)' }}>
+        Loading live stats…
+      </div>
+    )
+  }
+
+  if (error || !stats) {
+    return (
+      <div className="wc-live-section" style={{ padding: '2rem', textAlign: 'center' }}>
+        <div className="wc-live-badge" style={{ margin: '0 auto 1rem' }}>WC2026 LIVE STATS</div>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-3)' }}>
+          Stats are scraped from FBRef every 12 hours via GitHub Actions.
+        </p>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-3)', marginTop: 4 }}>
+          {error ? `Error: ${error}` : 'No data yet — check back after the next scraper run.'}
+        </p>
+      </div>
+    )
+  }
+
+  const updatedAt = stats.updated
+    ? new Date(stats.updated).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+    : null
+
+  const scorers = stats.topScorers || []
+  const teams   = stats.teamStats  || []
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+
+      {/* ── Header banner ─────────────────────────────────────────────────── */}
+      <div className="wc-live-section" style={{ padding: '14px 20px', display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <span className="wc-live-badge">LIVE STATS</span>
+          <span style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 700, color: 'var(--gold)', letterSpacing: '0.04em' }}>
+            FIFA World Cup 2026
+          </span>
+        </div>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', color: 'var(--text-3)', display: 'flex', gap: 12, alignItems: 'center' }}>
+          {updatedAt && <span>Updated {updatedAt} UTC</span>}
+          <span>Source: <a href="https://fbref.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-2)' }}>FBRef</a> · every 12 h</span>
+        </div>
+      </div>
+
+      <div className="charts-grid" style={{ alignItems: 'start' }}>
+
+        {/* ── Top Scorers ──────────────────────────────────────────────────── */}
+        <div className="chart-block">
+          <div className="chart-block-title" style={{ color: 'var(--gold)' }}>
+            <span>⚽ Top Scorers</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'var(--text-3)', marginLeft: 'auto' }}>{scorers.length} players</span>
+          </div>
+          {scorers.length === 0 ? (
+            <div style={{ padding: '1.5rem', textAlign: 'center', color: 'var(--text-3)', fontFamily: 'var(--font-mono)', fontSize: '0.7rem' }}>
+              No data yet
+            </div>
+          ) : (
+            <div style={{ overflowX: 'auto' }}>
+              <table className="standings-table" style={{ minWidth: 380 }}>
+                <thead>
+                  <tr>
+                    <th style={{ paddingLeft: 10 }}>#</th>
+                    <th style={{ textAlign: 'left' }}>Player</th>
+                    <th style={{ textAlign: 'left' }}>Team</th>
+                    <th title="Matches played">MP</th>
+                    <th title="Goals" style={{ color: 'var(--gold)' }}>G</th>
+                    <th title="Assists">A</th>
+                    <th title="Yellow cards">🟨</th>
+                    <th title="Red cards">🟥</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {scorers.map((p, i) => {
+                    const code = codeByName(p.team)
+                    const team = code ? TEAMS[code] : null
+                    return (
+                      <tr key={`${p.name}-${i}`}>
+                        <td style={{ paddingLeft: 10, color: 'var(--text-3)', fontFamily: 'var(--font-mono)', fontSize: '0.7rem' }}>{i + 1}</td>
+                        <td style={{ textAlign: 'left', fontWeight: 600, color: 'var(--text)' }}>{p.name}</td>
+                        <td style={{ textAlign: 'left' }}>
+                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: '0.72rem', color: 'var(--text-2)' }}>
+                            {code && <FlagImg code={code} size={13} />}
+                            {team?.name || p.team}
+                          </span>
+                        </td>
+                        <td style={{ color: 'var(--text-3)', fontFamily: 'var(--font-mono)' }}>{p.mp || 0}</td>
+                        <td style={{ fontWeight: 700, color: p.goals > 0 ? 'var(--gold)' : 'var(--text-3)', fontFamily: 'var(--font-mono)' }}>{p.goals || 0}</td>
+                        <td style={{ color: p.assists > 0 ? 'var(--text)' : 'var(--text-3)', fontFamily: 'var(--font-mono)' }}>{p.assists || 0}</td>
+                        <td style={{ color: p.yc > 0 ? '#D4A843' : 'var(--text-3)', fontFamily: 'var(--font-mono)' }}>{p.yc || 0}</td>
+                        <td style={{ color: p.rc > 0 ? 'var(--red)' : 'var(--text-3)', fontFamily: 'var(--font-mono)' }}>{p.rc || 0}</td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
+        {/* ── Team Stats ────────────────────────────────────────────────────── */}
+        <div className="chart-block">
+          <div className="chart-block-title" style={{ color: 'var(--gold)' }}>
+            <span>🏆 Team Stats</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'var(--text-3)', marginLeft: 'auto' }}>{teams.length} teams</span>
+          </div>
+          {teams.length === 0 ? (
+            <div style={{ padding: '1.5rem', textAlign: 'center', color: 'var(--text-3)', fontFamily: 'var(--font-mono)', fontSize: '0.7rem' }}>
+              No data yet
+            </div>
+          ) : (
+            <div style={{ overflowX: 'auto' }}>
+              <table className="standings-table" style={{ minWidth: 340 }}>
+                <thead>
+                  <tr>
+                    <th style={{ paddingLeft: 10 }}>#</th>
+                    <th style={{ textAlign: 'left' }}>Team</th>
+                    <th title="Matches played">MP</th>
+                    <th title="Goals" style={{ color: 'var(--gold)' }}>G</th>
+                    <th title="Assists">A</th>
+                    <th title="Shots">Sh</th>
+                    <th title="Shots on target">SoT</th>
+                    <th title="Expected goals (xG)">xG</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {teams.map((t, i) => {
+                    const code = codeByName(t.name)
+                    const team = code ? TEAMS[code] : null
+                    return (
+                      <tr key={`${t.name}-${i}`}>
+                        <td style={{ paddingLeft: 10, color: 'var(--text-3)', fontFamily: 'var(--font-mono)', fontSize: '0.7rem' }}>{i + 1}</td>
+                        <td style={{ textAlign: 'left' }}>
+                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                            {code && <FlagImg code={code} size={13} />}
+                            <span style={{ fontWeight: 600 }}>{team?.name || t.name}</span>
+                          </span>
+                        </td>
+                        <td style={{ color: 'var(--text-3)', fontFamily: 'var(--font-mono)' }}>{t.mp || 0}</td>
+                        <td style={{ fontWeight: 700, color: t.goals > 0 ? 'var(--gold)' : 'var(--text-3)', fontFamily: 'var(--font-mono)' }}>{t.goals || 0}</td>
+                        <td style={{ color: t.assists > 0 ? 'var(--text)' : 'var(--text-3)', fontFamily: 'var(--font-mono)' }}>{t.assists || 0}</td>
+                        <td style={{ color: 'var(--text-2)', fontFamily: 'var(--font-mono)' }}>{t.shots || 0}</td>
+                        <td style={{ color: 'var(--text-2)', fontFamily: 'var(--font-mono)' }}>{t.sot || 0}</td>
+                        <td style={{ color: 'var(--text-3)', fontFamily: 'var(--font-mono)', fontSize: '0.68rem' }}>{t.xg ? t.xg.toFixed(1) : '—'}</td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
       </div>
     </div>
   )

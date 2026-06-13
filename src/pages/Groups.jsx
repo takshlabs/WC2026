@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { TEAMS, MATCHES } from '../data'
 import { calcStandings, groupColor, convertTime } from '../utils'
 import { useApp } from '../App'
 import FlagImg from '../components/FlagImg'
+import MatchFacts from '../components/MatchFacts'
 
 const ALL_GROUPS = ['A','B','C','D','E','F','G','H','I','J','K','L']
 
@@ -78,6 +79,7 @@ function GroupCard({ group, liveMap, onTeamClick, onFixturesClick }) {
   }).length
 
   const statuses = qualifyStatus(rows, gsMatches.length, played, liveMap)
+  const hasLiveMatch = gsMatches.some(m => liveMap.get(m.id)?.status === 'live')
 
   return (
     <div className="group-section">
@@ -85,6 +87,7 @@ function GroupCard({ group, liveMap, onTeamClick, onFixturesClick }) {
         <div className="group-letter">
           <span style={{ background: color, width: 4, height: 18, borderRadius: 2, display: 'inline-block' }} />
           Group {group}
+          {hasLiveMatch && <span className="live-badge" style={{ fontSize: '0.5rem', marginLeft: 8 }}><span className="live-dot"/>LIVE</span>}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           {played > 0 && (
@@ -146,6 +149,26 @@ function GroupCard({ group, liveMap, onTeamClick, onFixturesClick }) {
 function GroupMatches({ group, liveMap, onTeamClick }) {
   const { tz, timeFormat } = useApp()
   const matches = MATCHES.filter(m => m.group === group)
+  const [expanded, setExpanded] = useState({})
+
+  useEffect(() => {
+    const recentCutoff = Date.now() - 36 * 60 * 60 * 1000
+    const autoExpand = {}
+    matches.forEach(m => {
+      const live = liveMap.get(m.id)
+      const isLive = live?.status === 'live'
+      const isFinished = live?.status === 'finished'
+      const matchTime = new Date(`${m.date}T${m.time}:00Z`).getTime()
+      const isRecent = isFinished && matchTime > recentCutoff
+      const canExpand = !!(live?.goals?.length > 0 || live?.bookings?.length > 0)
+      if ((isLive || isRecent) && canExpand) autoExpand[m.id] = true
+    })
+    if (Object.keys(autoExpand).length > 0) {
+      setExpanded(prev => ({ ...autoExpand, ...prev }))
+    }
+  }, [liveMap])
+
+  function toggle(id) { setExpanded(prev => ({ ...prev, [id]: !prev[id] })) }
 
   return (
     <div style={{ borderTop: '1px solid var(--border)' }}>
@@ -161,24 +184,48 @@ function GroupMatches({ group, liveMap, onTeamClick }) {
               const hs  = live?.homeScore ?? m.homeScore
               const as_ = live?.awayScore ?? m.awayScore
               const isLive = live?.status === 'live'
+              const isFinished = live?.status === 'finished'
               const homeT = TEAMS[m.home]
               const awayT = TEAMS[m.away]
               const conv  = convertTime(m.date, m.time, tz, timeFormat)
+              const canExpand = !!(live?.goals?.length > 0 || live?.bookings?.length > 0)
+              const isExpanded = !!expanded[m.id]
 
               return (
-                <div key={m.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 14px', borderBottom: '1px solid rgba(255,255,255,0.03)', fontSize: '0.78rem' }}>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.62rem', color: 'var(--text-3)', minWidth: 54 }}>
-                    {isLive ? <span className="live-badge" style={{ fontSize: '0.55rem' }}><span className="live-dot"/>LIVE</span> : `${conv.time}`}
-                  </span>
-                  <span style={{ cursor: 'pointer', flex: 1, display: 'inline-flex', alignItems: 'center', gap: 5 }} onClick={() => onTeamClick(m.home)}>
-                    <FlagImg code={m.home} size={14} />{homeT?.name}
-                  </span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: hs !== undefined ? 'var(--gold)' : 'var(--text-3)', minWidth: 36, textAlign: 'center' }}>
-                    {hs !== undefined ? `${hs}–${as_}` : 'vs'}
-                  </span>
-                  <span style={{ cursor: 'pointer', flex: 1, textAlign: 'right', display: 'inline-flex', alignItems: 'center', gap: 5, justifyContent: 'flex-end' }} onClick={() => onTeamClick(m.away)}>
-                    {awayT?.name}<FlagImg code={m.away} size={14} />
-                  </span>
+                <div key={m.id}
+                  style={{ borderBottom: '1px solid rgba(255,255,255,0.03)', cursor: canExpand ? 'pointer' : 'default' }}
+                  onClick={() => canExpand && toggle(m.id)}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 14px', fontSize: '0.78rem' }}>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.62rem', color: 'var(--text-3)', minWidth: 54 }}>
+                      {isLive
+                        ? <span className="live-badge" style={{ fontSize: '0.55rem' }}><span className="live-dot"/>LIVE</span>
+                        : isFinished
+                          ? <span style={{ color: 'var(--text-3)' }}>FT</span>
+                          : conv.time}
+                    </span>
+                    <span style={{ flex: 1, display: 'inline-flex', alignItems: 'center', gap: 5 }}
+                      onClick={e => { e.stopPropagation(); onTeamClick(m.home) }}>
+                      <FlagImg code={m.home} size={14} />{homeT?.name}
+                    </span>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: hs !== undefined ? 'var(--gold)' : 'var(--text-3)', minWidth: 36, textAlign: 'center' }}>
+                      {hs !== undefined ? `${hs}–${as_}` : 'vs'}
+                    </span>
+                    <span style={{ flex: 1, textAlign: 'right', display: 'inline-flex', alignItems: 'center', gap: 5, justifyContent: 'flex-end' }}
+                      onClick={e => { e.stopPropagation(); onTeamClick(m.away) }}>
+                      {awayT?.name}<FlagImg code={m.away} size={14} />
+                    </span>
+                    {canExpand && (
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.55rem', color: 'var(--text-3)', marginLeft: 4 }}>
+                        {isExpanded ? '▲' : '▼'}
+                      </span>
+                    )}
+                  </div>
+                  {isExpanded && canExpand && (
+                    <div style={{ padding: '2px 14px 10px', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+                      <MatchFacts live={live} />
+                    </div>
+                  )}
                 </div>
               )
             })}

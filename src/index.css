@@ -775,43 +775,13 @@ img { display: block; max-width: 100%; }
   justify-content: flex-end;
 }
 
-/* Live match reactions bar */
-.fx-reactions {
+/* ── Match facts expand panel (Fixtures page) ─────────────────────────── */
+.fx-row.is-expandable:hover { background: rgba(255,255,255,0.015); }
+.fx-facts {
   grid-column: 1 / -1;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 10px 6px 14px;
-  border-top: 1px solid rgba(0,214,143,0.1);
-}
-.rx-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 20px;
-  padding: 2px 9px;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: background 0.12s, border-color 0.12s, transform 0.1s;
-  color: var(--text-2);
-  line-height: 1.4;
-}
-.rx-btn:hover  { background: rgba(255,255,255,0.09); border-color: rgba(255,255,255,0.15); }
-.rx-btn:active { transform: scale(0.92); }
-.rx-count {
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  color: var(--text-3);
-}
-.rx-label {
-  margin-left: auto;
-  font-family: var(--font-mono);
-  font-size: 0.52rem;
-  color: var(--text-3);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  padding: 4px 14px 10px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.01);
 }
 
 .badge {
@@ -1205,6 +1175,54 @@ img { display: block; max-width: 100%; }
 }
 .stats-tab:hover  { color: var(--text); background: var(--surface-2); }
 .stats-tab.active { color: var(--gold); background: var(--surface); border-color: var(--border); border-bottom-color: var(--surface); }
+
+/* ── WC2026 live stats tab glow ──────────────────────────────────────────── */
+.stats-tab.wc-live-tab {
+  color: var(--gold);
+  border-color: rgba(212, 168, 67, 0.25);
+}
+.stats-tab.wc-live-tab:hover {
+  background: rgba(212, 168, 67, 0.06);
+  border-color: rgba(212, 168, 67, 0.4);
+}
+.stats-tab.wc-live-tab.active {
+  background: rgba(212, 168, 67, 0.1);
+  border-color: rgba(212, 168, 67, 0.5);
+  border-bottom-color: var(--surface);
+  box-shadow: 0 0 12px rgba(212, 168, 67, 0.15);
+}
+
+/* ── WC2026 glowing section ──────────────────────────────────────────────── */
+.wc-live-section {
+  border: 1px solid rgba(212, 168, 67, 0.3);
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(212, 168, 67, 0.05) 0%, rgba(0, 214, 143, 0.02) 100%);
+  animation: wc-glow 3.5s ease-in-out infinite alternate;
+}
+@keyframes wc-glow {
+  from { box-shadow: 0 0 12px rgba(212, 168, 67, 0.08), 0 0 24px rgba(212, 168, 67, 0.04); }
+  to   { box-shadow: 0 0 22px rgba(212, 168, 67, 0.18), 0 0 44px rgba(212, 168, 67, 0.08); }
+}
+.wc-live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(212, 168, 67, 0.12);
+  border: 1px solid rgba(212, 168, 67, 0.45);
+  border-radius: 4px;
+  padding: 3px 10px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  animation: badge-pulse 2.2s ease-in-out infinite;
+}
+@keyframes badge-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 6px rgba(212, 168, 67, 0.3); }
+  50%       { opacity: 0.75; box-shadow: 0 0 2px rgba(212, 168, 67, 0.1); }
+}
 
 .charts-grid {
   display: grid;
@@ -3762,33 +3780,44 @@ img { display: block; max-width: 100%; }
   .fpl-slot { width: 72px; min-height: 84px; }
 }
 
-/* ── Match events strip (Fixtures page) ──────────────────────────────────── */
-.fx-events {
-  grid-column: 1 / -1;
+/* ── MatchFacts component ──────────────────────────────────────────────── */
+.mf-events {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0 8px;
-  padding: 5px 10px 8px 14px;
-  border-top: 1px solid rgba(255,255,255,0.04);
-  background: rgba(255,255,255,0.01);
+  gap: 4px 12px;
+  padding: 6px 0 2px;
 }
-.fx-events-home {
+.mf-col {
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  align-items: flex-start;
+  gap: 4px;
 }
-.fx-events-away {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
+.mf-col-away {
   align-items: flex-end;
+  text-align: right;
 }
-.fx-event-item {
+.mf-event {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.63rem;
   color: var(--text-2);
   white-space: nowrap;
+  line-height: 1.4;
+}
+.mf-event-away {
+  text-align: right;
+}
+.mf-assist {
+  color: var(--text-3);
+  font-size: 0.58rem;
+}
+.mf-empty {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-3);
+  text-align: center;
+  padding: 6px 0;
+  font-style: italic;
+  grid-column: 1 / -1;
 }
 
 /* ── Yesterday's Results (Home page) ────────────────────────────────────── */

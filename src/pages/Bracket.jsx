@@ -149,7 +149,8 @@ function BracketMatch({ m, tz, timeFormat, liveMap, isFinal, onTeamClick }) {
   const live  = liveMap.get(m.id)
   const homeT = TEAMS[m.home]
   const awayT = TEAMS[m.away]
-  const isLive = live?.status === 'live'
+  const isLive     = live?.status === 'live'
+  const isFinished = live?.status === 'finished'
   const hs    = live?.homeScore ?? m.homeScore
   const as_   = live?.awayScore ?? m.awayScore
 
@@ -157,8 +158,10 @@ function BracketMatch({ m, tz, timeFormat, liveMap, isFinal, onTeamClick }) {
     <div className={`bracket-match${isFinal ? ' final-match' : ''}`}>
       <div className="bm-meta">
         <span>{m.matchLabel}</span>
-        <span style={{ color: isLive ? 'var(--green)' : 'inherit' }}>
-          {isLive ? 'LIVE' : conv.dateShort}
+        <span style={{ color: isLive ? 'var(--green)' : isFinished ? 'var(--text-3)' : 'inherit' }}>
+          {isLive
+            ? <><span className="live-dot" style={{ marginRight: 3 }}/>LIVE</>
+            : isFinished ? 'FT' : conv.dateShort}
         </span>
       </div>
       <div className={`bm-team${!homeT ? ' tbd' : ''}`} onClick={() => homeT && onTeamClick(m.home)}>
