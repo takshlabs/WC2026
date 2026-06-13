@@ -39,12 +39,15 @@ jobs:
 
           TOTAL=$(jq '.matches | length' all-matches.json)
           DONE=$(jq '[.matches[] | select(.status == "FINISHED")] | length' all-matches.json)
-          echo "all-matches.json: $TOTAL matches, $DONE finished"
+          LIVE=$(jq '[.matches[] | select(.status == "IN_PLAY" or .status == "PAUSED")] | length' all-matches.json)
+          echo "all-matches.json: $TOTAL matches, $DONE finished, $LIVE live"
 
       # ── Step 2: match events (goals + cards) from ESPN ───────────────────────
       # football-data.org free tier returns empty goals/bookings arrays.
-      # ESPN's unofficial API (site.api.espn.com) returns full incident data,
-      # has no Cloudflare protection, and works from GitHub Actions server IPs.
+      # ESPN's unofficial API (site.api.espn.com) returns full incident data via
+      # keyEvents[], has no Cloudflare protection, and works from GH Actions IPs.
+      # LIVE matches (IN_PLAY/PAUSED) are fetched fresh every run.
+      # FINISHED matches are cached permanently in match-events.json.
       - name: Install Python deps
         run: pip install requests -q
 
@@ -59,7 +62,7 @@ jobs:
             return re.sub(r'[^a-z]', '', (s or '').lower())
 
           def parse_minute(clock_str):
-            m = re.match(r"(\d+)['\"]?\+(\d+)", clock_str or '')
+            m = re.match(r"(\d+)\+(\d+)", clock_str or '')
             if m: return int(m.group(1)), int(m.group(2))
             m = re.match(r"(\d+)", clock_str or '')
             if m: return int(m.group(1)), None
@@ -77,22 +80,33 @@ jobs:
           with open('all-matches.json') as f:
             bulk = json.load(f)
 
+          # Load persistent cache for FINISHED matches
           try:
             with open('match-events.json') as f:
               cache = json.load(f)
           except Exception:
             cache = {}
 
-          need = [
+          LIVE_STATUSES = ('IN_PLAY', 'PAUSED', 'HALFTIME')
+
+          # FINISHED but not yet cached → fetch once and cache permanently
+          need_finished = [
             m for m in bulk.get('matches', [])
             if m.get('status') == 'FINISHED' and str(m['id']) not in cache
           ]
-          print(f'Finished matches needing events: {len(need)}')
+          # LIVE → always re-fetch (fresh events each 5-min run)
+          need_live = [
+            m for m in bulk.get('matches', [])
+            if m.get('status') in LIVE_STATUSES
+          ]
+          need = need_finished + need_live
+
+          print(f'Events to fetch: {len(need_finished)} new finished + {len(need_live)} live')
           if not need:
-            print('All cached — done')
+            print('All finished matches cached, no live matches — done')
             raise SystemExit(0)
 
-          # Unique dates for needed matches (ESPN uses YYYYMMDD)
+          # Unique dates across all needed matches
           need_dates = sorted({m['utcDate'][:10].replace('-','') for m in need if m.get('utcDate')})
           print(f'Fetching ESPN scoreboard for dates: {need_dates}')
 
@@ -114,88 +128,121 @@ jobs:
 
           print(f'ESPN events indexed: {len(espn_map)}')
 
-          # Fetch summary (goals + cards) for each uncached match
+          # In-memory store for live match events (ephemeral, not written to persistent cache)
+          live_events = {}
+
+          def parse_espn_events(summary, m):
+            """Parse keyEvents[] from ESPN summary → goals/bookings."""
+            h_id = m.get('homeTeam', {}).get('id')
+            a_id = m.get('awayTeam', {}).get('id')
+
+            # Map ESPN team IDs → fd.org team IDs via competitors
+            competitors = (summary.get('header', {})
+                          .get('competitions', [{}])[0]
+                          .get('competitors', []))
+            espn_to_fdorg = {}
+            for comp in competitors:
+              ha       = comp.get('homeAway', '')
+              espn_tid = str(comp.get('id') or comp.get('team', {}).get('id', ''))
+              if ha == 'home':   espn_to_fdorg[espn_tid] = h_id
+              elif ha == 'away': espn_to_fdorg[espn_tid] = a_id
+
+            goals    = []
+            bookings = []
+
+            for event in summary.get('keyEvents', []):
+              type_info  = event.get('type', {})
+              etype      = type_info.get('type', '').lower()
+              clock_str  = event.get('clock', {}).get('displayValue', '')
+              minute, inj = parse_minute(clock_str)
+              espn_tid   = str(event.get('team', {}).get('id', ''))
+              team_id    = espn_to_fdorg.get(espn_tid)
+              parts      = event.get('participants', [])
+
+              if event.get('scoringPlay') or etype in ('goal', 'own-goal', 'penalty-goal', 'penalty'):
+                scorer_name = parts[0]['athlete']['displayName'] if parts else '?'
+                assist_name = None
+                if len(parts) > 1 and etype != 'own-goal':
+                  assist_name = parts[1]['athlete']['displayName']
+
+                if etype == 'own-goal':
+                  goal_type = 'OWN_GOAL'
+                elif 'penalty' in etype:
+                  goal_type = 'PENALTY'
+                else:
+                  goal_type = 'REGULAR'
+
+                goals.append({
+                  'minute':     minute,
+                  'injuryTime': inj,
+                  'type':       goal_type,
+                  'scorer':     {'name': scorer_name, 'shortName': scorer_name},
+                  'assist':     {'name': assist_name, 'shortName': assist_name} if assist_name else None,
+                  'team':       {'id': team_id},
+                })
+
+              elif etype in ('yellow-card', 'red-card', 'yellow-red-card'):
+                player_name = parts[0]['athlete']['displayName'] if parts else '?'
+                card_map = {
+                  'yellow-card':     'YELLOW_CARD',
+                  'red-card':        'RED_CARD',
+                  'yellow-red-card': 'YELLOW_RED_CARD',
+                }
+                bookings.append({
+                  'minute': minute,
+                  'player': {'name': player_name, 'shortName': player_name},
+                  'card':   card_map.get(etype, 'YELLOW_CARD'),
+                  'team':   {'id': team_id},
+                })
+
+            goals.sort(key=lambda g: g['minute'])
+            bookings.sort(key=lambda b: b['minute'])
+            return goals, bookings
+
+          # Fetch events for each needed match
           for m in need:
-            mid    = str(m['id'])
-            ht     = m.get('homeTeam', {})
-            at_    = m.get('awayTeam', {})
-            h_id   = ht.get('id')
-            a_id   = at_.get('id')
-            h_name = ht.get('name', '')
-            a_name = at_.get('name', '')
-            key    = f'{norm(h_name)}_{norm(a_name)}'
+            mid     = str(m['id'])
+            ht      = m.get('homeTeam', {})
+            at_     = m.get('awayTeam', {})
+            h_name  = ht.get('name', '')
+            a_name  = at_.get('name', '')
+            key     = f'{norm(h_name)}_{norm(a_name)}'
             espn_id = espn_map.get(key)
+            is_live = m.get('status') in LIVE_STATUSES
 
             if not espn_id:
               print(f'  [{mid}] {h_name} vs {a_name} — not in ESPN (key={key})')
-              cache[mid] = {'goals': [], 'bookings': []}
+              if not is_live:
+                cache[mid] = {'goals': [], 'bookings': []}
               continue
 
             try:
-              time.sleep(1)
+              time.sleep(0.8)
               summary = espn_get('summary', params={'event': espn_id})
+              goals, bookings = parse_espn_events(summary, m)
 
-              # First pass — build assist map keyed by (homeAway, minute_str)
-              assist_map = {}
-              for team_data in summary.get('rosters', []):
-                ha = team_data.get('homeAway', 'home')
-                for player in team_data.get('roster', []):
-                  pname = player.get('athlete', {}).get('displayName', '')
-                  for play in player.get('plays', []):
-                    if play.get('didAssist'):
-                      mstr = play.get('clock', {}).get('displayValue', '')
-                      assist_map[(ha, mstr)] = pname
+              label = 'LIVE' if is_live else 'FT'
+              print(f'  [{mid}][{label}] {h_name} vs {a_name}: {len(goals)} goals, {len(bookings)} cards')
 
-              goals    = []
-              bookings = []
-
-              for team_data in summary.get('rosters', []):
-                ha      = team_data.get('homeAway', 'home')
-                team_id = h_id if ha == 'home' else a_id
-                for player in team_data.get('roster', []):
-                  pname = player.get('athlete', {}).get('displayName', '')
-                  for play in player.get('plays', []):
-                    mstr   = play.get('clock', {}).get('displayValue', '')
-                    minute, inj = parse_minute(mstr)
-
-                    if play.get('scoringPlay'):
-                      assist_name = assist_map.get((ha, mstr))
-                      goals.append({
-                        'minute':     minute,
-                        'injuryTime': inj,
-                        'type':  'OWN_GOAL' if play.get('ownGoal') else 'PENALTY' if play.get('penaltyKick') else 'REGULAR',
-                        'scorer': {'name': pname, 'shortName': pname},
-                        'assist': {'name': assist_name, 'shortName': assist_name} if assist_name else None,
-                        'team':   {'id': team_id},
-                      })
-
-                    # Cards — check yellow+red combo (second yellow) first
-                    if play.get('yellowCard') or play.get('redCard'):
-                      if play.get('yellowCard') and play.get('redCard'):
-                        card = 'YELLOW_RED_CARD'
-                      elif play.get('redCard'):
-                        card = 'RED_CARD'
-                      else:
-                        card = 'YELLOW_CARD'
-                      bookings.append({
-                        'minute': minute,
-                        'player': {'name': pname, 'shortName': pname},
-                        'card':   card,
-                        'team':   {'id': team_id},
-                      })
-
-              goals.sort(key=lambda g: g['minute'])
-              bookings.sort(key=lambda b: b['minute'])
-              cache[mid] = {'goals': goals, 'bookings': bookings}
-              print(f'  [{mid}] {h_name} vs {a_name}: {len(goals)} goals, {len(bookings)} cards')
+              if is_live:
+                # Ephemeral — re-fetched every run, not persisted to match-events.json
+                live_events[mid] = {'goals': goals, 'bookings': bookings}
+              else:
+                # Permanent cache for finished matches
+                cache[mid] = {'goals': goals, 'bookings': bookings}
 
             except Exception as e:
               print(f'  WARNING [{mid}] {h_name} vs {a_name}: {e}', file=sys.stderr)
-              cache[mid] = {'goals': [], 'bookings': []}
+              if not is_live:
+                cache[mid] = {'goals': [], 'bookings': []}
 
           with open('match-events.json', 'w') as f:
             json.dump(cache, f, indent=2)
-          print(f'match-events.json — {len(cache)} entries')
+          print(f'match-events.json — {len(cache)} finished entries')
+
+          with open('live-events.json', 'w') as f:
+            json.dump(live_events, f)
+          print(f'live-events.json — {len(live_events)} live entries')
           PYEOF
 
       # ── Step 3: merge events into live-scores.json ───────────────────────────
@@ -205,22 +252,45 @@ jobs:
           import json, os
           if not os.path.exists('all-matches.json'):
             raise SystemExit(0)
+
           with open('all-matches.json') as f:
             bulk = json.load(f)
-          with open('match-events.json') as f:
-            cache = json.load(f)
+
+          try:
+            with open('match-events.json') as f:
+              cache = json.load(f)
+          except Exception:
+            cache = {}
+
+          try:
+            with open('live-events.json') as f:
+              live_ev = json.load(f)
+          except Exception:
+            live_ev = {}
+
+          # Live events take precedence (most recent data)
+          all_events = {**cache, **live_ev}
+
           goal_total = 0
+          live_count = 0
           for m in bulk.get('matches', []):
-            ev = cache.get(str(m['id']), {})
+            ev = all_events.get(str(m['id']), {})
             m['goals']    = ev.get('goals', [])
             m['bookings'] = ev.get('bookings', [])
             goal_total += len(m['goals'])
+            if m.get('status') in ('IN_PLAY', 'PAUSED', 'HALFTIME'):
+              live_count += 1
+
           with open('live-scores.json', 'w') as f:
             json.dump(bulk, f)
+
           total = len(bulk['matches'])
           done  = sum(1 for m in bulk['matches'] if m.get('status') == 'FINISHED')
-          print(f'live-scores.json — {total} matches, {done} finished, {goal_total} goals')
+          print(f'live-scores.json — {total} matches, {done} finished, {live_count} live, {goal_total} goals')
+
           os.remove('all-matches.json')
+          if os.path.exists('live-events.json'):
+            os.remove('live-events.json')
           PYEOF
 
       # ── Step 4: commit ────────────────────────────────────────────────────────
