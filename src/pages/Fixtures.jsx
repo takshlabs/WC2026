@@ -230,8 +230,9 @@ function MatchRow({ m, focus }) {
   const recentCutoff = Date.now() - 36 * 60 * 60 * 1000
   const matchTime = new Date(`${m.date}T${m.time}:00Z`).getTime()
   const isRecent = isFinished && matchTime > recentCutoff
-  const canExpand = !!(live?.goals?.length > 0 || live?.bookings?.length > 0)
-  const autoExpand = (isLive || isRecent) && canExpand
+  // Expandable for any live or finished match — even with zero events (MatchFacts shows empty state)
+  const canExpand = isLive || isFinished
+  const autoExpand = isLive || isRecent
   const [expanded, setExpanded] = useState(autoExpand)
 
   useEffect(() => { if (autoExpand) setExpanded(true) }, [autoExpand])
@@ -292,7 +293,7 @@ function MatchRow({ m, focus }) {
       </div>
       {expanded && canExpand && (
         <div className="fx-facts">
-          <MatchFacts live={live} />
+          <MatchFacts live={live ?? { status: isLive ? 'live' : 'finished', goals: [], bookings: [] }} />
         </div>
       )}
     </div>

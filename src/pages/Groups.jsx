@@ -160,8 +160,7 @@ function GroupMatches({ group, liveMap, onTeamClick }) {
       const isFinished = live?.status === 'finished'
       const matchTime = new Date(`${m.date}T${m.time}:00Z`).getTime()
       const isRecent = isFinished && matchTime > recentCutoff
-      const canExpand = !!(live?.goals?.length > 0 || live?.bookings?.length > 0)
-      if ((isLive || isRecent) && canExpand) autoExpand[m.id] = true
+      if (isLive || isRecent) autoExpand[m.id] = true
     })
     if (Object.keys(autoExpand).length > 0) {
       setExpanded(prev => ({ ...autoExpand, ...prev }))
@@ -188,7 +187,7 @@ function GroupMatches({ group, liveMap, onTeamClick }) {
               const homeT = TEAMS[m.home]
               const awayT = TEAMS[m.away]
               const conv  = convertTime(m.date, m.time, tz, timeFormat)
-              const canExpand = !!(live?.goals?.length > 0 || live?.bookings?.length > 0)
+              const canExpand = isLive || isFinished
               const isExpanded = !!expanded[m.id]
 
               return (
@@ -223,7 +222,7 @@ function GroupMatches({ group, liveMap, onTeamClick }) {
                   </div>
                   {isExpanded && canExpand && (
                     <div style={{ padding: '2px 14px 10px', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
-                      <MatchFacts live={live} />
+                      <MatchFacts live={live ?? { status: isLive ? 'live' : 'finished', goals: [], bookings: [] }} />
                     </div>
                   )}
                 </div>
