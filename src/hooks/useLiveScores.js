@@ -93,7 +93,8 @@ async function fetchMatches() {
 
 // ── Hook ─────────────────────────────────────────────────────────────────────
 export function useLiveScores() {
-  const [liveMap, setLiveMap] = useState(new Map())
+  const [liveMap,     setLiveMap]     = useState(new Map())
+  const [lastUpdated, setLastUpdated] = useState(null)  // Date | null
 
   useEffect(() => {
     async function poll() {
@@ -136,6 +137,7 @@ export function useLiveScores() {
         }
 
         setLiveMap(map)
+        setLastUpdated(new Date())
       } catch (err) {
         console.warn('[live] poll error:', err.message)
       }
@@ -146,5 +148,5 @@ export function useLiveScores() {
     return () => clearInterval(id)
   }, [])
 
-  return liveMap
+  return { liveMap, lastUpdated }
 }

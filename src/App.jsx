@@ -33,7 +33,7 @@ export default function App() {
   const [teamModal, setTeamModal] = useState(null)
   const [fixtureFilter, setFixtureFilter] = useState({ group: '', round: '', team: '', focus: null, timeSlot: '', venue: '' })
   const { myTeams, toggleMyTeam, syncId, importFromSyncId, syncing } = useMyTeamsSync()
-  const liveMap = useLiveScores()
+  const { liveMap, lastUpdated } = useLiveScores()
   const { permission: notifPermission, requestPermission, scheduleNotifications } = useNotifications()
   const prevScoresRef = useRef(new Map())
 
@@ -93,7 +93,7 @@ export default function App() {
 
   const ctx = {
     page, navigate, tz, setTz, timeFormat, setTimeFormat,
-    theme, toggleTheme, liveMap, teamModal, setTeamModal, fixtureFilter, setFixtureFilter,
+    theme, toggleTheme, liveMap, lastUpdated, teamModal, setTeamModal, fixtureFilter, setFixtureFilter,
     myTeams, toggleMyTeam, syncId, importFromSyncId, syncing,
     notifPermission, requestPermission,
   }

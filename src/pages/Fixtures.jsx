@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import { MATCHES, TEAMS, VENUES } from '../data'
 import { convertTime, groupColor, roundLabel } from '../utils'
 import { useApp } from '../App'
@@ -24,10 +24,25 @@ const TIME_SLOTS = [
   { id: 'latenight', label: '🌙 Late Night', hours: [0, 1, 2, 3, 4, 5] },
 ]
 
+function useAgo(date) {
+  const [, forceRender] = useState(0)
+  useEffect(() => {
+    if (!date) return
+    const id = setInterval(() => forceRender(n => n + 1), 30_000)
+    return () => clearInterval(id)
+  }, [date])
+  if (!date) return null
+  const secs = Math.floor((Date.now() - date.getTime()) / 1000)
+  if (secs < 60)  return 'just now'
+  if (secs < 120) return '1 min ago'
+  return `${Math.floor(secs / 60)} mins ago`
+}
+
 export default function Fixtures() {
-  const { tz, timeFormat, setTeamModal, liveMap, fixtureFilter, setFixtureFilter } = useApp()
+  const { tz, timeFormat, setTeamModal, liveMap, lastUpdated, fixtureFilter, setFixtureFilter } = useApp()
   const { group, round, team, focus, timeSlot, venue } = fixtureFilter
   const [localTeam, setLocalTeam] = useState(team || '')
+  const ago = useAgo(lastUpdated)
 
   function clearAll() {
     setFixtureFilter({ group: '', round: '', team: '', focus: null, timeSlot: '', venue: '' })
@@ -93,7 +108,14 @@ export default function Fixtures() {
     <div className="container fixtures-page" style={{ paddingTop: '1rem' }}>
       <div className="page-header page-header-compact">
         <h1>Match Schedule</h1>
-        <p>104 matches · 11 June – 19 July 2026 · Click any team name to view their profile</p>
+        <p style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+          <span>104 matches · 11 June – 19 July 2026 · Click any team name to view their profile</span>
+          {ago && (
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'var(--text-3)', background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 4, padding: '1px 6px', whiteSpace: 'nowrap' }}>
+              ● scores updated {ago}
+            </span>
+          )}
+        </p>
       </div>
 
       <div className="filters-row">

@@ -32,16 +32,23 @@ export default function Groups() {
   )
 }
 
-function qualifyStatus(rows, totalMatches, played) {
+function qualifyStatus(rows, totalMatches, played, liveMap = new Map()) {
   // Returns per-team status: 'safe' | 'alive' | 'eliminated'
   if (played === 0) return rows.map(() => 'alive')
   const groupLetter = rows[0]?.group
+
+  // A match counts as played if liveMap has a result OR data.js has a score
+  const isPlayed = m => {
+    const live = liveMap.get(m.id)
+    return live?.status === 'finished' || live?.status === 'live' || m.homeScore !== undefined
+  }
+
   return rows.map((r, i) => {
     // Max possible points = current pts + 3 per remaining match
     const teamRemaining = MATCHES.filter(
       m => m.group === groupLetter &&
            (m.home === r.code || m.away === r.code) &&
-           m.homeScore === undefined
+           !isPlayed(m)
     ).length
     const maxPts = r.Pts + teamRemaining * 3
     // Remaining matches for 3rd-placed team (to calculate their max points)
@@ -50,7 +57,7 @@ function qualifyStatus(rows, totalMatches, played) {
       ? MATCHES.filter(
           m => m.group === groupLetter &&
                (m.home === third.code || m.away === third.code) &&
-               m.homeScore === undefined
+               !isPlayed(m)
         ).length
       : 0
     const thirdMaxPts = (third?.Pts ?? 0) + thirdRemaining * 3
@@ -70,7 +77,7 @@ function GroupCard({ group, liveMap, onTeamClick, onFixturesClick }) {
     return m.homeScore !== undefined || live?.homeScore !== undefined
   }).length
 
-  const statuses = qualifyStatus(rows, gsMatches.length, played)
+  const statuses = qualifyStatus(rows, gsMatches.length, played, liveMap)
 
   return (
     <div className="group-section">

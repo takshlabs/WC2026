@@ -393,17 +393,55 @@ function GroupsTab({ liveMap }) {
     }],
   }
 
+  const standingsData = groups.map(g => calcStandings(g, liveMap))
+  const hasLiveStandings = standingsData.some(rows => rows.some(r => r.Pts > 0))
+
   const pointsOpt = {
     backgroundColor: 'transparent',
-    tooltip: { trigger: 'axis', backgroundColor: '#0C1018', borderColor: '#1E2738', textStyle: { color: '#D4DCE8' } },
-    legend: { bottom: 0, textStyle: { color: '#7A8BA0', fontSize: 10 } },
+    tooltip: {
+      trigger: 'axis',
+      backgroundColor: '#0C1018',
+      borderColor: '#1E2738',
+      textStyle: { color: '#D4DCE8' },
+      formatter: (params) => {
+        const g = params[0].axisValue
+        const rows = standingsData[groups.indexOf(g)]
+        if (!rows.some(r => r.P > 0)) return `Group ${g}<br/>No matches played yet`
+        return `<b>Group ${g}</b><br/>` +
+          rows.map((r, i) => {
+            const t = TEAMS[r.code]
+            return `${i + 1}. ${t?.name}: <b>${r.Pts}</b> pts (${r.W}W ${r.D}D ${r.L}L)`
+          }).join('<br/>')
+      },
+    },
+    legend: {
+      data: ['1st place', '2nd place', '3rd place', '4th place'],
+      bottom: 0,
+      textStyle: { color: '#7A8BA0', fontSize: 10 },
+    },
     grid: { top: 20, bottom: 50, left: 50, right: 20 },
-    xAxis: { type: 'category', data: groups, axisLabel: { color: '#7A8BA0', fontSize: 12, fontWeight: 700 }, axisLine: { lineStyle: { color: '#1E2738' } } },
-    yAxis: { type: 'value', axisLine: { lineStyle: { color: '#1E2738' } }, splitLine: { lineStyle: { color: '#1E2738' } }, axisLabel: { color: CHART_AXIS.label } },
-    series: groups.map((g, gi) => {
-      const rows = calcStandings(g, liveMap)
-      return null // placeholder until matches start
-    }).filter(Boolean),
+    xAxis: {
+      type: 'category',
+      data: groups,
+      axisLabel: { color: '#7A8BA0', fontSize: 12, fontWeight: 700 },
+      axisLine: { lineStyle: { color: '#1E2738' } },
+    },
+    yAxis: {
+      type: 'value',
+      max: 9,
+      name: 'Points',
+      nameTextStyle: { color: CHART_AXIS.name, fontSize: 10 },
+      axisLine: { lineStyle: { color: '#1E2738' } },
+      splitLine: { lineStyle: { color: '#1E2738' } },
+      axisLabel: { color: CHART_AXIS.label },
+    },
+    series: ['#D4A843', '#4A90D9', '#3E6E5A', '#3E4E66'].map((color, pos) => ({
+      name: ['1st place', '2nd place', '3rd place', '4th place'][pos],
+      type: 'bar',
+      data: standingsData.map(rows => rows[pos]?.Pts ?? 0),
+      itemStyle: { color },
+      barMaxWidth: 14,
+    })),
   }
 
   return (
@@ -412,6 +450,13 @@ function GroupsTab({ liveMap }) {
         <div className="chart-block-title">Group Strength by Average FIFA Ranking</div>
         <ReactECharts option={strengthOpt} style={{ height: 320 }} theme={ECHART_THEME} />
       </div>
+
+      {hasLiveStandings && (
+        <div className="chart-block" style={{ gridColumn: '1 / -1' }}>
+          <div className="chart-block-title">Live Group Standings — Points by Position</div>
+          <ReactECharts option={pointsOpt} style={{ height: 320 }} theme={ECHART_THEME} />
+        </div>
+      )}
 
       {/* Group ranking table */}
       <div className="chart-block" style={{ gridColumn: '1 / -1' }}>
