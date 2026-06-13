@@ -1,6 +1,107 @@
 {
-  "updated": "2026-06-13T22:40:23Z",
-  "source": "fbref.com",
+  "updated": "2026-06-13T22:50:43Z",
+  "source": "live-scores.json",
   "topScorers": [],
-  "teamStats": []
+  "teamStats": [
+    {
+      "tla": "USA",
+      "name": "United States",
+      "mp": 1,
+      "w": 1,
+      "d": 0,
+      "l": 0,
+      "gf": 4,
+      "ga": 1
+    },
+    {
+      "tla": "MEX",
+      "name": "Mexico",
+      "mp": 1,
+      "w": 1,
+      "d": 0,
+      "l": 0,
+      "gf": 2,
+      "ga": 0
+    },
+    {
+      "tla": "KOR",
+      "name": "South Korea",
+      "mp": 1,
+      "w": 1,
+      "d": 0,
+      "l": 0,
+      "gf": 2,
+      "ga": 1
+    },
+    {
+      "tla": "CZE",
+      "name": "Czechia",
+      "mp": 1,
+      "w": 0,
+      "d": 0,
+      "l": 1,
+      "gf": 1,
+      "ga": 2
+    },
+    {
+      "tla": "CAN",
+      "name": "Canada",
+      "mp": 1,
+      "w": 0,
+      "d": 1,
+      "l": 0,
+      "gf": 1,
+      "ga": 1
+    },
+    {
+      "tla": "BIH",
+      "name": "Bosnia-Herzegovina",
+      "mp": 1,
+      "w": 0,
+      "d": 1,
+      "l": 0,
+      "gf": 1,
+      "ga": 1
+    },
+    {
+      "tla": "PAR",
+      "name": "Paraguay",
+      "mp": 1,
+      "w": 0,
+      "d": 0,
+      "l": 1,
+      "gf": 1,
+      "ga": 4
+    },
+    {
+      "tla": "QAT",
+      "name": "Qatar",
+      "mp": 1,
+      "w": 0,
+      "d": 1,
+      "l": 0,
+      "gf": 1,
+      "ga": 1
+    },
+    {
+      "tla": "SUI",
+      "name": "Switzerland",
+      "mp": 1,
+      "w": 0,
+      "d": 1,
+      "l": 0,
+      "gf": 1,
+      "ga": 1
+    },
+    {
+      "tla": "RSA",
+      "name": "South Africa",
+      "mp": 1,
+      "w": 0,
+      "d": 0,
+      "l": 1,
+      "gf": 0,
+      "ga": 2
+    }
+  ]
 }
