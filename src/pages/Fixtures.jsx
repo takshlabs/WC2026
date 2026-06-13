@@ -214,6 +214,17 @@ export default function Fixtures() {
   )
 }
 
+function MatchEventBadge({ event }) {
+  const minStr = event.injTime ? `${event.minute}+${event.injTime}'` : `${event.minute}'`
+  if (event.card) {
+    const icon = event.card === 'RED_CARD' || event.card === 'YELLOW_RED_CARD' ? '🟥' : '🟨'
+    return <span className="fx-event-item">{icon} {minStr} {event.player}</span>
+  }
+  const icon = event.type === 'OWN_GOAL' ? '⚽ OG' : event.type === 'PENALTY' ? '⚽ P' : '⚽'
+  const assistStr = event.assist ? ` (${event.assist})` : ''
+  return <span className="fx-event-item">{icon} {minStr} {event.player}{assistStr}</span>
+}
+
 function MatchRow({ m, focus }) {
   const { setTeamModal, myTeams, toggleMyTeam } = useApp()
   const homeT = TEAMS[m.home]
@@ -223,9 +234,20 @@ function MatchRow({ m, focus }) {
   const { counts, react } = useMatchReactions(m.id, live?.status === 'live')
   const hs    = live?.homeScore ?? m.homeScore
   const as_   = live?.awayScore ?? m.awayScore
-  const isLive  = live?.status === 'live'
+  const isLive     = live?.status === 'live'
+  const isFinished = live?.status === 'finished'
   const isFocus = focus && (m.home === focus || m.away === focus)
   const color   = m.group ? groupColor(m.group) : 'var(--border-2)'
+
+  const hasEvents = (live?.goals?.length > 0 || live?.bookings?.length > 0)
+  const homeEvents = (isLive || isFinished) && hasEvents
+    ? [...(live.goals || []).filter(g => g.side === 'home'), ...(live.bookings || []).filter(b => b.side === 'home')]
+        .sort((a, b) => a.minute - b.minute)
+    : []
+  const awayEvents = (isLive || isFinished) && hasEvents
+    ? [...(live.goals || []).filter(g => g.side === 'away'), ...(live.bookings || []).filter(b => b.side === 'away')]
+        .sort((a, b) => a.minute - b.minute)
+    : []
 
   return (
     <div className={`fx-row${isLive ? ' is-live' : ''}${isFocus ? ' is-focus' : ''}`}>
@@ -233,7 +255,9 @@ function MatchRow({ m, focus }) {
       <div className="fx-time">
         {isLive
           ? <span className="live-badge" style={{ fontSize: '0.55rem' }}><span className="live-dot" />LIVE</span>
-          : m.conv.time}
+          : isFinished
+            ? <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', color: 'var(--text-3)' }}>FT</span>
+            : m.conv.time}
       </div>
       <div className={`fx-team home${!homeT ? ' tbd' : ''}`}>
         {homeT && (
@@ -277,6 +301,16 @@ function MatchRow({ m, focus }) {
             </button>
           ))}
           <span className="rx-label">React</span>
+        </div>
+      )}
+      {(homeEvents.length > 0 || awayEvents.length > 0) && (
+        <div className="fx-events">
+          <div className="fx-events-home">
+            {homeEvents.map((e, i) => <MatchEventBadge key={i} event={e} />)}
+          </div>
+          <div className="fx-events-away">
+            {awayEvents.map((e, i) => <MatchEventBadge key={i} event={e} />)}
+          </div>
         </div>
       )}
     </div>

@@ -141,7 +141,8 @@ function YourTeamsSection({ goGroup }) {
 
 export default function Home() {
   const { tz, timeFormat, navigate, setFixtureFilter, liveMap, setTeamModal, myTeams, toggleMyTeam, notifPermission, requestPermission } = useApp()
-  const [countdown, setCountdown] = useState(null)
+  const [countdown,    setCountdown]    = useState(null)
+  const [streamsOpen,  setStreamsOpen]   = useState(false)
 
   // Countdown to Jun 11 2026 21:00 UTC
   useEffect(() => {
@@ -171,6 +172,17 @@ export default function Home() {
   // Live matches - sorted by kickoff time
   const liveMatches = MATCHES
     .filter(m => liveMap.get(m.id)?.status === 'live')
+    .sort((a, b) => msToTs(a) - msToTs(b))
+
+  // Yesterday's results (UTC date)
+  const yestD = new Date(); yestD.setUTCDate(yestD.getUTCDate() - 1)
+  const yesterdayStr = yestD.toISOString().slice(0, 10)
+  const yesterdayResults = MATCHES
+    .filter(m => {
+      if (m.date !== yesterdayStr) return false
+      const live = liveMap.get(m.id)
+      return live?.status === 'finished' || (live?.homeScore != null && live?.awayScore != null)
+    })
     .sort((a, b) => msToTs(a) - msToTs(b))
 
   // Groups A–D preview
@@ -234,8 +246,16 @@ export default function Home() {
               </div>
             </div>
           ) : (
-            <div className="live-badge" style={{ fontSize: '1rem', padding: '12px 20px' }}>
-              <span className="live-dot" /> TOURNAMENT IS LIVE
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
+              <div className="live-badge" style={{ fontSize: '1rem', padding: '12px 20px' }}>
+                <span className="live-dot" /> TOURNAMENT IS LIVE
+              </div>
+              <button
+                className="btn btn-ghost streams-btn"
+                onClick={() => setStreamsOpen(true)}
+              >
+                📺 Watch Live Streams
+              </button>
             </div>
           )}
         </div>
@@ -250,6 +270,44 @@ export default function Home() {
           </div>
         ))}
       </div>
+
+      {/* ── Streams modal ─────────────────────────────────────────────────── */}
+      {streamsOpen && (
+        <div className="modal-overlay" onClick={() => setStreamsOpen(false)}>
+          <div className="modal-box streams-modal" onClick={e => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setStreamsOpen(false)}>✕</button>
+            <div className="streams-modal-body">
+              <div className="streams-modal-icon">📺</div>
+              <h2 className="streams-modal-title">Watch on Third Party Streams</h2>
+              <p className="streams-modal-sub">
+                These are fan-operated third party streams not affiliated with FIFA or this tracker. Use at your own discretion.
+              </p>
+              <div className="streams-links">
+                {[
+                  { label: 'FIFA Footy Bitez', url: 'https://fifa.footybitez.is', note: 'WC 2026 coverage' },
+                  { label: 'SportsBite',       url: 'https://sportsbite.xyz',     note: 'Multi-sport streams' },
+                  { label: 'EPL Footy Bitez',  url: 'https://epl.footybitez.is',  note: 'Football streams' },
+                ].map(({ label, url, note }) => (
+                  <a
+                    key={url}
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="stream-link-card"
+                  >
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div className="stream-link-label">{label}</div>
+                      <div className="stream-link-url">{url.replace('https://', '')}</div>
+                    </div>
+                    <div className="stream-link-note">{note}</div>
+                    <span className="stream-link-arrow">↗</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="container">
 
@@ -312,6 +370,69 @@ export default function Home() {
           })}
           </div>
         </div>
+
+        {/* ── Yesterday's Results ────────────────────────────────────────── */}
+        {yesterdayResults.length > 0 && (
+          <div className="home-section">
+            <div className="home-section-header">
+              <h2>Yesterday's Results</h2>
+              <span className="see-all" onClick={() => navigate('fixtures')}>All fixtures →</span>
+            </div>
+            <div className="yesterday-grid">
+              {yesterdayResults.map(m => {
+                const live = liveMap.get(m.id)
+                const homeT = TEAMS[m.home]; const awayT = TEAMS[m.away]
+                const hs = live?.homeScore; const as_ = live?.awayScore
+                const color = groupColor(m.group)
+                const homeGoals = (live?.goals || []).filter(g => g.side === 'home')
+                const awayGoals = (live?.goals || []).filter(g => g.side === 'away')
+                const homeCards = (live?.bookings || []).filter(b => b.side === 'home')
+                const awayCards = (live?.bookings || []).filter(b => b.side === 'away')
+                return (
+                  <div key={m.id} className="yesterday-card" onClick={() => goGroup(m.group)}>
+                    <div className="yesterday-accent" style={{ background: color }} />
+                    <div className="yesterday-inner">
+                      <div className="yesterday-matchup">
+                        <div className="yesterday-team">
+                          <FlagImg code={m.home} size={20} />
+                          <span>{homeT?.name}</span>
+                        </div>
+                        <div className="yesterday-score-block">
+                          <span className="yesterday-score">{hs}–{as_}</span>
+                          <span className="yesterday-ft">FT</span>
+                        </div>
+                        <div className="yesterday-team away">
+                          <span>{awayT?.name}</span>
+                          <FlagImg code={m.away} size={20} />
+                        </div>
+                      </div>
+                      {(homeGoals.length > 0 || awayGoals.length > 0 || homeCards.length > 0 || awayCards.length > 0) && (
+                        <div className="yesterday-events">
+                          <div className="yesterday-events-side">
+                            {[...homeGoals, ...homeCards].sort((a,b) => a.minute - b.minute).map((e, i) => (
+                              <span key={i} className="yesterday-event">
+                                {e.card ? (e.card === 'RED_CARD' || e.card === 'YELLOW_RED_CARD' ? '🟥' : '🟨') : (e.type === 'OWN_GOAL' ? '⚽ OG' : e.type === 'PENALTY' ? '⚽ P' : '⚽')}
+                                {' '}{e.minute}' {e.player}
+                              </span>
+                            ))}
+                          </div>
+                          <div className="yesterday-events-side away">
+                            {[...awayGoals, ...awayCards].sort((a,b) => a.minute - b.minute).map((e, i) => (
+                              <span key={i} className="yesterday-event">
+                                {e.player} {e.minute}'{' '}
+                                {e.card ? (e.card === 'RED_CARD' || e.card === 'YELLOW_RED_CARD' ? '🟥' : '🟨') : (e.type === 'OWN_GOAL' ? 'OG ⚽' : e.type === 'PENALTY' ? 'P ⚽' : '⚽')}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )}
 
         {/* ── Groups preview ─────────────────────────────────────────────── */}
         <div className="home-section">

@@ -3761,3 +3761,199 @@ img { display: block; max-width: 100%; }
   .fpl-pool-list { max-height: none; }
   .fpl-slot { width: 72px; min-height: 84px; }
 }
+
+/* ── Match events strip (Fixtures page) ──────────────────────────────────── */
+.fx-events {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 8px;
+  padding: 5px 10px 8px 14px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.01);
+}
+.fx-events-home {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: flex-start;
+}
+.fx-events-away {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: flex-end;
+}
+.fx-event-item {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-2);
+  white-space: nowrap;
+}
+
+/* ── Yesterday's Results (Home page) ────────────────────────────────────── */
+.yesterday-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 10px;
+}
+.yesterday-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  display: flex;
+}
+.yesterday-card:hover { border-color: var(--border-2); }
+.yesterday-accent {
+  width: 3px;
+  flex-shrink: 0;
+  align-self: stretch;
+}
+.yesterday-inner {
+  flex: 1;
+  padding: 10px 12px;
+  min-width: 0;
+}
+.yesterday-matchup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.yesterday-team {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text);
+  min-width: 0;
+  overflow: hidden;
+}
+.yesterday-team span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.yesterday-team.away { justify-content: flex-end; flex-direction: row-reverse; }
+.yesterday-score-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  flex-shrink: 0;
+}
+.yesterday-score {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+}
+.yesterday-ft {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.yesterday-events {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 6px;
+  margin-top: 8px;
+  padding-top: 7px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+.yesterday-events-side {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.yesterday-events-side.away { align-items: flex-end; }
+.yesterday-event {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-2);
+  white-space: nowrap;
+}
+
+/* ── Watch Streams modal ─────────────────────────────────────────────────── */
+.streams-btn {
+  font-size: 0.72rem;
+  padding: 6px 16px;
+  height: auto;
+}
+.streams-modal {
+  max-width: 440px;
+  border-color: rgba(100,160,255,0.3);
+}
+.streams-modal-body {
+  padding: 2rem 1.75rem 1.75rem;
+  text-align: center;
+}
+.streams-modal-icon { font-size: 2.5rem; line-height: 1; margin-bottom: 0.75rem; }
+.streams-modal-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+.streams-modal-sub {
+  font-size: 0.75rem;
+  color: var(--text-3);
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+}
+.streams-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+}
+.stream-link-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-2);
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s, background 0.15s;
+  position: relative;
+}
+.stream-link-card:hover {
+  border-color: rgba(100,160,255,0.5);
+  background: rgba(100,160,255,0.05);
+}
+.stream-link-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.stream-link-url {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-3);
+}
+.stream-link-note {
+  font-size: 0.62rem;
+  color: var(--text-3);
+  flex-shrink: 0;
+  padding-right: 20px;
+}
+.stream-link-arrow {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  font-size: 0.7rem;
+  color: var(--text-3);
+}
+.stream-link-card:hover .stream-link-label { color: #64a0ff; }
+.stream-link-card:hover .stream-link-arrow { color: #64a0ff; }

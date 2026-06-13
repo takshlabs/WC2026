@@ -127,12 +127,33 @@ export function useLiveScores() {
                    ?? m.score?.regularTime?.away
           if (hs == null && as_ == null) continue
 
+          const homeTeamId = m.homeTeam?.id
+          const awayTeamId = m.awayTeam?.id
+
+          const goals = (m.goals || []).map(g => ({
+            minute:  g.minute ?? 0,
+            injTime: g.injuryTime ?? null,
+            type:    g.type || 'REGULAR',
+            player:  g.scorer?.shortName || g.scorer?.name || '?',
+            assist:  g.assist?.shortName  || g.assist?.name  || null,
+            side:    g.team?.id === homeTeamId ? 'home' : 'away',
+          })).sort((a, b) => a.minute - b.minute)
+
+          const bookings = (m.bookings || []).map(b => ({
+            minute: b.minute ?? 0,
+            player: b.player?.shortName || b.player?.name || '?',
+            card:   b.card || 'YELLOW_CARD',
+            side:   b.team?.id === homeTeamId ? 'home' : 'away',
+          })).sort((a, b) => a.minute - b.minute)
+
           map.set(local.id, {
             homeScore: hs  ?? 0,
             awayScore: as_ ?? 0,
             status: ['IN_PLAY', 'PAUSED', 'HALFTIME'].includes(m.status) ? 'live'
                    : m.status === 'FINISHED'                              ? 'finished'
                    : 'upcoming',
+            goals,
+            bookings,
           })
         }
 
