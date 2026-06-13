@@ -2,8 +2,11 @@ name: Update Live Scores
 
 on:
   schedule:
-    - cron: '*/5 * * * *'   # every 5 minutes (public repo = free/unlimited minutes)
-  workflow_dispatch:          # allow manual trigger from Actions tab
+    - cron: '*/5 * * * *'   # every 5 minutes — public repo = unlimited free minutes
+  workflow_dispatch:          # manual trigger from Actions tab
+  workflow_run:               # also run immediately after every site deployment
+    workflows: ["Deploy to GitHub Pages"]
+    types: [completed]
 
 permissions:
   contents: write
@@ -17,16 +20,31 @@ jobs:
         with:
           ref: gh-pages
 
-      - name: Fetch today's scores from football-data.org
+      # Fetch ALL WC 2026 matches — past (FINISHED), live (IN_PLAY/PAUSED),
+      # and future (SCHEDULED/TIMED).  No date filter so standings always
+      # reflect every completed game since match day 1, not just today's.
+      # The frontend skips any entry whose score is null, so future fixtures
+      # are harmless.  On any API error we preserve whatever data we already
+      # have rather than wiping the file to empty.
+      - name: Fetch all WC 2026 matches from football-data.org
         env:
           FD_KEY: ${{ secrets.VITE_FOOTBALL_DATA_KEY }}
         run: |
-          TODAY=$(date -u +%Y-%m-%d)
-          HTTP=$(curl -s -w '%{http_code}' -o live-scores.json \
+          HTTP=$(curl -s -w '%{http_code}' -o live-scores-new.json \
             -H "X-Auth-Token: $FD_KEY" \
-            "https://api.football-data.org/v4/competitions/2000/matches?dateFrom=$TODAY&dateTo=$TODAY")
-          echo "API HTTP $HTTP for $TODAY"
-          [ "$HTTP" = "200" ] || echo '{"matches":[]}' > live-scores.json
+            "https://api.football-data.org/v4/competitions/2000/matches")
+          MATCH_COUNT=$(grep -o '"status"' live-scores-new.json 2>/dev/null | wc -l || echo "?")
+          echo "API HTTP $HTTP | ~${MATCH_COUNT} match entries in response"
+
+          if [ "$HTTP" = "200" ]; then
+            mv live-scores-new.json live-scores.json
+            echo "live-scores.json updated successfully"
+          else
+            echo "WARNING: API returned HTTP $HTTP — preserving previous live-scores.json"
+            rm -f live-scores-new.json
+            # Seed an empty file only if nothing exists at all yet
+            [ -f live-scores.json ] || echo '{"matches":[]}' > live-scores.json
+          fi
 
       - name: Commit and push if scores changed
         run: |
