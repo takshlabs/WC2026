@@ -2,9 +2,9 @@ name: Update Live Scores
 
 on:
   schedule:
-    - cron: '*/5 * * * *'   # every 5 minutes — public repo = unlimited free minutes
-  workflow_dispatch:          # manual trigger from Actions tab
-  workflow_run:               # also run immediately after every site deployment
+    - cron: '*/5 * * * *'   # every 5 minutes
+  workflow_dispatch:
+  workflow_run:
     workflows: ["Deploy to GitHub Pages"]
     types: [completed]
 
@@ -20,11 +20,11 @@ jobs:
         with:
           ref: gh-pages
 
-      - name: Fetch matches + individual event details from football-data.org
+      # ── Step 1: bulk match scores from football-data.org ─────────────────────
+      - name: Fetch bulk matches from football-data.org
         env:
           FD_KEY: ${{ secrets.VITE_FOOTBALL_DATA_KEY }}
         run: |
-          # ── 1. Bulk matches fetch (scores, status, fixtures) ──────────────
           HTTP=$(curl -s -w '%{http_code}' -o all-matches.json \
             -H "X-Auth-Token: $FD_KEY" \
             "https://api.football-data.org/v4/competitions/2000/matches")
@@ -37,58 +37,198 @@ jobs:
             exit 0
           fi
 
-          # ── 2. Load or initialise the events cache ────────────────────────
-          # match-events.json persists on gh-pages between runs so we never
-          # re-fetch events for a match we already processed.
-          [ -f match-events.json ] || echo '{}' > match-events.json
+          TOTAL=$(jq '.matches | length' all-matches.json)
+          DONE=$(jq '[.matches[] | select(.status == "FINISHED")] | length' all-matches.json)
+          echo "all-matches.json: $TOTAL matches, $DONE finished"
 
-          # ── 3. For each newly-FINISHED match, fetch individual events ─────
-          # The bulk endpoint does NOT include goals/bookings; the individual
-          # /v4/matches/{id} endpoint does. We stay under the free-tier rate
-          # limit (10 req/min) by sleeping 7 s between calls.
-          FINISHED_IDS=$(jq -r '.matches[] | select(.status == "FINISHED") | .id' all-matches.json)
+      # ── Step 2: match events (goals + cards) from Sofascore ──────────────────
+      # football-data.org free tier always returns empty goals/bookings arrays.
+      # Sofascore's unofficial JSON API provides full incident data for free.
+      - name: Install Python deps
+        run: pip install requests -q
 
-          for ID in $FINISHED_IDS; do
-            # skip if already cached
-            if jq -e ".\"$ID\"" match-events.json > /dev/null 2>&1; then
-              echo "Match $ID already in events cache — skipping"
+      - name: Fetch match events from Sofascore
+        run: |
+          python3 << 'PYEOF'
+          import requests, json, re, time, sys
+          from datetime import datetime
+
+          SS_HDR = {
+            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
+            'Referer':    'https://www.sofascore.com/',
+            'Accept':     'application/json, text/plain, */*',
+            'Accept-Language': 'en-US,en;q=0.9',
+          }
+          SS = 'https://api.sofascore.com/api/v1'
+
+          def ss_get(path):
+            r = requests.get(f'{SS}{path}', headers=SS_HDR, timeout=20)
+            r.raise_for_status()
+            return r.json()
+
+          def norm(s):
+            return re.sub(r'[^a-z]', '', (s or '').lower())
+
+          # Load all-matches.json (football-data.org bulk — has scores, no events)
+          if not __import__('os').path.exists('all-matches.json'):
+            print('all-matches.json not found — skipping event fetch')
+            raise SystemExit(0)
+
+          with open('all-matches.json') as f:
+            bulk = json.load(f)
+
+          # Load or initialise the events cache
+          try:
+            with open('match-events.json') as f:
+              cache = json.load(f)
+          except Exception:
+            cache = {}
+
+          # Which finished matches still need events?
+          need = [
+            m for m in bulk.get('matches', [])
+            if m.get('status') == 'FINISHED' and str(m['id']) not in cache
+          ]
+          print(f'Finished matches needing events: {len(need)}')
+
+          if not need:
+            print('All finished matches already cached — skipping Sofascore fetch')
+            raise SystemExit(0)
+
+          # ── Discover WC 2026 season on Sofascore ────────────────────────────
+          try:
+            seasons_data = ss_get('/unique-tournament/16/seasons')
+            seasons = seasons_data.get('seasons', [])
+            season = max(seasons, key=lambda s: s.get('year', 0) or int(str(s.get('name', '0'))[:4] or 0))
+            season_id = season['id']
+            print(f'Sofascore WC season: id={season_id}  name={season.get("name")}')
+            time.sleep(1)
+          except Exception as e:
+            print(f'ERROR: could not get Sofascore season: {e}', file=sys.stderr)
+            raise SystemExit(1)
+
+          # ── Build map: norm(home)_norm(away) → Sofascore event id ───────────
+          ss_map = {}
+          page = 0
+          while True:
+            try:
+              data = ss_get(f'/unique-tournament/16/season/{season_id}/events/last/{page}')
+              events = data.get('events', [])
+              if not events:
+                break
+              for e in events:
+                ht = norm(e.get('homeTeam', {}).get('name', ''))
+                at = norm(e.get('awayTeam', {}).get('name', ''))
+                ss_map[f'{ht}_{at}'] = e['id']
+              if not data.get('hasNextPage', False):
+                break
+              page += 1
+              time.sleep(1)
+            except Exception as e:
+              print(f'WARNING: Sofascore events page {page} failed: {e}')
+              break
+
+          print(f'Sofascore finished events indexed: {len(ss_map)}')
+
+          # ── Fetch incidents for each uncached finished match ─────────────────
+          for m in need:
+            mid   = str(m['id'])
+            ht    = m.get('homeTeam', {})
+            at    = m.get('awayTeam', {})
+            h_id  = ht.get('id')
+            a_id  = at.get('id')
+            h_name = ht.get('name', '')
+            a_name = at.get('name', '')
+            key   = f'{norm(h_name)}_{norm(a_name)}'
+            ss_id = ss_map.get(key)
+
+            if not ss_id:
+              print(f'  [{mid}] {h_name} vs {a_name} — no Sofascore match found (key={key})')
+              cache[mid] = {'goals': [], 'bookings': []}
               continue
-            fi
 
-            echo "Fetching event detail for match $ID..."
-            sleep 7   # 10 calls/min limit → ~8.6 s safe interval
+            try:
+              time.sleep(2)
+              inc_data = ss_get(f'/event/{ss_id}/incidents')
+              incidents = inc_data.get('incidents', [])
 
-            MHTTP=$(curl -s -w '%{http_code}' -o "match-${ID}.json" \
-              -H "X-Auth-Token: $FD_KEY" \
-              "https://api.football-data.org/v4/matches/${ID}")
+              goals    = []
+              bookings = []
 
-            if [ "$MHTTP" = "200" ]; then
-              GOALS=$(jq '.goals // []'    "match-${ID}.json")
-              BOOKINGS=$(jq '.bookings // []' "match-${ID}.json")
-              jq --argjson g "$GOALS" --argjson b "$BOOKINGS" \
-                ". + {\"${ID}\": {\"goals\": \$g, \"bookings\": \$b}}" \
-                match-events.json > tmp-events.json \
-                && mv tmp-events.json match-events.json
-              echo "  → goals=$(echo "$GOALS" | jq length)  bookings=$(echo "$BOOKINGS" | jq length)"
-            else
-              echo "  WARNING: could not fetch match $ID (HTTP $MHTTP)"
-            fi
+              for inc in incidents:
+                itype = inc.get('incidentType', '')
+                is_home = inc.get('isHome', False)
+                team_id = h_id if is_home else a_id
 
-            rm -f "match-${ID}.json"
-          done
+                if itype == 'goal':
+                  iclass = inc.get('incidentClass', 'regular')
+                  player  = inc.get('player', {}) or {}
+                  assist1 = inc.get('assist1') or {}
+                  goals.append({
+                    'minute':     inc.get('time', 0),
+                    'injuryTime': inc.get('addedTime') or None,
+                    'type':       {'ownGoal': 'OWN_GOAL', 'penalty': 'PENALTY'}.get(iclass, 'REGULAR'),
+                    'scorer':     {'name': player.get('name', '?'), 'shortName': player.get('shortName', player.get('name', '?'))},
+                    'assist':     {'name': assist1.get('name', ''), 'shortName': assist1.get('shortName', assist1.get('name', ''))} if assist1 else None,
+                    'team':       {'id': team_id},
+                  })
 
-          # ── 4. Merge events cache into the bulk response → live-scores.json
-          jq --slurpfile ev match-events.json \
-            '.matches = [.matches[] |
-              . + ($ev[0][(.id | tostring)] // {})]' \
-            all-matches.json > live-scores.json
+                elif itype == 'card':
+                  iclass = inc.get('incidentClass', 'yellow')
+                  player  = inc.get('player', {}) or {}
+                  bookings.append({
+                    'minute': inc.get('time', 0),
+                    'player': {'name': player.get('name', '?'), 'shortName': player.get('shortName', player.get('name', '?'))},
+                    'card':   {'red': 'RED_CARD', 'yellowRed': 'YELLOW_RED_CARD'}.get(iclass, 'YELLOW_CARD'),
+                    'team':   {'id': team_id},
+                  })
 
-          TOTAL=$(jq '.matches | length' live-scores.json)
-          DONE=$(jq '[.matches[] | select(.status == "FINISHED")] | length' live-scores.json)
-          GOALS_TOTAL=$(jq '[.matches[] | (.goals // []) | length] | add // 0' live-scores.json)
-          echo "live-scores.json written — $TOTAL matches, $DONE finished, $GOALS_TOTAL total goals"
-          rm -f all-matches.json
+              cache[mid] = {'goals': goals, 'bookings': bookings}
+              print(f'  [{mid}] {h_name} vs {a_name}: {len(goals)} goals, {len(bookings)} cards')
 
+            except Exception as e:
+              print(f'  WARNING [{mid}] {h_name} vs {a_name}: {e}', file=sys.stderr)
+              cache[mid] = {'goals': [], 'bookings': []}
+
+          # Save updated cache
+          with open('match-events.json', 'w') as f:
+            json.dump(cache, f, indent=2)
+
+          print(f'match-events.json updated — {len(cache)} entries')
+          PYEOF
+
+      # ── Step 3: merge events into bulk response → live-scores.json ───────────
+      - name: Merge events into live-scores.json
+        run: |
+          python3 << 'PYEOF'
+          import json, os
+
+          if not os.path.exists('all-matches.json'):
+            print('No all-matches.json — nothing to merge')
+            raise SystemExit(0)
+
+          with open('all-matches.json') as f:
+            bulk = json.load(f)
+          with open('match-events.json') as f:
+            cache = json.load(f)
+
+          goal_total = 0
+          for m in bulk.get('matches', []):
+            ev = cache.get(str(m['id']), {})
+            m['goals']    = ev.get('goals', [])
+            m['bookings'] = ev.get('bookings', [])
+            goal_total += len(m['goals'])
+
+          with open('live-scores.json', 'w') as f:
+            json.dump(bulk, f)
+
+          total  = len(bulk['matches'])
+          done   = sum(1 for m in bulk['matches'] if m.get('status') == 'FINISHED')
+          print(f'live-scores.json written — {total} matches, {done} finished, {goal_total} total goals')
+          os.remove('all-matches.json')
+          PYEOF
+
+      # ── Step 4: commit ────────────────────────────────────────────────────────
       - name: Commit and push if data changed
         run: |
           git config user.name  "github-actions[bot]"
