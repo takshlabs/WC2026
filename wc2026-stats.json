@@ -1,7 +1,233 @@
 {
-  "updated": "2026-06-13T22:58:47Z",
-  "source": "live-scores.json",
-  "topScorers": [],
+  "updated": "2026-06-13T23:16:37Z",
+  "source": "live-scores.json (ESPN events)",
+  "topScorers": [
+    {
+      "name": "Hwang In-Beom",
+      "team": "South Korea",
+      "goals": 2,
+      "assists": 2,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Folarin Balogun",
+      "team": "United States",
+      "goals": 2,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "\u00c9rik Lira",
+      "team": "Mexico",
+      "goals": 1,
+      "assists": 2,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Roberto Alvarado",
+      "team": "Mexico",
+      "goals": 1,
+      "assists": 2,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Vladim\u00edr Coufal",
+      "team": "Czechia",
+      "goals": 1,
+      "assists": 2,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Lee Kang-In",
+      "team": "South Korea",
+      "goals": 1,
+      "assists": 2,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Sead Kolasinac",
+      "team": "Bosnia-Herzegovina",
+      "goals": 1,
+      "assists": 2,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Promise David",
+      "team": "Canada",
+      "goals": 1,
+      "assists": 2,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Christian Pulisic",
+      "team": "United States",
+      "goals": 1,
+      "assists": 2,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Malik Tillman",
+      "team": "United States",
+      "goals": 1,
+      "assists": 2,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Julio Enciso",
+      "team": "Paraguay",
+      "goals": 1,
+      "assists": 2,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Alex Freeman",
+      "team": "United States",
+      "goals": 1,
+      "assists": 2,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Juli\u00e1n Qui\u00f1ones",
+      "team": "Mexico",
+      "goals": 1,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Ra\u00fal Jim\u00e9nez",
+      "team": "Mexico",
+      "goals": 1,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Ladislav Krejc\u00ed",
+      "team": "Czechia",
+      "goals": 1,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Oh Hyeon-Gyu",
+      "team": "South Korea",
+      "goals": 1,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Jovo Lukic",
+      "team": "Bosnia-Herzegovina",
+      "goals": 1,
+      "assists": 0,
+      "yc": 1,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Cyle Larin",
+      "team": "Canada",
+      "goals": 1,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Maur\u00edcio",
+      "team": "Paraguay",
+      "goals": 1,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Giovanni Reyna",
+      "team": "United States",
+      "goals": 1,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Breel Embolo",
+      "team": "Switzerland",
+      "goals": 1,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Homam Ahmed",
+      "team": "Qatar",
+      "goals": 0,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Teboho Mokoena",
+      "team": "South Africa",
+      "goals": 0,
+      "assists": 0,
+      "yc": 1,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Brian Guti\u00e9rrez",
+      "team": "Mexico",
+      "goals": 0,
+      "assists": 0,
+      "yc": 1,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Sphephelo Sithole",
+      "team": "South Africa",
+      "goals": 0,
+      "assists": 0,
+      "yc": 0,
+      "rc": 1,
+      "mp": 0
+    }
+  ],
   "teamStats": [
     {
       "tla": "USA",
