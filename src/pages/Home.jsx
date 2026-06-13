@@ -221,7 +221,7 @@ export default function Home() {
             </div>
             <div className="hero-byline">
               <span className="hero-byline-rule" />
-              Built by Saswat Biswas at Taksh✦Labs
+              Built by Saswat Biswas & Vasu Pal at Taksh✦Labs
             </div>
           </div>
 
