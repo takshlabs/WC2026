@@ -130,14 +130,24 @@ export function useLiveScores() {
           const homeTeamId = m.homeTeam?.id
           const awayTeamId = m.awayTeam?.id
 
-          const goals = (m.goals || []).map(g => ({
-            minute:  g.minute ?? 0,
-            injTime: g.injuryTime ?? null,
-            type:    g.type || 'REGULAR',
-            player:  g.scorer?.shortName || g.scorer?.name || '?',
-            assist:  g.assist?.shortName  || g.assist?.name  || null,
-            side:    g.team?.id === homeTeamId ? 'home' : 'away',
-          })).sort((a, b) => a.minute - b.minute)
+          const goals = (m.goals || []).map(g => {
+            const isOG      = (g.type || 'REGULAR') === 'OWN_GOAL'
+            const playerName = g.scorer?.shortName || g.scorer?.name || '?'
+            const assistRaw  = g.assist?.shortName  || g.assist?.name  || null
+            // OG: team.id is the scorer's team (who conceded), goal benefits the OTHER side
+            const side = isOG
+              ? (g.team?.id === homeTeamId ? 'away' : 'home')
+              : (g.team?.id === homeTeamId ? 'home' : 'away')
+            return {
+              minute:  g.minute ?? 0,
+              injTime: g.injuryTime ?? null,
+              type:    g.type || 'REGULAR',
+              player:  playerName,
+              // Null out self-assists (ESPN sometimes echoes the scorer as assist)
+              assist:  assistRaw === playerName ? null : assistRaw,
+              side,
+            }
+          }).sort((a, b) => a.minute - b.minute)
 
           const bookings = (m.bookings || []).map(b => ({
             minute: b.minute ?? 0,
