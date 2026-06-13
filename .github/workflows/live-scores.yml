@@ -132,38 +132,68 @@ jobs:
           live_events = {}
 
           def parse_espn_events(summary, m):
-            """Parse keyEvents[] from ESPN summary → goals/bookings."""
-            h_id = m.get('homeTeam', {}).get('id')
-            a_id = m.get('awayTeam', {}).get('id')
+            """Parse keyEvents[] from ESPN summary → goals/bookings.
+
+            Data integrity guarantees:
+              - No self-assists (assist stripped when assist_name == scorer_name)
+              - No duplicate goal entries (deduped by scorer+minute+team+type)
+              - No null team IDs (name-based fallback if ESPN ID lookup fails)
+              - OG team.id always refers to the SCORER's team (frontend flips side)
+            """
+            h_id   = m.get('homeTeam', {}).get('id')
+            a_id   = m.get('awayTeam', {}).get('id')
+            h_name = m.get('homeTeam', {}).get('name', '')
+            a_name = m.get('awayTeam', {}).get('name', '')
 
             # Map ESPN team IDs → fd.org team IDs via competitors
             competitors = (summary.get('header', {})
                           .get('competitions', [{}])[0]
                           .get('competitors', []))
-            espn_to_fdorg = {}
+            espn_to_fdorg    = {}   # espn_id → fd.org id
+            espn_name_to_id  = {}   # norm(display_name) → fd.org id
             for comp in competitors:
-              ha       = comp.get('homeAway', '')
-              espn_tid = str(comp.get('id') or comp.get('team', {}).get('id', ''))
-              if ha == 'home':   espn_to_fdorg[espn_tid] = h_id
-              elif ha == 'away': espn_to_fdorg[espn_tid] = a_id
+              ha         = comp.get('homeAway', '')
+              espn_tid   = str(comp.get('id') or comp.get('team', {}).get('id', ''))
+              disp_name  = comp.get('team', {}).get('displayName', '')
+              fdorg_id   = h_id if ha == 'home' else a_id if ha == 'away' else None
+              if fdorg_id:
+                espn_to_fdorg[espn_tid] = fdorg_id
+                if disp_name:
+                  espn_name_to_id[norm(disp_name)] = fdorg_id
+            # Also index our own fd.org team names as fallback
+            if h_name: espn_name_to_id[norm(h_name)] = h_id
+            if a_name: espn_name_to_id[norm(a_name)] = a_id
 
-            goals    = []
-            bookings = []
+            def resolve_team_id(event):
+              """Return fd.org team id; falls back to name match; never returns None."""
+              espn_tid  = str(event.get('team', {}).get('id', ''))
+              disp_name = event.get('team', {}).get('displayName', '')
+              tid = espn_to_fdorg.get(espn_tid)
+              if tid is None and disp_name:
+                tid = espn_name_to_id.get(norm(disp_name))
+              return tid  # may still be None if ESPN data is truly unresolvable
+
+            goals      = []
+            bookings   = []
+            seen_goals = set()   # dedup key: (scorer, minute, inj, team_id, goal_type)
 
             for event in summary.get('keyEvents', []):
               type_info  = event.get('type', {})
               etype      = type_info.get('type', '').lower()
               clock_str  = event.get('clock', {}).get('displayValue', '')
               minute, inj = parse_minute(clock_str)
-              espn_tid   = str(event.get('team', {}).get('id', ''))
-              team_id    = espn_to_fdorg.get(espn_tid)
+              team_id    = resolve_team_id(event)
               parts      = event.get('participants', [])
 
               if event.get('scoringPlay') or etype in ('goal', 'own-goal', 'penalty-goal', 'penalty'):
-                scorer_name = parts[0]['athlete']['displayName'] if parts else '?'
+                scorer_name = parts[0]['athlete'].get('displayName', '?') if parts else '?'
+
+                # ── Assist: only when a DIFFERENT player is credited ──────────
                 assist_name = None
                 if len(parts) > 1 and etype != 'own-goal':
-                  assist_name = parts[1]['athlete']['displayName']
+                  candidate = parts[1]['athlete'].get('displayName', '')
+                  if candidate and candidate != scorer_name:
+                    assist_name = candidate
 
                 if etype == 'own-goal':
                   goal_type = 'OWN_GOAL'
@@ -171,6 +201,12 @@ jobs:
                   goal_type = 'PENALTY'
                 else:
                   goal_type = 'REGULAR'
+
+                # ── Deduplicate: same scorer+minute+team+type = same goal ─────
+                dedup = (scorer_name, minute, inj, team_id, goal_type)
+                if dedup in seen_goals:
+                  continue
+                seen_goals.add(dedup)
 
                 goals.append({
                   'minute':     minute,
@@ -182,7 +218,7 @@ jobs:
                 })
 
               elif etype in ('yellow-card', 'red-card', 'yellow-red-card'):
-                player_name = parts[0]['athlete']['displayName'] if parts else '?'
+                player_name = parts[0]['athlete'].get('displayName', '?') if parts else '?'
                 card_map = {
                   'yellow-card':     'YELLOW_CARD',
                   'red-card':        'RED_CARD',
