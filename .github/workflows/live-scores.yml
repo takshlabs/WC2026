@@ -20,40 +20,83 @@ jobs:
         with:
           ref: gh-pages
 
-      # Fetch ALL WC 2026 matches — past (FINISHED), live (IN_PLAY/PAUSED),
-      # and future (SCHEDULED/TIMED).  No date filter so standings always
-      # reflect every completed game since match day 1, not just today's.
-      # The frontend skips any entry whose score is null, so future fixtures
-      # are harmless.  On any API error we preserve whatever data we already
-      # have rather than wiping the file to empty.
-      - name: Fetch all WC 2026 matches from football-data.org
+      - name: Fetch matches + individual event details from football-data.org
         env:
           FD_KEY: ${{ secrets.VITE_FOOTBALL_DATA_KEY }}
         run: |
-          HTTP=$(curl -s -w '%{http_code}' -o live-scores-new.json \
+          # ── 1. Bulk matches fetch (scores, status, fixtures) ──────────────
+          HTTP=$(curl -s -w '%{http_code}' -o all-matches.json \
             -H "X-Auth-Token: $FD_KEY" \
             "https://api.football-data.org/v4/competitions/2000/matches")
-          MATCH_COUNT=$(grep -o '"status"' live-scores-new.json 2>/dev/null | wc -l || echo "?")
-          echo "API HTTP $HTTP | ~${MATCH_COUNT} match entries in response"
+          echo "Bulk matches API → HTTP $HTTP"
 
-          if [ "$HTTP" = "200" ]; then
-            mv live-scores-new.json live-scores.json
-            echo "live-scores.json updated successfully"
-          else
-            echo "WARNING: API returned HTTP $HTTP — preserving previous live-scores.json"
-            rm -f live-scores-new.json
-            # Seed an empty file only if nothing exists at all yet
+          if [ "$HTTP" != "200" ]; then
+            echo "WARNING: API returned $HTTP — preserving existing live-scores.json"
+            rm -f all-matches.json
             [ -f live-scores.json ] || echo '{"matches":[]}' > live-scores.json
+            exit 0
           fi
 
-      - name: Commit and push if scores changed
+          # ── 2. Load or initialise the events cache ────────────────────────
+          # match-events.json persists on gh-pages between runs so we never
+          # re-fetch events for a match we already processed.
+          [ -f match-events.json ] || echo '{}' > match-events.json
+
+          # ── 3. For each newly-FINISHED match, fetch individual events ─────
+          # The bulk endpoint does NOT include goals/bookings; the individual
+          # /v4/matches/{id} endpoint does. We stay under the free-tier rate
+          # limit (10 req/min) by sleeping 7 s between calls.
+          FINISHED_IDS=$(jq -r '.matches[] | select(.status == "FINISHED") | .id' all-matches.json)
+
+          for ID in $FINISHED_IDS; do
+            # skip if already cached
+            if jq -e ".\"$ID\"" match-events.json > /dev/null 2>&1; then
+              echo "Match $ID already in events cache — skipping"
+              continue
+            fi
+
+            echo "Fetching event detail for match $ID..."
+            sleep 7   # 10 calls/min limit → ~8.6 s safe interval
+
+            MHTTP=$(curl -s -w '%{http_code}' -o "match-${ID}.json" \
+              -H "X-Auth-Token: $FD_KEY" \
+              "https://api.football-data.org/v4/matches/${ID}")
+
+            if [ "$MHTTP" = "200" ]; then
+              GOALS=$(jq '.goals // []'    "match-${ID}.json")
+              BOOKINGS=$(jq '.bookings // []' "match-${ID}.json")
+              jq --argjson g "$GOALS" --argjson b "$BOOKINGS" \
+                ". + {\"${ID}\": {\"goals\": \$g, \"bookings\": \$b}}" \
+                match-events.json > tmp-events.json \
+                && mv tmp-events.json match-events.json
+              echo "  → goals=$(echo "$GOALS" | jq length)  bookings=$(echo "$BOOKINGS" | jq length)"
+            else
+              echo "  WARNING: could not fetch match $ID (HTTP $MHTTP)"
+            fi
+
+            rm -f "match-${ID}.json"
+          done
+
+          # ── 4. Merge events cache into the bulk response → live-scores.json
+          jq --slurpfile ev match-events.json \
+            '.matches = [.matches[] |
+              . + ($ev[0][(.id | tostring)] // {})]' \
+            all-matches.json > live-scores.json
+
+          TOTAL=$(jq '.matches | length' live-scores.json)
+          DONE=$(jq '[.matches[] | select(.status == "FINISHED")] | length' live-scores.json)
+          GOALS_TOTAL=$(jq '[.matches[] | (.goals // []) | length] | add // 0' live-scores.json)
+          echo "live-scores.json written — $TOTAL matches, $DONE finished, $GOALS_TOTAL total goals"
+          rm -f all-matches.json
+
+      - name: Commit and push if data changed
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add live-scores.json
+          git add live-scores.json match-events.json
           if git diff --cached --quiet; then
-            echo "No score changes — skipping commit"
+            echo "No changes — skipping commit"
           else
-            git commit -m "chore: update live scores [skip ci]"
+            git commit -m "chore: update live scores + events [skip ci]"
             git push
           fi
