@@ -54,34 +54,55 @@ jobs:
       - name: Fetch match events from ESPN
         run: |
           python3 << 'PYEOF'
-          import requests, json, re, time, os, sys
+          import requests, json, re, time, os, sys, unicodedata
+          from datetime import datetime, timedelta
 
           ESPN = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world'
 
-          # Extended name normalisation — covers ESPN aliases vs fd.org names
+          # ── Name normalisation ────────────────────────────────────────────
+          # NFKD decomposes accented chars to base + combining mark, then
+          # re.sub strips the combining mark → "Türkiye"→"turkiye", "Côte"→"cote"
+          # This is the root fix for ESPN's "Türkiye" vs fd.org's "Turkey".
           ESPN_ALIASES = {
-            'unitedstates': 'usa',
-            'usa': 'usa',
-            'usmnt': 'usa',
-            'korea': 'southkorea',
-            'southkorea': 'southkorea',
-            'korearepublic': 'southkorea',
-            'iran': 'iran',
-            'islamicrepublicofiran': 'iran',
-            'ivorycoast': 'cotedivoire',
-            'cotedivoire': 'cotedivoire',
-            'drcongo': 'drcongo',
+            # USA
+            'unitedstates': 'usa', 'usa': 'usa', 'usmnt': 'usa',
+            # Korea
+            'korea': 'southkorea', 'southkorea': 'southkorea',
+            'korearepublic': 'southkorea', 'republicofkorea': 'southkorea',
+            # Iran
+            'iran': 'iran', 'islamicrepublicofiran': 'iran',
+            # Ivory Coast / Côte d'Ivoire (ô stripped by NFKD → "cote")
+            'ivorycoast': 'cotedivoire', 'cotedivoire': 'cotedivoire',
+            # Congo
+            'drcongo': 'drcongo', 'congodrc': 'drcongo', 'congord': 'drcongo',
             'democraticrepublicofthecongo': 'drcongo',
-            'bosniaandherzegovina': 'bosnia',
+            'democraticrepublicofcongo': 'drcongo',
+            # Bosnia — "Bosnia & Herzegovina" → & stripped → "bosniaherzegovina"
+            'bosniaandherzegovina': 'bosnia', 'bosniaherzegovina': 'bosnia',
             'bosnia': 'bosnia',
-            'czechrepublic': 'czechia',
-            'czechia': 'czechia',
+            # Czech
+            'czechrepublic': 'czechia', 'czechia': 'czechia',
+            # Saudi Arabia
             'saudiarabia': 'saudiarabia',
+            # South Africa
             'southafrica': 'southafrica',
+            # New Zealand
             'newzealand': 'newzealand',
+            # Turkey / Türkiye — ROOT CAUSE of AUS vs Turkey "no events" bug
+            'turkey': 'turkey', 'turkiye': 'turkey',
+            # North Macedonia
+            'northmacedonia': 'northmacedonia', 'macedonia': 'northmacedonia',
+            # Miscellaneous
+            'capeverde': 'capeverde',
+            'republicofireland': 'ireland', 'ireland': 'ireland',
+            'trinidadandtobago': 'trinidadtobago', 'trinidadtobago': 'trinidadtobago',
+            'antiguaandbarbuda': 'antiguabarbuda', 'antiguabarbuda': 'antiguabarbuda',
+            'papuanewguinea': 'papuanewguinea',
           }
           def norm(s):
-            raw = re.sub(r'[^a-z]', '', (s or '').lower())
+            """Unicode-safe normaliser: NFKD decompose → strip non-alpha → alias lookup."""
+            nfkd = unicodedata.normalize('NFKD', (s or '').lower())
+            raw  = re.sub(r'[^a-z]', '', nfkd)
             return ESPN_ALIASES.get(raw, raw)
 
           def parse_minute(clock_str):
@@ -112,6 +133,28 @@ jobs:
 
           LIVE_STATUSES = ('IN_PLAY', 'PAUSED', 'HALFTIME')
 
+          # ── Cache healing ─────────────────────────────────────────────────
+          # Evict cache entries where events are empty BUT fd.org score shows
+          # goals occurred. This happens when ESPN name lookup previously failed
+          # (e.g. "Türkiye" bug) and we stored a poisoned {goals:[], bookings:[]}.
+          # With the unicode fix in norm(), the next run will re-fetch correctly.
+          def ft_goals(m):
+            ft = (m.get('score') or {}).get('fullTime') or {}
+            return (ft.get('home') or 0) + (ft.get('away') or 0)
+
+          healed = []
+          for m in bulk.get('matches', []):
+            mid = str(m['id'])
+            if (m.get('status') == 'FINISHED'
+                and mid in cache
+                and not cache[mid].get('goals')
+                and not cache[mid].get('bookings')
+                and ft_goals(m) > 0):
+              del cache[mid]
+              healed.append(f"{m.get('homeTeam',{}).get('name','?')} vs {m.get('awayTeam',{}).get('name','?')}")
+          if healed:
+            print(f'Cache healing: evicted {len(healed)} poisoned entries → {healed}')
+
           # FINISHED but not yet cached → fetch once and cache permanently
           need_finished = [
             m for m in bulk.get('matches', [])
@@ -129,8 +172,21 @@ jobs:
             print('All finished matches cached, no live matches — done')
             raise SystemExit(0)
 
-          # Unique dates across all needed matches
-          need_dates = sorted({m['utcDate'][:10].replace('-','') for m in need if m.get('utcDate')})
+          # Unique dates — also check adjacent day for late-UTC kickoffs (ESPN
+          # may list a match on the following date in local/US time)
+          need_dates_set = set()
+          for m in need:
+            if m.get('utcDate'):
+              try:
+                dt = datetime.strptime(m['utcDate'][:16], '%Y-%m-%dT%H:%M')
+                need_dates_set.add(dt.strftime('%Y%m%d'))
+                if dt.hour >= 21:
+                  need_dates_set.add((dt + timedelta(days=1)).strftime('%Y%m%d'))
+                if dt.hour <= 3:
+                  need_dates_set.add((dt - timedelta(days=1)).strftime('%Y%m%d'))
+              except Exception:
+                need_dates_set.add(m['utcDate'][:10].replace('-', ''))
+          need_dates = sorted(need_dates_set)
           print(f'Fetching ESPN scoreboard for dates: {need_dates}')
 
           # Build ESPN event map: norm(home)_norm(away) → espn_event_id
@@ -300,10 +356,9 @@ jobs:
               if espn_id:
                 print(f'  [{mid}] {h_name} vs {a_name} — found via reversed key={rev_key}')
               else:
-                print(f'  [{mid}] {h_name} vs {a_name} — NOT in ESPN (tried key={key}, rev={rev_key})')
-                print(f'         ESPN map keys: {list(espn_map.keys())}')
-                if not is_live:
-                  cache[mid] = {'goals': [], 'bookings': []}
+                print(f'  [{mid}] {h_name} vs {a_name} — NOT in ESPN (key={key}, rev={rev_key})')
+                print(f'         ESPN map keys: {sorted(espn_map.keys())}')
+                # DO NOT cache failures — allow retry on every run until resolved
                 continue
 
             try:
@@ -326,8 +381,7 @@ jobs:
 
             except Exception as e:
               print(f'  WARNING [{mid}] {h_name} vs {a_name}: {e}', file=sys.stderr)
-              if not is_live:
-                cache[mid] = {'goals': [], 'bookings': []}
+              # DO NOT cache on error — allow retry on next run
 
           with open('match-events.json', 'w') as f:
             json.dump(cache, f, indent=2)
