@@ -915,5 +915,124 @@
         "shotsOnTarget": 2
       }
     }
+  },
+  "537357": {
+    "goals": [
+      {
+        "minute": 51,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Virgil van Dijk",
+          "shortName": "Virgil van Dijk"
+        },
+        "assist": {
+          "name": "Ryan Gravenberch",
+          "shortName": "Ryan Gravenberch"
+        },
+        "team": {
+          "id": 8601
+        }
+      },
+      {
+        "minute": 57,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Keito Nakamura",
+          "shortName": "Keito Nakamura"
+        },
+        "assist": {
+          "name": "Takefusa Kubo",
+          "shortName": "Takefusa Kubo"
+        },
+        "team": {
+          "id": 766
+        }
+      },
+      {
+        "minute": 64,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Crysencio Summerville",
+          "shortName": "Crysencio Summerville"
+        },
+        "assist": {
+          "name": "Ryan Gravenberch",
+          "shortName": "Ryan Gravenberch"
+        },
+        "team": {
+          "id": 8601
+        }
+      },
+      {
+        "minute": 88,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Daichi Kamada",
+          "shortName": "Daichi Kamada"
+        },
+        "assist": {
+          "name": "Koki Ogawa",
+          "shortName": "Koki Ogawa"
+        },
+        "team": {
+          "id": 766
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 61,
+        "player": {
+          "name": "Crysencio Summerville",
+          "shortName": "Crysencio Summerville"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 8601
+        }
+      },
+      {
+        "minute": 83,
+        "player": {
+          "name": "Memphis Depay",
+          "shortName": "Memphis Depay"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 8601
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Micky van de Ven",
+          "shortName": "Micky van de Ven"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 8601
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 7,
+        "corners": 5,
+        "possession": 59.8,
+        "shots": 10,
+        "shotsOnTarget": 6
+      },
+      "away": {
+        "fouls": 7,
+        "corners": 4,
+        "possession": 40.2,
+        "shots": 10,
+        "shotsOnTarget": 3
+      }
+    }
   }
 }
