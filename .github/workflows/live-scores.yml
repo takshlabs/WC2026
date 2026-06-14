@@ -20,79 +20,94 @@ jobs:
         with:
           ref: gh-pages
 
-      # ── Step 1: bulk match scores from football-data.org ─────────────────────
-      - name: Fetch bulk matches from football-data.org
+      # ── Step 1: Refresh full schedule from fd.org (≤1× per 12 h) ────────
+      # fd.org provides the authoritative 104-match schedule including TBD
+      # knockout slots that fill in as the tournament progresses.
+      # ESPN is used for all live data; fd.org is only called for schedule.
+      - name: Refresh WC2026 schedule from fd.org
         env:
           FD_KEY: ${{ secrets.VITE_FOOTBALL_DATA_KEY }}
         run: |
-          HTTP=$(curl -s -w '%{http_code}' -o all-matches.json \
-            -H "X-Auth-Token: $FD_KEY" \
-            "https://api.football-data.org/v4/competitions/2000/matches")
-          echo "Bulk matches API → HTTP $HTTP"
+          python3 << 'PYEOF'
+          import requests, json, os, sys
+          from datetime import datetime, timezone
 
-          if [ "$HTTP" != "200" ]; then
-            echo "WARNING: API returned $HTTP — preserving existing live-scores.json"
-            rm -f all-matches.json
-            [ -f live-scores.json ] || echo '{"matches":[]}' > live-scores.json
-            exit 0
-          fi
+          SCHEDULE_FILE = 'wc2026-schedule.json'
+          MAX_AGE_HOURS = 12
 
-          TOTAL=$(jq '.matches | length' all-matches.json)
-          DONE=$(jq '[.matches[] | select(.status == "FINISHED")] | length' all-matches.json)
-          LIVE=$(jq '[.matches[] | select(.status == "IN_PLAY" or .status == "PAUSED")] | length' all-matches.json)
-          echo "all-matches.json: $TOTAL matches, $DONE finished, $LIVE live"
+          def is_stale():
+            if not os.path.exists(SCHEDULE_FILE):
+              return True
+            try:
+              with open(SCHEDULE_FILE) as f:
+                s = json.load(f)
+              fa = s.get('_fetched_at')
+              if not fa:
+                return True
+              age_h = (datetime.now(timezone.utc) - datetime.fromisoformat(fa)).total_seconds() / 3600
+              return age_h > MAX_AGE_HOURS
+            except Exception:
+              return True
 
-      # ── Step 2: match events (goals + cards) from ESPN ───────────────────────
-      # football-data.org free tier returns empty goals/bookings arrays.
-      # ESPN's unofficial API (site.api.espn.com) returns full incident data via
-      # keyEvents[], has no Cloudflare protection, and works from GH Actions IPs.
-      # LIVE matches (IN_PLAY/PAUSED) are fetched fresh every run.
-      # FINISHED matches are cached permanently in match-events.json.
+          if not is_stale():
+            print('Schedule fresh — skipping fd.org call')
+            raise SystemExit(0)
+
+          FD_KEY = os.environ.get('FD_KEY', '')
+          print('Fetching full WC2026 schedule from fd.org...')
+          r = requests.get(
+            'https://api.football-data.org/v4/competitions/2000/matches',
+            headers={'X-Auth-Token': FD_KEY}, timeout=30
+          )
+          print(f'fd.org → HTTP {r.status_code}')
+          if r.status_code != 200:
+            print(f'WARNING: fd.org returned {r.status_code} — keeping existing schedule', file=sys.stderr)
+            raise SystemExit(0)
+
+          data = r.json()
+          data['_fetched_at'] = datetime.now(timezone.utc).isoformat()
+          with open(SCHEDULE_FILE, 'w') as f:
+            json.dump(data, f)
+
+          total = len(data.get('matches', []))
+          print(f'Schedule saved: {total} matches → {SCHEDULE_FILE}')
+          PYEOF
+
+      # ── Step 2: ESPN live scores + events + merge ─────────────────────────
+      # ESPN unofficial API (site.api.espn.com) provides:
+      #   - Live scores, statuses, live clock — from scoreboard (3 date queries)
+      #   - Goals, cards, assists — from summary per match
+      # No API key, no rate limit. Replaces the live-data role of fd.org.
       - name: Install Python deps
         run: pip install requests -q
 
-      - name: Fetch match events from ESPN
+      - name: Fetch live data from ESPN and merge into live-scores.json
         run: |
           python3 << 'PYEOF'
           import requests, json, re, time, os, sys, unicodedata
-          from datetime import datetime, timedelta
+          from datetime import datetime, timedelta, timezone
 
           ESPN = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world'
+          SCHEDULE_FILE = 'wc2026-schedule.json'
 
-          # ── Name normalisation ────────────────────────────────────────────
-          # NFKD decomposes accented chars to base + combining mark, then
-          # re.sub strips the combining mark → "Türkiye"→"turkiye", "Côte"→"cote"
-          # This is the root fix for ESPN's "Türkiye" vs fd.org's "Turkey".
+          # ── Name normalisation (NFKD-safe, verbatim from previous version) ──
           ESPN_ALIASES = {
-            # USA
             'unitedstates': 'usa', 'usa': 'usa', 'usmnt': 'usa',
-            # Korea
             'korea': 'southkorea', 'southkorea': 'southkorea',
             'korearepublic': 'southkorea', 'republicofkorea': 'southkorea',
-            # Iran
             'iran': 'iran', 'islamicrepublicofiran': 'iran',
-            # Ivory Coast / Côte d'Ivoire (ô stripped by NFKD → "cote")
             'ivorycoast': 'cotedivoire', 'cotedivoire': 'cotedivoire',
-            # Congo
             'drcongo': 'drcongo', 'congodrc': 'drcongo', 'congord': 'drcongo',
             'democraticrepublicofthecongo': 'drcongo',
             'democraticrepublicofcongo': 'drcongo',
-            # Bosnia — "Bosnia & Herzegovina" → & stripped → "bosniaherzegovina"
             'bosniaandherzegovina': 'bosnia', 'bosniaherzegovina': 'bosnia',
             'bosnia': 'bosnia',
-            # Czech
             'czechrepublic': 'czechia', 'czechia': 'czechia',
-            # Saudi Arabia
             'saudiarabia': 'saudiarabia',
-            # South Africa
             'southafrica': 'southafrica',
-            # New Zealand
             'newzealand': 'newzealand',
-            # Turkey / Türkiye — ROOT CAUSE of AUS vs Turkey "no events" bug
             'turkey': 'turkey', 'turkiye': 'turkey',
-            # North Macedonia
             'northmacedonia': 'northmacedonia', 'macedonia': 'northmacedonia',
-            # Miscellaneous
             'capeverde': 'capeverde',
             'republicofireland': 'ireland', 'ireland': 'ireland',
             'trinidadandtobago': 'trinidadtobago', 'trinidadtobago': 'trinidadtobago',
@@ -107,7 +122,6 @@ jobs:
 
           def parse_minute(clock_str):
             # ESPN format: "45'+5'" (injury time) or "31'" (regular)
-            # The apostrophe after the base minute must be optional in the regex.
             m = re.match(r"(\d+)'?\+(\d+)", clock_str or '')
             if m: return int(m.group(1)), int(m.group(2))
             m = re.match(r"(\d+)", clock_str or '')
@@ -119,347 +133,339 @@ jobs:
             r.raise_for_status()
             return r.json()
 
-          if not os.path.exists('all-matches.json'):
-            print('No all-matches.json — skipping')
-            raise SystemExit(0)
+          # ── Load schedule (fd.org base) ────────────────────────────────────
+          # Bootstrap fallback: if schedule file is absent, seed from
+          # existing live-scores.json so we never lose the full match list.
+          schedule = None
+          if os.path.exists(SCHEDULE_FILE):
+            try:
+              with open(SCHEDULE_FILE) as f:
+                schedule = json.load(f)
+              print(f'Schedule loaded: {len(schedule.get("matches",[]))} matches')
+            except Exception as e:
+              print(f'WARNING: schedule load failed: {e}', file=sys.stderr)
 
-          with open('all-matches.json') as f:
-            bulk = json.load(f)
+          if not schedule or not schedule.get('matches'):
+            if os.path.exists('live-scores.json'):
+              print('Bootstrap: seeding schedule from existing live-scores.json')
+              with open('live-scores.json') as f:
+                schedule = json.load(f)
+            else:
+              print('ERROR: no schedule and no live-scores.json — cannot proceed', file=sys.stderr)
+              raise SystemExit(1)
 
-          # ── Cache versioning ──────────────────────────────────────────────
-          # Increment CACHE_VERSION whenever parse logic changes so old
-          # entries are automatically evicted and re-fetched on next run.
-          # v1 → initial, v2 → fixed parse_minute for ESPN "45'+5'" format
-          CACHE_VERSION = 2
+          matches = schedule.get('matches', [])
 
-          # Load persistent cache for FINISHED matches
+          # ── Cache versioning ────────────────────────────────────────────────
+          # Increment CACHE_VERSION when parse logic changes — auto-evicts stale
+          # v1: initial  v2: fixed parse_minute "45'+5'" format  v3: ESPN-only live
+          CACHE_VERSION = 3
+
           try:
             with open('match-events.json') as f:
               cache = json.load(f)
             if cache.get('__version__') != CACHE_VERSION:
-              print(f'Cache version mismatch (stored={cache.get("__version__")}, current={CACHE_VERSION}) — clearing all entries for re-fetch')
+              print(f'Cache v{cache.get("__version__")} → v{CACHE_VERSION}: clearing for re-fetch')
               cache = {'__version__': CACHE_VERSION}
           except Exception:
             cache = {'__version__': CACHE_VERSION}
 
-          LIVE_STATUSES = ('IN_PLAY', 'PAUSED', 'HALFTIME')
+          # ── ESPN live map: yesterday + today + tomorrow ─────────────────────
+          # Scores keyed by norm(teamName) to avoid home/away position flip
+          # (ESPN and fd.org can disagree on which side is "home" at neutral venues)
+          now_utc = datetime.now(timezone.utc)
+          espn_dates = [
+            (now_utc - timedelta(days=1)).strftime('%Y%m%d'),
+            now_utc.strftime('%Y%m%d'),
+            (now_utc + timedelta(days=1)).strftime('%Y%m%d'),
+          ]
 
-          # ── Cache healing ─────────────────────────────────────────────────
-          # Evict cache entries where events are empty BUT fd.org score shows
-          # goals occurred. This happens when ESPN name lookup previously failed
-          # (e.g. "Türkiye" bug) and we stored a poisoned {goals:[], bookings:[]}.
-          # With the unicode fix in norm(), the next run will re-fetch correctly.
-          def ft_goals(m):
-            ft = (m.get('score') or {}).get('fullTime') or {}
-            return (ft.get('home') or 0) + (ft.get('away') or 0)
+          # espn_live_map[norm(h)_norm(a)] = {
+          #   status, scoreByName{norm(name): score}, displayClock, espnId }
+          espn_live_map = {}
 
+          for date_str in espn_dates:
+            try:
+              data = espn_get('scoreboard', params={'dates': date_str})
+              events_on_date = data.get('events', [])
+              print(f'ESPN scoreboard {date_str}: {len(events_on_date)} events')
+              for event in events_on_date:
+                comps      = event.get('competitions', [{}])[0]
+                comps_list = comps.get('competitors', [])
+                h_comp = next((c for c in comps_list if c.get('homeAway') == 'home'), {})
+                a_comp = next((c for c in comps_list if c.get('homeAway') == 'away'), {})
+                h_name = h_comp.get('team', {}).get('displayName', '')
+                a_name = a_comp.get('team', {}).get('displayName', '')
+                if not h_name or not a_name:
+                  continue
+
+                # Scores by team name — immune to position ordering differences
+                score_by_name = {}
+                for c in comps_list:
+                  n = c.get('team', {}).get('displayName', '')
+                  if n:
+                    score_by_name[norm(n)] = int(c.get('score', 0) or 0)
+
+                status_obj    = comps.get('status', {})
+                state         = status_obj.get('type', {}).get('state', '')
+                status_name   = status_obj.get('type', {}).get('name', '')
+                display_clock = status_obj.get('displayClock', '')
+
+                # Translate ESPN state → fd.org-compatible status strings
+                if state == 'post':
+                  fd_status = 'FINISHED'
+                elif state == 'in':
+                  fd_status = 'HALFTIME' if 'HALFTIME' in status_name else 'IN_PLAY'
+                else:
+                  fd_status = 'TIMED'
+
+                k = f'{norm(h_name)}_{norm(a_name)}'
+                entry = {
+                  'status':       fd_status,
+                  'scoreByName':  score_by_name,
+                  'displayClock': display_clock,
+                  'espnId':       event['id'],
+                }
+                espn_live_map[k] = entry
+                print(f'  [{fd_status}] {h_name} {score_by_name.get(norm(h_name),"-")}'
+                      f'–{score_by_name.get(norm(a_name),"-")} {a_name}')
+              time.sleep(0.4)
+            except Exception as e:
+              print(f'WARNING ESPN scoreboard {date_str}: {e}', file=sys.stderr)
+
+          print(f'ESPN live map: {len(espn_live_map)} entries')
+
+          # ── Helper: look up ESPN entry for a schedule match ────────────────
+          def get_espn_entry(m):
+            h = m.get('homeTeam', {}).get('name', '')
+            a = m.get('awayTeam', {}).get('name', '')
+            entry = espn_live_map.get(f'{norm(h)}_{norm(a)}')
+            if entry is None:
+              # ESPN occasionally lists home/away reversed
+              entry = espn_live_map.get(f'{norm(a)}_{norm(h)}')
+            return entry
+
+          # ── Cache healing ──────────────────────────────────────────────────
           healed = []
-          for m in bulk.get('matches', []):
-            mid = str(m['id'])
-            if (m.get('status') == 'FINISHED'
+          for m in matches:
+            mid   = str(m['id'])
+            entry = get_espn_entry(m)
+            if not entry:
+              continue
+            sbn     = entry.get('scoreByName', {})
+            h_score = sbn.get(norm(m.get('homeTeam', {}).get('name', '')), 0)
+            a_score = sbn.get(norm(m.get('awayTeam', {}).get('name', '')), 0)
+            if (entry['status'] == 'FINISHED'
                 and mid in cache
                 and not cache[mid].get('goals')
                 and not cache[mid].get('bookings')
-                and ft_goals(m) > 0):
+                and h_score + a_score > 0):
               del cache[mid]
               healed.append(f"{m.get('homeTeam',{}).get('name','?')} vs {m.get('awayTeam',{}).get('name','?')}")
           if healed:
             print(f'Cache healing: evicted {len(healed)} poisoned entries → {healed}')
 
-          # FINISHED but not yet cached → fetch once and cache permanently
-          # (exclude __version__ sentinel key from lookup)
+          # ── Which matches need event fetch ─────────────────────────────────
+          LIVE_STATUSES = ('IN_PLAY', 'PAUSED', 'HALFTIME')
           need_finished = [
-            m for m in bulk.get('matches', [])
-            if m.get('status') == 'FINISHED' and str(m['id']) not in cache
+            m for m in matches
+            if (get_espn_entry(m) or {}).get('status') == 'FINISHED'
+            and str(m['id']) not in cache
           ]
-          # LIVE → always re-fetch (fresh events each 5-min run)
           need_live = [
-            m for m in bulk.get('matches', [])
-            if m.get('status') in LIVE_STATUSES
+            m for m in matches
+            if (get_espn_entry(m) or {}).get('status') in LIVE_STATUSES
           ]
           need = need_finished + need_live
-
           print(f'Events to fetch: {len(need_finished)} new finished + {len(need_live)} live')
-          if not need:
-            print('All finished matches cached, no live matches — done')
-            raise SystemExit(0)
 
-          # Unique dates — also check adjacent day for late-UTC kickoffs (ESPN
-          # may list a match on the following date in local/US time)
-          need_dates_set = set()
-          for m in need:
-            if m.get('utcDate'):
-              try:
-                dt = datetime.strptime(m['utcDate'][:16], '%Y-%m-%dT%H:%M')
-                need_dates_set.add(dt.strftime('%Y%m%d'))
-                if dt.hour >= 21:
-                  need_dates_set.add((dt + timedelta(days=1)).strftime('%Y%m%d'))
-                if dt.hour <= 3:
-                  need_dates_set.add((dt - timedelta(days=1)).strftime('%Y%m%d'))
-              except Exception:
-                need_dates_set.add(m['utcDate'][:10].replace('-', ''))
-          need_dates = sorted(need_dates_set)
-          print(f'Fetching ESPN scoreboard for dates: {need_dates}')
-
-          # Build ESPN event map: norm(home)_norm(away) → espn_event_id
-          espn_map = {}
-          for date_str in need_dates:
-            try:
-              data = espn_get('scoreboard', params={'dates': date_str})
-              events_on_date = data.get('events', [])
-              print(f'  ESPN scoreboard {date_str}: {len(events_on_date)} events')
-              for event in events_on_date:
-                comps = event.get('competitions', [{}])[0]
-                competitors = comps.get('competitors', [])
-                home = next((c['team']['displayName'] for c in competitors if c.get('homeAway') == 'home'), '')
-                away = next((c['team']['displayName'] for c in competitors if c.get('homeAway') == 'away'), '')
-                if home and away:
-                  k = f'{norm(home)}_{norm(away)}'
-                  espn_map[k] = event['id']
-                  print(f'    ESPN: "{home}" vs "{away}" → key={k} id={event["id"]}')
-              time.sleep(0.5)
-            except Exception as e:
-              print(f'WARNING: ESPN scoreboard {date_str}: {e}', file=sys.stderr)
-
-          print(f'ESPN events indexed: {len(espn_map)}')
-
-          # In-memory store for live match events (ephemeral, not written to persistent cache)
           live_events = {}
 
-          def parse_espn_events(summary, m):
-            """Parse keyEvents[] from ESPN summary → goals/bookings.
+          if need:
+            # ── parse_espn_events (preserved verbatim) ────────────────────────
+            def parse_espn_events(summary, m):
+              """Parse keyEvents[] → goals/bookings. Verbatim from prior version.
+              Guarantees: no self-assists, no phantom ESPN duplicate goals,
+              no null team IDs, OG team.id = scorer's team."""
+              h_id   = m.get('homeTeam', {}).get('id')
+              a_id   = m.get('awayTeam', {}).get('id')
+              h_name = m.get('homeTeam', {}).get('name', '')
+              a_name = m.get('awayTeam', {}).get('name', '')
 
-            Data integrity guarantees:
-              - No self-assists (assist stripped when assist_name == scorer_name)
-              - No duplicate goal entries (deduped by scorer+minute+team+type)
-              - No null team IDs (name-based fallback if ESPN ID lookup fails)
-              - OG team.id always refers to the SCORER's team (frontend flips side)
-            """
-            h_id   = m.get('homeTeam', {}).get('id')
-            a_id   = m.get('awayTeam', {}).get('id')
-            h_name = m.get('homeTeam', {}).get('name', '')
-            a_name = m.get('awayTeam', {}).get('name', '')
+              competitors = (summary.get('header', {})
+                            .get('competitions', [{}])[0]
+                            .get('competitors', []))
+              espn_to_fdorg   = {}
+              espn_name_to_id = {}
+              for comp in competitors:
+                ha        = comp.get('homeAway', '')
+                espn_tid  = str(comp.get('id') or comp.get('team', {}).get('id', ''))
+                disp_name = comp.get('team', {}).get('displayName', '')
+                fdorg_id  = h_id if ha == 'home' else a_id if ha == 'away' else None
+                if fdorg_id:
+                  espn_to_fdorg[espn_tid] = fdorg_id
+                  if disp_name:
+                    espn_name_to_id[norm(disp_name)] = fdorg_id
+              if h_name: espn_name_to_id[norm(h_name)] = h_id
+              if a_name: espn_name_to_id[norm(a_name)] = a_id
 
-            # Map ESPN team IDs → fd.org team IDs via competitors
-            competitors = (summary.get('header', {})
-                          .get('competitions', [{}])[0]
-                          .get('competitors', []))
-            espn_to_fdorg    = {}   # espn_id → fd.org id
-            espn_name_to_id  = {}   # norm(display_name) → fd.org id
-            for comp in competitors:
-              ha         = comp.get('homeAway', '')
-              espn_tid   = str(comp.get('id') or comp.get('team', {}).get('id', ''))
-              disp_name  = comp.get('team', {}).get('displayName', '')
-              fdorg_id   = h_id if ha == 'home' else a_id if ha == 'away' else None
-              if fdorg_id:
-                espn_to_fdorg[espn_tid] = fdorg_id
-                if disp_name:
-                  espn_name_to_id[norm(disp_name)] = fdorg_id
-            # Also index our own fd.org team names as fallback
-            if h_name: espn_name_to_id[norm(h_name)] = h_id
-            if a_name: espn_name_to_id[norm(a_name)] = a_id
+              def resolve_team_id(event):
+                espn_tid  = str(event.get('team', {}).get('id', ''))
+                disp_name = event.get('team', {}).get('displayName', '')
+                tid = espn_to_fdorg.get(espn_tid)
+                if tid is None and disp_name:
+                  tid = espn_name_to_id.get(norm(disp_name))
+                return tid
 
-            def resolve_team_id(event):
-              """Return fd.org team id; falls back to name match; never returns None."""
-              espn_tid  = str(event.get('team', {}).get('id', ''))
-              disp_name = event.get('team', {}).get('displayName', '')
-              tid = espn_to_fdorg.get(espn_tid)
-              if tid is None and disp_name:
-                tid = espn_name_to_id.get(norm(disp_name))
-              return tid  # may still be None if ESPN data is truly unresolvable
+              goals, bookings = [], []
+              seen_goals = set()
 
-            goals      = []
-            bookings   = []
-            seen_goals = set()   # dedup key: (scorer, minute, inj, team_id, goal_type)
-
-            # Primary: keyEvents[].  Fallback: header.competitions[].details[]
-            key_events = summary.get('keyEvents', [])
-            if not key_events:
-              key_events = (summary.get('header', {})
-                           .get('competitions', [{}])[0]
-                           .get('details', []))
-              if key_events:
-                print(f'    [fallback] using header.competitions.details ({len(key_events)} events)')
-              else:
-                print(f'    [warn] keyEvents AND details both empty for this match')
-
-            for event in key_events:
-              type_info  = event.get('type', {})
-              etype      = type_info.get('type', '').lower()
-              clock_str  = event.get('clock', {}).get('displayValue', '')
-              minute, inj = parse_minute(clock_str)
-              team_id    = resolve_team_id(event)
-              parts      = event.get('participants', [])
-
-              if event.get('scoringPlay') or etype in ('goal', 'own-goal', 'penalty-goal', 'penalty'):
-                scorer_name = parts[0]['athlete'].get('displayName', '?') if parts else '?'
-
-                # ── Drop ESPN's assist-tracking duplicate events ──────────────
-                # ESPN emits TWO keyEvents per assisted goal:
-                #   Event A: participants=[scorer, assister]  ← real goal
-                #   Event B: participants=[assister, assister] ← assist tracker (NOT a goal)
-                # Event B has scoringPlay=True but participants[0]==participants[1].
-                # If we don't skip it we get phantom goals (9 instead of 5 for USA).
-                if len(parts) >= 2 and parts[1]['athlete'].get('displayName', '') == scorer_name:
-                  continue
-
-                # ── Assist: only when a DIFFERENT player is credited ──────────
-                assist_name = None
-                if len(parts) > 1 and etype != 'own-goal':
-                  candidate = parts[1]['athlete'].get('displayName', '')
-                  if candidate and candidate != scorer_name:
-                    assist_name = candidate
-
-                if etype == 'own-goal':
-                  goal_type = 'OWN_GOAL'
-                elif 'penalty' in etype:
-                  goal_type = 'PENALTY'
+              key_events = summary.get('keyEvents', [])
+              if not key_events:
+                key_events = (summary.get('header', {})
+                             .get('competitions', [{}])[0]
+                             .get('details', []))
+                if key_events:
+                  print(f'    [fallback] details ({len(key_events)} events)')
                 else:
-                  goal_type = 'REGULAR'
+                  print(f'    [warn] keyEvents AND details both empty')
 
-                # ── Deduplicate: same scorer+minute+team+type = same goal ─────
-                dedup = (scorer_name, minute, inj, team_id, goal_type)
-                if dedup in seen_goals:
-                  continue
-                seen_goals.add(dedup)
+              for event in key_events:
+                etype     = event.get('type', {}).get('type', '').lower()
+                clock_str = event.get('clock', {}).get('displayValue', '')
+                minute, inj = parse_minute(clock_str)
+                team_id   = resolve_team_id(event)
+                parts     = event.get('participants', [])
 
-                goals.append({
-                  'minute':     minute,
-                  'injuryTime': inj,
-                  'type':       goal_type,
-                  'scorer':     {'name': scorer_name, 'shortName': scorer_name},
-                  'assist':     {'name': assist_name, 'shortName': assist_name} if assist_name else None,
-                  'team':       {'id': team_id},
-                })
+                if event.get('scoringPlay') or etype in ('goal', 'own-goal', 'penalty-goal', 'penalty'):
+                  scorer_name = parts[0]['athlete'].get('displayName', '?') if parts else '?'
+                  # Drop ESPN assist-tracking duplicates (participants[0]==participants[1])
+                  if len(parts) >= 2 and parts[1]['athlete'].get('displayName', '') == scorer_name:
+                    continue
+                  assist_name = None
+                  if len(parts) > 1 and etype != 'own-goal':
+                    candidate = parts[1]['athlete'].get('displayName', '')
+                    if candidate and candidate != scorer_name:
+                      assist_name = candidate
+                  goal_type = ('OWN_GOAL' if etype == 'own-goal'
+                               else 'PENALTY' if 'penalty' in etype
+                               else 'REGULAR')
+                  dedup = (scorer_name, minute, inj, team_id, goal_type)
+                  if dedup in seen_goals:
+                    continue
+                  seen_goals.add(dedup)
+                  goals.append({
+                    'minute': minute, 'injuryTime': inj, 'type': goal_type,
+                    'scorer': {'name': scorer_name, 'shortName': scorer_name},
+                    'assist': {'name': assist_name, 'shortName': assist_name} if assist_name else None,
+                    'team':   {'id': team_id},
+                  })
 
-              elif etype in ('yellow-card', 'red-card', 'yellow-red-card'):
-                player_name = parts[0]['athlete'].get('displayName', '?') if parts else '?'
-                card_map = {
-                  'yellow-card':     'YELLOW_CARD',
-                  'red-card':        'RED_CARD',
-                  'yellow-red-card': 'YELLOW_RED_CARD',
-                }
-                bookings.append({
-                  'minute': minute,
-                  'player': {'name': player_name, 'shortName': player_name},
-                  'card':   card_map.get(etype, 'YELLOW_CARD'),
-                  'team':   {'id': team_id},
-                })
+                elif etype in ('yellow-card', 'red-card', 'yellow-red-card'):
+                  player_name = parts[0]['athlete'].get('displayName', '?') if parts else '?'
+                  card_map = {
+                    'yellow-card':     'YELLOW_CARD',
+                    'red-card':        'RED_CARD',
+                    'yellow-red-card': 'YELLOW_RED_CARD',
+                  }
+                  bookings.append({
+                    'minute': minute,
+                    'player': {'name': player_name, 'shortName': player_name},
+                    'card': card_map.get(etype, 'YELLOW_CARD'),
+                    'team': {'id': team_id},
+                  })
 
-            goals.sort(key=lambda g: g['minute'])
-            bookings.sort(key=lambda b: b['minute'])
-            return goals, bookings
+              goals.sort(key=lambda g: g['minute'])
+              bookings.sort(key=lambda b: b['minute'])
+              return goals, bookings
 
-          # Fetch events for each needed match
-          for m in need:
-            mid     = str(m['id'])
-            ht      = m.get('homeTeam', {})
-            at_     = m.get('awayTeam', {})
-            h_name  = ht.get('name', '')
-            a_name  = at_.get('name', '')
-            key     = f'{norm(h_name)}_{norm(a_name)}'
-            espn_id = espn_map.get(key)
-            is_live = m.get('status') in LIVE_STATUSES
+            # ── Fetch events for each match ─────────────────────────────────
+            for m in need:
+              mid     = str(m['id'])
+              entry   = get_espn_entry(m)
+              espn_id = (entry or {}).get('espnId')
+              is_live = (entry or {}).get('status') in LIVE_STATUSES
+              h_name  = m.get('homeTeam', {}).get('name', '')
+              a_name  = m.get('awayTeam', {}).get('name', '')
 
-            if not espn_id:
-              # Try reversed key (ESPN sometimes swaps home/away)
-              rev_key = f'{norm(a_name)}_{norm(h_name)}'
-              espn_id = espn_map.get(rev_key)
-              if espn_id:
-                print(f'  [{mid}] {h_name} vs {a_name} — found via reversed key={rev_key}')
-              else:
-                print(f'  [{mid}] {h_name} vs {a_name} — NOT in ESPN (key={key}, rev={rev_key})')
-                print(f'         ESPN map keys: {sorted(espn_map.keys())}')
-                # DO NOT cache failures — allow retry on every run until resolved
+              if not espn_id:
+                print(f'  [{mid}] {h_name} vs {a_name} — no ESPN ID in live map')
                 continue
 
-            try:
-              time.sleep(0.8)
-              summary = espn_get('summary', params={'event': espn_id})
-              ke_count  = len(summary.get('keyEvents', []))
-              det_count = len((summary.get('header', {}).get('competitions', [{}])[0].get('details', [])))
-              print(f'    ESPN summary for {espn_id}: keyEvents={ke_count}, details={det_count}')
-              goals, bookings = parse_espn_events(summary, m)
-
-              label = 'LIVE' if is_live else 'FT'
-              print(f'  [{mid}][{label}] {h_name} vs {a_name}: {len(goals)} goals, {len(bookings)} cards')
-
-              if is_live:
-                # Ephemeral — re-fetched every run, not persisted to match-events.json
-                live_events[mid] = {'goals': goals, 'bookings': bookings}
-              else:
-                # Permanent cache for finished matches
-                cache[mid] = {'goals': goals, 'bookings': bookings}
-
-            except Exception as e:
-              print(f'  WARNING [{mid}] {h_name} vs {a_name}: {e}', file=sys.stderr)
-              # DO NOT cache on error — allow retry on next run
+              try:
+                time.sleep(0.8)
+                summary   = espn_get('summary', params={'event': espn_id})
+                ke_count  = len(summary.get('keyEvents', []))
+                det_count = len(summary.get('header', {}).get('competitions', [{}])[0].get('details', []))
+                print(f'    ESPN summary {espn_id}: keyEvents={ke_count}, details={det_count}')
+                goals, bookings = parse_espn_events(summary, m)
+                label = 'LIVE' if is_live else 'FT'
+                print(f'  [{mid}][{label}] {h_name} vs {a_name}: {len(goals)} goals, {len(bookings)} cards')
+                if is_live:
+                  live_events[mid] = {'goals': goals, 'bookings': bookings}
+                else:
+                  cache[mid] = {'goals': goals, 'bookings': bookings}
+              except Exception as e:
+                print(f'  WARNING [{mid}] {h_name} vs {a_name}: {e}', file=sys.stderr)
+                # DO NOT cache on error — allow retry on next run
 
           cache['__version__'] = CACHE_VERSION
           with open('match-events.json', 'w') as f:
             json.dump(cache, f, indent=2)
           entry_count = sum(1 for k in cache if k != '__version__')
-          print(f'match-events.json v{CACHE_VERSION} — {entry_count} finished entries')
+          print(f'match-events.json v{CACHE_VERSION} — {entry_count} entries')
 
-          with open('live-events.json', 'w') as f:
-            json.dump(live_events, f)
-          print(f'live-events.json — {len(live_events)} live entries')
-          PYEOF
+          # ── Merge: schedule + ESPN live + events → live-scores.json ────────
+          all_events = {**{k: v for k, v in cache.items() if k != '__version__'},
+                        **live_events}
 
-      # ── Step 3: merge events into live-scores.json ───────────────────────────
-      - name: Merge events into live-scores.json
-        run: |
-          python3 << 'PYEOF'
-          import json, os
-          if not os.path.exists('all-matches.json'):
-            raise SystemExit(0)
+          goal_total = live_count = 0
+          for m in matches:
+            entry = get_espn_entry(m)
+            if entry:
+              # Override status with ESPN (no more stale fd.org statuses)
+              m['status'] = entry['status']
 
-          with open('all-matches.json') as f:
-            bulk = json.load(f)
+              # Scores by team name — safe against home/away position mismatch
+              sbn     = entry.get('scoreByName', {})
+              h_name  = m.get('homeTeam', {}).get('name', '')
+              a_name  = m.get('awayTeam', {}).get('name', '')
+              h_score = sbn.get(norm(h_name))
+              a_score = sbn.get(norm(a_name))
+              if h_score is not None and a_score is not None:
+                m.setdefault('score', {})['fullTime'] = {'home': h_score, 'away': a_score}
 
-          try:
-            with open('match-events.json') as f:
-              cache = json.load(f)
-          except Exception:
-            cache = {}
+              # Live clock — stored for future frontend use
+              if entry.get('displayClock'):
+                m['displayClock'] = entry['displayClock']
 
-          try:
-            with open('live-events.json') as f:
-              live_ev = json.load(f)
-          except Exception:
-            live_ev = {}
-
-          # Live events take precedence (most recent data)
-          all_events = {**cache, **live_ev}
-
-          goal_total = 0
-          live_count = 0
-          for m in bulk.get('matches', []):
-            ev = all_events.get(str(m['id']), {})
+            # Attach events (goals + bookings)
+            mid = str(m['id'])
+            ev  = all_events.get(mid, {})
             m['goals']    = ev.get('goals', [])
             m['bookings'] = ev.get('bookings', [])
-            goal_total += len(m['goals'])
+            goal_total   += len(m['goals'])
             if m.get('status') in ('IN_PLAY', 'PAUSED', 'HALFTIME'):
               live_count += 1
 
           with open('live-scores.json', 'w') as f:
-            json.dump(bulk, f)
+            json.dump(schedule, f)
 
-          total = len(bulk['matches'])
-          done  = sum(1 for m in bulk['matches'] if m.get('status') == 'FINISHED')
+          total = len(matches)
+          done  = sum(1 for m in matches if m.get('status') == 'FINISHED')
           print(f'live-scores.json — {total} matches, {done} finished, {live_count} live, {goal_total} goals')
 
-          os.remove('all-matches.json')
+          # Clean up ephemeral files
           if os.path.exists('live-events.json'):
             os.remove('live-events.json')
           PYEOF
 
-      # ── Step 4: commit ────────────────────────────────────────────────────────
+      # ── Step 3: commit ─────────────────────────────────────────────────────
       - name: Commit and push if data changed
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add live-scores.json match-events.json
+          git add live-scores.json match-events.json wc2026-schedule.json
           if git diff --cached --quiet; then
             echo "No changes — skipping commit"
           else
