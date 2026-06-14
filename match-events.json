@@ -599,7 +599,49 @@
     ]
   },
   "537346": {
-    "goals": [],
-    "bookings": []
+    "goals": [
+      {
+        "minute": 27,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Nestory Irankunda",
+          "shortName": "Nestory Irankunda"
+        },
+        "assist": {
+          "name": "Paul Okon-Engstler",
+          "shortName": "Paul Okon-Engstler"
+        },
+        "team": {
+          "id": 779
+        }
+      },
+      {
+        "minute": 75,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Connor Metcalfe",
+          "shortName": "Connor Metcalfe"
+        },
+        "assist": null,
+        "team": {
+          "id": 779
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 86,
+        "player": {
+          "name": "Yunus Akg\u00fcn",
+          "shortName": "Yunus Akg\u00fcn"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 803
+        }
+      }
+    ]
   }
 }
