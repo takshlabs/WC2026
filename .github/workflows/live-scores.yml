@@ -226,6 +226,15 @@ jobs:
               if event.get('scoringPlay') or etype in ('goal', 'own-goal', 'penalty-goal', 'penalty'):
                 scorer_name = parts[0]['athlete'].get('displayName', '?') if parts else '?'
 
+                # ── Drop ESPN's assist-tracking duplicate events ──────────────
+                # ESPN emits TWO keyEvents per assisted goal:
+                #   Event A: participants=[scorer, assister]  ← real goal
+                #   Event B: participants=[assister, assister] ← assist tracker (NOT a goal)
+                # Event B has scoringPlay=True but participants[0]==participants[1].
+                # If we don't skip it we get phantom goals (9 instead of 5 for USA).
+                if len(parts) >= 2 and parts[1]['athlete'].get('displayName', '') == scorer_name:
+                  continue
+
                 # ── Assist: only when a DIFFERENT player is credited ──────────
                 assist_name = None
                 if len(parts) > 1 and etype != 'own-goal':
