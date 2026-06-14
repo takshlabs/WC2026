@@ -1,4 +1,5 @@
 {
+  "__version__": 2,
   "537327": {
     "goals": [
       {
@@ -294,7 +295,7 @@
       },
       {
         "minute": 45,
-        "injuryTime": null,
+        "injuryTime": 5,
         "type": "REGULAR",
         "scorer": {
           "name": "Folarin Balogun",
@@ -326,7 +327,7 @@
       },
       {
         "minute": 90,
-        "injuryTime": null,
+        "injuryTime": 8,
         "type": "REGULAR",
         "scorer": {
           "name": "Giovanni Reyna",
@@ -427,7 +428,7 @@
       },
       {
         "minute": 90,
-        "injuryTime": null,
+        "injuryTime": 4,
         "type": "OWN_GOAL",
         "scorer": {
           "name": "Miro Muheim",
