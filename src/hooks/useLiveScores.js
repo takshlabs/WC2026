@@ -36,7 +36,8 @@ const ESPN_ALIASES_JS = {
 }
 function normEspnName(s) {
   const nfkd = (s || '').normalize('NFKD').toLowerCase()
-  const stripped = nfkd.replace(/[̀-ͯ]/g, '').replace(/[^a-z]/g, '')
+  // ̀-ͯ = combining diacritical marks (explicit escapes, not literal chars)
+  const stripped = nfkd.replace(/[̀-ͯ]/g, "").replace(/[^a-z]/g, '')
   return ESPN_ALIASES_JS[stripped] || stripped
 }
 
@@ -225,77 +226,93 @@ export function useLiveScores() {
       }
     }
 
-    // ── ESPN real-time overlay (every 20s, today ±1 day) ──────────────────
-    // Fetches scores/status/clock directly from ESPN — no cron dependency.
-    // Only updates score+status+clock; goals/cards come from live-scores.json.
-    // Failure is silent; live-scores.json remains the floor.
+    // ── ESPN real-time overlay (every 20s, yesterday+today+tomorrow) ─────────
+    // Scores/status/clock fetched directly from ESPN — no GitHub cron dependency.
+    // Only overlays homeScore/awayScore/status/displayClock.
+    // Goals/bookings/stats/form kept from live-scores.json floor.
+    // Three separate fetches (not range) — ESPN range queries silently truncate.
     async function pollEspn() {
       try {
-        const now   = new Date()
-        const yest  = new Date(now); yest.setUTCDate(yest.getUTCDate() - 1)
-        const tom   = new Date(now); tom.setUTCDate(tom.getUTCDate() + 1)
-        const fmt   = d => d.toISOString().slice(0, 10).replace(/-/g, '')
-        const dates = `${fmt(yest)}-${fmt(tom)}`
+        const now  = new Date()
+        const fmt  = d => d.toISOString().slice(0, 10).replace(/-/g, '')
+        const yest = new Date(now); yest.setUTCDate(now.getUTCDate() - 1)
+        const tom  = new Date(now); tom.setUTCDate(now.getUTCDate() + 1)
 
-        const res  = await fetch(`${ESPN_SCOREBOARD}?dates=${dates}`, { cache: 'no-store' })
-        if (!res.ok) return
-        const data = await res.json()
+        // Three separate fetches — range queries silently truncate on ESPN
+        const [rY, rT, rN] = await Promise.all([
+          fetch(`${ESPN_SCOREBOARD}?dates=${fmt(yest)}`, { cache: 'no-store' }),
+          fetch(`${ESPN_SCOREBOARD}?dates=${fmt(now)}`,  { cache: 'no-store' }),
+          fetch(`${ESPN_SCOREBOARD}?dates=${fmt(tom)}`,  { cache: 'no-store' }),
+        ])
+        const allEvents = (await Promise.all(
+          [rY, rT, rN].filter(r => r.ok).map(r => r.json())
+        )).flatMap(d => d.events || [])
 
         setLiveMap(prev => {
           const next = new Map(prev)
-          for (const event of (data.events || [])) {
-            const comp      = event.competitions?.[0]
+
+          for (const event of allEvents) {
+            const comp        = event.competitions?.[0]
             if (!comp) continue
             const competitors = comp.competitors || []
 
-            // Scores keyed by team name — safe against position swap
+            // Scores keyed by normalised team name — immune to position swap
             const scoreByName = {}
             for (const c of competitors) {
               const n = normEspnName(c.team?.displayName || '')
               if (n) scoreByName[n] = Number(c.score ?? 0)
             }
 
-            const hComp  = competitors.find(c => c.homeAway === 'home') || {}
-            const aComp  = competitors.find(c => c.homeAway === 'away') || {}
-            const hName  = hComp.team?.displayName || ''
-            const aName  = aComp.team?.displayName || ''
+            const hComp = competitors.find(c => c.homeAway === 'home') || {}
+            const aComp = competitors.find(c => c.homeAway === 'away') || {}
+            const hName = hComp.team?.displayName || ''
+            const aName = aComp.team?.displayName || ''
+            const hTla  = normalizeTla(hComp.team?.abbreviation || '')
+            const aTla  = normalizeTla(aComp.team?.abbreviation || '')
 
-            // Match to local record by team display name
-            const hCode  = NAME_LOOKUP[normEspnName(hName)]
-            const aCode  = NAME_LOOKUP[normEspnName(aName)]
-            const local  = hCode && aCode ? MATCHES.find(m => m.home === hCode && m.away === aCode) : null
+            // Use findLocalMatch (TLA-first, name-fallback, both orientations)
+            const local = findLocalMatch(hTla, aTla, hName, aName)
             if (!local) continue
 
-            const sObj       = comp.status || {}
-            const state      = sObj.type?.state || ''
-            const statusName = sObj.type?.name  || ''
-            const clock      = sObj.displayClock || null
+            const sObj   = comp.status || {}
+            const state  = sObj.type?.state  || ''
+            const sName  = sObj.type?.name   || ''   // e.g. "STATUS_SECOND_HALF"
+            const clock  = sObj.displayClock || null
 
-            const espnStatus = state === 'post' ? 'finished'
-              : state === 'in'
-                ? ('HALFTIME' in statusName ? 'live' : 'live')
-                : 'upcoming'
+            // FIX: was `'HALFTIME' in sName` which throws TypeError on strings
+            const espnStatus = state === 'post'    ? 'finished'
+              : state === 'in'                     ? 'live'     // covers all in-play substates
+              : 'upcoming'
 
-            const hScore = scoreByName[normEspnName(hName)] ?? null
-            const aScore = scoreByName[normEspnName(aName)] ?? null
+            // Determine which competitor corresponds to local.home / local.away
+            // Use scoreByName so orientation never flips the score
+            const hKey   = normEspnName(hName)
+            const aKey   = normEspnName(aName)
+            const hScore = scoreByName[hKey] ?? null
+            const aScore = scoreByName[aKey] ?? null
+
+            // Check if local home matches ESPN home (or if ESPN has it reversed)
+            const homeCode = NAME_LOOKUP[hKey]
+            const isFlipped = homeCode && homeCode !== local.home
+            const finalHome = isFlipped ? aScore : hScore
+            const finalAway = isFlipped ? hScore : aScore
 
             const existing = next.get(local.id)
-            if (!existing && espnStatus === 'upcoming') continue  // no entry yet, skip scheduled
+            // Don't add new entries for purely scheduled matches (no existing floor entry)
+            if (!existing && espnStatus === 'upcoming') continue
 
             next.set(local.id, {
               ...(existing || {}),
-              // Overlay: only score/status/clock from ESPN (real-time)
-              // goals/bookings/stats/form kept from live-scores.json floor
-              homeScore:    hScore ?? existing?.homeScore ?? 0,
-              awayScore:    aScore ?? existing?.awayScore ?? 0,
+              homeScore:    finalHome ?? existing?.homeScore ?? 0,
+              awayScore:    finalAway ?? existing?.awayScore ?? 0,
               status:       espnStatus,
               displayClock: clock,
             })
           }
           return next
         })
-      } catch (_) {
-        // Silent — live-scores.json floor remains
+      } catch (e) {
+        console.warn('[espn] overlay error:', e.message)  // no longer silent
       }
     }
 
