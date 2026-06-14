@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-14T11:09:53Z",
+  "updated": "2026-06-14T16:10:11Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -290,6 +290,26 @@
       "ga": 2
     },
     {
+      "tla": "CAN",
+      "name": "Canada",
+      "mp": 1,
+      "w": 0,
+      "d": 1,
+      "l": 0,
+      "gf": 1,
+      "ga": 1
+    },
+    {
+      "tla": "BIH",
+      "name": "Bosnia-Herzegovina",
+      "mp": 1,
+      "w": 0,
+      "d": 1,
+      "l": 0,
+      "gf": 1,
+      "ga": 1
+    },
+    {
       "tla": "PAR",
       "name": "Paraguay",
       "mp": 1,
@@ -348,26 +368,6 @@
       "l": 1,
       "gf": 0,
       "ga": 2
-    },
-    {
-      "tla": "CAN",
-      "name": "Canada",
-      "mp": 1,
-      "w": 0,
-      "d": 1,
-      "l": 0,
-      "gf": 0,
-      "ga": 0
-    },
-    {
-      "tla": "BIH",
-      "name": "Bosnia-Herzegovina",
-      "mp": 1,
-      "w": 0,
-      "d": 1,
-      "l": 0,
-      "gf": 0,
-      "ga": 0
     },
     {
       "tla": "HAI",
