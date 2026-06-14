@@ -106,7 +106,9 @@ jobs:
             return ESPN_ALIASES.get(raw, raw)
 
           def parse_minute(clock_str):
-            m = re.match(r"(\d+)\+(\d+)", clock_str or '')
+            # ESPN format: "45'+5'" (injury time) or "31'" (regular)
+            # The apostrophe after the base minute must be optional in the regex.
+            m = re.match(r"(\d+)'?\+(\d+)", clock_str or '')
             if m: return int(m.group(1)), int(m.group(2))
             m = re.match(r"(\d+)", clock_str or '')
             if m: return int(m.group(1)), None
@@ -124,12 +126,21 @@ jobs:
           with open('all-matches.json') as f:
             bulk = json.load(f)
 
+          # ── Cache versioning ──────────────────────────────────────────────
+          # Increment CACHE_VERSION whenever parse logic changes so old
+          # entries are automatically evicted and re-fetched on next run.
+          # v1 → initial, v2 → fixed parse_minute for ESPN "45'+5'" format
+          CACHE_VERSION = 2
+
           # Load persistent cache for FINISHED matches
           try:
             with open('match-events.json') as f:
               cache = json.load(f)
+            if cache.get('__version__') != CACHE_VERSION:
+              print(f'Cache version mismatch (stored={cache.get("__version__")}, current={CACHE_VERSION}) — clearing all entries for re-fetch')
+              cache = {'__version__': CACHE_VERSION}
           except Exception:
-            cache = {}
+            cache = {'__version__': CACHE_VERSION}
 
           LIVE_STATUSES = ('IN_PLAY', 'PAUSED', 'HALFTIME')
 
@@ -156,6 +167,7 @@ jobs:
             print(f'Cache healing: evicted {len(healed)} poisoned entries → {healed}')
 
           # FINISHED but not yet cached → fetch once and cache permanently
+          # (exclude __version__ sentinel key from lookup)
           need_finished = [
             m for m in bulk.get('matches', [])
             if m.get('status') == 'FINISHED' and str(m['id']) not in cache
@@ -383,9 +395,11 @@ jobs:
               print(f'  WARNING [{mid}] {h_name} vs {a_name}: {e}', file=sys.stderr)
               # DO NOT cache on error — allow retry on next run
 
+          cache['__version__'] = CACHE_VERSION
           with open('match-events.json', 'w') as f:
             json.dump(cache, f, indent=2)
-          print(f'match-events.json — {len(cache)} finished entries')
+          entry_count = sum(1 for k in cache if k != '__version__')
+          print(f'match-events.json v{CACHE_VERSION} — {entry_count} finished entries')
 
           with open('live-events.json', 'w') as f:
             json.dump(live_events, f)
