@@ -155,7 +155,7 @@ function YourTeamsSection({ goGroup }) {
                     <div className="home-fx-header">
                       <span className="home-fx-time">
                         {live?.status === 'live'
-                          ? <span className="live-badge" style={{fontSize:'0.55rem'}}><span className="live-dot"/>LIVE</span>
+                          ? <span className="live-badge" style={{fontSize:'0.55rem'}}><span className="live-dot"/>{liveMap.get(m.id)?.displayClock || 'LIVE'}</span>
                           : `${conv.dateShort} · ${conv.time} ${conv.abbr}`}
                       </span>
                       <span className="badge badge-group" style={{ background: color, fontSize: '0.55rem' }}>Grp {m.group}</span>

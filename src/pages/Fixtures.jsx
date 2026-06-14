@@ -248,7 +248,10 @@ function MatchRow({ m, focus }) {
       <div className="fx-accent" style={{ background: color }} />
       <div className="fx-time">
         {isLive
-          ? <span className="live-badge" style={{ fontSize: '0.55rem' }}><span className="live-dot" />LIVE</span>
+          ? <span className="live-badge" style={{ fontSize: '0.55rem' }}>
+              <span className="live-dot" />
+              {live?.displayClock || 'LIVE'}
+            </span>
           : isFinished
             ? <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', color: 'var(--text-3)' }}>FT</span>
             : m.conv.time}
