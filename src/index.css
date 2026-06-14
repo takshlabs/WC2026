@@ -556,6 +556,45 @@ img { display: block; max-width: 100%; }
   gap: 10px;
   margin-top: 2rem;
   flex-wrap: wrap;
+  align-items: center;
+}
+.bookmark-btn {
+  font-size: 0.78rem !important;
+  padding: 0 14px !important;
+  height: 34px !important;
+  opacity: 0.75;
+  transition: opacity 0.15s;
+}
+.bookmark-btn:hover { opacity: 1; }
+.bookmark-hint {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--surface-3);
+  border: 1px solid var(--border-2);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-2);
+  white-space: nowrap;
+  pointer-events: none;
+  animation: fadeInUp 0.15s ease;
+  z-index: 10;
+}
+.bookmark-hint kbd {
+  background: var(--surface-4, var(--surface-2));
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--gold);
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateX(-50%) translateY(4px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
 /* ── Buttons ─────────────────────────────────────────────────────────────────── */

@@ -5,6 +5,45 @@ import { useApp } from '../App'
 import { isPwa, isIos } from '../hooks/useNotifications'
 import FlagImg from '../components/FlagImg'
 
+// ── Bookmark button ───────────────────────────────────────────────────────────
+function BookmarkButton() {
+  const [hint, setHint] = useState(null)
+
+  function handleBookmark() {
+    // Mobile / PWA: use Web Share API → triggers native "Add to Home Screen" / Save flow
+    if (navigator.share) {
+      navigator.share({
+        title: 'World Cup 2026 — Live Tracker',
+        text:  'Full schedule, live scores, groups, bracket & stats for FIFA World Cup 2026.',
+        url:   'https://takshlabs.github.io/WC2026/',
+      }).catch(() => {})
+      return
+    }
+    // Desktop: show keyboard shortcut hint (no programmatic bookmark API exists in browsers)
+    const isMac = /mac/i.test(navigator.platform || navigator.userAgent)
+    setHint(isMac ? '⌘D' : 'Ctrl+D')
+    setTimeout(() => setHint(null), 3000)
+  }
+
+  return (
+    <div style={{ position: 'relative', display: 'inline-flex' }}>
+      <button
+        className="btn btn-ghost bookmark-btn"
+        onClick={handleBookmark}
+        title="Bookmark this page"
+        aria-label="Bookmark this page"
+      >
+        🔖 Bookmark
+      </button>
+      {hint && (
+        <div className="bookmark-hint">
+          Press <kbd>{hint}</kbd> to bookmark
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ── Team picker (shown in Your Teams empty state or when + is clicked) ────────
 function TeamPicker() {
   const { myTeams, toggleMyTeam, notifPermission, requestPermission } = useApp()
@@ -219,6 +258,7 @@ export default function Home() {
             <div className="hero-actions">
               <button className="btn btn-gold" onClick={() => navigate('fixtures')}>View Schedule</button>
               <button className="btn btn-ghost" onClick={() => navigate('stats')}>Stats Dashboard</button>
+              <BookmarkButton />
             </div>
             <div className="hero-byline">
               <span className="hero-byline-rule" />
