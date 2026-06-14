@@ -1,416 +1,5 @@
 {
-  "__version__": 2,
-  "537327": {
-    "goals": [
-      {
-        "minute": 9,
-        "injuryTime": null,
-        "type": "REGULAR",
-        "scorer": {
-          "name": "Juli\u00e1n Qui\u00f1ones",
-          "shortName": "Juli\u00e1n Qui\u00f1ones"
-        },
-        "assist": {
-          "name": "\u00c9rik Lira",
-          "shortName": "\u00c9rik Lira"
-        },
-        "team": {
-          "id": 769
-        }
-      },
-      {
-        "minute": 67,
-        "injuryTime": null,
-        "type": "REGULAR",
-        "scorer": {
-          "name": "Ra\u00fal Jim\u00e9nez",
-          "shortName": "Ra\u00fal Jim\u00e9nez"
-        },
-        "assist": {
-          "name": "Roberto Alvarado",
-          "shortName": "Roberto Alvarado"
-        },
-        "team": {
-          "id": 769
-        }
-      }
-    ],
-    "bookings": [
-      {
-        "minute": 17,
-        "player": {
-          "name": "Teboho Mokoena",
-          "shortName": "Teboho Mokoena"
-        },
-        "card": "YELLOW_CARD",
-        "team": {
-          "id": 774
-        }
-      },
-      {
-        "minute": 23,
-        "player": {
-          "name": "Brian Guti\u00e9rrez",
-          "shortName": "Brian Guti\u00e9rrez"
-        },
-        "card": "YELLOW_CARD",
-        "team": {
-          "id": 769
-        }
-      },
-      {
-        "minute": 49,
-        "player": {
-          "name": "Sphephelo Sithole",
-          "shortName": "Sphephelo Sithole"
-        },
-        "card": "RED_CARD",
-        "team": {
-          "id": 774
-        }
-      },
-      {
-        "minute": 74,
-        "player": {
-          "name": "Nkosinathi Sibisi",
-          "shortName": "Nkosinathi Sibisi"
-        },
-        "card": "YELLOW_CARD",
-        "team": {
-          "id": 774
-        }
-      },
-      {
-        "minute": 84,
-        "player": {
-          "name": "Themba Zwane",
-          "shortName": "Themba Zwane"
-        },
-        "card": "RED_CARD",
-        "team": {
-          "id": 774
-        }
-      },
-      {
-        "minute": 90,
-        "player": {
-          "name": "C\u00e9sar Montes",
-          "shortName": "C\u00e9sar Montes"
-        },
-        "card": "RED_CARD",
-        "team": {
-          "id": 769
-        }
-      }
-    ]
-  },
-  "537328": {
-    "goals": [
-      {
-        "minute": 59,
-        "injuryTime": null,
-        "type": "REGULAR",
-        "scorer": {
-          "name": "Ladislav Krejc\u00ed",
-          "shortName": "Ladislav Krejc\u00ed"
-        },
-        "assist": {
-          "name": "Vladim\u00edr Coufal",
-          "shortName": "Vladim\u00edr Coufal"
-        },
-        "team": {
-          "id": 798
-        }
-      },
-      {
-        "minute": 67,
-        "injuryTime": null,
-        "type": "REGULAR",
-        "scorer": {
-          "name": "Hwang In-Beom",
-          "shortName": "Hwang In-Beom"
-        },
-        "assist": {
-          "name": "Lee Kang-In",
-          "shortName": "Lee Kang-In"
-        },
-        "team": {
-          "id": 772
-        }
-      },
-      {
-        "minute": 80,
-        "injuryTime": null,
-        "type": "REGULAR",
-        "scorer": {
-          "name": "Oh Hyeon-Gyu",
-          "shortName": "Oh Hyeon-Gyu"
-        },
-        "assist": {
-          "name": "Hwang In-Beom",
-          "shortName": "Hwang In-Beom"
-        },
-        "team": {
-          "id": 772
-        }
-      }
-    ],
-    "bookings": [
-      {
-        "minute": 90,
-        "player": {
-          "name": "Lee Gi-Hyuk",
-          "shortName": "Lee Gi-Hyuk"
-        },
-        "card": "YELLOW_CARD",
-        "team": {
-          "id": 772
-        }
-      }
-    ]
-  },
-  "537333": {
-    "goals": [
-      {
-        "minute": 21,
-        "injuryTime": null,
-        "type": "REGULAR",
-        "scorer": {
-          "name": "Jovo Lukic",
-          "shortName": "Jovo Lukic"
-        },
-        "assist": {
-          "name": "Sead Kolasinac",
-          "shortName": "Sead Kolasinac"
-        },
-        "team": {
-          "id": 1060
-        }
-      },
-      {
-        "minute": 78,
-        "injuryTime": null,
-        "type": "REGULAR",
-        "scorer": {
-          "name": "Cyle Larin",
-          "shortName": "Cyle Larin"
-        },
-        "assist": {
-          "name": "Promise David",
-          "shortName": "Promise David"
-        },
-        "team": {
-          "id": 828
-        }
-      }
-    ],
-    "bookings": [
-      {
-        "minute": 11,
-        "player": {
-          "name": "Alistair Johnston",
-          "shortName": "Alistair Johnston"
-        },
-        "card": "YELLOW_CARD",
-        "team": {
-          "id": 828
-        }
-      },
-      {
-        "minute": 45,
-        "player": {
-          "name": "Ermedin Demirovic",
-          "shortName": "Ermedin Demirovic"
-        },
-        "card": "YELLOW_CARD",
-        "team": {
-          "id": 1060
-        }
-      },
-      {
-        "minute": 45,
-        "player": {
-          "name": "Jovo Lukic",
-          "shortName": "Jovo Lukic"
-        },
-        "card": "YELLOW_CARD",
-        "team": {
-          "id": 1060
-        }
-      },
-      {
-        "minute": 53,
-        "player": {
-          "name": "Luc de Fougerolles",
-          "shortName": "Luc de Fougerolles"
-        },
-        "card": "YELLOW_CARD",
-        "team": {
-          "id": 828
-        }
-      },
-      {
-        "minute": 90,
-        "player": {
-          "name": "Nikola Katic",
-          "shortName": "Nikola Katic"
-        },
-        "card": "YELLOW_CARD",
-        "team": {
-          "id": 1060
-        }
-      }
-    ]
-  },
-  "537345": {
-    "goals": [
-      {
-        "minute": 7,
-        "injuryTime": null,
-        "type": "OWN_GOAL",
-        "scorer": {
-          "name": "Dami\u00e1n Bobadilla",
-          "shortName": "Dami\u00e1n Bobadilla"
-        },
-        "assist": null,
-        "team": {
-          "id": 771
-        }
-      },
-      {
-        "minute": 31,
-        "injuryTime": null,
-        "type": "REGULAR",
-        "scorer": {
-          "name": "Folarin Balogun",
-          "shortName": "Folarin Balogun"
-        },
-        "assist": {
-          "name": "Christian Pulisic",
-          "shortName": "Christian Pulisic"
-        },
-        "team": {
-          "id": 771
-        }
-      },
-      {
-        "minute": 45,
-        "injuryTime": 5,
-        "type": "REGULAR",
-        "scorer": {
-          "name": "Folarin Balogun",
-          "shortName": "Folarin Balogun"
-        },
-        "assist": {
-          "name": "Malik Tillman",
-          "shortName": "Malik Tillman"
-        },
-        "team": {
-          "id": 771
-        }
-      },
-      {
-        "minute": 73,
-        "injuryTime": null,
-        "type": "REGULAR",
-        "scorer": {
-          "name": "Maur\u00edcio",
-          "shortName": "Maur\u00edcio"
-        },
-        "assist": {
-          "name": "Julio Enciso",
-          "shortName": "Julio Enciso"
-        },
-        "team": {
-          "id": 761
-        }
-      },
-      {
-        "minute": 90,
-        "injuryTime": 8,
-        "type": "REGULAR",
-        "scorer": {
-          "name": "Giovanni Reyna",
-          "shortName": "Giovanni Reyna"
-        },
-        "assist": {
-          "name": "Alex Freeman",
-          "shortName": "Alex Freeman"
-        },
-        "team": {
-          "id": 771
-        }
-      }
-    ],
-    "bookings": [
-      {
-        "minute": 10,
-        "player": {
-          "name": "Juan Jose C\u00e1ceres",
-          "shortName": "Juan Jose C\u00e1ceres"
-        },
-        "card": "YELLOW_CARD",
-        "team": {
-          "id": 761
-        }
-      },
-      {
-        "minute": 53,
-        "player": {
-          "name": "Miguel Almir\u00f3n",
-          "shortName": "Miguel Almir\u00f3n"
-        },
-        "card": "YELLOW_CARD",
-        "team": {
-          "id": 761
-        }
-      },
-      {
-        "minute": 59,
-        "player": {
-          "name": "Tyler Adams",
-          "shortName": "Tyler Adams"
-        },
-        "card": "YELLOW_CARD",
-        "team": {
-          "id": 771
-        }
-      },
-      {
-        "minute": 79,
-        "player": {
-          "name": "Diego G\u00f3mez",
-          "shortName": "Diego G\u00f3mez"
-        },
-        "card": "YELLOW_CARD",
-        "team": {
-          "id": 761
-        }
-      },
-      {
-        "minute": 88,
-        "player": {
-          "name": "Alex Arce",
-          "shortName": "Alex Arce"
-        },
-        "card": "YELLOW_CARD",
-        "team": {
-          "id": 761
-        }
-      },
-      {
-        "minute": 90,
-        "player": {
-          "name": "J\u00fanior Alonso",
-          "shortName": "J\u00fanior Alonso"
-        },
-        "card": "YELLOW_CARD",
-        "team": {
-          "id": 761
-        }
-      }
-    ]
-  },
+  "__version__": 3,
   "537334": {
     "goals": [
       {
@@ -644,5 +233,132 @@
         }
       }
     ]
+  },
+  "537351": {
+    "goals": [
+      {
+        "minute": 6,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Felix Nmecha",
+          "shortName": "Felix Nmecha"
+        },
+        "assist": {
+          "name": "Florian Wirtz",
+          "shortName": "Florian Wirtz"
+        },
+        "team": {
+          "id": 759
+        }
+      },
+      {
+        "minute": 21,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Livano Comenencia",
+          "shortName": "Livano Comenencia"
+        },
+        "assist": null,
+        "team": {
+          "id": 9460
+        }
+      },
+      {
+        "minute": 38,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Nico Schlotterbeck",
+          "shortName": "Nico Schlotterbeck"
+        },
+        "assist": {
+          "name": "Nathaniel Brown",
+          "shortName": "Nathaniel Brown"
+        },
+        "team": {
+          "id": 759
+        }
+      },
+      {
+        "minute": 45,
+        "injuryTime": 5,
+        "type": "PENALTY",
+        "scorer": {
+          "name": "Kai Havertz",
+          "shortName": "Kai Havertz"
+        },
+        "assist": null,
+        "team": {
+          "id": 759
+        }
+      },
+      {
+        "minute": 47,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Jamal Musiala",
+          "shortName": "Jamal Musiala"
+        },
+        "assist": {
+          "name": "Joshua Kimmich",
+          "shortName": "Joshua Kimmich"
+        },
+        "team": {
+          "id": 759
+        }
+      },
+      {
+        "minute": 68,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Nathaniel Brown",
+          "shortName": "Nathaniel Brown"
+        },
+        "assist": {
+          "name": "Deniz Undav",
+          "shortName": "Deniz Undav"
+        },
+        "team": {
+          "id": 759
+        }
+      },
+      {
+        "minute": 78,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Deniz Undav",
+          "shortName": "Deniz Undav"
+        },
+        "assist": {
+          "name": "Joshua Kimmich",
+          "shortName": "Joshua Kimmich"
+        },
+        "team": {
+          "id": 759
+        }
+      },
+      {
+        "minute": 88,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Kai Havertz",
+          "shortName": "Kai Havertz"
+        },
+        "assist": {
+          "name": "Deniz Undav",
+          "shortName": "Deniz Undav"
+        },
+        "team": {
+          "id": 759
+        }
+      }
+    ],
+    "bookings": []
   }
 }
