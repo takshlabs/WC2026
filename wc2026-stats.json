@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-13T23:43:35Z",
+  "updated": "2026-06-14T08:15:29Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -192,39 +192,39 @@
       "mp": 0
     },
     {
+      "name": "Ismael Saibari",
+      "team": "Morocco",
+      "goals": 1,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Vin\u00edcius J\u00fanior",
+      "team": "Brazil",
+      "goals": 1,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "John McGinn",
+      "team": "Scotland",
+      "goals": 1,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
       "name": "Homam Ahmed",
       "team": "Qatar",
       "goals": 0,
       "assists": 1,
       "yc": 0,
       "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Teboho Mokoena",
-      "team": "South Africa",
-      "goals": 0,
-      "assists": 0,
-      "yc": 1,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Brian Guti\u00e9rrez",
-      "team": "Mexico",
-      "goals": 0,
-      "assists": 0,
-      "yc": 1,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Sphephelo Sithole",
-      "team": "South Africa",
-      "goals": 0,
-      "assists": 0,
-      "yc": 0,
-      "rc": 1,
       "mp": 0
     }
   ],
@@ -258,6 +258,26 @@
       "l": 0,
       "gf": 2,
       "ga": 1
+    },
+    {
+      "tla": "AUS",
+      "name": "Australia",
+      "mp": 1,
+      "w": 1,
+      "d": 0,
+      "l": 0,
+      "gf": 2,
+      "ga": 0
+    },
+    {
+      "tla": "SCO",
+      "name": "Scotland",
+      "mp": 1,
+      "w": 1,
+      "d": 0,
+      "l": 0,
+      "gf": 1,
+      "ga": 0
     },
     {
       "tla": "CZE",
@@ -320,8 +340,48 @@
       "ga": 1
     },
     {
+      "tla": "BRA",
+      "name": "Brazil",
+      "mp": 1,
+      "w": 0,
+      "d": 1,
+      "l": 0,
+      "gf": 1,
+      "ga": 1
+    },
+    {
+      "tla": "MAR",
+      "name": "Morocco",
+      "mp": 1,
+      "w": 0,
+      "d": 1,
+      "l": 0,
+      "gf": 1,
+      "ga": 1
+    },
+    {
       "tla": "RSA",
       "name": "South Africa",
+      "mp": 1,
+      "w": 0,
+      "d": 0,
+      "l": 1,
+      "gf": 0,
+      "ga": 2
+    },
+    {
+      "tla": "HAI",
+      "name": "Haiti",
+      "mp": 1,
+      "w": 0,
+      "d": 0,
+      "l": 1,
+      "gf": 0,
+      "ga": 1
+    },
+    {
+      "tla": "TUR",
+      "name": "Turkey",
       "mp": 1,
       "w": 0,
       "d": 0,
