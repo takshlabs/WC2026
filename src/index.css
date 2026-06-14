@@ -3857,41 +3857,62 @@ img { display: block; max-width: 100%; }
   background: rgba(232,184,75,0.08) !important;
 }
 
-/* ── Highlights modal cards ─────────────────────────────────────────────── */
-.hl-card {
-  flex-direction: column;
-  gap: 4px;
+/* ── Highlights compact grid ────────────────────────────────────────────── */
+.hl-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 8px;
+  max-height: 52vh;
+  overflow-y: auto;
+  padding-right: 2px;
 }
-.hl-card-teams {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-}
-.hl-team {
+.hl-row {
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: 0.8rem;
-  color: var(--text);
-  font-weight: 600;
+  padding: 5px 8px;
+  border-radius: 6px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  text-decoration: none;
+  transition: background 0.12s, border-color 0.12s;
+  min-width: 0;
+}
+.hl-row:hover {
+  background: var(--surface-3);
+  border-color: rgba(232,184,75,0.35);
+}
+.hl-name {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   flex: 1;
+  min-width: 0;
 }
-.hl-team.away {
-  justify-content: flex-end;
+.hl-name-r {
+  text-align: right;
 }
-.hl-score {
+.hl-sc {
   font-family: var(--font-display);
-  font-size: 1rem;
-  font-weight: 800;
+  font-size: 0.72rem;
+  font-weight: 700;
   color: var(--text);
-  min-width: 36px;
+  min-width: 28px;
   text-align: center;
+  flex-shrink: 0;
 }
-.hl-play {
-  font-size: 1rem !important;
-  color: var(--gold) !important;
-  margin-left: auto;
+.hl-arrow {
+  font-size: 0.55rem;
+  color: var(--gold);
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+.hl-row:hover .hl-arrow { opacity: 1; }
+@media (max-width: 540px) {
+  .hl-grid { grid-template-columns: 1fr; }
 }
 
 /* ── Yesterday's Results (Home page) ────────────────────────────────────── */

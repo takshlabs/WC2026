@@ -336,7 +336,7 @@ export default function Home() {
                     No finished matches yet
                   </p>
                 ) : (
-                  <div className="streams-links">
+                  <div className="hl-grid">
                     {finished.map(m => {
                       const live  = liveMap.get(m.id)
                       const homeT = TEAMS[m.home]
@@ -344,20 +344,13 @@ export default function Home() {
                       const q   = `FIFA World Cup 2026 ${homeT?.name} vs ${awayT?.name} highlights`
                       const url = `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`
                       return (
-                        <a
-                          key={m.id}
-                          href={url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="stream-link-card hl-card"
-                        >
-                          <div className="hl-card-teams">
-                            <span className="hl-team"><FlagImg code={m.home} size={14} />{homeT?.name}</span>
-                            <span className="hl-score">{live?.homeScore}–{live?.awayScore}</span>
-                            <span className="hl-team away">{awayT?.name}<FlagImg code={m.away} size={14} /></span>
-                          </div>
-                          <div className="stream-link-url">{m.date}</div>
-                          <span className="stream-link-arrow hl-play">▶</span>
+                        <a key={m.id} href={url} target="_blank" rel="noopener noreferrer" className="hl-row">
+                          <FlagImg code={m.home} size={13} />
+                          <span className="hl-name">{homeT?.name || m.home}</span>
+                          <span className="hl-sc">{live?.homeScore}–{live?.awayScore}</span>
+                          <span className="hl-name hl-name-r">{awayT?.name || m.away}</span>
+                          <FlagImg code={m.away} size={13} />
+                          <span className="hl-arrow">▶</span>
                         </a>
                       )
                     })}
