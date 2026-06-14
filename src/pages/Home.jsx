@@ -183,6 +183,23 @@ export default function Home() {
   const [countdown,       setCountdown]       = useState(null)
   const [streamsOpen,     setStreamsOpen]      = useState(false)
   const [highlightsOpen,  setHighlightsOpen]  = useState(false)
+  const [newsArticles,    setNewsArticles]    = useState([])
+
+  // News feed — fetched on mount and every 3 hours
+  useEffect(() => {
+    async function fetchNews() {
+      try {
+        const res = await fetch(`${import.meta.env.BASE_URL}wc2026-news.json?_=${Date.now()}`)
+        if (res.ok) {
+          const data = await res.json()
+          setNewsArticles(data.articles || [])
+        }
+      } catch (_) {}
+    }
+    fetchNews()
+    const id = setInterval(fetchNews, 3 * 60 * 60 * 1000)
+    return () => clearInterval(id)
+  }, [])
 
   // Countdown to Jun 11 2026 21:00 UTC
   useEffect(() => {
@@ -524,6 +541,41 @@ export default function Home() {
                   </div>
                 )
               })}
+            </div>
+          </div>
+        )}
+
+        {/* ── News Feed ─────────────────────────────────────────────────── */}
+        {newsArticles.length > 0 && (
+          <div className="home-section">
+            <div className="home-section-header">
+              <h2>WC2026 News</h2>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'var(--text-3)' }}>via ESPN · refreshes 3h</span>
+            </div>
+            <div className="news-grid">
+              {newsArticles.slice(0, 6).map(a => (
+                <a
+                  key={a.id || a.headline}
+                  href={a.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="news-card"
+                >
+                  {a.image && (
+                    <div className="news-img-wrap">
+                      <img src={a.image} alt="" className="news-img" loading="lazy" />
+                    </div>
+                  )}
+                  <div className="news-body">
+                    <div className="news-type">{a.type === 'Recap' ? '📋 Recap' : a.type === 'Preview' ? '🔭 Preview' : '📰 News'}</div>
+                    <div className="news-headline">{a.headline}</div>
+                    {a.description && <div className="news-desc">{a.description}</div>}
+                    {a.teams?.length > 0 && (
+                      <div className="news-teams">{a.teams.slice(0,3).join(' · ')}</div>
+                    )}
+                  </div>
+                </a>
+              ))}
             </div>
           </div>
         )}

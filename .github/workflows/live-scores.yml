@@ -159,7 +159,8 @@ jobs:
           # ── Cache versioning ────────────────────────────────────────────────
           # Increment CACHE_VERSION when parse logic changes — auto-evicts stale
           # v1: initial  v2: fixed parse_minute "45'+5'" format  v3: ESPN-only live
-          CACHE_VERSION = 3
+          # v4: added stats, lineup, h2h extraction
+          CACHE_VERSION = 4
 
           try:
             with open('match-events.json') as f:
@@ -222,12 +223,18 @@ jobs:
                 else:
                   fd_status = 'TIMED'
 
+                # Team form strings (e.g. "WDDWW" → ["W","D","D","W","W"])
+                home_form = [c for c in h_comp.get('form', '') if c in 'WDLT']
+                away_form = [c for c in a_comp.get('form', '') if c in 'WDLT']
+
                 k = f'{norm(h_name)}_{norm(a_name)}'
                 entry = {
                   'status':       fd_status,
                   'scoreByName':  score_by_name,
                   'displayClock': display_clock,
                   'espnId':       event['id'],
+                  'homeForm':     home_form or None,
+                  'awayForm':     away_form or None,
                 }
                 espn_live_map[k] = entry
                 print(f'  [{fd_status}] {h_name} {score_by_name.get(norm(h_name),"-")}'
@@ -327,7 +334,77 @@ jobs:
 
           live_events = {}
 
+          # match_details: {matchId: {lineup, h2h}} — written to match-details.json
+          # Lazy-fetched by frontend on demand, not in the 60s-polled live-scores.json
+          match_details = {}
+          try:
+            with open('match-details.json') as f:
+              match_details = json.load(f)
+          except Exception:
+            pass
+          # Remove ephemeral sentinel key if present
+          match_details.pop('_updated_at', None)
+
           if need:
+            # ── Helper extractors (stats, lineup, h2h from summary) ───────────
+            def extract_stats(summary):
+              """Per-team match stats from boxscore.teams[].statistics"""
+              KEYS = {
+                'possessionPct': 'possession', 'totalShots': 'shots',
+                'shotsOnTarget': 'shotsOnTarget', 'wonCorners': 'corners',
+                'foulsCommitted': 'fouls',
+              }
+              result = {}
+              for t in summary.get('boxscore', {}).get('teams', []):
+                ha = t.get('homeAway', '')
+                if not ha: continue
+                st = {}
+                for s in t.get('statistics', []):
+                  k = KEYS.get(s.get('name', ''))
+                  if k:
+                    val = s.get('displayValue', '')
+                    try: st[k] = float(val) if '.' in str(val) else int(val)
+                    except (ValueError, TypeError): pass
+                if st: result[ha] = st
+              return result if len(result) == 2 else None
+
+            def extract_lineup(summary):
+              """Starting XI + subs from boxscore.rosters"""
+              result = {}
+              for r in summary.get('boxscore', {}).get('rosters', []):
+                ha = r.get('homeAway', '')
+                if not ha: continue
+                players = []
+                for a in r.get('athletes', []):
+                  athlete = a.get('athlete', {})
+                  players.append({
+                    'name':    athlete.get('shortName', athlete.get('displayName', '')),
+                    'jersey':  str(athlete.get('jersey', '')),
+                    'pos':     a.get('position', {}).get('abbreviation', ''),
+                    'starter': bool(a.get('starter', False)),
+                  })
+                if players: result[ha] = players
+              return result if len(result) == 2 else None
+
+            def extract_h2h(summary):
+              """Last 5 H2H games; scores read per-game home/away, orientation-safe"""
+              raw = summary.get('headToHeadGames', [])
+              if not raw: return None
+              recent = []
+              for game in raw[:5]:
+                comps_h = game.get('competitions', [{}])[0]
+                cl = comps_h.get('competitors', [])
+                g_home = next((c for c in cl if c.get('homeAway') == 'home'), cl[0] if cl else {})
+                g_away = next((c for c in cl if c.get('homeAway') == 'away'), cl[1] if len(cl) > 1 else {})
+                recent.append({
+                  'date':      game.get('date', '')[:10],
+                  'home':      g_home.get('team', {}).get('displayName', ''),
+                  'away':      g_away.get('team', {}).get('displayName', ''),
+                  'homeScore': int(g_home.get('score', 0) or 0),
+                  'awayScore': int(g_away.get('score', 0) or 0),
+                })
+              return recent or None
+
             # ── parse_espn_events (preserved verbatim) ────────────────────────
             def parse_espn_events(summary, m):
               """Parse keyEvents[] → goals/bookings. Verbatim from prior version.
@@ -447,12 +524,23 @@ jobs:
                 det_count = len(summary.get('header', {}).get('competitions', [{}])[0].get('details', []))
                 print(f'    ESPN summary {espn_id}: keyEvents={ke_count}, details={det_count}')
                 goals, bookings = parse_espn_events(summary, m)
+                stats   = extract_stats(summary)
+                lineup  = extract_lineup(summary)
+                h2h     = extract_h2h(summary)
                 label = 'LIVE' if is_live else 'FT'
-                print(f'  [{mid}][{label}] {h_name} vs {a_name}: {len(goals)} goals, {len(bookings)} cards')
+                print(f'  [{mid}][{label}] {h_name} vs {a_name}: {len(goals)} goals, {len(bookings)} cards'
+                      f'{", stats" if stats else ""}{", lineup" if lineup else ""}{", h2h" if h2h else ""}')
+                ev_entry = {'goals': goals, 'bookings': bookings}
+                if stats:  ev_entry['stats'] = stats
                 if is_live:
-                  live_events[mid] = {'goals': goals, 'bookings': bookings}
+                  live_events[mid] = ev_entry
                 else:
-                  cache[mid] = {'goals': goals, 'bookings': bookings}
+                  cache[mid] = ev_entry
+                # Lineup + H2H → match-details.json (lazy-fetched, not polled)
+                if lineup or h2h:
+                  match_details[mid] = {}
+                  if lineup: match_details[mid]['lineup'] = lineup
+                  if h2h:    match_details[mid]['h2h'] = h2h
               except Exception as e:
                 print(f'  WARNING [{mid}] {h_name} vs {a_name}: {e}', file=sys.stderr)
                 # DO NOT cache on error — allow retry on next run
@@ -462,6 +550,61 @@ jobs:
             json.dump(cache, f, indent=2)
           entry_count = sum(1 for k in cache if k != '__version__')
           print(f'match-events.json v{CACHE_VERSION} — {entry_count} entries')
+
+          # Write match-details.json (lazy-fetched by frontend, not in hot poll)
+          match_details['_updated_at'] = datetime.now(timezone.utc).isoformat()
+          with open('match-details.json', 'w') as f:
+            json.dump(match_details, f)
+          detail_count = sum(1 for k in match_details if not k.startswith('_'))
+          print(f'match-details.json — {detail_count} matches with lineup/h2h')
+
+          # ── News feed: fetch if wc2026-news.json is >3h old ─────────────────
+          NEWS_FILE = 'wc2026-news.json'
+          NEWS_MAX_AGE_H = 3
+          def news_is_stale():
+            if not os.path.exists(NEWS_FILE): return True
+            try:
+              with open(NEWS_FILE) as f: n = json.load(f)
+              fa = n.get('_fetched_at')
+              if not fa: return True
+              age_h = (datetime.now(timezone.utc) - datetime.fromisoformat(fa)).total_seconds() / 3600
+              return age_h > NEWS_MAX_AGE_H
+            except Exception: return True
+
+          if news_is_stale():
+            try:
+              r = requests.get(
+                'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/news',
+                timeout=20
+              )
+              r.raise_for_status()
+              raw = r.json()
+              articles = []
+              for item in raw.get('articles', [])[:30]:
+                img = next((i.get('url') for i in item.get('images', [])
+                            if i.get('type') in ('photo', 'header')), None)
+                if not img:
+                  img = next((i.get('url') for i in item.get('images', [])), None)
+                web_link = item.get('links', {}).get('web', {}).get('href', '')
+                teams = [c.get('description', '') for c in item.get('categories', [])
+                         if c.get('type') == 'team' and c.get('description')]
+                articles.append({
+                  'id':          item.get('dataSourceIdentifier', ''),
+                  'type':        item.get('type', 'Story'),
+                  'headline':    item.get('headline', ''),
+                  'description': item.get('description', ''),
+                  'published':   item.get('published', ''),
+                  'image':       img,
+                  'link':        web_link,
+                  'teams':       teams,
+                })
+              news_out = {'_fetched_at': datetime.now(timezone.utc).isoformat(), 'articles': articles}
+              with open(NEWS_FILE, 'w') as f: json.dump(news_out, f)
+              print(f'wc2026-news.json — {len(articles)} articles fetched')
+            except Exception as e:
+              print(f'WARNING: news fetch failed: {e}', file=sys.stderr)
+          else:
+            print('wc2026-news.json fresh — skipping news fetch')
 
           # ── Merge: schedule + ESPN live + events → live-scores.json ────────
           all_events = {**{k: v for k, v in cache.items() if k != '__version__'},
@@ -483,15 +626,19 @@ jobs:
               if h_score is not None and a_score is not None:
                 m.setdefault('score', {})['fullTime'] = {'home': h_score, 'away': a_score}
 
-              # Live clock — stored for future frontend use
               if entry.get('displayClock'):
                 m['displayClock'] = entry['displayClock']
+              if entry.get('homeForm'):
+                m['homeForm'] = entry['homeForm']
+              if entry.get('awayForm'):
+                m['awayForm'] = entry['awayForm']
 
-            # Attach events (goals + bookings)
+            # Attach events + stats (goals, bookings, stats)
             mid = str(m['id'])
             ev  = all_events.get(mid, {})
             m['goals']    = ev.get('goals', [])
             m['bookings'] = ev.get('bookings', [])
+            if ev.get('stats'): m['stats'] = ev['stats']
             goal_total   += len(m['goals'])
             if m.get('status') in ('IN_PLAY', 'PAUSED', 'HALFTIME'):
               live_count += 1
@@ -513,7 +660,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add live-scores.json match-events.json wc2026-schedule.json
+          git add live-scores.json match-events.json wc2026-schedule.json match-details.json wc2026-news.json
           if git diff --cached --quiet; then
             echo "No changes — skipping commit"
           else

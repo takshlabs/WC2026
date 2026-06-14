@@ -174,11 +174,16 @@ export function useLiveScores() {
           }
 
           map.set(local.id, {
-            homeScore: hs  ?? 0,
-            awayScore: as_ ?? 0,
+            homeScore:    hs  ?? 0,
+            awayScore:    as_ ?? 0,
             status,
             goals,
             bookings,
+            stats:        m.stats        || null,
+            homeForm:     m.homeForm     || null,
+            awayForm:     m.awayForm     || null,
+            displayClock: m.displayClock || null,
+            matchId:      String(m.id),
           })
         }
 
