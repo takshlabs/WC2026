@@ -24,6 +24,12 @@ jobs:
       - name: Install dependencies
         run: npm install --registry https://registry.npmjs.org
 
+      - name: Generate OG image (SVG → PNG)
+        run: |
+          sudo apt-get install -y librsvg2-bin
+          rsvg-convert -w 1200 -h 630 public/og.svg -o public/og.png
+          echo "og.png: $(wc -c < public/og.png) bytes"
+
       - name: Build
         run: npm run build
         env:
