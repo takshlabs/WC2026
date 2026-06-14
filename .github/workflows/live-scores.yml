@@ -58,8 +58,31 @@ jobs:
 
           ESPN = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world'
 
+          # Extended name normalisation — covers ESPN aliases vs fd.org names
+          ESPN_ALIASES = {
+            'unitedstates': 'usa',
+            'usa': 'usa',
+            'usmnt': 'usa',
+            'korea': 'southkorea',
+            'southkorea': 'southkorea',
+            'korearepublic': 'southkorea',
+            'iran': 'iran',
+            'islamicrepublicofiran': 'iran',
+            'ivorycoast': 'cotedivoire',
+            'cotedivoire': 'cotedivoire',
+            'drcongo': 'drcongo',
+            'democraticrepublicofthecongo': 'drcongo',
+            'bosniaandherzegovina': 'bosnia',
+            'bosnia': 'bosnia',
+            'czechrepublic': 'czechia',
+            'czechia': 'czechia',
+            'saudiarabia': 'saudiarabia',
+            'southafrica': 'southafrica',
+            'newzealand': 'newzealand',
+          }
           def norm(s):
-            return re.sub(r'[^a-z]', '', (s or '').lower())
+            raw = re.sub(r'[^a-z]', '', (s or '').lower())
+            return ESPN_ALIASES.get(raw, raw)
 
           def parse_minute(clock_str):
             m = re.match(r"(\d+)\+(\d+)", clock_str or '')
@@ -115,13 +138,17 @@ jobs:
           for date_str in need_dates:
             try:
               data = espn_get('scoreboard', params={'dates': date_str})
-              for event in data.get('events', []):
+              events_on_date = data.get('events', [])
+              print(f'  ESPN scoreboard {date_str}: {len(events_on_date)} events')
+              for event in events_on_date:
                 comps = event.get('competitions', [{}])[0]
                 competitors = comps.get('competitors', [])
                 home = next((c['team']['displayName'] for c in competitors if c.get('homeAway') == 'home'), '')
                 away = next((c['team']['displayName'] for c in competitors if c.get('homeAway') == 'away'), '')
                 if home and away:
-                  espn_map[f'{norm(home)}_{norm(away)}'] = event['id']
+                  k = f'{norm(home)}_{norm(away)}'
+                  espn_map[k] = event['id']
+                  print(f'    ESPN: "{home}" vs "{away}" → key={k} id={event["id"]}')
               time.sleep(0.5)
             except Exception as e:
               print(f'WARNING: ESPN scoreboard {date_str}: {e}', file=sys.stderr)
@@ -177,7 +204,18 @@ jobs:
             bookings   = []
             seen_goals = set()   # dedup key: (scorer, minute, inj, team_id, goal_type)
 
-            for event in summary.get('keyEvents', []):
+            # Primary: keyEvents[].  Fallback: header.competitions[].details[]
+            key_events = summary.get('keyEvents', [])
+            if not key_events:
+              key_events = (summary.get('header', {})
+                           .get('competitions', [{}])[0]
+                           .get('details', []))
+              if key_events:
+                print(f'    [fallback] using header.competitions.details ({len(key_events)} events)')
+              else:
+                print(f'    [warn] keyEvents AND details both empty for this match')
+
+            for event in key_events:
               type_info  = event.get('type', {})
               etype      = type_info.get('type', '').lower()
               clock_str  = event.get('clock', {}).get('displayValue', '')
@@ -247,14 +285,24 @@ jobs:
             is_live = m.get('status') in LIVE_STATUSES
 
             if not espn_id:
-              print(f'  [{mid}] {h_name} vs {a_name} — not in ESPN (key={key})')
-              if not is_live:
-                cache[mid] = {'goals': [], 'bookings': []}
-              continue
+              # Try reversed key (ESPN sometimes swaps home/away)
+              rev_key = f'{norm(a_name)}_{norm(h_name)}'
+              espn_id = espn_map.get(rev_key)
+              if espn_id:
+                print(f'  [{mid}] {h_name} vs {a_name} — found via reversed key={rev_key}')
+              else:
+                print(f'  [{mid}] {h_name} vs {a_name} — NOT in ESPN (tried key={key}, rev={rev_key})')
+                print(f'         ESPN map keys: {list(espn_map.keys())}')
+                if not is_live:
+                  cache[mid] = {'goals': [], 'bookings': []}
+                continue
 
             try:
               time.sleep(0.8)
               summary = espn_get('summary', params={'event': espn_id})
+              ke_count  = len(summary.get('keyEvents', []))
+              det_count = len((summary.get('header', {}).get('competitions', [{}])[0].get('details', [])))
+              print(f'    ESPN summary for {espn_id}: keyEvents={ke_count}, details={det_count}')
               goals, bookings = parse_espn_events(summary, m)
 
               label = 'LIVE' if is_live else 'FT'

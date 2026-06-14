@@ -156,12 +156,27 @@ export function useLiveScores() {
             side:   b.team?.id === homeTeamId ? 'home' : 'away',
           })).sort((a, b) => a.minute - b.minute)
 
+          // ── Status resolution ─────────────────────────────────────────────
+          // fd.org sometimes returns stale IN_PLAY for matches that ended hours ago.
+          // Guard: if kickoff was >3.5 h ago and score is set, treat as finished.
+          const kickoffMs  = m.utcDate ? new Date(m.utcDate).getTime() : 0
+          const ageHours   = kickoffMs ? (Date.now() - kickoffMs) / 3_600_000 : 0
+          const staleInPlay = ['IN_PLAY', 'PAUSED', 'HALFTIME'].includes(m.status)
+                              && ageHours > 3.5
+          const status = m.status === 'FINISHED' || staleInPlay
+            ? 'finished'
+            : ['IN_PLAY', 'PAUSED', 'HALFTIME'].includes(m.status)
+              ? 'live'
+              : 'upcoming'
+
+          if (staleInPlay) {
+            console.info(`[live] stale IN_PLAY overridden → finished: ${homeNameRaw} vs ${awayNameRaw} (${ageHours.toFixed(1)}h old)`)
+          }
+
           map.set(local.id, {
             homeScore: hs  ?? 0,
             awayScore: as_ ?? 0,
-            status: ['IN_PLAY', 'PAUSED', 'HALFTIME'].includes(m.status) ? 'live'
-                   : m.status === 'FINISHED'                              ? 'finished'
-                   : 'upcoming',
+            status,
             goals,
             bookings,
           })
