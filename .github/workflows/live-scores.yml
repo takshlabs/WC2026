@@ -267,10 +267,15 @@ jobs:
 
           # ── Which matches need event fetch ─────────────────────────────────
           LIVE_STATUSES = ('IN_PLAY', 'PAUSED', 'HALFTIME')
+          # need_finished: matches FINISHED per ESPN (3-day window) OR per fd.org
+          # schedule (older matches outside the window). Both must be uncached.
           need_finished = [
             m for m in matches
-            if (get_espn_entry(m) or {}).get('status') == 'FINISHED'
-            and str(m['id']) not in cache
+            if str(m['id']) not in cache
+            and (
+              (get_espn_entry(m) or {}).get('status') == 'FINISHED'
+              or m.get('status') == 'FINISHED'
+            )
           ]
           need_live = [
             m for m in matches
@@ -278,6 +283,44 @@ jobs:
           ]
           need = need_finished + need_live
           print(f'Events to fetch: {len(need_finished)} new finished + {len(need_live)} live')
+
+          # ── Supplementary ESPN ID lookup for older finished matches ─────────
+          # Matches outside the 3-day live window have no entry in espn_live_map.
+          # Query ESPN scoreboard for their specific dates to get espnId for events.
+          extra_espn_id_map = {}
+          extra_dates = set()
+          for m in need_finished:
+            if get_espn_entry(m):
+              continue  # Already have espnId from live map
+            if m.get('utcDate'):
+              try:
+                dt = datetime.strptime(m['utcDate'][:16], '%Y-%m-%dT%H:%M')
+                extra_dates.add(dt.strftime('%Y%m%d'))
+                if dt.hour >= 21:
+                  extra_dates.add((dt + timedelta(days=1)).strftime('%Y%m%d'))
+                if dt.hour <= 3:
+                  extra_dates.add((dt - timedelta(days=1)).strftime('%Y%m%d'))
+              except Exception:
+                extra_dates.add(m['utcDate'][:10].replace('-', ''))
+          # Remove dates already fetched in the live-map pass
+          extra_dates -= set(espn_dates)
+          if extra_dates:
+            print(f'Supplementary ESPN date lookups: {sorted(extra_dates)}')
+            for date_str in sorted(extra_dates):
+              try:
+                data = espn_get('scoreboard', params={'dates': date_str})
+                for event in data.get('events', []):
+                  comps = event.get('competitions', [{}])[0]
+                  cl = comps.get('competitors', [])
+                  h = next((c.get('team',{}).get('displayName','') for c in cl if c.get('homeAway')=='home'), '')
+                  a = next((c.get('team',{}).get('displayName','') for c in cl if c.get('homeAway')=='away'), '')
+                  if h and a:
+                    extra_espn_id_map[f'{norm(h)}_{norm(a)}'] = event['id']
+                    extra_espn_id_map[f'{norm(a)}_{norm(h)}'] = event['id']
+                print(f'  Extra scoreboard {date_str}: {len(data.get("events",[]))} events indexed')
+                time.sleep(0.4)
+              except Exception as e:
+                print(f'WARNING extra scoreboard {date_str}: {e}', file=sys.stderr)
 
           live_events = {}
 
@@ -383,10 +426,12 @@ jobs:
             for m in need:
               mid     = str(m['id'])
               entry   = get_espn_entry(m)
-              espn_id = (entry or {}).get('espnId')
-              is_live = (entry or {}).get('status') in LIVE_STATUSES
               h_name  = m.get('homeTeam', {}).get('name', '')
               a_name  = m.get('awayTeam', {}).get('name', '')
+              # ESPN ID: live map first, then supplementary older-date map
+              espn_id = (entry or {}).get('espnId') or \
+                        extra_espn_id_map.get(f'{norm(h_name)}_{norm(a_name)}')
+              is_live = (entry or {}).get('status') in LIVE_STATUSES
 
               if not espn_id:
                 print(f'  [{mid}] {h_name} vs {a_name} — no ESPN ID in live map')
