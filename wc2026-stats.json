@@ -1,10 +1,10 @@
 {
-  "updated": "2026-06-14T17:33:37Z",
+  "updated": "2026-06-14T19:21:00Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
-      "name": "Folarin Balogun",
-      "team": "United States",
+      "name": "Kai Havertz",
+      "team": "Germany",
       "goals": 2,
       "assists": 0,
       "yc": 0,
@@ -12,82 +12,19 @@
       "mp": 0
     },
     {
-      "name": "Hwang In-Beom",
-      "team": "South Korea",
+      "name": "Deniz Undav",
+      "team": "Germany",
+      "goals": 1,
+      "assists": 2,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Nathaniel Brown",
+      "team": "Germany",
       "goals": 1,
       "assists": 1,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Juli\u00e1n Qui\u00f1ones",
-      "team": "Mexico",
-      "goals": 1,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Ra\u00fal Jim\u00e9nez",
-      "team": "Mexico",
-      "goals": 1,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Ladislav Krejc\u00ed",
-      "team": "Czechia",
-      "goals": 1,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Oh Hyeon-Gyu",
-      "team": "South Korea",
-      "goals": 1,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Jovo Lukic",
-      "team": "Bosnia-Herzegovina",
-      "goals": 1,
-      "assists": 0,
-      "yc": 1,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Cyle Larin",
-      "team": "Canada",
-      "goals": 1,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Maur\u00edcio",
-      "team": "Paraguay",
-      "goals": 1,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Giovanni Reyna",
-      "team": "United States",
-      "goals": 1,
-      "assists": 0,
       "yc": 0,
       "rc": 0,
       "mp": 0
@@ -147,8 +84,53 @@
       "mp": 0
     },
     {
-      "name": "\u00c9rik Lira",
-      "team": "Mexico",
+      "name": "Felix Nmecha",
+      "team": "Germany",
+      "goals": 1,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Livano Comenencia",
+      "team": "Cura\u00e7ao",
+      "goals": 1,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Nico Schlotterbeck",
+      "team": "Germany",
+      "goals": 1,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Jamal Musiala",
+      "team": "Germany",
+      "goals": 1,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Joshua Kimmich",
+      "team": "Germany",
+      "goals": 0,
+      "assists": 2,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Brahim D\u00edaz",
+      "team": "Morocco",
       "goals": 0,
       "assists": 1,
       "yc": 0,
@@ -156,8 +138,8 @@
       "mp": 0
     },
     {
-      "name": "Roberto Alvarado",
-      "team": "Mexico",
+      "name": "Bruno Guimar\u00e3es",
+      "team": "Brazil",
       "goals": 0,
       "assists": 1,
       "yc": 0,
@@ -165,8 +147,8 @@
       "mp": 0
     },
     {
-      "name": "Vladim\u00edr Coufal",
-      "team": "Czechia",
+      "name": "Paul Okon-Engstler",
+      "team": "Australia",
       "goals": 0,
       "assists": 1,
       "yc": 0,
@@ -174,8 +156,8 @@
       "mp": 0
     },
     {
-      "name": "Lee Kang-In",
-      "team": "South Korea",
+      "name": "Florian Wirtz",
+      "team": "Germany",
       "goals": 0,
       "assists": 1,
       "yc": 0,
@@ -183,52 +165,80 @@
       "mp": 0
     },
     {
-      "name": "Sead Kolasinac",
-      "team": "Bosnia-Herzegovina",
+      "name": "Miro Muheim",
+      "team": "Qatar",
       "goals": 0,
-      "assists": 1,
+      "assists": 0,
       "yc": 0,
       "rc": 0,
       "mp": 0
     },
     {
-      "name": "Promise David",
-      "team": "Canada",
+      "name": "Mahmoud Abunada",
+      "team": "Qatar",
       "goals": 0,
-      "assists": 1,
-      "yc": 0,
+      "assists": 0,
+      "yc": 1,
       "rc": 0,
       "mp": 0
     },
     {
-      "name": "Christian Pulisic",
-      "team": "United States",
+      "name": "Jassem Gaber",
+      "team": "Qatar",
       "goals": 0,
-      "assists": 1,
-      "yc": 0,
+      "assists": 0,
+      "yc": 1,
       "rc": 0,
       "mp": 0
     },
     {
-      "name": "Malik Tillman",
-      "team": "United States",
+      "name": "Denis Zakaria",
+      "team": "Switzerland",
       "goals": 0,
-      "assists": 1,
-      "yc": 0,
+      "assists": 0,
+      "yc": 1,
       "rc": 0,
       "mp": 0
     },
     {
-      "name": "Julio Enciso",
-      "team": "Paraguay",
+      "name": "Casemiro",
+      "team": "Brazil",
       "goals": 0,
-      "assists": 1,
-      "yc": 0,
+      "assists": 0,
+      "yc": 1,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Roger Iba\u00f1ez",
+      "team": "Brazil",
+      "goals": 0,
+      "assists": 0,
+      "yc": 1,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Jean-Ricner Bellegarde",
+      "team": "Haiti",
+      "goals": 0,
+      "assists": 0,
+      "yc": 1,
       "rc": 0,
       "mp": 0
     }
   ],
   "teamStats": [
+    {
+      "tla": "GER",
+      "name": "Germany",
+      "mp": 1,
+      "w": 1,
+      "d": 0,
+      "l": 0,
+      "gf": 7,
+      "ga": 1
+    },
     {
       "tla": "USA",
       "name": "United States",
@@ -358,6 +368,16 @@
       "l": 0,
       "gf": 1,
       "ga": 1
+    },
+    {
+      "tla": "CUW",
+      "name": "Cura\u00e7ao",
+      "mp": 1,
+      "w": 0,
+      "d": 0,
+      "l": 1,
+      "gf": 1,
+      "ga": 7
     },
     {
       "tla": "RSA",
