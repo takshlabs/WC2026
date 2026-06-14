@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-14T22:38:13Z",
+  "updated": "2026-06-14T22:41:35Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -210,19 +210,19 @@
       "mp": 0
     },
     {
-      "name": "Joshua Kimmich",
-      "team": "Germany",
-      "goals": 0,
-      "assists": 2,
+      "name": "Virgil van Dijk",
+      "team": "Netherlands",
+      "goals": 1,
+      "assists": 0,
       "yc": 0,
       "rc": 0,
       "mp": 0
     },
     {
-      "name": "\u00c9rik Lira",
-      "team": "Mexico",
-      "goals": 0,
-      "assists": 1,
+      "name": "Keito Nakamura",
+      "team": "Japan",
+      "goals": 1,
+      "assists": 0,
       "yc": 0,
       "rc": 0,
       "mp": 0
@@ -278,6 +278,26 @@
       "l": 0,
       "gf": 2,
       "ga": 0
+    },
+    {
+      "tla": "NED",
+      "name": "Netherlands",
+      "mp": 1,
+      "w": 0,
+      "d": 1,
+      "l": 0,
+      "gf": 2,
+      "ga": 2
+    },
+    {
+      "tla": "JPN",
+      "name": "Japan",
+      "mp": 1,
+      "w": 0,
+      "d": 1,
+      "l": 0,
+      "gf": 2,
+      "ga": 2
     },
     {
       "tla": "SCO",
