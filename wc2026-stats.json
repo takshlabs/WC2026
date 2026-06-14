@@ -1,16 +1,7 @@
 {
-  "updated": "2026-06-14T08:15:29Z",
+  "updated": "2026-06-14T08:28:41Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
-    {
-      "name": "Hwang In-Beom",
-      "team": "South Korea",
-      "goals": 2,
-      "assists": 2,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
     {
       "name": "Folarin Balogun",
       "team": "United States",
@@ -21,91 +12,10 @@
       "mp": 0
     },
     {
-      "name": "\u00c9rik Lira",
-      "team": "Mexico",
-      "goals": 1,
-      "assists": 2,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Roberto Alvarado",
-      "team": "Mexico",
-      "goals": 1,
-      "assists": 2,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Vladim\u00edr Coufal",
-      "team": "Czechia",
-      "goals": 1,
-      "assists": 2,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Lee Kang-In",
+      "name": "Hwang In-Beom",
       "team": "South Korea",
       "goals": 1,
-      "assists": 2,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Sead Kolasinac",
-      "team": "Bosnia-Herzegovina",
-      "goals": 1,
-      "assists": 2,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Promise David",
-      "team": "Canada",
-      "goals": 1,
-      "assists": 2,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Christian Pulisic",
-      "team": "United States",
-      "goals": 1,
-      "assists": 2,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Malik Tillman",
-      "team": "United States",
-      "goals": 1,
-      "assists": 2,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Julio Enciso",
-      "team": "Paraguay",
-      "goals": 1,
-      "assists": 2,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Alex Freeman",
-      "team": "United States",
-      "goals": 1,
-      "assists": 2,
+      "assists": 1,
       "yc": 0,
       "rc": 0,
       "mp": 0
@@ -219,8 +129,98 @@
       "mp": 0
     },
     {
-      "name": "Homam Ahmed",
-      "team": "Qatar",
+      "name": "\u00c9rik Lira",
+      "team": "Mexico",
+      "goals": 0,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Roberto Alvarado",
+      "team": "Mexico",
+      "goals": 0,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Vladim\u00edr Coufal",
+      "team": "Czechia",
+      "goals": 0,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Lee Kang-In",
+      "team": "South Korea",
+      "goals": 0,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Sead Kolasinac",
+      "team": "Bosnia-Herzegovina",
+      "goals": 0,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Promise David",
+      "team": "Canada",
+      "goals": 0,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Christian Pulisic",
+      "team": "United States",
+      "goals": 0,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Malik Tillman",
+      "team": "United States",
+      "goals": 0,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Julio Enciso",
+      "team": "Paraguay",
+      "goals": 0,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Alex Freeman",
+      "team": "United States",
+      "goals": 0,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Brahim D\u00edaz",
+      "team": "Morocco",
       "goals": 0,
       "assists": 1,
       "yc": 0,
