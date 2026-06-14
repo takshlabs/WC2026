@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-14T08:49:33Z",
+  "updated": "2026-06-14T08:57:38Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -129,6 +129,24 @@
       "mp": 0
     },
     {
+      "name": "Nestory Irankunda",
+      "team": "Australia",
+      "goals": 1,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Connor Metcalfe",
+      "team": "Australia",
+      "goals": 1,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
       "name": "\u00c9rik Lira",
       "team": "Mexico",
       "goals": 0,
@@ -203,24 +221,6 @@
     {
       "name": "Julio Enciso",
       "team": "Paraguay",
-      "goals": 0,
-      "assists": 1,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Alex Freeman",
-      "team": "United States",
-      "goals": 0,
-      "assists": 1,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Brahim D\u00edaz",
-      "team": "Morocco",
       "goals": 0,
       "assists": 1,
       "yc": 0,
