@@ -199,16 +199,19 @@ jobs:
                 if not h_name or not a_name:
                   continue
 
-                # Scores by team name — immune to position ordering differences
-                score_by_name = {}
-                for c in comps_list:
-                  n = c.get('team', {}).get('displayName', '')
-                  if n:
-                    score_by_name[norm(n)] = int(c.get('score', 0) or 0)
-
                 status_obj    = comps.get('status', {})
                 state         = status_obj.get('type', {}).get('state', '')
                 status_name   = status_obj.get('type', {}).get('name', '')
+
+                # Scores by team name — immune to home/away position ordering differences.
+                # Only populated for live/finished matches; ESPN returns 0 for unplayed
+                # matches (state == 'pre') which would create false 0–0 scores on the site.
+                score_by_name = {}
+                if state != 'pre':
+                  for c in comps_list:
+                    n = c.get('team', {}).get('displayName', '')
+                    if n:
+                      score_by_name[norm(n)] = int(c.get('score', 0) or 0)
                 display_clock = status_obj.get('displayClock', '')
 
                 # Translate ESPN state → fd.org-compatible status strings

@@ -214,16 +214,16 @@ export default function Home() {
     .filter(m => liveMap.get(m.id)?.status === 'live')
     .sort((a, b) => msToTs(a) - msToTs(b))
 
-  // Yesterday's results (UTC date)
-  const yestD = new Date(); yestD.setUTCDate(yestD.getUTCDate() - 1)
-  const yesterdayStr = yestD.toISOString().slice(0, 10)
-  const yesterdayResults = MATCHES
+  // Recent results — finished matches in the past 48 hours, most recent first
+  const recentCutoffMs = Date.now() - 48 * 60 * 60 * 1000
+  const recentResults = MATCHES
     .filter(m => {
-      if (m.date !== yesterdayStr) return false
+      const ts = msToTs(m)
+      if (ts > now || ts < recentCutoffMs) return false
       const live = liveMap.get(m.id)
-      return live?.status === 'finished' || (live?.homeScore != null && live?.awayScore != null)
+      return live?.status === 'finished'
     })
-    .sort((a, b) => msToTs(a) - msToTs(b))
+    .sort((a, b) => msToTs(b) - msToTs(a))
 
   // Groups A–D preview
   const previewGroups = ['A','B','C','D','E','F','G','H','I','J','K','L']
@@ -465,15 +465,15 @@ export default function Home() {
           </div>
         </div>
 
-        {/* ── Yesterday's Results ────────────────────────────────────────── */}
-        {yesterdayResults.length > 0 && (
+        {/* ── Recent Results ────────────────────────────────────────── */}
+        {recentResults.length > 0 && (
           <div className="home-section">
             <div className="home-section-header">
-              <h2>Yesterday's Results</h2>
+              <h2>Recent Results</h2>
               <span className="see-all" onClick={() => navigate('fixtures')}>All fixtures →</span>
             </div>
             <div className="yesterday-grid">
-              {yesterdayResults.map(m => {
+              {recentResults.map(m => {
                 const live = liveMap.get(m.id)
                 const homeT = TEAMS[m.home]; const awayT = TEAMS[m.away]
                 const hs = live?.homeScore; const as_ = live?.awayScore

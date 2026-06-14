@@ -227,7 +227,8 @@ function MatchRow({ m, focus }) {
   const isFocus = focus && (m.home === focus || m.away === focus)
   const color   = m.group ? groupColor(m.group) : 'var(--border-2)'
 
-  const recentCutoff = Date.now() - 36 * 60 * 60 * 1000
+  // Auto-expand facts for: live matches, and finished matches within the past 24h
+  const recentCutoff = Date.now() - 24 * 60 * 60 * 1000
   const matchTime = new Date(`${m.date}T${m.time}:00Z`).getTime()
   const isRecent = isFinished && matchTime > recentCutoff
   // Expandable for any live or finished match — even with zero events (MatchFacts shows empty state)
@@ -235,7 +236,8 @@ function MatchRow({ m, focus }) {
   const autoExpand = isLive || isRecent
   const [expanded, setExpanded] = useState(autoExpand)
 
-  useEffect(() => { if (autoExpand) setExpanded(true) }, [autoExpand])
+  // Re-evaluate auto-expand whenever liveMap or time changes (every 60s via useLiveScores poll)
+  useEffect(() => { setExpanded(autoExpand) }, [autoExpand])
 
   return (
     <div
@@ -266,7 +268,7 @@ function MatchRow({ m, focus }) {
         </span>
       </div>
       <div>
-        {hs !== undefined
+        {(isLive || isFinished) && hs != null
           ? <span className="fx-score">{hs}–{as_}</span>
           : <span className="fx-vs">vs</span>}
       </div>
