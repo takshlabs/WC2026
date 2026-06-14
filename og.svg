@@ -1,60 +1,82 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" font-family="Arial Black, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" font-family="'Arial Black', Arial, sans-serif">
   <defs>
-    <radialGradient id="bg" cx="50%" cy="50%" r="80%">
-      <stop offset="0%" stop-color="#1a2538"/>
-      <stop offset="100%" stop-color="#0a0e18"/>
+    <radialGradient id="bg" cx="25%" cy="50%" r="90%">
+      <stop offset="0%" stop-color="#1b2d48"/>
+      <stop offset="100%" stop-color="#08101e"/>
     </radialGradient>
     <radialGradient id="ball" cx="38%" cy="32%" r="65%">
       <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="100%" stop-color="#d8d8d8"/>
+      <stop offset="100%" stop-color="#c8c8c8"/>
+    </radialGradient>
+    <radialGradient id="glow_r" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="rgba(212,168,67,0.18)"/>
+      <stop offset="100%" stop-color="rgba(212,168,67,0)"/>
     </radialGradient>
     <clipPath id="bc">
-      <circle cx="900" cy="315" r="220"/>
+      <circle cx="940" cy="320" r="260"/>
     </clipPath>
     <filter id="glow">
-      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feGaussianBlur stdDeviation="10" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="12" flood-color="rgba(0,0,0,0.6)"/>
     </filter>
   </defs>
 
   <!-- Background -->
   <rect width="1200" height="630" fill="url(#bg)"/>
 
-  <!-- Subtle grid lines -->
-  <g stroke="rgba(212,168,67,0.06)" stroke-width="1">
+  <!-- Ambient gold glow behind text -->
+  <ellipse cx="320" cy="340" rx="420" ry="280" fill="url(#glow_r)"/>
+
+  <!-- Subtle grid -->
+  <g stroke="rgba(212,168,67,0.05)" stroke-width="1">
     <line x1="0" y1="210" x2="1200" y2="210"/>
     <line x1="0" y1="420" x2="1200" y2="420"/>
-    <line x1="400" y1="0" x2="400" y2="630"/>
-    <line x1="800" y1="0" x2="800" y2="630"/>
+    <line x1="480" y1="0" x2="480" y2="630"/>
   </g>
 
-  <!-- Gold accent bar -->
-  <rect x="80" y="290" width="5" height="110" rx="3" fill="#d4a843"/>
+  <!-- Top gold bar -->
+  <rect x="0" y="0" width="1200" height="5" fill="#d4a843"/>
 
-  <!-- "WORLD CUP" label -->
-  <text x="108" y="350" font-size="52" font-weight="900" fill="#d4a843" letter-spacing="6" text-anchor="start" filter="url(#glow)">WORLD CUP</text>
-  <!-- "2026" large -->
-  <text x="108" y="430" font-size="96" font-weight="900" fill="white" letter-spacing="-2" text-anchor="start">2026</text>
-  <!-- Subtitle -->
-  <text x="110" y="480" font-size="22" font-weight="400" fill="rgba(255,255,255,0.45)" letter-spacing="3">USA · CANADA · MEXICO · 48 TEAMS</text>
+  <!-- Left accent bar -->
+  <rect x="80" y="150" width="5" height="340" rx="3" fill="#d4a843"/>
+
+  <!-- FIFA WORLD CUP label -->
+  <text x="112" y="212" font-size="20" font-weight="400" fill="rgba(212,168,67,0.75)" letter-spacing="10" font-family="Arial, sans-serif" text-anchor="start">FIFA WORLD CUP</text>
+
+  <!-- 2026 — large hero number -->
+  <text x="104" y="390" font-size="200" font-weight="900" fill="white" letter-spacing="-8" text-anchor="start" filter="url(#shadow)">2026</text>
+
+  <!-- Gold underline under 2026 -->
+  <rect x="108" y="400" width="420" height="4" rx="2" fill="#d4a843" opacity="0.6"/>
+
+  <!-- LIVE TRACKER -->
+  <text x="112" y="455" font-size="36" font-weight="900" fill="#d4a843" letter-spacing="8" text-anchor="start" filter="url(#glow)">LIVE TRACKER</text>
+
+  <!-- Description -->
+  <text x="112" y="500" font-size="19" font-weight="400" fill="rgba(255,255,255,0.38)" letter-spacing="2" font-family="Arial, sans-serif" text-anchor="start">Scores · Schedule · Groups · Bracket · Stats</text>
+
+  <!-- URL line with live dot -->
+  <circle cx="113" cy="540" r="6" fill="#4ade80"/>
+  <circle cx="113" cy="540" r="10" fill="rgba(74,222,128,0.2)"/>
+  <text x="133" y="545" font-size="15" font-weight="400" fill="rgba(255,255,255,0.28)" letter-spacing="1" font-family="Arial, sans-serif" text-anchor="start">takshlabs.github.io/WC2026</text>
 
   <!-- Soccer ball (right side) -->
-  <circle cx="900" cy="315" r="220" fill="url(#ball)"/>
+  <circle cx="940" cy="320" r="260" fill="url(#ball)"/>
   <g clip-path="url(#bc)" fill="#d4a843">
-    <!-- Centre pentagon -->
-    <path d="M900,155 L974,208 L947,298 L853,298 L826,208 Z"/>
-    <!-- Top arch patch -->
-    <path d="M838,102 L962,102 L998,202 L974,208 L900,155 L826,208 L802,202 Z"/>
-    <!-- Right patch -->
-    <path d="M974,208 L998,202 L1086,270 L1080,374 L1004,408 L947,298 Z"/>
-    <!-- Left patch -->
-    <path d="M826,208 L802,202 L714,270 L720,374 L796,408 L853,298 Z"/>
-    <!-- Bottom-right patch -->
-    <path d="M947,298 L1004,408 L976,490 L900,522 L900,412 Z"/>
-    <!-- Bottom-left patch -->
-    <path d="M853,298 L796,408 L824,490 L900,522 L900,412 Z"/>
+    <path d="M940,140 L1028,200 L996,302 L884,302 L852,200 Z"/>
+    <path d="M864,80  L1016,80 L1060,196 L1028,200 L940,140 L852,200 L820,196 Z"/>
+    <path d="M1028,200 L1060,196 L1164,278 L1156,402 L1064,444 L996,302 Z"/>
+    <path d="M852,200  L820,196  L716,278  L724,402  L816,444  L884,302  Z"/>
+    <path d="M996,302  L1064,444 L1028,542 L940,578  L940,448  Z"/>
+    <path d="M884,302  L816,444  L852,542  L940,578  L940,448  Z"/>
   </g>
-  <circle cx="900" cy="315" r="220" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="3"/>
+  <circle cx="940" cy="320" r="260" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="3"/>
   <!-- Glint -->
-  <ellipse cx="840" cy="215" rx="50" ry="28" fill="rgba(255,255,255,0.12)" transform="rotate(-30,840,215)"/>
+  <ellipse cx="860" cy="200" rx="60" ry="32" fill="rgba(255,255,255,0.12)" transform="rotate(-30,860,200)"/>
+
+  <!-- Bottom bar -->
+  <rect x="0" y="625" width="1200" height="5" fill="#d4a843" opacity="0.4"/>
 </svg>
