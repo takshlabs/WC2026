@@ -3819,6 +3819,80 @@ img { display: block; max-width: 100%; }
   font-style: italic;
   grid-column: 1 / -1;
 }
+.mf-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.mf-highlights {
+  display: flex;
+  justify-content: center;
+  padding: 4px 0 2px;
+}
+.mf-highlights-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--gold);
+  text-decoration: none;
+  background: rgba(232,184,75,0.08);
+  border: 1px solid rgba(232,184,75,0.25);
+  border-radius: 4px;
+  padding: 3px 10px;
+  transition: background 0.15s, border-color 0.15s;
+}
+.mf-highlights-btn:hover {
+  background: rgba(232,184,75,0.18);
+  border-color: rgba(232,184,75,0.5);
+}
+
+/* ── Highlights hero button ──────────────────────────────────────────────── */
+.highlights-hero-btn {
+  border-color: rgba(232,184,75,0.35) !important;
+  color: var(--gold) !important;
+}
+.highlights-hero-btn:hover {
+  background: rgba(232,184,75,0.08) !important;
+}
+
+/* ── Highlights modal cards ─────────────────────────────────────────────── */
+.hl-card {
+  flex-direction: column;
+  gap: 4px;
+}
+.hl-card-teams {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+.hl-team {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8rem;
+  color: var(--text);
+  font-weight: 600;
+  flex: 1;
+}
+.hl-team.away {
+  justify-content: flex-end;
+}
+.hl-score {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text);
+  min-width: 36px;
+  text-align: center;
+}
+.hl-play {
+  font-size: 1rem !important;
+  color: var(--gold) !important;
+  margin-left: auto;
+}
 
 /* ── Yesterday's Results (Home page) ────────────────────────────────────── */
 .yesterday-grid {

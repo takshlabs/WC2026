@@ -141,8 +141,9 @@ function YourTeamsSection({ goGroup }) {
 
 export default function Home() {
   const { tz, timeFormat, navigate, setFixtureFilter, liveMap, setTeamModal, myTeams, toggleMyTeam, notifPermission, requestPermission } = useApp()
-  const [countdown,    setCountdown]    = useState(null)
-  const [streamsOpen,  setStreamsOpen]   = useState(false)
+  const [countdown,       setCountdown]       = useState(null)
+  const [streamsOpen,     setStreamsOpen]      = useState(false)
+  const [highlightsOpen,  setHighlightsOpen]  = useState(false)
 
   // Countdown to Jun 11 2026 21:00 UTC
   useEffect(() => {
@@ -256,6 +257,12 @@ export default function Home() {
               >
                 📺 Watch Live Streams
               </button>
+              <button
+                className="btn btn-ghost streams-btn highlights-hero-btn"
+                onClick={() => setHighlightsOpen(true)}
+              >
+                🎬 Match Highlights
+              </button>
             </div>
           )}
         </div>
@@ -308,6 +315,59 @@ export default function Home() {
           </div>
         </div>
       )}
+
+      {/* ── Highlights modal ──────────────────────────────────────────────── */}
+      {highlightsOpen && (() => {
+        const finished = MATCHES
+          .filter(m => liveMap.get(m.id)?.status === 'finished')
+          .sort((a, b) => new Date(`${b.date}T${b.time}:00Z`) - new Date(`${a.date}T${a.time}:00Z`))
+        return (
+          <div className="modal-overlay" onClick={() => setHighlightsOpen(false)}>
+            <div className="modal-box streams-modal" onClick={e => e.stopPropagation()}>
+              <button className="modal-close" onClick={() => setHighlightsOpen(false)}>✕</button>
+              <div className="streams-modal-body">
+                <div className="streams-modal-icon">🎬</div>
+                <h2 className="streams-modal-title">Match Highlights</h2>
+                <p className="streams-modal-sub">
+                  Official FIFA highlights on YouTube · updates automatically as matches finish
+                </p>
+                {finished.length === 0 ? (
+                  <p style={{ textAlign: 'center', color: 'var(--text-3)', fontFamily: 'var(--font-mono)', fontSize: '0.75rem' }}>
+                    No finished matches yet
+                  </p>
+                ) : (
+                  <div className="streams-links">
+                    {finished.map(m => {
+                      const live  = liveMap.get(m.id)
+                      const homeT = TEAMS[m.home]
+                      const awayT = TEAMS[m.away]
+                      const q   = `FIFA World Cup 2026 ${homeT?.name} vs ${awayT?.name} highlights`
+                      const url = `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`
+                      return (
+                        <a
+                          key={m.id}
+                          href={url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="stream-link-card hl-card"
+                        >
+                          <div className="hl-card-teams">
+                            <span className="hl-team"><FlagImg code={m.home} size={14} />{homeT?.name}</span>
+                            <span className="hl-score">{live?.homeScore}–{live?.awayScore}</span>
+                            <span className="hl-team away">{awayT?.name}<FlagImg code={m.away} size={14} /></span>
+                          </div>
+                          <div className="stream-link-url">{m.date}</div>
+                          <span className="stream-link-arrow hl-play">▶</span>
+                        </a>
+                      )
+                    })}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )
+      })()}
 
       <div className="container">
 

@@ -293,7 +293,11 @@ function MatchRow({ m, focus }) {
       </div>
       {expanded && canExpand && (
         <div className="fx-facts">
-          <MatchFacts live={live ?? { status: isLive ? 'live' : 'finished', goals: [], bookings: [] }} />
+          <MatchFacts
+            live={live ?? { status: isLive ? 'live' : 'finished', goals: [], bookings: [] }}
+            homeTeam={homeT?.name}
+            awayTeam={awayT?.name}
+          />
         </div>
       )}
     </div>

@@ -1,5 +1,10 @@
 import React from 'react'
 
+function highlightsUrl(homeTeam, awayTeam) {
+  const q = `FIFA World Cup 2026 ${homeTeam} vs ${awayTeam} highlights`
+  return `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`
+}
+
 function EventItem({ event, side }) {
   const minStr = event.injTime ? `${event.minute}+${event.injTime}'` : `${event.minute}'`
 
@@ -28,7 +33,7 @@ function EventItem({ event, side }) {
   )
 }
 
-export default function MatchFacts({ live }) {
+export default function MatchFacts({ live, homeTeam, awayTeam }) {
   if (!live) return null
 
   const goals    = live.goals    || []
@@ -45,23 +50,39 @@ export default function MatchFacts({ live }) {
   ].sort((a, b) => a.minute - b.minute)
 
   const hasEvents = homeEvents.length > 0 || awayEvents.length > 0
-
-  if (!hasEvents) {
-    return (
-      <div className="mf-empty">
-        {live.status === 'live' ? 'Match in progress — no goals yet' : 'No events recorded'}
-      </div>
-    )
-  }
+  const isFinished = live.status === 'finished'
+  const hlUrl = isFinished && homeTeam && awayTeam ? highlightsUrl(homeTeam, awayTeam) : null
 
   return (
-    <div className="mf-events">
-      <div className="mf-col">
-        {homeEvents.map((e, i) => <EventItem key={i} event={e} side="home" />)}
-      </div>
-      <div className="mf-col mf-col-away">
-        {awayEvents.map((e, i) => <EventItem key={i} event={e} side="away" />)}
-      </div>
+    <div className="mf-wrapper">
+      {hasEvents ? (
+        <div className="mf-events">
+          <div className="mf-col">
+            {homeEvents.map((e, i) => <EventItem key={i} event={e} side="home" />)}
+          </div>
+          <div className="mf-col mf-col-away">
+            {awayEvents.map((e, i) => <EventItem key={i} event={e} side="away" />)}
+          </div>
+        </div>
+      ) : (
+        <div className="mf-empty">
+          {live.status === 'live' ? 'Match in progress — no goals yet' : 'No events recorded'}
+        </div>
+      )}
+
+      {hlUrl && (
+        <div className="mf-highlights">
+          <a
+            href={hlUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mf-highlights-btn"
+            onClick={e => e.stopPropagation()}
+          >
+            ▶ Official Highlights
+          </a>
+        </div>
+      )}
     </div>
   )
 }
