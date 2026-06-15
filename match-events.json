@@ -1034,5 +1034,213 @@
         "shotsOnTarget": 3
       }
     }
+  },
+  "537352": {
+    "goals": [
+      {
+        "minute": 90,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Amad Diallo",
+          "shortName": "Amad Diallo"
+        },
+        "assist": {
+          "name": "Wilfried Singo",
+          "shortName": "Wilfried Singo"
+        },
+        "team": {
+          "id": 1935
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 28,
+        "player": {
+          "name": "Seko Fofana",
+          "shortName": "Seko Fofana"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 1935
+        }
+      },
+      {
+        "minute": 38,
+        "player": {
+          "name": "Franck Kessi\u00e9",
+          "shortName": "Franck Kessi\u00e9"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 1935
+        }
+      },
+      {
+        "minute": 40,
+        "player": {
+          "name": "Guela Dou\u00e9",
+          "shortName": "Guela Dou\u00e9"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 1935
+        }
+      },
+      {
+        "minute": 73,
+        "player": {
+          "name": "Jackson Porozo",
+          "shortName": "Jackson Porozo"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 791
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 10,
+        "corners": 3,
+        "possession": 48.4,
+        "shots": 15,
+        "shotsOnTarget": 4
+      },
+      "away": {
+        "fouls": 13,
+        "corners": 6,
+        "possession": 51.6,
+        "shots": 12,
+        "shotsOnTarget": 1
+      }
+    }
+  },
+  "537358": {
+    "goals": [
+      {
+        "minute": 7,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Yasin Ayari",
+          "shortName": "Yasin Ayari"
+        },
+        "assist": null,
+        "team": {
+          "id": 792
+        }
+      },
+      {
+        "minute": 30,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Alexander Isak",
+          "shortName": "Alexander Isak"
+        },
+        "assist": {
+          "name": "Viktor Gy\u00f6keres",
+          "shortName": "Viktor Gy\u00f6keres"
+        },
+        "team": {
+          "id": 792
+        }
+      },
+      {
+        "minute": 43,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Omar Rekik",
+          "shortName": "Omar Rekik"
+        },
+        "assist": {
+          "name": "Hannibal Mejbri",
+          "shortName": "Hannibal Mejbri"
+        },
+        "team": {
+          "id": 802
+        }
+      },
+      {
+        "minute": 59,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Viktor Gy\u00f6keres",
+          "shortName": "Viktor Gy\u00f6keres"
+        },
+        "assist": {
+          "name": "Alexander Isak",
+          "shortName": "Alexander Isak"
+        },
+        "team": {
+          "id": 792
+        }
+      },
+      {
+        "minute": 84,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Mattias Svanberg",
+          "shortName": "Mattias Svanberg"
+        },
+        "assist": {
+          "name": "Alexander Isak",
+          "shortName": "Alexander Isak"
+        },
+        "team": {
+          "id": 792
+        }
+      },
+      {
+        "minute": 90,
+        "injuryTime": 6,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Yasin Ayari",
+          "shortName": "Yasin Ayari"
+        },
+        "assist": {
+          "name": "Lucas Bergvall",
+          "shortName": "Lucas Bergvall"
+        },
+        "team": {
+          "id": 792
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 54,
+        "player": {
+          "name": "Rani Khedira",
+          "shortName": "Rani Khedira"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 802
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 10,
+        "corners": 4,
+        "possession": 48.7,
+        "shots": 13,
+        "shotsOnTarget": 7
+      },
+      "away": {
+        "fouls": 8,
+        "corners": 2,
+        "possession": 51.3,
+        "shots": 6,
+        "shotsOnTarget": 2
+      }
+    }
   }
 }
