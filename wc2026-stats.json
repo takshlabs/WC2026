@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-14T22:49:05Z",
+  "updated": "2026-06-15T10:21:00Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -21,8 +21,26 @@
       "mp": 0
     },
     {
+      "name": "Yasin Ayari",
+      "team": "Sweden",
+      "goals": 2,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
       "name": "Deniz Undav",
       "team": "Germany",
+      "goals": 1,
+      "assists": 2,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Alexander Isak",
+      "team": "Sweden",
       "goals": 1,
       "assists": 2,
       "yc": 0,
@@ -41,6 +59,15 @@
     {
       "name": "Nathaniel Brown",
       "team": "Germany",
+      "goals": 1,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Viktor Gy\u00f6keres",
+      "team": "Sweden",
       "goals": 1,
       "assists": 1,
       "yc": 0,
@@ -199,33 +226,6 @@
       "yc": 0,
       "rc": 0,
       "mp": 0
-    },
-    {
-      "name": "Jamal Musiala",
-      "team": "Germany",
-      "goals": 1,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Virgil van Dijk",
-      "team": "Netherlands",
-      "goals": 1,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Keito Nakamura",
-      "team": "Japan",
-      "goals": 1,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
     }
   ],
   "teamStats": [
@@ -237,6 +237,16 @@
       "d": 0,
       "l": 0,
       "gf": 7,
+      "ga": 1
+    },
+    {
+      "tla": "SWE",
+      "name": "Sweden",
+      "mp": 1,
+      "w": 1,
+      "d": 0,
+      "l": 0,
+      "gf": 5,
       "ga": 1
     },
     {
@@ -302,6 +312,16 @@
     {
       "tla": "SCO",
       "name": "Scotland",
+      "mp": 1,
+      "w": 1,
+      "d": 0,
+      "l": 0,
+      "gf": 1,
+      "ga": 0
+    },
+    {
+      "tla": "CIV",
+      "name": "Ivory Coast",
       "mp": 1,
       "w": 1,
       "d": 0,
@@ -400,6 +420,16 @@
       "ga": 7
     },
     {
+      "tla": "TUN",
+      "name": "Tunisia",
+      "mp": 1,
+      "w": 0,
+      "d": 0,
+      "l": 1,
+      "gf": 1,
+      "ga": 5
+    },
+    {
       "tla": "RSA",
       "name": "South Africa",
       "mp": 1,
@@ -428,6 +458,16 @@
       "l": 1,
       "gf": 0,
       "ga": 2
+    },
+    {
+      "tla": "ECU",
+      "name": "Ecuador",
+      "mp": 1,
+      "w": 0,
+      "d": 0,
+      "l": 1,
+      "gf": 0,
+      "ga": 1
     }
   ]
 }
