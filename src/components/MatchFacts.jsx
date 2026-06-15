@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from 'react'
+import React from 'react'
 
-const SCORES_BASE = import.meta.env.BASE_URL   // e.g. '/WC2026/'
+const SCORES_BASE = import.meta.env.BASE_URL
 
 function highlightsUrl(homeTeam, awayTeam) {
   const q = `FIFA World Cup 2026 ${homeTeam} vs ${awayTeam} highlights`
@@ -20,133 +20,47 @@ function FormRow({ form, align = 'left' }) {
   )
 }
 
-// ── Stats bar ─────────────────────────────────────────────────────────────────
-function StatBar({ label, home, away }) {
-  if (home == null || away == null) return null
-  const total = (Number(home) || 0) + (Number(away) || 0)
-  const homePct = total ? Math.round((Number(home) / total) * 100) : 50
+// ── Stats table (clean numbers, no bars) ─────────────────────────────────────
+function StatsTable({ stats }) {
+  if (!stats?.home || !stats?.away) return null
+  const rows = [
+    { key: 'possession',    label: 'Possession %' },
+    { key: 'shots',         label: 'Shots' },
+    { key: 'shotsOnTarget', label: 'On Target' },
+    { key: 'corners',       label: 'Corners' },
+    { key: 'fouls',         label: 'Fouls' },
+  ]
+  const visible = rows.filter(r => stats.home[r.key] != null || stats.away[r.key] != null)
+  if (!visible.length) return null
+
   return (
-    <div className="mf-stat-row">
-      <span className="mf-stat-val">{home}</span>
-      <div className="mf-stat-bar">
-        <div className="mf-stat-fill mf-stat-fill-home" style={{ width: `${homePct}%` }} />
-      </div>
-      <span className="mf-stat-label">{label}</span>
-      <div className="mf-stat-bar">
-        <div className="mf-stat-fill mf-stat-fill-away" style={{ width: `${100 - homePct}%` }} />
-      </div>
-      <span className="mf-stat-val mf-stat-val-r">{away}</span>
-    </div>
-  )
-}
-
-// ── Lineup + H2H modal (lazy-fetched) ────────────────────────────────────────
-function LineupModal({ matchId, homeTeam, awayTeam, onClose }) {
-  const [details, setDetails] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-
-  React.useEffect(() => {
-    fetch(`${SCORES_BASE}match-details.json?_=${Date.now()}`)
-      .then(r => r.ok ? r.json() : Promise.reject(r.status))
-      .then(data => {
-        setDetails(data[matchId] || {})
-        setLoading(false)
-      })
-      .catch(e => { setError(String(e)); setLoading(false) })
-  }, [matchId])
-
-  const lineup  = details?.lineup
-  const h2hData = details?.h2h
-
-  function renderLineupSide(players, label) {
-    if (!players) return null
-    const starters = players.filter(p => p.starter)
-    const subs     = players.filter(p => !p.starter)
-    return (
-      <div className="mf-lineup-col">
-        <div className="mf-lineup-team">{label}</div>
-        <div className="mf-lineup-group-label">Starting XI</div>
-        {starters.map((p, i) => (
-          <div key={i} className="mf-lineup-player">
-            <span className="mf-jersey">{p.jersey}</span>
-            <span className="mf-pos">{p.pos}</span>
-            <span className="mf-pname">{p.name}</span>
-          </div>
-        ))}
-        {subs.length > 0 && <>
-          <div className="mf-lineup-group-label">Substitutes</div>
-          {subs.map((p, i) => (
-            <div key={i} className="mf-lineup-player mf-sub">
-              <span className="mf-jersey">{p.jersey}</span>
-              <span className="mf-pos">{p.pos}</span>
-              <span className="mf-pname">{p.name}</span>
+    <div className="mf-stats-table">
+      {visible.map(({ key, label }) => {
+        const h = stats.home[key] ?? '–'
+        const a = stats.away[key] ?? '–'
+        const hNum = Number(h)
+        const aNum = Number(a)
+        const total = hNum + aNum
+        const homePct = total > 0 ? Math.round((hNum / total) * 100) : 50
+        return (
+          <div key={key} className="mf-st-row">
+            <span className={`mf-st-num mf-st-home${hNum > aNum ? ' mf-st-win' : ''}`}>{h}</span>
+            <div className="mf-st-mid">
+              <div className="mf-st-bar">
+                <div className="mf-st-home-fill" style={{ width: `${homePct}%` }} />
+              </div>
+              <span className="mf-st-label">{label}</span>
             </div>
-          ))}
-        </>}
-      </div>
-    )
-  }
-
-  return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-box mf-detail-modal" onClick={e => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}>✕</button>
-
-        {loading && <div className="mf-detail-loading">Loading...</div>}
-        {error   && <div className="mf-detail-loading" style={{ color: 'var(--text-3)' }}>Could not load details</div>}
-
-        {!loading && !error && (
-          <>
-            {/* Lineups */}
-            {lineup ? (
-              <div className="mf-detail-section">
-                <div className="mf-detail-header">Lineups</div>
-                <div className="mf-lineup-grid">
-                  {renderLineupSide(lineup.home, homeTeam)}
-                  {renderLineupSide(lineup.away, awayTeam)}
-                </div>
-              </div>
-            ) : (
-              <div className="mf-detail-section">
-                <div className="mf-detail-header">Lineups</div>
-                <div className="mf-empty">Not yet available</div>
-              </div>
-            )}
-
-            {/* H2H */}
-            {h2hData && h2hData.length > 0 && (
-              <div className="mf-detail-section">
-                <div className="mf-detail-header">Head to Head</div>
-                <div className="mf-h2h-list">
-                  {h2hData.map((g, i) => {
-                    const isDraw = g.homeScore === g.awayScore
-                    return (
-                      <div key={i} className="mf-h2h-row">
-                        <span className="mf-h2h-date">{g.date?.slice(0, 7)}</span>
-                        <span className="mf-h2h-team">{g.home}</span>
-                        <span className="mf-h2h-score">{g.homeScore}–{g.awayScore}</span>
-                        <span className="mf-h2h-team mf-h2h-r">{g.away}</span>
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
-            )}
-
-            {!lineup && !(h2hData && h2hData.length) && (
-              <div className="mf-empty" style={{ padding: '1.5rem 0' }}>No detail data available yet</div>
-            )}
-          </>
-        )}
-      </div>
+            <span className={`mf-st-num mf-st-away${aNum > hNum ? ' mf-st-win' : ''}`}>{a}</span>
+          </div>
+        )
+      })}
     </div>
   )
 }
 
 // ── Main component ────────────────────────────────────────────────────────────
 export default function MatchFacts({ live, homeTeam, awayTeam }) {
-  const [lineupOpen, setLineupOpen] = useState(false)
   if (!live) return null
 
   const goals    = live.goals    || []
@@ -165,24 +79,15 @@ export default function MatchFacts({ live, homeTeam, awayTeam }) {
     ...bookings.filter(b => b.side === 'away'),
   ].sort((a, b) => a.minute - b.minute)
 
-  const hasEvents  = homeEvents.length > 0 || awayEvents.length > 0
-  const hasStats   = stats?.home && Object.keys(stats.home).length > 0
-  const hasForm    = live.homeForm || live.awayForm
-  const hlUrl      = isFinished && homeTeam && awayTeam ? highlightsUrl(homeTeam, awayTeam) : null
+  const hasEvents = homeEvents.length > 0 || awayEvents.length > 0
+  const hasForm   = live.homeForm || live.awayForm
+  const hlUrl     = isFinished && homeTeam && awayTeam ? highlightsUrl(homeTeam, awayTeam) : null
 
   return (
     <div className="mf-wrapper">
 
-      {/* ── Stats bar (live + finished) ───────────────── */}
-      {hasStats && (
-        <div className="mf-stats-block">
-          <StatBar label="Possession %" home={stats.home.possession} away={stats.away.possession} />
-          <StatBar label="Shots"        home={stats.home.shots}      away={stats.away.shots} />
-          <StatBar label="On Target"    home={stats.home.shotsOnTarget} away={stats.away.shotsOnTarget} />
-          <StatBar label="Corners"      home={stats.home.corners}    away={stats.away.corners} />
-          <StatBar label="Fouls"        home={stats.home.fouls}      away={stats.away.fouls} />
-        </div>
-      )}
+      {/* ── Stats table ──────────────────────────────── */}
+      <StatsTable stats={stats} />
 
       {/* ── Form badges ──────────────────────────────── */}
       {hasForm && (
@@ -209,17 +114,9 @@ export default function MatchFacts({ live, homeTeam, awayTeam }) {
         </div>
       )}
 
-      {/* ── Action row ───────────────────────────────── */}
-      <div className="mf-actions">
-        {live.matchId && (
-          <button
-            className="mf-action-btn"
-            onClick={e => { e.stopPropagation(); setLineupOpen(true) }}
-          >
-            👥 Lineup & H2H
-          </button>
-        )}
-        {hlUrl && (
+      {/* ── Highlights link ───────────────────────────── */}
+      {hlUrl && (
+        <div className="mf-highlights">
           <a
             href={hlUrl}
             target="_blank"
@@ -229,17 +126,7 @@ export default function MatchFacts({ live, homeTeam, awayTeam }) {
           >
             ▶ Official Highlights
           </a>
-        )}
-      </div>
-
-      {/* ── Lineup / H2H modal ───────────────────────── */}
-      {lineupOpen && live.matchId && (
-        <LineupModal
-          matchId={live.matchId}
-          homeTeam={homeTeam}
-          awayTeam={awayTeam}
-          onClose={() => setLineupOpen(false)}
-        />
+        </div>
       )}
     </div>
   )

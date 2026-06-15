@@ -166,10 +166,9 @@ export function useLiveScores() {
             const isOG      = (g.type || 'REGULAR') === 'OWN_GOAL'
             const playerName = g.scorer?.shortName || g.scorer?.name || '?'
             const assistRaw  = g.assist?.shortName  || g.assist?.name  || null
-            // OG: team.id is the scorer's team (who conceded), goal benefits the OTHER side
-            const side = isOG
-              ? (g.team?.id === homeTeamId ? 'away' : 'home')
-              : (g.team?.id === homeTeamId ? 'home' : 'away')
+            // ESPN stores team.id = SCORER's team for both regular goals and OGs.
+            // No flip needed — scorer's team determines which column the event appears in.
+            const side = g.team?.id === homeTeamId ? 'home' : 'away'
             return {
               minute:  g.minute ?? 0,
               injTime: g.injuryTime ?? null,
