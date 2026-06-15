@@ -1242,5 +1242,100 @@
         "shotsOnTarget": 2
       }
     }
+  },
+  "537363": {
+    "goals": [
+      {
+        "minute": 19,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Emam Ashour",
+          "shortName": "Emam Ashour"
+        },
+        "assist": {
+          "name": "Mohamed Salah",
+          "shortName": "Mohamed Salah"
+        },
+        "team": {
+          "id": 825
+        }
+      },
+      {
+        "minute": 66,
+        "injuryTime": null,
+        "type": "OWN_GOAL",
+        "scorer": {
+          "name": "Mohamed Hany",
+          "shortName": "Mohamed Hany"
+        },
+        "assist": null,
+        "team": {
+          "id": 805
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 13,
+        "player": {
+          "name": "Marawan Attia",
+          "shortName": "Marawan Attia"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 825
+        }
+      },
+      {
+        "minute": 14,
+        "player": {
+          "name": "Timothy Castagne",
+          "shortName": "Timothy Castagne"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 805
+        }
+      },
+      {
+        "minute": 34,
+        "player": {
+          "name": "Ahmed Fatouh",
+          "shortName": "Ahmed Fatouh"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 825
+        }
+      },
+      {
+        "minute": 75,
+        "player": {
+          "name": "Maxim De Cuyper",
+          "shortName": "Maxim De Cuyper"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 805
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 15,
+        "corners": 2,
+        "possession": 53.6,
+        "shots": 15,
+        "shotsOnTarget": 3
+      },
+      "away": {
+        "fouls": 15,
+        "corners": 7,
+        "possession": 46.4,
+        "shots": 14,
+        "shotsOnTarget": 3
+      }
+    }
   }
 }
