@@ -233,7 +233,7 @@ function MatchRow({ m, focus }) {
   const isRecent = isFinished && matchTime > recentCutoff
   // Expandable for any live or finished match — even with zero events (MatchFacts shows empty state)
   const canExpand = isLive || isFinished
-  const autoExpand = isLive || isRecent
+  const autoExpand = isLive   // only live matches auto-expand; past games require a tap
   const [expanded, setExpanded] = useState(autoExpand)
 
   // Re-evaluate auto-expand whenever liveMap or time changes (every 60s via useLiveScores poll)
