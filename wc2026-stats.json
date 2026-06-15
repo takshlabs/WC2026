@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-15T18:12:44Z",
+  "updated": "2026-06-15T22:21:12Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -340,26 +340,6 @@
       "ga": 2
     },
     {
-      "tla": "CAN",
-      "name": "Canada",
-      "mp": 1,
-      "w": 0,
-      "d": 1,
-      "l": 0,
-      "gf": 1,
-      "ga": 1
-    },
-    {
-      "tla": "BIH",
-      "name": "Bosnia-Herzegovina",
-      "mp": 1,
-      "w": 0,
-      "d": 1,
-      "l": 0,
-      "gf": 1,
-      "ga": 1
-    },
-    {
       "tla": "PAR",
       "name": "Paraguay",
       "mp": 1,
@@ -430,6 +410,26 @@
       "ga": 5
     },
     {
+      "tla": "BEL",
+      "name": "Belgium",
+      "mp": 1,
+      "w": 0,
+      "d": 1,
+      "l": 0,
+      "gf": 1,
+      "ga": 1
+    },
+    {
+      "tla": "EGY",
+      "name": "Egypt",
+      "mp": 1,
+      "w": 0,
+      "d": 1,
+      "l": 0,
+      "gf": 1,
+      "ga": 1
+    },
+    {
       "tla": "RSA",
       "name": "South Africa",
       "mp": 1,
@@ -438,6 +438,26 @@
       "l": 1,
       "gf": 0,
       "ga": 2
+    },
+    {
+      "tla": "CAN",
+      "name": "Canada",
+      "mp": 1,
+      "w": 0,
+      "d": 1,
+      "l": 0,
+      "gf": 0,
+      "ga": 0
+    },
+    {
+      "tla": "BIH",
+      "name": "Bosnia-Herzegovina",
+      "mp": 1,
+      "w": 0,
+      "d": 1,
+      "l": 0,
+      "gf": 0,
+      "ga": 0
     },
     {
       "tla": "HAI",
@@ -468,6 +488,26 @@
       "l": 1,
       "gf": 0,
       "ga": 1
+    },
+    {
+      "tla": "ESP",
+      "name": "Spain",
+      "mp": 1,
+      "w": 0,
+      "d": 1,
+      "l": 0,
+      "gf": 0,
+      "ga": 0
+    },
+    {
+      "tla": "CPV",
+      "name": "Cape Verde Islands",
+      "mp": 1,
+      "w": 0,
+      "d": 1,
+      "l": 0,
+      "gf": 0,
+      "ga": 0
     }
   ]
 }
