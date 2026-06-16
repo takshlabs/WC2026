@@ -1490,5 +1490,87 @@
         "shotsOnTarget": 8
       }
     }
+  },
+  "537391": {
+    "goals": [
+      {
+        "minute": 66,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Kylian Mbapp\u00e9",
+          "shortName": "Kylian Mbapp\u00e9"
+        },
+        "assist": {
+          "name": "Michael Olise",
+          "shortName": "Michael Olise"
+        },
+        "team": {
+          "id": 773
+        }
+      },
+      {
+        "minute": 82,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Bradley Barcola",
+          "shortName": "Bradley Barcola"
+        },
+        "assist": {
+          "name": "Adrien Rabiot",
+          "shortName": "Adrien Rabiot"
+        },
+        "team": {
+          "id": 773
+        }
+      },
+      {
+        "minute": 90,
+        "injuryTime": 5,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Ibrahim Mbaye",
+          "shortName": "Ibrahim Mbaye"
+        },
+        "assist": {
+          "name": "Iliman Ndiaye",
+          "shortName": "Iliman Ndiaye"
+        },
+        "team": {
+          "id": 804
+        }
+      },
+      {
+        "minute": 90,
+        "injuryTime": 6,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Kylian Mbapp\u00e9",
+          "shortName": "Kylian Mbapp\u00e9"
+        },
+        "assist": null,
+        "team": {
+          "id": 773
+        }
+      }
+    ],
+    "bookings": [],
+    "stats": {
+      "home": {
+        "fouls": 5,
+        "corners": 6,
+        "possession": 53.7,
+        "shots": 11,
+        "shotsOnTarget": 8
+      },
+      "away": {
+        "fouls": 9,
+        "corners": 4,
+        "possession": 46.3,
+        "shots": 6,
+        "shotsOnTarget": 2
+      }
+    }
   }
 }
