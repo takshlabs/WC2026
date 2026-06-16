@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T19:53:40Z",
+  "updated": "2026-06-16T23:51:15Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -32,6 +32,15 @@
     {
       "name": "Elijah Just",
       "team": "New Zealand",
+      "goals": 2,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Kylian Mbapp\u00e9",
+      "team": "France",
       "goals": 2,
       "assists": 0,
       "yc": 0,
@@ -217,15 +226,6 @@
       "yc": 0,
       "rc": 0,
       "mp": 0
-    },
-    {
-      "name": "Felix Nmecha",
-      "team": "Germany",
-      "goals": 1,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
     }
   ],
   "teamStats": [
@@ -257,6 +257,16 @@
       "d": 0,
       "l": 0,
       "gf": 4,
+      "ga": 1
+    },
+    {
+      "tla": "FRA",
+      "name": "France",
+      "mp": 1,
+      "w": 0,
+      "d": 1,
+      "l": 0,
+      "gf": 3,
       "ga": 1
     },
     {
@@ -490,6 +500,16 @@
       "ga": 1
     },
     {
+      "tla": "SEN",
+      "name": "Senegal",
+      "mp": 1,
+      "w": 0,
+      "d": 1,
+      "l": 0,
+      "gf": 1,
+      "ga": 3
+    },
+    {
       "tla": "RSA",
       "name": "South Africa",
       "mp": 1,
@@ -528,26 +548,6 @@
       "l": 1,
       "gf": 0,
       "ga": 1
-    },
-    {
-      "tla": "ESP",
-      "name": "Spain",
-      "mp": 1,
-      "w": 0,
-      "d": 1,
-      "l": 0,
-      "gf": 0,
-      "ga": 0
-    },
-    {
-      "tla": "CPV",
-      "name": "Cape Verde Islands",
-      "mp": 1,
-      "w": 0,
-      "d": 1,
-      "l": 0,
-      "gf": 0,
-      "ga": 0
     }
   ]
 }
