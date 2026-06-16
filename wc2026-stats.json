@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T00:15:55Z",
+  "updated": "2026-06-16T18:12:58Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -23,6 +23,15 @@
     {
       "name": "Yasin Ayari",
       "team": "Sweden",
+      "goals": 2,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Elijah Just",
+      "team": "New Zealand",
       "goals": 2,
       "assists": 0,
       "yc": 0,
@@ -68,6 +77,15 @@
     {
       "name": "Viktor Gy\u00f6keres",
       "team": "Sweden",
+      "goals": 1,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Ramin Rezaeian",
+      "team": "Iran",
       "goals": 1,
       "assists": 1,
       "yc": 0,
@@ -208,24 +226,6 @@
       "yc": 0,
       "rc": 0,
       "mp": 0
-    },
-    {
-      "name": "Livano Comenencia",
-      "team": "Cura\u00e7ao",
-      "goals": 1,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Nico Schlotterbeck",
-      "team": "Germany",
-      "goals": 1,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
     }
   ],
   "teamStats": [
@@ -310,6 +310,26 @@
       "ga": 2
     },
     {
+      "tla": "IRN",
+      "name": "Iran",
+      "mp": 1,
+      "w": 0,
+      "d": 1,
+      "l": 0,
+      "gf": 2,
+      "ga": 2
+    },
+    {
+      "tla": "NZL",
+      "name": "New Zealand",
+      "mp": 1,
+      "w": 0,
+      "d": 1,
+      "l": 0,
+      "gf": 2,
+      "ga": 2
+    },
+    {
       "tla": "SCO",
       "name": "Scotland",
       "mp": 1,
@@ -338,6 +358,26 @@
       "l": 1,
       "gf": 1,
       "ga": 2
+    },
+    {
+      "tla": "CAN",
+      "name": "Canada",
+      "mp": 1,
+      "w": 0,
+      "d": 1,
+      "l": 0,
+      "gf": 1,
+      "ga": 1
+    },
+    {
+      "tla": "BIH",
+      "name": "Bosnia-Herzegovina",
+      "mp": 1,
+      "w": 0,
+      "d": 1,
+      "l": 0,
+      "gf": 1,
+      "ga": 1
     },
     {
       "tla": "PAR",
@@ -430,6 +470,26 @@
       "ga": 1
     },
     {
+      "tla": "KSA",
+      "name": "Saudi Arabia",
+      "mp": 1,
+      "w": 0,
+      "d": 1,
+      "l": 0,
+      "gf": 1,
+      "ga": 1
+    },
+    {
+      "tla": "URU",
+      "name": "Uruguay",
+      "mp": 1,
+      "w": 0,
+      "d": 1,
+      "l": 0,
+      "gf": 1,
+      "ga": 1
+    },
+    {
       "tla": "RSA",
       "name": "South Africa",
       "mp": 1,
@@ -438,26 +498,6 @@
       "l": 1,
       "gf": 0,
       "ga": 2
-    },
-    {
-      "tla": "CAN",
-      "name": "Canada",
-      "mp": 1,
-      "w": 0,
-      "d": 1,
-      "l": 0,
-      "gf": 0,
-      "ga": 0
-    },
-    {
-      "tla": "BIH",
-      "name": "Bosnia-Herzegovina",
-      "mp": 1,
-      "w": 0,
-      "d": 1,
-      "l": 0,
-      "gf": 0,
-      "ga": 0
     },
     {
       "tla": "HAI",
