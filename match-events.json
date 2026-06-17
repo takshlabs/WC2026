@@ -1836,5 +1836,103 @@
         "shotsOnTarget": 4
       }
     }
+  },
+  "537403": {
+    "goals": [
+      {
+        "minute": 6,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Jo\u00e3o Neves",
+          "shortName": "Jo\u00e3o Neves"
+        },
+        "assist": {
+          "name": "Pedro Neto",
+          "shortName": "Pedro Neto"
+        },
+        "team": {
+          "id": 765
+        }
+      },
+      {
+        "minute": 45,
+        "injuryTime": 5,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Yoane Wissa",
+          "shortName": "Yoane Wissa"
+        },
+        "assist": {
+          "name": "Arthur Masuaku",
+          "shortName": "Arthur Masuaku"
+        },
+        "team": {
+          "id": 1934
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 13,
+        "player": {
+          "name": "Bernardo Silva",
+          "shortName": "Bernardo Silva"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 765
+        }
+      },
+      {
+        "minute": 32,
+        "player": {
+          "name": "Chancel Mbemba",
+          "shortName": "Chancel Mbemba"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 1934
+        }
+      },
+      {
+        "minute": 88,
+        "player": {
+          "name": "N\u00e9lson Semedo",
+          "shortName": "N\u00e9lson Semedo"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 765
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Tom\u00e1s Ara\u00fajo",
+          "shortName": "Tom\u00e1s Ara\u00fajo"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 765
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 9,
+        "corners": 5,
+        "possession": 75.4,
+        "shots": 7,
+        "shotsOnTarget": 1
+      },
+      "away": {
+        "fouls": 10,
+        "corners": 4,
+        "possession": 24.6,
+        "shots": 8,
+        "shotsOnTarget": 2
+      }
+    }
   }
 }
