@@ -1572,5 +1572,269 @@
         "shotsOnTarget": 2
       }
     }
+  },
+  "537392": {
+    "goals": [
+      {
+        "minute": 29,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Erling Haaland",
+          "shortName": "Erling Haaland"
+        },
+        "assist": {
+          "name": "David M\u00f8ller Wolfe",
+          "shortName": "David M\u00f8ller Wolfe"
+        },
+        "team": {
+          "id": 8872
+        }
+      },
+      {
+        "minute": 39,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Aymen Hussein",
+          "shortName": "Aymen Hussein"
+        },
+        "assist": {
+          "name": "Amir Al-Ammari",
+          "shortName": "Amir Al-Ammari"
+        },
+        "team": {
+          "id": 8062
+        }
+      },
+      {
+        "minute": 43,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Erling Haaland",
+          "shortName": "Erling Haaland"
+        },
+        "assist": null,
+        "team": {
+          "id": 8872
+        }
+      },
+      {
+        "minute": 76,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Leo \u00d8stigard",
+          "shortName": "Leo \u00d8stigard"
+        },
+        "assist": {
+          "name": "Martin \u00d8degaard",
+          "shortName": "Martin \u00d8degaard"
+        },
+        "team": {
+          "id": 8872
+        }
+      },
+      {
+        "minute": 90,
+        "injuryTime": 6,
+        "type": "OWN_GOAL",
+        "scorer": {
+          "name": "Aymen Hussein",
+          "shortName": "Aymen Hussein"
+        },
+        "assist": null,
+        "team": {
+          "id": 8872
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 86,
+        "player": {
+          "name": "Zaid Tahseen",
+          "shortName": "Zaid Tahseen"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 8062
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 12,
+        "corners": 2,
+        "possession": 38.7,
+        "shots": 11,
+        "shotsOnTarget": 1
+      },
+      "away": {
+        "fouls": 13,
+        "corners": 5,
+        "possession": 61.3,
+        "shots": 12,
+        "shotsOnTarget": 5
+      }
+    }
+  },
+  "537397": {
+    "goals": [
+      {
+        "minute": 17,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Lionel Messi",
+          "shortName": "Lionel Messi"
+        },
+        "assist": {
+          "name": "Rodrigo De Paul",
+          "shortName": "Rodrigo De Paul"
+        },
+        "team": {
+          "id": 762
+        }
+      },
+      {
+        "minute": 60,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Lionel Messi",
+          "shortName": "Lionel Messi"
+        },
+        "assist": null,
+        "team": {
+          "id": 762
+        }
+      },
+      {
+        "minute": 76,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Lionel Messi",
+          "shortName": "Lionel Messi"
+        },
+        "assist": {
+          "name": "Nico Gonz\u00e1lez",
+          "shortName": "Nico Gonz\u00e1lez"
+        },
+        "team": {
+          "id": 762
+        }
+      }
+    ],
+    "bookings": [],
+    "stats": {
+      "home": {
+        "fouls": 13,
+        "corners": 2,
+        "possession": 47.8,
+        "shots": 10,
+        "shotsOnTarget": 6
+      },
+      "away": {
+        "fouls": 8,
+        "corners": 2,
+        "possession": 52.2,
+        "shots": 7,
+        "shotsOnTarget": 1
+      }
+    }
+  },
+  "537398": {
+    "goals": [
+      {
+        "minute": 21,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Romano Schmid",
+          "shortName": "Romano Schmid"
+        },
+        "assist": {
+          "name": "Xaver Schlager",
+          "shortName": "Xaver Schlager"
+        },
+        "team": {
+          "id": 816
+        }
+      },
+      {
+        "minute": 50,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Ali Olwan",
+          "shortName": "Ali Olwan"
+        },
+        "assist": {
+          "name": "Noor Al-Rawabdeh",
+          "shortName": "Noor Al-Rawabdeh"
+        },
+        "team": {
+          "id": 8049
+        }
+      },
+      {
+        "minute": 76,
+        "injuryTime": null,
+        "type": "OWN_GOAL",
+        "scorer": {
+          "name": "Yazan Al-Arab",
+          "shortName": "Yazan Al-Arab"
+        },
+        "assist": null,
+        "team": {
+          "id": 816
+        }
+      },
+      {
+        "minute": 90,
+        "injuryTime": 12,
+        "type": "PENALTY",
+        "scorer": {
+          "name": "Marko Arnautovic",
+          "shortName": "Marko Arnautovic"
+        },
+        "assist": null,
+        "team": {
+          "id": 816
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 77,
+        "player": {
+          "name": "Marcel Sabitzer",
+          "shortName": "Marcel Sabitzer"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 816
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 12,
+        "corners": 4,
+        "possession": 63.2,
+        "shots": 11,
+        "shotsOnTarget": 4
+      },
+      "away": {
+        "fouls": 7,
+        "corners": 3,
+        "possession": 36.8,
+        "shots": 11,
+        "shotsOnTarget": 4
+      }
+    }
   }
 }
