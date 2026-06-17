@@ -1,7 +1,16 @@
 {
-  "updated": "2026-06-16T23:51:15Z",
+  "updated": "2026-06-17T13:02:37Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
+    {
+      "name": "Lionel Messi",
+      "team": "Argentina",
+      "goals": 3,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
     {
       "name": "Folarin Balogun",
       "team": "United States",
@@ -41,6 +50,15 @@
     {
       "name": "Kylian Mbapp\u00e9",
       "team": "France",
+      "goals": 2,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Erling Haaland",
+      "team": "Norway",
       "goals": 2,
       "assists": 0,
       "yc": 0,
@@ -208,24 +226,6 @@
       "yc": 0,
       "rc": 0,
       "mp": 0
-    },
-    {
-      "name": "Nestory Irankunda",
-      "team": "Australia",
-      "goals": 1,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Connor Metcalfe",
-      "team": "Australia",
-      "goals": 1,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
     }
   ],
   "teamStats": [
@@ -260,11 +260,41 @@
       "ga": 1
     },
     {
+      "tla": "NOR",
+      "name": "Norway",
+      "mp": 1,
+      "w": 1,
+      "d": 0,
+      "l": 0,
+      "gf": 4,
+      "ga": 1
+    },
+    {
       "tla": "FRA",
       "name": "France",
       "mp": 1,
-      "w": 0,
-      "d": 1,
+      "w": 1,
+      "d": 0,
+      "l": 0,
+      "gf": 3,
+      "ga": 1
+    },
+    {
+      "tla": "ARG",
+      "name": "Argentina",
+      "mp": 1,
+      "w": 1,
+      "d": 0,
+      "l": 0,
+      "gf": 3,
+      "ga": 0
+    },
+    {
+      "tla": "AUT",
+      "name": "Austria",
+      "mp": 1,
+      "w": 1,
+      "d": 0,
       "l": 0,
       "gf": 3,
       "ga": 1
@@ -490,7 +520,7 @@
       "ga": 1
     },
     {
-      "tla": "URU",
+      "tla": "URY",
       "name": "Uruguay",
       "mp": 1,
       "w": 0,
@@ -504,50 +534,20 @@
       "name": "Senegal",
       "mp": 1,
       "w": 0,
-      "d": 1,
-      "l": 0,
+      "d": 0,
+      "l": 1,
       "gf": 1,
       "ga": 3
     },
     {
-      "tla": "RSA",
-      "name": "South Africa",
+      "tla": "IRQ",
+      "name": "Iraq",
       "mp": 1,
       "w": 0,
       "d": 0,
       "l": 1,
-      "gf": 0,
-      "ga": 2
-    },
-    {
-      "tla": "HAI",
-      "name": "Haiti",
-      "mp": 1,
-      "w": 0,
-      "d": 0,
-      "l": 1,
-      "gf": 0,
-      "ga": 1
-    },
-    {
-      "tla": "TUR",
-      "name": "Turkey",
-      "mp": 1,
-      "w": 0,
-      "d": 0,
-      "l": 1,
-      "gf": 0,
-      "ga": 2
-    },
-    {
-      "tla": "ECU",
-      "name": "Ecuador",
-      "mp": 1,
-      "w": 0,
-      "d": 0,
-      "l": 1,
-      "gf": 0,
-      "ga": 1
+      "gf": 1,
+      "ga": 4
     }
   ]
 }
