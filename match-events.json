@@ -2224,5 +2224,89 @@
         "shotsOnTarget": 4
       }
     }
+  },
+  "537329": {
+    "goals": [
+      {
+        "minute": 6,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Michal Sad\u00edlek",
+          "shortName": "Michal Sad\u00edlek"
+        },
+        "assist": {
+          "name": "Alexandr Sojka",
+          "shortName": "Alexandr Sojka"
+        },
+        "team": {
+          "id": 798
+        }
+      },
+      {
+        "minute": 83,
+        "injuryTime": null,
+        "type": "PENALTY",
+        "scorer": {
+          "name": "Teboho Mokoena",
+          "shortName": "Teboho Mokoena"
+        },
+        "assist": null,
+        "team": {
+          "id": 774
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 33,
+        "player": {
+          "name": "Teboho Mokoena",
+          "shortName": "Teboho Mokoena"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 774
+        }
+      },
+      {
+        "minute": 40,
+        "player": {
+          "name": "Thalente Mbatha",
+          "shortName": "Thalente Mbatha"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 774
+        }
+      },
+      {
+        "minute": 75,
+        "player": {
+          "name": "Ladislav Krejc\u00ed",
+          "shortName": "Ladislav Krejc\u00ed"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 798
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 12,
+        "corners": 5,
+        "possession": 38.2,
+        "shots": 14,
+        "shotsOnTarget": 3
+      },
+      "away": {
+        "fouls": 10,
+        "corners": 5,
+        "possession": 61.8,
+        "shots": 17,
+        "shotsOnTarget": 4
+      }
+    }
   }
 }
