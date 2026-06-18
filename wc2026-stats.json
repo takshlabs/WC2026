@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-17T23:10:28Z",
+  "updated": "2026-06-18T11:40:49Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -66,6 +66,15 @@
       "mp": 0
     },
     {
+      "name": "Harry Kane",
+      "team": "England",
+      "goals": 2,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
       "name": "Deniz Undav",
       "team": "Germany",
       "goals": 1,
@@ -113,6 +122,15 @@
     {
       "name": "Ramin Rezaeian",
       "team": "Iran",
+      "goals": 1,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Luis D\u00edaz",
+      "team": "Colombia",
       "goals": 1,
       "assists": 1,
       "yc": 0,
@@ -208,24 +226,6 @@
       "yc": 0,
       "rc": 0,
       "mp": 0
-    },
-    {
-      "name": "Vin\u00edcius J\u00fanior",
-      "team": "Brazil",
-      "goals": 1,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "John McGinn",
-      "team": "Scotland",
-      "goals": 1,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
     }
   ],
   "teamStats": [
@@ -270,6 +270,16 @@
       "ga": 1
     },
     {
+      "tla": "ENG",
+      "name": "England",
+      "mp": 1,
+      "w": 1,
+      "d": 0,
+      "l": 0,
+      "gf": 4,
+      "ga": 2
+    },
+    {
       "tla": "FRA",
       "name": "France",
       "mp": 1,
@@ -292,6 +302,16 @@
     {
       "tla": "AUT",
       "name": "Austria",
+      "mp": 1,
+      "w": 1,
+      "d": 0,
+      "l": 0,
+      "gf": 3,
+      "ga": 1
+    },
+    {
+      "tla": "COL",
+      "name": "Colombia",
       "mp": 1,
       "w": 1,
       "d": 0,
@@ -370,6 +390,16 @@
       "ga": 2
     },
     {
+      "tla": "CRO",
+      "name": "Croatia",
+      "mp": 1,
+      "w": 0,
+      "d": 0,
+      "l": 1,
+      "gf": 2,
+      "ga": 4
+    },
+    {
       "tla": "SCO",
       "name": "Scotland",
       "mp": 1,
@@ -382,6 +412,16 @@
     {
       "tla": "CIV",
       "name": "Ivory Coast",
+      "mp": 1,
+      "w": 1,
+      "d": 0,
+      "l": 0,
+      "gf": 1,
+      "ga": 0
+    },
+    {
+      "tla": "GHA",
+      "name": "Ghana",
       "mp": 1,
       "w": 1,
       "d": 0,
@@ -508,46 +548,6 @@
       "l": 0,
       "gf": 1,
       "ga": 1
-    },
-    {
-      "tla": "KSA",
-      "name": "Saudi Arabia",
-      "mp": 1,
-      "w": 0,
-      "d": 1,
-      "l": 0,
-      "gf": 1,
-      "ga": 1
-    },
-    {
-      "tla": "URY",
-      "name": "Uruguay",
-      "mp": 1,
-      "w": 0,
-      "d": 1,
-      "l": 0,
-      "gf": 1,
-      "ga": 1
-    },
-    {
-      "tla": "SEN",
-      "name": "Senegal",
-      "mp": 1,
-      "w": 0,
-      "d": 0,
-      "l": 1,
-      "gf": 1,
-      "ga": 3
-    },
-    {
-      "tla": "IRQ",
-      "name": "Iraq",
-      "mp": 1,
-      "w": 0,
-      "d": 0,
-      "l": 1,
-      "gf": 1,
-      "ga": 4
     }
   ]
 }
