@@ -1934,5 +1934,295 @@
         "shotsOnTarget": 2
       }
     }
+  },
+  "537409": {
+    "goals": [
+      {
+        "minute": 12,
+        "injuryTime": null,
+        "type": "PENALTY",
+        "scorer": {
+          "name": "Harry Kane",
+          "shortName": "Harry Kane"
+        },
+        "assist": null,
+        "team": {
+          "id": 770
+        }
+      },
+      {
+        "minute": 36,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Martin Baturina",
+          "shortName": "Martin Baturina"
+        },
+        "assist": {
+          "name": "Petar Sucic",
+          "shortName": "Petar Sucic"
+        },
+        "team": {
+          "id": 799
+        }
+      },
+      {
+        "minute": 42,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Harry Kane",
+          "shortName": "Harry Kane"
+        },
+        "assist": {
+          "name": "Declan Rice",
+          "shortName": "Declan Rice"
+        },
+        "team": {
+          "id": 770
+        }
+      },
+      {
+        "minute": 45,
+        "injuryTime": 5,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Petar Musa",
+          "shortName": "Petar Musa"
+        },
+        "assist": {
+          "name": "Ivan Perisic",
+          "shortName": "Ivan Perisic"
+        },
+        "team": {
+          "id": 799
+        }
+      },
+      {
+        "minute": 47,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Jude Bellingham",
+          "shortName": "Jude Bellingham"
+        },
+        "assist": {
+          "name": "Elliot Anderson",
+          "shortName": "Elliot Anderson"
+        },
+        "team": {
+          "id": 770
+        }
+      },
+      {
+        "minute": 85,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Marcus Rashford",
+          "shortName": "Marcus Rashford"
+        },
+        "assist": {
+          "name": "Bukayo Saka",
+          "shortName": "Bukayo Saka"
+        },
+        "team": {
+          "id": 770
+        }
+      }
+    ],
+    "bookings": [],
+    "stats": {
+      "home": {
+        "fouls": 10,
+        "corners": 8,
+        "possession": 51.7,
+        "shots": 22,
+        "shotsOnTarget": 11
+      },
+      "away": {
+        "fouls": 12,
+        "corners": 2,
+        "possession": 48.3,
+        "shots": 10,
+        "shotsOnTarget": 5
+      }
+    }
+  },
+  "537410": {
+    "goals": [
+      {
+        "minute": 90,
+        "injuryTime": 5,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Caleb Yirenkyi",
+          "shortName": "Caleb Yirenkyi"
+        },
+        "assist": {
+          "name": "Brandon Thomas-Asante",
+          "shortName": "Brandon Thomas-Asante"
+        },
+        "team": {
+          "id": 763
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 16,
+        "player": {
+          "name": "Caleb Yirenkyi",
+          "shortName": "Caleb Yirenkyi"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 763
+        }
+      },
+      {
+        "minute": 72,
+        "player": {
+          "name": "C\u00e9sar Blackman",
+          "shortName": "C\u00e9sar Blackman"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 1836
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Carlos Harvey",
+          "shortName": "Carlos Harvey"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 1836
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 9,
+        "corners": 2,
+        "possession": 37.9,
+        "shots": 8,
+        "shotsOnTarget": 2
+      },
+      "away": {
+        "fouls": 11,
+        "corners": 2,
+        "possession": 62.1,
+        "shots": 11,
+        "shotsOnTarget": 4
+      }
+    }
+  },
+  "537404": {
+    "goals": [
+      {
+        "minute": 40,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Daniel Mu\u00f1oz",
+          "shortName": "Daniel Mu\u00f1oz"
+        },
+        "assist": {
+          "name": "Luis D\u00edaz",
+          "shortName": "Luis D\u00edaz"
+        },
+        "team": {
+          "id": 818
+        }
+      },
+      {
+        "minute": 60,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Abbosbek Fayzullaev",
+          "shortName": "Abbosbek Fayzullaev"
+        },
+        "assist": null,
+        "team": {
+          "id": 8070
+        }
+      },
+      {
+        "minute": 65,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Luis D\u00edaz",
+          "shortName": "Luis D\u00edaz"
+        },
+        "assist": {
+          "name": "Gustavo Puerta",
+          "shortName": "Gustavo Puerta"
+        },
+        "team": {
+          "id": 818
+        }
+      },
+      {
+        "minute": 90,
+        "injuryTime": 9,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "J\u00e1minton Campaz",
+          "shortName": "J\u00e1minton Campaz"
+        },
+        "assist": {
+          "name": "Cucho Hern\u00e1ndez",
+          "shortName": "Cucho Hern\u00e1ndez"
+        },
+        "team": {
+          "id": 818
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 7,
+        "player": {
+          "name": "Johan Mojica",
+          "shortName": "Johan Mojica"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 818
+        }
+      },
+      {
+        "minute": 34,
+        "player": {
+          "name": "Abdukodir Khusanov",
+          "shortName": "Abdukodir Khusanov"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 8070
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 14,
+        "corners": 3,
+        "possession": 38.6,
+        "shots": 8,
+        "shotsOnTarget": 2
+      },
+      "away": {
+        "fouls": 11,
+        "corners": 4,
+        "possession": 61.4,
+        "shots": 15,
+        "shotsOnTarget": 4
+      }
+    }
   }
 }
