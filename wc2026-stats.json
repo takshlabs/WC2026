@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-18T12:34:34Z",
+  "updated": "2026-06-18T20:00:09Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -156,11 +156,20 @@
       "mp": 0
     },
     {
+      "name": "Teboho Mokoena",
+      "team": "South Africa",
+      "goals": 1,
+      "assists": 0,
+      "yc": 2,
+      "rc": 0,
+      "mp": 0
+    },
+    {
       "name": "Ladislav Krejc\u00ed",
       "team": "Czechia",
       "goals": 1,
       "assists": 0,
-      "yc": 0,
+      "yc": 1,
       "rc": 0,
       "mp": 0
     },
@@ -212,15 +221,6 @@
     {
       "name": "Breel Embolo",
       "team": "Switzerland",
-      "goals": 1,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Ismael Saibari",
-      "team": "Morocco",
       "goals": 1,
       "assists": 0,
       "yc": 0,
@@ -350,6 +350,16 @@
       "ga": 0
     },
     {
+      "tla": "CZE",
+      "name": "Czechia",
+      "mp": 2,
+      "w": 0,
+      "d": 1,
+      "l": 1,
+      "gf": 2,
+      "ga": 3
+    },
+    {
       "tla": "NED",
       "name": "Netherlands",
       "mp": 1,
@@ -430,14 +440,14 @@
       "ga": 0
     },
     {
-      "tla": "CZE",
-      "name": "Czechia",
-      "mp": 1,
+      "tla": "RSA",
+      "name": "South Africa",
+      "mp": 2,
       "w": 0,
-      "d": 0,
+      "d": 1,
       "l": 1,
       "gf": 1,
-      "ga": 2
+      "ga": 3
     },
     {
       "tla": "CAN",
@@ -532,16 +542,6 @@
     {
       "tla": "BEL",
       "name": "Belgium",
-      "mp": 1,
-      "w": 0,
-      "d": 1,
-      "l": 0,
-      "gf": 1,
-      "ga": 1
-    },
-    {
-      "tla": "EGY",
-      "name": "Egypt",
       "mp": 1,
       "w": 0,
       "d": 1,
