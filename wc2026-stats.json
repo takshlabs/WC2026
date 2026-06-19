@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-19T22:12:06Z",
+  "updated": "2026-06-19T22:12:59Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -34,7 +34,7 @@
       "team": "United States",
       "goals": 2,
       "assists": 0,
-      "yc": 0,
+      "yc": 1,
       "rc": 0,
       "mp": 0
     },
@@ -122,6 +122,15 @@
     {
       "name": "Hwang In-Beom",
       "team": "South Korea",
+      "goals": 1,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Alex Freeman",
+      "team": "United States",
       "goals": 1,
       "assists": 1,
       "yc": 0,
@@ -217,15 +226,6 @@
       "yc": 2,
       "rc": 0,
       "mp": 0
-    },
-    {
-      "name": "Ladislav Krejc\u00ed",
-      "team": "Czechia",
-      "goals": 1,
-      "assists": 0,
-      "yc": 1,
-      "rc": 0,
-      "mp": 0
     }
   ],
   "teamStats": [
@@ -250,6 +250,16 @@
       "ga": 1
     },
     {
+      "tla": "USA",
+      "name": "United States",
+      "mp": 2,
+      "w": 1,
+      "d": 1,
+      "l": 0,
+      "gf": 6,
+      "ga": 1
+    },
+    {
       "tla": "SUI",
       "name": "Switzerland",
       "mp": 2,
@@ -267,16 +277,6 @@
       "d": 0,
       "l": 0,
       "gf": 5,
-      "ga": 1
-    },
-    {
-      "tla": "USA",
-      "name": "United States",
-      "mp": 1,
-      "w": 1,
-      "d": 0,
-      "l": 0,
-      "gf": 4,
       "ga": 1
     },
     {
@@ -362,12 +362,12 @@
     {
       "tla": "AUS",
       "name": "Australia",
-      "mp": 1,
+      "mp": 2,
       "w": 1,
-      "d": 0,
+      "d": 1,
       "l": 0,
       "gf": 2,
-      "ga": 0
+      "ga": 2
     },
     {
       "tla": "CZE",
