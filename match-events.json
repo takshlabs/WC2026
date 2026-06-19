@@ -2649,5 +2649,130 @@
         "shotsOnTarget": 2
       }
     }
+  },
+  "537348": {
+    "goals": [
+      {
+        "minute": 11,
+        "injuryTime": null,
+        "type": "OWN_GOAL",
+        "scorer": {
+          "name": "Cameron Burgess",
+          "shortName": "Cameron Burgess"
+        },
+        "assist": null,
+        "team": {
+          "id": 771
+        }
+      },
+      {
+        "minute": 43,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Alex Freeman",
+          "shortName": "Alex Freeman"
+        },
+        "assist": null,
+        "team": {
+          "id": 771
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 16,
+        "player": {
+          "name": "Jordan Bos",
+          "shortName": "Jordan Bos"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 779
+        }
+      },
+      {
+        "minute": 32,
+        "player": {
+          "name": "Alessandro Circati",
+          "shortName": "Alessandro Circati"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 779
+        }
+      },
+      {
+        "minute": 56,
+        "player": {
+          "name": "Antonee Robinson",
+          "shortName": "Antonee Robinson"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 771
+        }
+      },
+      {
+        "minute": 88,
+        "player": {
+          "name": "Harry Souttar",
+          "shortName": "Harry Souttar"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 779
+        }
+      },
+      {
+        "minute": 89,
+        "player": {
+          "name": "Folarin Balogun",
+          "shortName": "Folarin Balogun"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 771
+        }
+      },
+      {
+        "minute": 89,
+        "player": {
+          "name": "Jacob Italiano",
+          "shortName": "Jacob Italiano"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 779
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Chris Richards",
+          "shortName": "Chris Richards"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 771
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 12,
+        "corners": 7,
+        "possession": 62,
+        "shots": 10,
+        "shotsOnTarget": 2
+      },
+      "away": {
+        "fouls": 16,
+        "corners": 4,
+        "possession": 38,
+        "shots": 5,
+        "shotsOnTarget": 2
+      }
+    }
   }
 }
