@@ -1,11 +1,29 @@
 {
-  "updated": "2026-06-19T00:13:32Z",
+  "updated": "2026-06-19T11:56:26Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
       "name": "Lionel Messi",
       "team": "Argentina",
       "goals": 3,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Jonathan David",
+      "team": "Canada",
+      "goals": 3,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Cyle Larin",
+      "team": "Canada",
+      "goals": 2,
       "assists": 0,
       "yc": 0,
       "rc": 0,
@@ -75,6 +93,15 @@
       "mp": 0
     },
     {
+      "name": "Johan Manzambi",
+      "team": "Switzerland",
+      "goals": 2,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
       "name": "Deniz Undav",
       "team": "Germany",
       "goals": 1,
@@ -95,6 +122,15 @@
     {
       "name": "Hwang In-Beom",
       "team": "South Korea",
+      "goals": 1,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Breel Embolo",
+      "team": "Switzerland",
       "goals": 1,
       "assists": 1,
       "yc": 0,
@@ -138,6 +174,24 @@
       "mp": 0
     },
     {
+      "name": "Rub\u00e9n Vargas",
+      "team": "Switzerland",
+      "goals": 1,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Nathan Saliba",
+      "team": "Canada",
+      "goals": 1,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
       "name": "Juli\u00e1n Qui\u00f1ones",
       "team": "Mexico",
       "goals": 1,
@@ -172,63 +226,19 @@
       "yc": 1,
       "rc": 0,
       "mp": 0
-    },
-    {
-      "name": "Oh Hyeon-Gyu",
-      "team": "South Korea",
-      "goals": 1,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Jovo Lukic",
-      "team": "Bosnia-Herzegovina",
-      "goals": 1,
-      "assists": 0,
-      "yc": 1,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Cyle Larin",
-      "team": "Canada",
-      "goals": 1,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Maur\u00edcio",
-      "team": "Paraguay",
-      "goals": 1,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Giovanni Reyna",
-      "team": "United States",
-      "goals": 1,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Breel Embolo",
-      "team": "Switzerland",
-      "goals": 1,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
     }
   ],
   "teamStats": [
+    {
+      "tla": "CAN",
+      "name": "Canada",
+      "mp": 2,
+      "w": 1,
+      "d": 1,
+      "l": 0,
+      "gf": 7,
+      "ga": 1
+    },
     {
       "tla": "GER",
       "name": "Germany",
@@ -238,6 +248,16 @@
       "l": 0,
       "gf": 7,
       "ga": 1
+    },
+    {
+      "tla": "SUI",
+      "name": "Switzerland",
+      "mp": 2,
+      "w": 1,
+      "d": 1,
+      "l": 0,
+      "gf": 5,
+      "ga": 2
     },
     {
       "tla": "SWE",
@@ -280,6 +300,16 @@
       "ga": 2
     },
     {
+      "tla": "MEX",
+      "name": "Mexico",
+      "mp": 2,
+      "w": 2,
+      "d": 0,
+      "l": 0,
+      "gf": 3,
+      "ga": 0
+    },
+    {
       "tla": "FRA",
       "name": "France",
       "mp": 1,
@@ -320,24 +350,14 @@
       "ga": 1
     },
     {
-      "tla": "MEX",
-      "name": "Mexico",
-      "mp": 1,
-      "w": 1,
-      "d": 0,
-      "l": 0,
-      "gf": 2,
-      "ga": 0
-    },
-    {
       "tla": "KOR",
       "name": "South Korea",
-      "mp": 1,
+      "mp": 2,
       "w": 1,
       "d": 0,
-      "l": 0,
+      "l": 1,
       "gf": 2,
-      "ga": 1
+      "ga": 2
     },
     {
       "tla": "AUS",
@@ -358,6 +378,16 @@
       "l": 1,
       "gf": 2,
       "ga": 3
+    },
+    {
+      "tla": "BIH",
+      "name": "Bosnia-Herzegovina",
+      "mp": 2,
+      "w": 0,
+      "d": 1,
+      "l": 1,
+      "gf": 2,
+      "ga": 5
     },
     {
       "tla": "NED",
@@ -450,26 +480,6 @@
       "ga": 3
     },
     {
-      "tla": "CAN",
-      "name": "Canada",
-      "mp": 1,
-      "w": 0,
-      "d": 1,
-      "l": 0,
-      "gf": 1,
-      "ga": 1
-    },
-    {
-      "tla": "BIH",
-      "name": "Bosnia-Herzegovina",
-      "mp": 1,
-      "w": 0,
-      "d": 1,
-      "l": 0,
-      "gf": 1,
-      "ga": 1
-    },
-    {
       "tla": "PAR",
       "name": "Paraguay",
       "mp": 1,
@@ -482,22 +492,12 @@
     {
       "tla": "QAT",
       "name": "Qatar",
-      "mp": 1,
+      "mp": 2,
       "w": 0,
       "d": 1,
-      "l": 0,
+      "l": 1,
       "gf": 1,
-      "ga": 1
-    },
-    {
-      "tla": "SUI",
-      "name": "Switzerland",
-      "mp": 1,
-      "w": 0,
-      "d": 1,
-      "l": 0,
-      "gf": 1,
-      "ga": 1
+      "ga": 7
     },
     {
       "tla": "BRA",
