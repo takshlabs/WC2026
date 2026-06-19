@@ -139,6 +139,16 @@ function codeByName(name) {
 function WC2026Tab() {
   const { stats, loading, error } = useWC2026Stats()
 
+  function handlePrint() {
+    document.body.dataset.printSection = 'wc2026'
+    const cleanup = () => {
+      delete document.body.dataset.printSection
+      window.removeEventListener('afterprint', cleanup)
+    }
+    window.addEventListener('afterprint', cleanup)
+    window.print()
+  }
+
   if (loading) {
     return (
       <div style={{ padding: '3rem', textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-3)' }}>
@@ -169,10 +179,20 @@ function WC2026Tab() {
   const teams   = stats.teamStats  || []
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+    <div className="wc2026-print-area" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
 
-      {/* ── Header banner ─────────────────────────────────────────────────── */}
-      <div className="wc-live-section" style={{ padding: '14px 20px', display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', justifyContent: 'space-between' }}>
+      {/* ── Print-only header (hidden on screen) ──────────────────────────── */}
+      <div className="wc2026-print-hdr">
+        <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 700, color: 'var(--gold)', letterSpacing: '0.04em' }}>
+          FIFA World Cup 2026™ — Live Stats
+        </div>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-3)', marginTop: 4 }}>
+          {updatedAt ? `Updated ${updatedAt} · ` : ''}Players: ESPN match events · Teams: match data
+        </div>
+      </div>
+
+      {/* ── Header banner (screen only, contains print button) ────────────── */}
+      <div className="wc-live-section no-print" style={{ padding: '14px 20px', display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <span className="wc-live-badge">LIVE STATS</span>
           <span style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 700, color: 'var(--gold)', letterSpacing: '0.04em' }}>
@@ -182,6 +202,22 @@ function WC2026Tab() {
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', color: 'var(--text-3)', display: 'flex', gap: 12, alignItems: 'center' }}>
           {updatedAt && <span>Updated {updatedAt}</span>}
           <span>Players: ESPN match events · Teams: match data · 6 h</span>
+          <button
+            onClick={handlePrint}
+            title="Print WC2026 stats"
+            style={{
+              height: 26, padding: '0 12px',
+              fontSize: '0.65rem', fontFamily: 'var(--font-mono)',
+              background: 'var(--gold-dim)', border: '1px solid rgba(212,168,67,0.45)',
+              borderRadius: 4, color: 'var(--gold)', cursor: 'pointer',
+              display: 'inline-flex', alignItems: 'center', gap: 5,
+              letterSpacing: '0.04em', transition: 'all 0.15s',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(212,168,67,0.22)'; e.currentTarget.style.borderColor = 'rgba(212,168,67,0.7)' }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'var(--gold-dim)'; e.currentTarget.style.borderColor = 'rgba(212,168,67,0.45)' }}
+          >
+            🖨 Print
+          </button>
         </div>
       </div>
 

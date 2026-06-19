@@ -1263,6 +1263,9 @@ img { display: block; max-width: 100%; }
   50%       { opacity: 0.75; box-shadow: 0 0 2px rgba(212, 168, 67, 0.1); }
 }
 
+/* ── WC2026 print-only header (hidden on screen, shown when printing) ─────── */
+.wc2026-print-hdr { display: none; }
+
 .charts-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
@@ -4261,4 +4264,76 @@ img { display: block; max-width: 100%; }
   color: var(--text-3);
 }
 .stream-link-card:hover .stream-link-label { color: #64a0ff; }
+
+/* ── WC2026 Stats print ───────────────────────────────────────────────────────
+   Triggered by body[data-print-section="wc2026"] set in WC2026Tab.handlePrint()
+   Hides all chrome; shows only the two stat tables with light-background colours.
+────────────────────────────────────────────────────────────────────────────── */
+@media print {
+  body[data-print-section="wc2026"] {
+    /* Remap dark-theme tokens to print-legible values */
+    --gold:     #b8860b;
+    --text:     #111111;
+    --text-2:   #333333;
+    --text-3:   #666666;
+    --green:    #00844a;
+    --red:      #b00020;
+    --border:   #dddddd;
+    --border-2: #cccccc;
+    --surface:  #ffffff;
+    --surface-2: #f7f7f7;
+  }
+
+  /* Hide all nav / tab chrome */
+  body[data-print-section="wc2026"] .page-header,
+  body[data-print-section="wc2026"] .stats-tabs { display: none !important; }
+
+  /* Reveal the print-only heading */
+  body[data-print-section="wc2026"] .wc2026-print-hdr {
+    display: block !important;
+    padding-bottom: 6pt;
+    border-bottom: 1pt solid #ccc;
+    margin-bottom: 10pt;
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  /* Card containers */
+  body[data-print-section="wc2026"] .chart-block {
+    background: #ffffff !important;
+    border-color: #dddddd !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  body[data-print-section="wc2026"] .chart-block-title {
+    color: #b8860b !important;
+    border-bottom-color: #cccccc !important;
+  }
+  body[data-print-section="wc2026"] .chart-block-title::before {
+    background: #b8860b !important;
+  }
+
+  /* Table header rows */
+  body[data-print-section="wc2026"] .standings-table th {
+    color: #666666 !important;
+    border-bottom-color: #dddddd !important;
+    background: #f5f5f5 !important;
+  }
+  /* Table data rows */
+  body[data-print-section="wc2026"] .standings-table td {
+    border-bottom-color: #eeeeee !important;
+  }
+  body[data-print-section="wc2026"] .standings-table tr:hover td {
+    background: transparent !important;
+  }
+
+  /* Two-column grid stays side-by-side on A4 landscape if needed;
+     column min is reduced so both fit on one portrait page */
+  body[data-print-section="wc2026"] .charts-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12pt;
+  }
+
+  @page { size: A4 portrait; margin: 12mm 10mm; }
+}
 .stream-link-card:hover .stream-link-arrow { color: #64a0ff; }
