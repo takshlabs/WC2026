@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-20T17:09:21Z",
+  "updated": "2026-06-20T20:52:13Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -23,6 +23,24 @@
     {
       "name": "Vin\u00edcius J\u00fanior",
       "team": "Brazil",
+      "goals": 2,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Crysencio Summerville",
+      "team": "Netherlands",
+      "goals": 2,
+      "assists": 1,
+      "yc": 1,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Cody Gakpo",
+      "team": "Netherlands",
       "goals": 2,
       "assists": 1,
       "yc": 0,
@@ -70,7 +88,7 @@
       "team": "Sweden",
       "goals": 2,
       "assists": 0,
-      "yc": 0,
+      "yc": 1,
       "rc": 0,
       "mp": 0
     },
@@ -129,10 +147,10 @@
       "mp": 0
     },
     {
-      "name": "Deniz Undav",
-      "team": "Germany",
-      "goals": 1,
-      "assists": 2,
+      "name": "Brian Brobbey",
+      "team": "Netherlands",
+      "goals": 2,
+      "assists": 0,
       "yc": 0,
       "rc": 0,
       "mp": 0
@@ -140,6 +158,15 @@
     {
       "name": "Alexander Isak",
       "team": "Sweden",
+      "goals": 1,
+      "assists": 3,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Deniz Undav",
+      "team": "Germany",
       "goals": 1,
       "assists": 2,
       "yc": 0,
@@ -199,33 +226,6 @@
       "yc": 0,
       "rc": 0,
       "mp": 0
-    },
-    {
-      "name": "Luis D\u00edaz",
-      "team": "Colombia",
-      "goals": 1,
-      "assists": 1,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Rub\u00e9n Vargas",
-      "team": "Switzerland",
-      "goals": 1,
-      "assists": 1,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Nathan Saliba",
-      "team": "Canada",
-      "goals": 1,
-      "assists": 1,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
     }
   ],
   "teamStats": [
@@ -250,6 +250,16 @@
       "ga": 1
     },
     {
+      "tla": "NED",
+      "name": "Netherlands",
+      "mp": 2,
+      "w": 0,
+      "d": 2,
+      "l": 0,
+      "gf": 7,
+      "ga": 3
+    },
+    {
       "tla": "USA",
       "name": "United States",
       "mp": 2,
@@ -260,6 +270,16 @@
       "ga": 1
     },
     {
+      "tla": "SWE",
+      "name": "Sweden",
+      "mp": 2,
+      "w": 1,
+      "d": 1,
+      "l": 0,
+      "gf": 6,
+      "ga": 6
+    },
+    {
       "tla": "SUI",
       "name": "Switzerland",
       "mp": 2,
@@ -268,16 +288,6 @@
       "l": 0,
       "gf": 5,
       "ga": 2
-    },
-    {
-      "tla": "SWE",
-      "name": "Sweden",
-      "mp": 1,
-      "w": 1,
-      "d": 0,
-      "l": 0,
-      "gf": 5,
-      "ga": 1
     },
     {
       "tla": "BRA",
@@ -418,16 +428,6 @@
       "l": 1,
       "gf": 2,
       "ga": 5
-    },
-    {
-      "tla": "NED",
-      "name": "Netherlands",
-      "mp": 1,
-      "w": 0,
-      "d": 1,
-      "l": 0,
-      "gf": 2,
-      "ga": 2
     },
     {
       "tla": "JPN",
