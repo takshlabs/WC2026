@@ -3016,5 +3016,156 @@
         "shotsOnTarget": 2
       }
     }
+  },
+  "537359": {
+    "goals": [
+      {
+        "minute": 5,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Brian Brobbey",
+          "shortName": "Brian Brobbey"
+        },
+        "assist": {
+          "name": "Cody Gakpo",
+          "shortName": "Cody Gakpo"
+        },
+        "team": {
+          "id": 8601
+        }
+      },
+      {
+        "minute": 17,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Brian Brobbey",
+          "shortName": "Brian Brobbey"
+        },
+        "assist": {
+          "name": "Denzel Dumfries",
+          "shortName": "Denzel Dumfries"
+        },
+        "team": {
+          "id": 8601
+        }
+      },
+      {
+        "minute": 47,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Cody Gakpo",
+          "shortName": "Cody Gakpo"
+        },
+        "assist": {
+          "name": "Denzel Dumfries",
+          "shortName": "Denzel Dumfries"
+        },
+        "team": {
+          "id": 8601
+        }
+      },
+      {
+        "minute": 54,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Cody Gakpo",
+          "shortName": "Cody Gakpo"
+        },
+        "assist": {
+          "name": "Crysencio Summerville",
+          "shortName": "Crysencio Summerville"
+        },
+        "team": {
+          "id": 8601
+        }
+      },
+      {
+        "minute": 59,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Anthony Elanga",
+          "shortName": "Anthony Elanga"
+        },
+        "assist": {
+          "name": "Alexander Isak",
+          "shortName": "Alexander Isak"
+        },
+        "team": {
+          "id": 792
+        }
+      },
+      {
+        "minute": 89,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Crysencio Summerville",
+          "shortName": "Crysencio Summerville"
+        },
+        "assist": {
+          "name": "Memphis Depay",
+          "shortName": "Memphis Depay"
+        },
+        "team": {
+          "id": 8601
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 53,
+        "player": {
+          "name": "Gabriel Gudmundsson",
+          "shortName": "Gabriel Gudmundsson"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 792
+        }
+      },
+      {
+        "minute": 75,
+        "player": {
+          "name": "Yasin Ayari",
+          "shortName": "Yasin Ayari"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 792
+        }
+      },
+      {
+        "minute": 80,
+        "player": {
+          "name": "Lucas Bergvall",
+          "shortName": "Lucas Bergvall"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 792
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 9,
+        "corners": 2,
+        "possession": 50.9,
+        "shots": 10,
+        "shotsOnTarget": 7
+      },
+      "away": {
+        "fouls": 12,
+        "corners": 5,
+        "possession": 49.1,
+        "shots": 16,
+        "shotsOnTarget": 8
+      }
+    }
   }
 }
