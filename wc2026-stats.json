@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-19T23:28:58Z",
+  "updated": "2026-06-20T10:12:51Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -21,6 +21,15 @@
       "mp": 0
     },
     {
+      "name": "Vin\u00edcius J\u00fanior",
+      "team": "Brazil",
+      "goals": 2,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
       "name": "Cyle Larin",
       "team": "Canada",
       "goals": 2,
@@ -35,6 +44,15 @@
       "goals": 2,
       "assists": 0,
       "yc": 1,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Ismael Saibari",
+      "team": "Morocco",
+      "goals": 2,
+      "assists": 0,
+      "yc": 0,
       "rc": 0,
       "mp": 0
     },
@@ -95,6 +113,15 @@
     {
       "name": "Johan Manzambi",
       "team": "Switzerland",
+      "goals": 2,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Matheus Cunha",
+      "team": "Brazil",
       "goals": 2,
       "assists": 0,
       "yc": 0,
@@ -199,33 +226,6 @@
       "yc": 0,
       "rc": 0,
       "mp": 0
-    },
-    {
-      "name": "Juli\u00e1n Qui\u00f1ones",
-      "team": "Mexico",
-      "goals": 1,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Ra\u00fal Jim\u00e9nez",
-      "team": "Mexico",
-      "goals": 1,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Teboho Mokoena",
-      "team": "South Africa",
-      "goals": 1,
-      "assists": 0,
-      "yc": 2,
-      "rc": 0,
-      "mp": 0
     }
   ],
   "teamStats": [
@@ -253,8 +253,8 @@
       "tla": "USA",
       "name": "United States",
       "mp": 2,
-      "w": 1,
-      "d": 1,
+      "w": 2,
+      "d": 0,
       "l": 0,
       "gf": 6,
       "ga": 1
@@ -277,6 +277,16 @@
       "d": 0,
       "l": 0,
       "gf": 5,
+      "ga": 1
+    },
+    {
+      "tla": "BRA",
+      "name": "Brazil",
+      "mp": 2,
+      "w": 1,
+      "d": 1,
+      "l": 0,
+      "gf": 4,
       "ga": 1
     },
     {
@@ -360,12 +370,32 @@
       "ga": 2
     },
     {
-      "tla": "AUS",
-      "name": "Australia",
+      "tla": "PAR",
+      "name": "Paraguay",
+      "mp": 2,
+      "w": 1,
+      "d": 0,
+      "l": 1,
+      "gf": 2,
+      "ga": 4
+    },
+    {
+      "tla": "MAR",
+      "name": "Morocco",
       "mp": 2,
       "w": 1,
       "d": 1,
       "l": 0,
+      "gf": 2,
+      "ga": 1
+    },
+    {
+      "tla": "AUS",
+      "name": "Australia",
+      "mp": 2,
+      "w": 1,
+      "d": 0,
+      "l": 1,
       "gf": 2,
       "ga": 2
     },
@@ -442,12 +472,12 @@
     {
       "tla": "SCO",
       "name": "Scotland",
-      "mp": 1,
+      "mp": 2,
       "w": 1,
       "d": 0,
-      "l": 0,
+      "l": 1,
       "gf": 1,
-      "ga": 0
+      "ga": 1
     },
     {
       "tla": "CIV",
@@ -480,16 +510,6 @@
       "ga": 3
     },
     {
-      "tla": "PAR",
-      "name": "Paraguay",
-      "mp": 1,
-      "w": 0,
-      "d": 0,
-      "l": 1,
-      "gf": 1,
-      "ga": 4
-    },
-    {
       "tla": "QAT",
       "name": "Qatar",
       "mp": 2,
@@ -498,26 +518,6 @@
       "l": 1,
       "gf": 1,
       "ga": 7
-    },
-    {
-      "tla": "BRA",
-      "name": "Brazil",
-      "mp": 1,
-      "w": 0,
-      "d": 1,
-      "l": 0,
-      "gf": 1,
-      "ga": 1
-    },
-    {
-      "tla": "MAR",
-      "name": "Morocco",
-      "mp": 1,
-      "w": 0,
-      "d": 1,
-      "l": 0,
-      "gf": 1,
-      "ga": 1
     },
     {
       "tla": "CUW",
