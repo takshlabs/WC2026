@@ -2774,5 +2774,247 @@
         "shotsOnTarget": 2
       }
     }
+  },
+  "537342": {
+    "goals": [
+      {
+        "minute": 2,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Ismael Saibari",
+          "shortName": "Ismael Saibari"
+        },
+        "assist": {
+          "name": "Brahim D\u00edaz",
+          "shortName": "Brahim D\u00edaz"
+        },
+        "team": {
+          "id": 815
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 23,
+        "player": {
+          "name": "Issa Diop",
+          "shortName": "Issa Diop"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 815
+        }
+      },
+      {
+        "minute": 65,
+        "player": {
+          "name": "Andy Robertson",
+          "shortName": "Andy Robertson"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 8873
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 11,
+        "corners": 2,
+        "possession": 41.1,
+        "shots": 6,
+        "shotsOnTarget": 0
+      },
+      "away": {
+        "fouls": 8,
+        "corners": 5,
+        "possession": 58.9,
+        "shots": 12,
+        "shotsOnTarget": 2
+      }
+    }
+  },
+  "537341": {
+    "goals": [
+      {
+        "minute": 23,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Matheus Cunha",
+          "shortName": "Matheus Cunha"
+        },
+        "assist": null,
+        "team": {
+          "id": 764
+        }
+      },
+      {
+        "minute": 36,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Matheus Cunha",
+          "shortName": "Matheus Cunha"
+        },
+        "assist": {
+          "name": "Vin\u00edcius J\u00fanior",
+          "shortName": "Vin\u00edcius J\u00fanior"
+        },
+        "team": {
+          "id": 764
+        }
+      },
+      {
+        "minute": 45,
+        "injuryTime": 3,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Vin\u00edcius J\u00fanior",
+          "shortName": "Vin\u00edcius J\u00fanior"
+        },
+        "assist": {
+          "name": "Lucas Paquet\u00e1",
+          "shortName": "Lucas Paquet\u00e1"
+        },
+        "team": {
+          "id": 764
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 4,
+        "player": {
+          "name": "Carlens Arcus",
+          "shortName": "Carlens Arcus"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 836
+        }
+      },
+      {
+        "minute": 45,
+        "player": {
+          "name": "Frantzdy Pierrot",
+          "shortName": "Frantzdy Pierrot"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 836
+        }
+      },
+      {
+        "minute": 65,
+        "player": {
+          "name": "Douglas Santos",
+          "shortName": "Douglas Santos"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 764
+        }
+      },
+      {
+        "minute": 72,
+        "player": {
+          "name": "Danley Jean Jacques",
+          "shortName": "Danley Jean Jacques"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 836
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 13,
+        "corners": 4,
+        "possession": 56.7,
+        "shots": 8,
+        "shotsOnTarget": 5
+      },
+      "away": {
+        "fouls": 14,
+        "corners": 4,
+        "possession": 43.3,
+        "shots": 7,
+        "shotsOnTarget": 3
+      }
+    }
+  },
+  "537347": {
+    "goals": [
+      {
+        "minute": 2,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Mat\u00edas Galarza",
+          "shortName": "Mat\u00edas Galarza"
+        },
+        "assist": {
+          "name": "Julio Enciso",
+          "shortName": "Julio Enciso"
+        },
+        "team": {
+          "id": 761
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 4,
+        "player": {
+          "name": "Mat\u00edas Galarza",
+          "shortName": "Mat\u00edas Galarza"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 761
+        }
+      },
+      {
+        "minute": 45,
+        "player": {
+          "name": "Miguel Almir\u00f3n",
+          "shortName": "Miguel Almir\u00f3n"
+        },
+        "card": "RED_CARD",
+        "team": {
+          "id": 761
+        }
+      },
+      {
+        "minute": 71,
+        "player": {
+          "name": "Eren Elmali",
+          "shortName": "Eren Elmali"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 803
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 14,
+        "corners": 12,
+        "possession": 78.5,
+        "shots": 32,
+        "shotsOnTarget": 5
+      },
+      "away": {
+        "fouls": 15,
+        "corners": 0,
+        "possession": 21.5,
+        "shots": 7,
+        "shotsOnTarget": 2
+      }
+    }
   }
 }
