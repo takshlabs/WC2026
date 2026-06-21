@@ -10,18 +10,14 @@ function BookmarkButton() {
   const [hint, setHint] = useState(null)
 
   function handleBookmark() {
-    // Mobile / PWA: use Web Share API → triggers native "Add to Home Screen" / Save flow
-    if (navigator.share) {
-      navigator.share({
-        title: 'World Cup 2026 — Live Tracker',
-        text:  'Full schedule, live scores, groups, bracket & stats for FIFA World Cup 2026.',
-        url:   'https://takshlabs.github.io/WC2026/',
-      }).catch(() => {})
-      return
+    // No programmatic bookmark API exists — show the appropriate hint
+    const isMobile = /android|iphone|ipad|ipod/i.test(navigator.userAgent)
+    if (isMobile) {
+      setHint('tap ☆ in your browser')
+    } else {
+      const isMac = /mac/i.test(navigator.platform || navigator.userAgent)
+      setHint(isMac ? '⌘D' : 'Ctrl+D')
     }
-    // Desktop: show keyboard shortcut hint (no programmatic bookmark API exists in browsers)
-    const isMac = /mac/i.test(navigator.platform || navigator.userAgent)
-    setHint(isMac ? '⌘D' : 'Ctrl+D')
     setTimeout(() => setHint(null), 3000)
   }
 

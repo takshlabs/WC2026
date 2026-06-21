@@ -33,10 +33,10 @@ export default function Groups() {
   )
 }
 
-function qualifyStatus(rows, totalMatches, played, liveMap = new Map()) {
+function qualifyStatus(rows, totalMatches, played, liveMap = new Map(), group = '') {
   // Returns per-team status: 'safe' | 'alive' | 'eliminated'
   if (played === 0) return rows.map(() => 'alive')
-  const groupLetter = rows[0]?.group
+  const groupLetter = group
 
   // A match counts as played if liveMap has a result OR data.js has a score
   const isPlayed = m => {
@@ -78,7 +78,7 @@ function GroupCard({ group, liveMap, onTeamClick, onFixturesClick }) {
     return m.homeScore !== undefined || live?.homeScore !== undefined
   }).length
 
-  const statuses = qualifyStatus(rows, gsMatches.length, played, liveMap)
+  const statuses = qualifyStatus(rows, gsMatches.length, played, liveMap, group)
   const hasLiveMatch = gsMatches.some(m => liveMap.get(m.id)?.status === 'live')
 
   return (
