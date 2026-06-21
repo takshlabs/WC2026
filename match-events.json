@@ -3405,5 +3405,110 @@
         "shotsOnTarget": 5
       }
     }
+  },
+  "537371": {
+    "goals": [
+      {
+        "minute": 10,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Lamine Yamal",
+          "shortName": "Lamine Yamal"
+        },
+        "assist": {
+          "name": "Mikel Oyarzabal",
+          "shortName": "Mikel Oyarzabal"
+        },
+        "team": {
+          "id": 760
+        }
+      },
+      {
+        "minute": 21,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Mikel Oyarzabal",
+          "shortName": "Mikel Oyarzabal"
+        },
+        "assist": {
+          "name": "Aymeric Laporte",
+          "shortName": "Aymeric Laporte"
+        },
+        "team": {
+          "id": 760
+        }
+      },
+      {
+        "minute": 24,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Mikel Oyarzabal",
+          "shortName": "Mikel Oyarzabal"
+        },
+        "assist": {
+          "name": "Dani Olmo",
+          "shortName": "Dani Olmo"
+        },
+        "team": {
+          "id": 760
+        }
+      },
+      {
+        "minute": 49,
+        "injuryTime": null,
+        "type": "OWN_GOAL",
+        "scorer": {
+          "name": "Hassan Al-Tambakti",
+          "shortName": "Hassan Al-Tambakti"
+        },
+        "assist": null,
+        "team": {
+          "id": 760
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 30,
+        "player": {
+          "name": "Salem Al-Dawsari",
+          "shortName": "Salem Al-Dawsari"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 801
+        }
+      },
+      {
+        "minute": 60,
+        "player": {
+          "name": "Mohamed Kanno",
+          "shortName": "Mohamed Kanno"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 801
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 10,
+        "corners": 6,
+        "possession": 67.1,
+        "shots": 22,
+        "shotsOnTarget": 8
+      },
+      "away": {
+        "fouls": 2,
+        "corners": 1,
+        "possession": 32.9,
+        "shots": 3,
+        "shotsOnTarget": 1
+      }
+    }
   }
 }
