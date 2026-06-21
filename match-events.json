@@ -3167,5 +3167,243 @@
         "shotsOnTarget": 8
       }
     }
+  },
+  "537353": {
+    "goals": [
+      {
+        "minute": 30,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Franck Kessi\u00e9",
+          "shortName": "Franck Kessi\u00e9"
+        },
+        "assist": null,
+        "team": {
+          "id": 1935
+        }
+      },
+      {
+        "minute": 68,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Deniz Undav",
+          "shortName": "Deniz Undav"
+        },
+        "assist": {
+          "name": "Nadiem Amiri",
+          "shortName": "Nadiem Amiri"
+        },
+        "team": {
+          "id": 759
+        }
+      },
+      {
+        "minute": 90,
+        "injuryTime": 4,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Deniz Undav",
+          "shortName": "Deniz Undav"
+        },
+        "assist": {
+          "name": "Felix Nmecha",
+          "shortName": "Felix Nmecha"
+        },
+        "team": {
+          "id": 759
+        }
+      }
+    ],
+    "bookings": [],
+    "stats": {
+      "home": {
+        "fouls": 5,
+        "corners": 8,
+        "possession": 59.5,
+        "shots": 16,
+        "shotsOnTarget": 7
+      },
+      "away": {
+        "fouls": 7,
+        "corners": 3,
+        "possession": 40.5,
+        "shots": 9,
+        "shotsOnTarget": 2
+      }
+    }
+  },
+  "537354": {
+    "goals": [],
+    "bookings": [
+      {
+        "minute": 38,
+        "player": {
+          "name": "Jordy Alc\u00edvar",
+          "shortName": "Jordy Alc\u00edvar"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 791
+        }
+      },
+      {
+        "minute": 39,
+        "player": {
+          "name": "Leandro Bacuna",
+          "shortName": "Leandro Bacuna"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 9460
+        }
+      },
+      {
+        "minute": 53,
+        "player": {
+          "name": "Juninho Bacuna",
+          "shortName": "Juninho Bacuna"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 9460
+        }
+      },
+      {
+        "minute": 56,
+        "player": {
+          "name": "Livano Comenencia",
+          "shortName": "Livano Comenencia"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 9460
+        }
+      },
+      {
+        "minute": 75,
+        "player": {
+          "name": "Juri\u00ebn Gaari",
+          "shortName": "Juri\u00ebn Gaari"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 9460
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Gervane Kastaneer",
+          "shortName": "Gervane Kastaneer"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 9460
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 7,
+        "corners": 9,
+        "possession": 74.6,
+        "shots": 27,
+        "shotsOnTarget": 15
+      },
+      "away": {
+        "fouls": 10,
+        "corners": 0,
+        "possession": 25.4,
+        "shots": 10,
+        "shotsOnTarget": 3
+      }
+    }
+  },
+  "537360": {
+    "goals": [
+      {
+        "minute": 4,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Daichi Kamada",
+          "shortName": "Daichi Kamada"
+        },
+        "assist": {
+          "name": "Keito Nakamura",
+          "shortName": "Keito Nakamura"
+        },
+        "team": {
+          "id": 766
+        }
+      },
+      {
+        "minute": 31,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Ayase Ueda",
+          "shortName": "Ayase Ueda"
+        },
+        "assist": {
+          "name": "Kou Itakura",
+          "shortName": "Kou Itakura"
+        },
+        "team": {
+          "id": 766
+        }
+      },
+      {
+        "minute": 69,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Junya Ito",
+          "shortName": "Junya Ito"
+        },
+        "assist": {
+          "name": "Ayase Ueda",
+          "shortName": "Ayase Ueda"
+        },
+        "team": {
+          "id": 766
+        }
+      },
+      {
+        "minute": 83,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Ayase Ueda",
+          "shortName": "Ayase Ueda"
+        },
+        "assist": {
+          "name": "Kaishu Sano",
+          "shortName": "Kaishu Sano"
+        },
+        "team": {
+          "id": 766
+        }
+      }
+    ],
+    "bookings": [],
+    "stats": {
+      "home": {
+        "fouls": 8,
+        "corners": 3,
+        "possession": 37.9,
+        "shots": 2,
+        "shotsOnTarget": 0
+      },
+      "away": {
+        "fouls": 15,
+        "corners": 5,
+        "possession": 62.1,
+        "shots": 11,
+        "shotsOnTarget": 5
+      }
+    }
   }
 }
