@@ -176,7 +176,6 @@ function YourTeamsSection({ goGroup }) {
 
 export default function Home() {
   const { tz, timeFormat, navigate, setFixtureFilter, liveMap, setTeamModal, myTeams, toggleMyTeam, notifPermission, requestPermission } = useApp()
-  const [countdown,       setCountdown]       = useState(null)
   const [streamsOpen,     setStreamsOpen]      = useState(false)
   const [highlightsOpen,  setHighlightsOpen]  = useState(false)
   const [newsArticles,    setNewsArticles]    = useState([])
@@ -194,23 +193,6 @@ export default function Home() {
     }
     fetchNews()
     const id = setInterval(fetchNews, 3 * 60 * 60 * 1000)
-    return () => clearInterval(id)
-  }, [])
-
-  // Countdown to Jun 11 2026 21:00 UTC
-  useEffect(() => {
-    const target = new Date('2026-06-11T19:00:00Z').getTime()
-    function tick() {
-      const diff = target - Date.now()
-      if (diff <= 0) { setCountdown(null); return }
-      const d  = Math.floor(diff / 86400000)
-      const h  = Math.floor((diff % 86400000) / 3600000)
-      const m  = Math.floor((diff % 3600000)  / 60000)
-      const s  = Math.floor((diff % 60000)    / 1000)
-      setCountdown({ d, h, m, s })
-    }
-    tick()
-    const id = setInterval(tick, 1000)
     return () => clearInterval(id)
   }, [])
 
@@ -241,8 +223,6 @@ export default function Home() {
   // Groups A–D preview
   const previewGroups = ['A','B','C','D','E','F','G','H','I','J','K','L']
   const facts = computeFacts()
-
-  const pad = n => String(n).padStart(2, '0')
 
   function goGroup(g) {
     setFixtureFilter(f => ({ ...f, group: g, round: '', focus: null, team: '' }))
@@ -279,45 +259,23 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Countdown */}
-          {countdown ? (
-            <div className="countdown">
-              <div className="cd-item">
-                <span className="cd-num t-display">{pad(countdown.d)}</span>
-                <span className="cd-label">Days</span>
-              </div>
-              <div className="cd-item">
-                <span className="cd-num t-display">{pad(countdown.h)}</span>
-                <span className="cd-label">Hours</span>
-              </div>
-              <div className="cd-item">
-                <span className="cd-num t-display">{pad(countdown.m)}</span>
-                <span className="cd-label">Mins</span>
-              </div>
-              <div className="cd-item">
-                <span className="cd-num t-display">{pad(countdown.s)}</span>
-                <span className="cd-label">Secs</span>
-              </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
+            <div className="live-badge" style={{ fontSize: '1rem', padding: '12px 20px' }}>
+              <span className="live-dot" /> TOURNAMENT IS LIVE
             </div>
-          ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
-              <div className="live-badge" style={{ fontSize: '1rem', padding: '12px 20px' }}>
-                <span className="live-dot" /> TOURNAMENT IS LIVE
-              </div>
-              <button
-                className="btn btn-ghost streams-btn"
-                onClick={() => setStreamsOpen(true)}
-              >
-                📺 Watch Live Streams
-              </button>
-              <button
-                className="btn btn-ghost streams-btn highlights-hero-btn"
-                onClick={() => setHighlightsOpen(true)}
-              >
-                🎬 Match Highlights
-              </button>
-            </div>
-          )}
+            <button
+              className="btn btn-ghost streams-btn"
+              onClick={() => setStreamsOpen(true)}
+            >
+              📺 Watch Live Streams
+            </button>
+            <button
+              className="btn btn-ghost streams-btn highlights-hero-btn"
+              onClick={() => setHighlightsOpen(true)}
+            >
+              🎬 Match Highlights
+            </button>
+          </div>
         </div>
       </div>
 
@@ -344,10 +302,12 @@ export default function Home() {
               </p>
               <div className="streams-links">
                 {[
-                  { label: 'Tifo Live',        url: 'https://www.tifo-live.app',  note: 'Football & WC coverage' },
-                  { label: 'FIFA Footy Bitez', url: 'https://fifa.footybitez.is', note: 'WC 2026 coverage' },
-                  { label: 'SportsBite',       url: 'https://sportsbite.xyz',     note: 'Multi-sport streams' },
-                  { label: 'EPL Footy Bitez',  url: 'https://epl.footybitez.is',  note: 'Football streams' },
+                  { label: 'Tifo Live',        url: 'https://www.tifo-live.app',                    note: 'Football & WC coverage' },
+                  { label: 'FIFA Footy Bitez', url: 'https://fifa.footybitez.is',                  note: 'WC 2026 coverage' },
+                  { label: 'SportsBite',       url: 'https://sportsbite.xyz',                      note: 'Multi-sport streams' },
+                  { label: 'EPL Footy Bitez',  url: 'https://epl.footybitez.is',                  note: 'Football streams' },
+                  { label: 'Soccer Streams',   url: 'https://www.soccerstreams.news/sport-tv5/',   note: 'Soccer streams' },
+                  { label: 'Streams East',     url: 'https://streamseast.is/soccer',               note: 'Soccer streams' },
                 ].map(({ label, url, note }) => (
                   <a
                     key={url}
