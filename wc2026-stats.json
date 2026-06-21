@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-21T17:13:30Z",
+  "updated": "2026-06-21T18:58:33Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -59,6 +59,15 @@
     {
       "name": "Ayase Ueda",
       "team": "Japan",
+      "goals": 2,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Mikel Oyarzabal",
+      "team": "Spain",
       "goals": 2,
       "assists": 1,
       "yc": 0,
@@ -217,15 +226,6 @@
       "yc": 0,
       "rc": 0,
       "mp": 0
-    },
-    {
-      "name": "Felix Nmecha",
-      "team": "Germany",
-      "goals": 1,
-      "assists": 1,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
     }
   ],
   "teamStats": [
@@ -328,6 +328,16 @@
       "l": 0,
       "gf": 4,
       "ga": 2
+    },
+    {
+      "tla": "ESP",
+      "name": "Spain",
+      "mp": 2,
+      "w": 0,
+      "d": 2,
+      "l": 0,
+      "gf": 4,
+      "ga": 0
     },
     {
       "tla": "MEX",
@@ -538,16 +548,6 @@
       "l": 2,
       "gf": 1,
       "ga": 9
-    },
-    {
-      "tla": "BEL",
-      "name": "Belgium",
-      "mp": 1,
-      "w": 0,
-      "d": 1,
-      "l": 0,
-      "gf": 1,
-      "ga": 1
     }
   ]
 }
