@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react'
+import React, { useMemo, useState, useEffect, useRef } from 'react'
 import { MATCHES, TEAMS, VENUES } from '../data'
 import { convertTime, groupColor, roundLabel } from '../utils'
 import { useApp } from '../App'
@@ -100,6 +100,34 @@ export default function Fixtures() {
     })
     return [...map.entries()]
   }, [filtered])
+
+  // Most recently finished match across all enriched matches — auto-expands its facts
+  const latestFinishedId = useMemo(() => {
+    const done = enriched.filter(m =>
+      m.live?.status === 'finished' || (m.homeScore !== undefined && m.live?.status !== 'live')
+    )
+    done.sort((a, b) => new Date(`${b.date}T${b.time}:00Z`) - new Date(`${a.date}T${a.time}:00Z`))
+    return done[0]?.id ?? null
+  }, [enriched])
+
+  // First upcoming (unplayed) match in the filtered list — scroll target
+  const firstUpcomingId = useMemo(() => {
+    const now = Date.now()
+    return filtered.find(m => {
+      if (m.live?.status === 'live' || m.live?.status === 'finished') return false
+      if (m.homeScore !== undefined) return false
+      return new Date(`${m.date}T${m.time}:00Z`).getTime() >= now
+    })?.id ?? null
+  }, [filtered])
+
+  const upcomingRef = useRef(null)
+  useEffect(() => {
+    if (!upcomingRef.current) return
+    const timer = setTimeout(() => {
+      upcomingRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }, 120)
+    return () => clearTimeout(timer)
+  }, [firstUpcomingId])
 
   const focusTeam = focus ? TEAMS[focus] : null
   const venueObj = venue ? VENUES[venue] : null
@@ -203,7 +231,15 @@ export default function Fixtures() {
               <div key={dateLabel} className="fixture-day-block">
                 <div className="fixture-date-header">{dateLabel}</div>
                 <div className="fixture-day-rows">
-                  {matches.map(m => <MatchRow key={m.id} m={m} focus={focus} />)}
+                  {matches.map(m => (
+                    <MatchRow
+                      key={m.id}
+                      m={m}
+                      focus={focus}
+                      latestFinishedId={latestFinishedId}
+                      upcomingRef={m.id === firstUpcomingId ? upcomingRef : null}
+                    />
+                  ))}
                 </div>
               </div>
             ))}
@@ -214,7 +250,7 @@ export default function Fixtures() {
   )
 }
 
-function MatchRow({ m, focus }) {
+function MatchRow({ m, focus, latestFinishedId, upcomingRef }) {
   const { setTeamModal, myTeams, toggleMyTeam } = useApp()
   const homeT = TEAMS[m.home]
   const awayT = TEAMS[m.away]
@@ -227,20 +263,17 @@ function MatchRow({ m, focus }) {
   const isFocus = focus && (m.home === focus || m.away === focus)
   const color   = m.group ? groupColor(m.group) : 'var(--border-2)'
 
-  // Auto-expand facts for: live matches, and finished matches within the past 24h
-  const recentCutoff = Date.now() - 24 * 60 * 60 * 1000
-  const matchTime = new Date(`${m.date}T${m.time}:00Z`).getTime()
-  const isRecent = isFinished && matchTime > recentCutoff
-  // Expandable for any live or finished match — even with zero events (MatchFacts shows empty state)
-  const canExpand = isLive || isFinished
-  const autoExpand = isLive   // only live matches auto-expand; past games require a tap
+  // Auto-expand: live matches + the single most recently finished match only
+  const canExpand  = isLive || isFinished
+  const autoExpand = isLive || m.id === latestFinishedId
   const [expanded, setExpanded] = useState(autoExpand)
 
-  // Re-evaluate auto-expand whenever liveMap or time changes (every 60s via useLiveScores poll)
+  // Re-evaluate auto-expand whenever live status changes
   useEffect(() => { setExpanded(autoExpand) }, [autoExpand])
 
   return (
     <div
+      ref={upcomingRef}
       className={`fx-row${isLive ? ' is-live' : ''}${isFocus ? ' is-focus' : ''}${canExpand ? ' is-expandable' : ''}`}
       onClick={() => canExpand && setExpanded(prev => !prev)}
       style={{ cursor: canExpand ? 'pointer' : 'default' }}
