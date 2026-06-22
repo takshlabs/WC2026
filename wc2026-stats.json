@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-21T22:44:22Z",
+  "updated": "2026-06-22T15:59:48Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -201,6 +201,15 @@
       "mp": 0
     },
     {
+      "name": "Mohamed Salah",
+      "team": "Egypt",
+      "goals": 1,
+      "assists": 2,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
       "name": "Hwang In-Beom",
       "team": "South Korea",
       "goals": 1,
@@ -212,15 +221,6 @@
     {
       "name": "Alex Freeman",
       "team": "United States",
-      "goals": 1,
-      "assists": 1,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Breel Embolo",
-      "team": "Switzerland",
       "goals": 1,
       "assists": 1,
       "yc": 0,
@@ -310,6 +310,26 @@
       "ga": 1
     },
     {
+      "tla": "ESP",
+      "name": "Spain",
+      "mp": 2,
+      "w": 1,
+      "d": 1,
+      "l": 0,
+      "gf": 4,
+      "ga": 0
+    },
+    {
+      "tla": "EGY",
+      "name": "Egypt",
+      "mp": 2,
+      "w": 1,
+      "d": 1,
+      "l": 0,
+      "gf": 4,
+      "ga": 2
+    },
+    {
       "tla": "NOR",
       "name": "Norway",
       "mp": 1,
@@ -328,16 +348,6 @@
       "l": 0,
       "gf": 4,
       "ga": 2
-    },
-    {
-      "tla": "ESP",
-      "name": "Spain",
-      "mp": 2,
-      "w": 0,
-      "d": 2,
-      "l": 0,
-      "gf": 4,
-      "ga": 0
     },
     {
       "tla": "MEX",
@@ -388,6 +398,26 @@
       "l": 0,
       "gf": 3,
       "ga": 1
+    },
+    {
+      "tla": "URU",
+      "name": "Uruguay",
+      "mp": 2,
+      "w": 0,
+      "d": 2,
+      "l": 0,
+      "gf": 3,
+      "ga": 3
+    },
+    {
+      "tla": "NZL",
+      "name": "New Zealand",
+      "mp": 2,
+      "w": 0,
+      "d": 1,
+      "l": 1,
+      "gf": 3,
+      "ga": 5
     },
     {
       "tla": "KOR",
@@ -460,21 +490,21 @@
       "ga": 5
     },
     {
-      "tla": "IRN",
-      "name": "Iran",
-      "mp": 1,
+      "tla": "CPV",
+      "name": "Cape Verde Islands",
+      "mp": 2,
       "w": 0,
-      "d": 1,
+      "d": 2,
       "l": 0,
       "gf": 2,
       "ga": 2
     },
     {
-      "tla": "NZL",
-      "name": "New Zealand",
-      "mp": 1,
+      "tla": "IRN",
+      "name": "Iran",
+      "mp": 2,
       "w": 0,
-      "d": 1,
+      "d": 2,
       "l": 0,
       "gf": 2,
       "ga": 2
@@ -518,36 +548,6 @@
       "l": 1,
       "gf": 1,
       "ga": 3
-    },
-    {
-      "tla": "QAT",
-      "name": "Qatar",
-      "mp": 2,
-      "w": 0,
-      "d": 1,
-      "l": 1,
-      "gf": 1,
-      "ga": 7
-    },
-    {
-      "tla": "CUW",
-      "name": "Cura\u00e7ao",
-      "mp": 2,
-      "w": 0,
-      "d": 1,
-      "l": 1,
-      "gf": 1,
-      "ga": 7
-    },
-    {
-      "tla": "TUN",
-      "name": "Tunisia",
-      "mp": 2,
-      "w": 0,
-      "d": 0,
-      "l": 2,
-      "gf": 1,
-      "ga": 9
     }
   ]
 }
