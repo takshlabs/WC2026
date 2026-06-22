@@ -1,21 +1,21 @@
 {
-  "updated": "2026-06-22T18:03:51Z",
+  "updated": "2026-06-22T22:26:50Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
-      "name": "Deniz Undav",
-      "team": "Germany",
-      "goals": 3,
-      "assists": 2,
+      "name": "Lionel Messi",
+      "team": "Argentina",
+      "goals": 5,
+      "assists": 0,
       "yc": 0,
       "rc": 0,
       "mp": 0
     },
     {
-      "name": "Lionel Messi",
-      "team": "Argentina",
+      "name": "Deniz Undav",
+      "team": "Germany",
       "goals": 3,
-      "assists": 0,
+      "assists": 2,
       "yc": 0,
       "rc": 0,
       "mp": 0
@@ -300,6 +300,16 @@
       "ga": 2
     },
     {
+      "tla": "ARG",
+      "name": "Argentina",
+      "mp": 2,
+      "w": 1,
+      "d": 1,
+      "l": 0,
+      "gf": 5,
+      "ga": 0
+    },
+    {
       "tla": "BRA",
       "name": "Brazil",
       "mp": 2,
@@ -370,24 +380,14 @@
       "ga": 1
     },
     {
-      "tla": "ARG",
-      "name": "Argentina",
-      "mp": 1,
-      "w": 1,
-      "d": 0,
-      "l": 0,
-      "gf": 3,
-      "ga": 0
-    },
-    {
       "tla": "AUT",
       "name": "Austria",
-      "mp": 1,
+      "mp": 2,
       "w": 1,
-      "d": 0,
+      "d": 1,
       "l": 0,
       "gf": 3,
-      "ga": 1
+      "ga": 3
     },
     {
       "tla": "COL",
