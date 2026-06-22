@@ -3683,5 +3683,100 @@
         "shotsOnTarget": 7
       }
     }
+  },
+  "537399": {
+    "goals": [
+      {
+        "minute": 38,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Lionel Messi",
+          "shortName": "Lionel Messi"
+        },
+        "assist": {
+          "name": "Facundo Medina",
+          "shortName": "Facundo Medina"
+        },
+        "team": {
+          "id": 762
+        }
+      },
+      {
+        "minute": 90,
+        "injuryTime": 5,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Lionel Messi",
+          "shortName": "Lionel Messi"
+        },
+        "assist": null,
+        "team": {
+          "id": 762
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 40,
+        "player": {
+          "name": "Stefan Posch",
+          "shortName": "Stefan Posch"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 816
+        }
+      },
+      {
+        "minute": 76,
+        "player": {
+          "name": "Facundo Medina",
+          "shortName": "Facundo Medina"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 762
+        }
+      },
+      {
+        "minute": 76,
+        "player": {
+          "name": "Konrad Laimer",
+          "shortName": "Konrad Laimer"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 816
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Leandro Paredes",
+          "shortName": "Leandro Paredes"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 762
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 13,
+        "corners": 1,
+        "possession": 53.6,
+        "shots": 12,
+        "shotsOnTarget": 5
+      },
+      "away": {
+        "fouls": 13,
+        "corners": 3,
+        "possession": 46.4,
+        "shots": 6,
+        "shotsOnTarget": 1
+      }
+    }
   }
 }
