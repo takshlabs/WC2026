@@ -3510,5 +3510,178 @@
         "shotsOnTarget": 1
       }
     }
+  },
+  "537365": {
+    "goals": [],
+    "bookings": [
+      {
+        "minute": 3,
+        "player": {
+          "name": "Romelu Lukaku",
+          "shortName": "Romelu Lukaku"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 805
+        }
+      },
+      {
+        "minute": 33,
+        "player": {
+          "name": "Saeid Ezatolahi",
+          "shortName": "Saeid Ezatolahi"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 840
+        }
+      },
+      {
+        "minute": 66,
+        "player": {
+          "name": "Nathan Ngoy",
+          "shortName": "Nathan Ngoy"
+        },
+        "card": "RED_CARD",
+        "team": {
+          "id": 805
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 7,
+        "corners": 4,
+        "possession": 70.1,
+        "shots": 23,
+        "shotsOnTarget": 7
+      },
+      "away": {
+        "fouls": 9,
+        "corners": 2,
+        "possession": 29.9,
+        "shots": 7,
+        "shotsOnTarget": 3
+      }
+    }
+  },
+  "537366": {
+    "goals": [
+      {
+        "minute": 15,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Finn Surman",
+          "shortName": "Finn Surman"
+        },
+        "assist": {
+          "name": "Tim Payne",
+          "shortName": "Tim Payne"
+        },
+        "team": {
+          "id": 783
+        }
+      },
+      {
+        "minute": 58,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Mostafa Zico",
+          "shortName": "Mostafa Zico"
+        },
+        "assist": {
+          "name": "Mohamed Hany",
+          "shortName": "Mohamed Hany"
+        },
+        "team": {
+          "id": 825
+        }
+      },
+      {
+        "minute": 67,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Mohamed Salah",
+          "shortName": "Mohamed Salah"
+        },
+        "assist": {
+          "name": "Mostafa Zico",
+          "shortName": "Mostafa Zico"
+        },
+        "team": {
+          "id": 825
+        }
+      },
+      {
+        "minute": 82,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Tr\u00e9z\u00e9guet",
+          "shortName": "Tr\u00e9z\u00e9guet"
+        },
+        "assist": {
+          "name": "Mohamed Salah",
+          "shortName": "Mohamed Salah"
+        },
+        "team": {
+          "id": 825
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 17,
+        "player": {
+          "name": "Mohanad Lashin",
+          "shortName": "Mohanad Lashin"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 825
+        }
+      },
+      {
+        "minute": 20,
+        "player": {
+          "name": "Sarpreet Singh",
+          "shortName": "Sarpreet Singh"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 783
+        }
+      },
+      {
+        "minute": 34,
+        "player": {
+          "name": "Callum McCowatt",
+          "shortName": "Callum McCowatt"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 783
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 14,
+        "corners": 4,
+        "possession": 44.4,
+        "shots": 11,
+        "shotsOnTarget": 5
+      },
+      "away": {
+        "fouls": 8,
+        "corners": 4,
+        "possession": 55.6,
+        "shots": 19,
+        "shotsOnTarget": 7
+      }
+    }
   }
 }
