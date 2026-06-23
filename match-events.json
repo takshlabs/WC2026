@@ -3778,5 +3778,273 @@
         "shotsOnTarget": 1
       }
     }
+  },
+  "537393": {
+    "goals": [
+      {
+        "minute": 14,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Kylian Mbapp\u00e9",
+          "shortName": "Kylian Mbapp\u00e9"
+        },
+        "assist": {
+          "name": "Michael Olise",
+          "shortName": "Michael Olise"
+        },
+        "team": {
+          "id": 773
+        }
+      },
+      {
+        "minute": 54,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Kylian Mbapp\u00e9",
+          "shortName": "Kylian Mbapp\u00e9"
+        },
+        "assist": {
+          "name": "Ousmane Demb\u00e9l\u00e9",
+          "shortName": "Ousmane Demb\u00e9l\u00e9"
+        },
+        "team": {
+          "id": 773
+        }
+      },
+      {
+        "minute": 66,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Ousmane Demb\u00e9l\u00e9",
+          "shortName": "Ousmane Demb\u00e9l\u00e9"
+        },
+        "assist": {
+          "name": "Michael Olise",
+          "shortName": "Michael Olise"
+        },
+        "team": {
+          "id": 773
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 6,
+        "player": {
+          "name": "Amir Al-Ammari",
+          "shortName": "Amir Al-Ammari"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 8062
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 8,
+        "corners": 4,
+        "possession": 55.6,
+        "shots": 19,
+        "shotsOnTarget": 5
+      },
+      "away": {
+        "fouls": 4,
+        "corners": 2,
+        "possession": 44.4,
+        "shots": 4,
+        "shotsOnTarget": 0
+      }
+    }
+  },
+  "537394": {
+    "goals": [
+      {
+        "minute": 43,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Marcus Holmgren Pedersen",
+          "shortName": "Marcus Holmgren Pedersen"
+        },
+        "assist": null,
+        "team": {
+          "id": 8872
+        }
+      },
+      {
+        "minute": 48,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Erling Haaland",
+          "shortName": "Erling Haaland"
+        },
+        "assist": {
+          "name": "Martin \u00d8degaard",
+          "shortName": "Martin \u00d8degaard"
+        },
+        "team": {
+          "id": 8872
+        }
+      },
+      {
+        "minute": 53,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Isma\u00efla Sarr",
+          "shortName": "Isma\u00efla Sarr"
+        },
+        "assist": {
+          "name": "Sadio Man\u00e9",
+          "shortName": "Sadio Man\u00e9"
+        },
+        "team": {
+          "id": 804
+        }
+      },
+      {
+        "minute": 58,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Erling Haaland",
+          "shortName": "Erling Haaland"
+        },
+        "assist": {
+          "name": "Patrick Berg",
+          "shortName": "Patrick Berg"
+        },
+        "team": {
+          "id": 8872
+        }
+      },
+      {
+        "minute": 90,
+        "injuryTime": 3,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Isma\u00efla Sarr",
+          "shortName": "Isma\u00efla Sarr"
+        },
+        "assist": {
+          "name": "Nicolas Jackson",
+          "shortName": "Nicolas Jackson"
+        },
+        "team": {
+          "id": 804
+        }
+      }
+    ],
+    "bookings": [],
+    "stats": {
+      "home": {
+        "fouls": 13,
+        "corners": 5,
+        "possession": 41.7,
+        "shots": 13,
+        "shotsOnTarget": 7
+      },
+      "away": {
+        "fouls": 5,
+        "corners": 4,
+        "possession": 58.3,
+        "shots": 16,
+        "shotsOnTarget": 4
+      }
+    }
+  },
+  "537400": {
+    "goals": [
+      {
+        "minute": 36,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Nizar Al-Rashdan",
+          "shortName": "Nizar Al-Rashdan"
+        },
+        "assist": {
+          "name": "Mousa Al-Tamari",
+          "shortName": "Mousa Al-Tamari"
+        },
+        "team": {
+          "id": 8049
+        }
+      },
+      {
+        "minute": 69,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Nadhir Benbouali",
+          "shortName": "Nadhir Benbouali"
+        },
+        "assist": {
+          "name": "Riyad Mahrez",
+          "shortName": "Riyad Mahrez"
+        },
+        "team": {
+          "id": 778
+        }
+      },
+      {
+        "minute": 82,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Amine Gouiri",
+          "shortName": "Amine Gouiri"
+        },
+        "assist": null,
+        "team": {
+          "id": 778
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 44,
+        "player": {
+          "name": "Ramiz Zerrouki",
+          "shortName": "Ramiz Zerrouki"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 778
+        }
+      },
+      {
+        "minute": 64,
+        "player": {
+          "name": "Husam Abu Dahab",
+          "shortName": "Husam Abu Dahab"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 8049
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 11,
+        "corners": 1,
+        "possession": 27.9,
+        "shots": 8,
+        "shotsOnTarget": 4
+      },
+      "away": {
+        "fouls": 6,
+        "corners": 10,
+        "possession": 72.1,
+        "shots": 17,
+        "shotsOnTarget": 8
+      }
+    }
   }
 }
