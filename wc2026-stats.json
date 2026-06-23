@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-23T19:30:13Z",
+  "updated": "2026-06-23T22:06:06Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -201,6 +201,15 @@
       "mp": 0
     },
     {
+      "name": "Cristiano Ronaldo",
+      "team": "Portugal",
+      "goals": 2,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
       "name": "Alexander Isak",
       "team": "Sweden",
       "goals": 1,
@@ -214,15 +223,6 @@
       "team": "Egypt",
       "goals": 1,
       "assists": 2,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Hwang In-Beom",
-      "team": "South Korea",
-      "goals": 1,
-      "assists": 1,
       "yc": 0,
       "rc": 0,
       "mp": 0
@@ -310,6 +310,16 @@
       "ga": 6
     },
     {
+      "tla": "POR",
+      "name": "Portugal",
+      "mp": 2,
+      "w": 0,
+      "d": 2,
+      "l": 0,
+      "gf": 6,
+      "ga": 1
+    },
+    {
       "tla": "ARG",
       "name": "Argentina",
       "mp": 2,
@@ -362,9 +372,9 @@
     {
       "tla": "ENG",
       "name": "England",
-      "mp": 1,
+      "mp": 2,
       "w": 1,
-      "d": 0,
+      "d": 1,
       "l": 0,
       "gf": 4,
       "ga": 2
@@ -538,16 +548,6 @@
       "l": 2,
       "gf": 2,
       "ga": 5
-    },
-    {
-      "tla": "CRO",
-      "name": "Croatia",
-      "mp": 1,
-      "w": 0,
-      "d": 0,
-      "l": 1,
-      "gf": 2,
-      "ga": 4
     }
   ]
 }
