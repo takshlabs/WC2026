@@ -4335,5 +4335,213 @@
         "shotsOnTarget": 1
       }
     }
+  },
+  "537337": {
+    "goals": [
+      {
+        "minute": 46,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Rub\u00e9n Vargas",
+          "shortName": "Rub\u00e9n Vargas"
+        },
+        "assist": {
+          "name": "Johan Manzambi",
+          "shortName": "Johan Manzambi"
+        },
+        "team": {
+          "id": 788
+        }
+      },
+      {
+        "minute": 57,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Johan Manzambi",
+          "shortName": "Johan Manzambi"
+        },
+        "assist": {
+          "name": "Breel Embolo",
+          "shortName": "Breel Embolo"
+        },
+        "team": {
+          "id": 788
+        }
+      },
+      {
+        "minute": 76,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Promise David",
+          "shortName": "Promise David"
+        },
+        "assist": {
+          "name": "Nathan Saliba",
+          "shortName": "Nathan Saliba"
+        },
+        "team": {
+          "id": 828
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 32,
+        "player": {
+          "name": "Cyle Larin",
+          "shortName": "Cyle Larin"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 828
+        }
+      },
+      {
+        "minute": 32,
+        "player": {
+          "name": "Granit Xhaka",
+          "shortName": "Granit Xhaka"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 788
+        }
+      },
+      {
+        "minute": 87,
+        "player": {
+          "name": "Liam Millar",
+          "shortName": "Liam Millar"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 828
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 19,
+        "corners": 2,
+        "possession": 55.2,
+        "shots": 6,
+        "shotsOnTarget": 4
+      },
+      "away": {
+        "fouls": 13,
+        "corners": 7,
+        "possession": 44.8,
+        "shots": 13,
+        "shotsOnTarget": 7
+      }
+    }
+  },
+  "537338": {
+    "goals": [
+      {
+        "minute": 29,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Kerim Alajbegovic",
+          "shortName": "Kerim Alajbegovic"
+        },
+        "assist": {
+          "name": "Ivan Basic",
+          "shortName": "Ivan Basic"
+        },
+        "team": {
+          "id": 1060
+        }
+      },
+      {
+        "minute": 34,
+        "injuryTime": null,
+        "type": "OWN_GOAL",
+        "scorer": {
+          "name": "Mahmoud Abunada",
+          "shortName": "Mahmoud Abunada"
+        },
+        "assist": null,
+        "team": {
+          "id": 1060
+        }
+      },
+      {
+        "minute": 42,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Hassan Al-Haydos",
+          "shortName": "Hassan Al-Haydos"
+        },
+        "assist": {
+          "name": "Edm\u00edlson Junior",
+          "shortName": "Edm\u00edlson Junior"
+        },
+        "team": {
+          "id": 8030
+        }
+      },
+      {
+        "minute": 80,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Ermin Mahmic",
+          "shortName": "Ermin Mahmic"
+        },
+        "assist": {
+          "name": "Dennis Hadzikadunic",
+          "shortName": "Dennis Hadzikadunic"
+        },
+        "team": {
+          "id": 1060
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 78,
+        "player": {
+          "name": "Ahmed Fathy",
+          "shortName": "Ahmed Fathy"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 8030
+        }
+      },
+      {
+        "minute": 82,
+        "player": {
+          "name": "Ermin Mahmic",
+          "shortName": "Ermin Mahmic"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 1060
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 9,
+        "corners": 5,
+        "possession": 54.5,
+        "shots": 14,
+        "shotsOnTarget": 5
+      },
+      "away": {
+        "fouls": 14,
+        "corners": 5,
+        "possession": 45.5,
+        "shots": 9,
+        "shotsOnTarget": 3
+      }
+    }
   }
 }
