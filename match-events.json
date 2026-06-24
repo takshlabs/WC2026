@@ -4204,5 +4204,136 @@
         "shotsOnTarget": 1
       }
     }
+  },
+  "537412": {
+    "goals": [
+      {
+        "minute": 54,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Ante Budimir",
+          "shortName": "Ante Budimir"
+        },
+        "assist": {
+          "name": "Josip Stanisic",
+          "shortName": "Josip Stanisic"
+        },
+        "team": {
+          "id": 799
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 61,
+        "player": {
+          "name": "\u00c9dgar Yoel B\u00e1rcenas",
+          "shortName": "\u00c9dgar Yoel B\u00e1rcenas"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 1836
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Petar Sucic",
+          "shortName": "Petar Sucic"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 799
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 19,
+        "corners": 7,
+        "possession": 42,
+        "shots": 8,
+        "shotsOnTarget": 1
+      },
+      "away": {
+        "fouls": 12,
+        "corners": 2,
+        "possession": 58,
+        "shots": 6,
+        "shotsOnTarget": 2
+      }
+    }
+  },
+  "537406": {
+    "goals": [
+      {
+        "minute": 76,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Daniel Mu\u00f1oz",
+          "shortName": "Daniel Mu\u00f1oz"
+        },
+        "assist": {
+          "name": "Juan Fernando Quintero",
+          "shortName": "Juan Fernando Quintero"
+        },
+        "team": {
+          "id": 818
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 56,
+        "player": {
+          "name": "Jhon Lucum\u00ed",
+          "shortName": "Jhon Lucum\u00ed"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 818
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Charles Pickel",
+          "shortName": "Charles Pickel"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 1934
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Jefferson Lerma",
+          "shortName": "Jefferson Lerma"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 818
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 12,
+        "corners": 5,
+        "possession": 63.5,
+        "shots": 20,
+        "shotsOnTarget": 9
+      },
+      "away": {
+        "fouls": 16,
+        "corners": 4,
+        "possession": 36.5,
+        "shots": 7,
+        "shotsOnTarget": 1
+      }
+    }
   }
 }
