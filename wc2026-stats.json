@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-23T22:06:06Z",
+  "updated": "2026-06-24T10:28:53Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -165,6 +165,15 @@
       "mp": 0
     },
     {
+      "name": "Daniel Mu\u00f1oz",
+      "team": "Colombia",
+      "goals": 2,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
       "name": "Johan Manzambi",
       "team": "Switzerland",
       "goals": 2,
@@ -214,15 +223,6 @@
       "team": "Sweden",
       "goals": 1,
       "assists": 3,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Mohamed Salah",
-      "team": "Egypt",
-      "goals": 1,
-      "assists": 2,
       "yc": 0,
       "rc": 0,
       "mp": 0
@@ -313,8 +313,8 @@
       "tla": "POR",
       "name": "Portugal",
       "mp": 2,
-      "w": 0,
-      "d": 2,
+      "w": 1,
+      "d": 1,
       "l": 0,
       "gf": 6,
       "ga": 1
@@ -338,6 +338,16 @@
       "l": 0,
       "gf": 5,
       "ga": 2
+    },
+    {
+      "tla": "COL",
+      "name": "Colombia",
+      "mp": 2,
+      "w": 2,
+      "d": 0,
+      "l": 0,
+      "gf": 4,
+      "ga": 1
     },
     {
       "tla": "BRA",
@@ -400,14 +410,14 @@
       "ga": 3
     },
     {
-      "tla": "COL",
-      "name": "Colombia",
-      "mp": 1,
+      "tla": "CRO",
+      "name": "Croatia",
+      "mp": 2,
       "w": 1,
       "d": 0,
-      "l": 0,
+      "l": 1,
       "gf": 3,
-      "ga": 1
+      "ga": 4
     },
     {
       "tla": "URU",
@@ -538,16 +548,6 @@
       "l": 0,
       "gf": 2,
       "ga": 2
-    },
-    {
-      "tla": "JOR",
-      "name": "Jordan",
-      "mp": 2,
-      "w": 0,
-      "d": 0,
-      "l": 2,
-      "gf": 2,
-      "ga": 5
     }
   ]
 }
