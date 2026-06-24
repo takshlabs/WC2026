@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-24T18:22:39Z",
+  "updated": "2026-06-24T22:03:32Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -39,6 +39,15 @@
       "mp": 0
     },
     {
+      "name": "Johan Manzambi",
+      "team": "Switzerland",
+      "goals": 3,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
       "name": "Jonathan David",
       "team": "Canada",
       "goals": 3,
@@ -62,6 +71,15 @@
       "goals": 2,
       "assists": 1,
       "yc": 1,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Rub\u00e9n Vargas",
+      "team": "Switzerland",
+      "goals": 2,
+      "assists": 1,
+      "yc": 0,
       "rc": 0,
       "mp": 0
     },
@@ -97,7 +115,7 @@
       "team": "Canada",
       "goals": 2,
       "assists": 0,
-      "yc": 0,
+      "yc": 1,
       "rc": 0,
       "mp": 0
     },
@@ -174,11 +192,11 @@
       "mp": 0
     },
     {
-      "name": "Johan Manzambi",
-      "team": "Switzerland",
+      "name": "Ermin Mahmic",
+      "team": "Bosnia-Herzegovina",
       "goals": 2,
       "assists": 0,
-      "yc": 0,
+      "yc": 1,
       "rc": 0,
       "mp": 0
     },
@@ -208,24 +226,6 @@
       "yc": 0,
       "rc": 0,
       "mp": 0
-    },
-    {
-      "name": "Cristiano Ronaldo",
-      "team": "Portugal",
-      "goals": 2,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Alexander Isak",
-      "team": "Sweden",
-      "goals": 1,
-      "assists": 3,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
     }
   ],
   "teamStats": [
@@ -240,6 +240,16 @@
       "ga": 2
     },
     {
+      "tla": "CAN",
+      "name": "Canada",
+      "mp": 3,
+      "w": 1,
+      "d": 2,
+      "l": 0,
+      "gf": 8,
+      "ga": 3
+    },
+    {
       "tla": "NOR",
       "name": "Norway",
       "mp": 2,
@@ -250,14 +260,14 @@
       "ga": 3
     },
     {
-      "tla": "CAN",
-      "name": "Canada",
-      "mp": 2,
+      "tla": "SUI",
+      "name": "Switzerland",
+      "mp": 3,
       "w": 1,
-      "d": 1,
+      "d": 2,
       "l": 0,
       "gf": 7,
-      "ga": 1
+      "ga": 3
     },
     {
       "tla": "NED",
@@ -330,14 +340,14 @@
       "ga": 0
     },
     {
-      "tla": "SUI",
-      "name": "Switzerland",
-      "mp": 2,
-      "w": 1,
-      "d": 1,
-      "l": 0,
+      "tla": "BIH",
+      "name": "Bosnia-Herzegovina",
+      "mp": 3,
+      "w": 0,
+      "d": 2,
+      "l": 1,
       "gf": 5,
-      "ga": 2
+      "ga": 6
     },
     {
       "tla": "COL",
@@ -520,28 +530,18 @@
       "ga": 3
     },
     {
-      "tla": "BIH",
-      "name": "Bosnia-Herzegovina",
-      "mp": 2,
+      "tla": "QAT",
+      "name": "Qatar",
+      "mp": 3,
       "w": 0,
-      "d": 1,
+      "d": 2,
       "l": 1,
       "gf": 2,
-      "ga": 5
+      "ga": 10
     },
     {
       "tla": "CPV",
       "name": "Cape Verde Islands",
-      "mp": 2,
-      "w": 0,
-      "d": 2,
-      "l": 0,
-      "gf": 2,
-      "ga": 2
-    },
-    {
-      "tla": "IRN",
-      "name": "Iran",
       "mp": 2,
       "w": 0,
       "d": 2,
