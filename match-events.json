@@ -4543,5 +4543,394 @@
         "shotsOnTarget": 3
       }
     }
+  },
+  "537344": {
+    "goals": [
+      {
+        "minute": 10,
+        "injuryTime": null,
+        "type": "OWN_GOAL",
+        "scorer": {
+          "name": "Yassine Bounou",
+          "shortName": "Yassine Bounou"
+        },
+        "assist": null,
+        "team": {
+          "id": 836
+        }
+      },
+      {
+        "minute": 39,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Achraf Hakimi",
+          "shortName": "Achraf Hakimi"
+        },
+        "assist": null,
+        "team": {
+          "id": 815
+        }
+      },
+      {
+        "minute": 43,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Wilson Isidor",
+          "shortName": "Wilson Isidor"
+        },
+        "assist": {
+          "name": "Jean-K\u00e9vin Duverne",
+          "shortName": "Jean-K\u00e9vin Duverne"
+        },
+        "team": {
+          "id": 836
+        }
+      },
+      {
+        "minute": 45,
+        "injuryTime": 1,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Ismael Saibari",
+          "shortName": "Ismael Saibari"
+        },
+        "assist": {
+          "name": "Achraf Hakimi",
+          "shortName": "Achraf Hakimi"
+        },
+        "team": {
+          "id": 815
+        }
+      },
+      {
+        "minute": 78,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Soufiane Rahimi",
+          "shortName": "Soufiane Rahimi"
+        },
+        "assist": {
+          "name": "Chadi Riad",
+          "shortName": "Chadi Riad"
+        },
+        "team": {
+          "id": 815
+        }
+      },
+      {
+        "minute": 89,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Gessime Yassine",
+          "shortName": "Gessime Yassine"
+        },
+        "assist": {
+          "name": "Soufiane Rahimi",
+          "shortName": "Soufiane Rahimi"
+        },
+        "team": {
+          "id": 815
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 79,
+        "player": {
+          "name": "Johny Placide",
+          "shortName": "Johny Placide"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 836
+        }
+      },
+      {
+        "minute": 80,
+        "player": {
+          "name": "Duckens Nazon",
+          "shortName": "Duckens Nazon"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 836
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Josu\u00e9 Casimir",
+          "shortName": "Josu\u00e9 Casimir"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 836
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 10,
+        "corners": 9,
+        "possession": 69.1,
+        "shots": 22,
+        "shotsOnTarget": 11
+      },
+      "away": {
+        "fouls": 18,
+        "corners": 1,
+        "possession": 30.9,
+        "shots": 9,
+        "shotsOnTarget": 2
+      }
+    }
+  },
+  "537343": {
+    "goals": [
+      {
+        "minute": 7,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Vin\u00edcius J\u00fanior",
+          "shortName": "Vin\u00edcius J\u00fanior"
+        },
+        "assist": {
+          "name": "Rayan",
+          "shortName": "Rayan"
+        },
+        "team": {
+          "id": 764
+        }
+      },
+      {
+        "minute": 45,
+        "injuryTime": 3,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Vin\u00edcius J\u00fanior",
+          "shortName": "Vin\u00edcius J\u00fanior"
+        },
+        "assist": {
+          "name": "Bruno Guimar\u00e3es",
+          "shortName": "Bruno Guimar\u00e3es"
+        },
+        "team": {
+          "id": 764
+        }
+      },
+      {
+        "minute": 60,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Matheus Cunha",
+          "shortName": "Matheus Cunha"
+        },
+        "assist": {
+          "name": "Bruno Guimar\u00e3es",
+          "shortName": "Bruno Guimar\u00e3es"
+        },
+        "team": {
+          "id": 764
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 62,
+        "player": {
+          "name": "Danilo",
+          "shortName": "Danilo"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 764
+        }
+      },
+      {
+        "minute": 82,
+        "player": {
+          "name": "Fabinho",
+          "shortName": "Fabinho"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 764
+        }
+      },
+      {
+        "minute": 89,
+        "player": {
+          "name": "Ryan Christie",
+          "shortName": "Ryan Christie"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 8873
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 10,
+        "corners": 7,
+        "possession": 46,
+        "shots": 14,
+        "shotsOnTarget": 5
+      },
+      "away": {
+        "fouls": 11,
+        "corners": 7,
+        "possession": 54,
+        "shots": 21,
+        "shotsOnTarget": 9
+      }
+    }
+  },
+  "537331": {
+    "goals": [
+      {
+        "minute": 55,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Mateo Ch\u00e1vez",
+          "shortName": "Mateo Ch\u00e1vez"
+        },
+        "assist": {
+          "name": "Luis Romo",
+          "shortName": "Luis Romo"
+        },
+        "team": {
+          "id": 769
+        }
+      },
+      {
+        "minute": 61,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Juli\u00e1n Qui\u00f1ones",
+          "shortName": "Juli\u00e1n Qui\u00f1ones"
+        },
+        "assist": {
+          "name": "Jorge S\u00e1nchez",
+          "shortName": "Jorge S\u00e1nchez"
+        },
+        "team": {
+          "id": 769
+        }
+      },
+      {
+        "minute": 90,
+        "injuryTime": 4,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "\u00c1lvaro Fidalgo",
+          "shortName": "\u00c1lvaro Fidalgo"
+        },
+        "assist": {
+          "name": "Roberto Alvarado",
+          "shortName": "Roberto Alvarado"
+        },
+        "team": {
+          "id": 769
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 64,
+        "player": {
+          "name": "Edson \u00c1lvarez",
+          "shortName": "Edson \u00c1lvarez"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 769
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 9,
+        "corners": 5,
+        "possession": 51.9,
+        "shots": 13,
+        "shotsOnTarget": 1
+      },
+      "away": {
+        "fouls": 13,
+        "corners": 1,
+        "possession": 48.1,
+        "shots": 11,
+        "shotsOnTarget": 5
+      }
+    }
+  },
+  "537332": {
+    "goals": [
+      {
+        "minute": 63,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Thapelo Maseko",
+          "shortName": "Thapelo Maseko"
+        },
+        "assist": {
+          "name": "Tshepang Moremi",
+          "shortName": "Tshepang Moremi"
+        },
+        "team": {
+          "id": 774
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 73,
+        "player": {
+          "name": "Aubrey Modiba",
+          "shortName": "Aubrey Modiba"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 774
+        }
+      },
+      {
+        "minute": 79,
+        "player": {
+          "name": "Cho Gue-Sung",
+          "shortName": "Cho Gue-Sung"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 772
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 7,
+        "corners": 4,
+        "possession": 31.6,
+        "shots": 13,
+        "shotsOnTarget": 4
+      },
+      "away": {
+        "fouls": 9,
+        "corners": 6,
+        "possession": 68.4,
+        "shots": 8,
+        "shotsOnTarget": 3
+      }
+    }
   }
 }
