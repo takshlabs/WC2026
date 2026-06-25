@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-24T22:03:32Z",
+  "updated": "2026-06-25T10:20:19Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -7,6 +7,15 @@
       "team": "Argentina",
       "goals": 5,
       "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Vin\u00edcius J\u00fanior",
+      "team": "Brazil",
+      "goals": 4,
+      "assists": 1,
       "yc": 0,
       "rc": 0,
       "mp": 0
@@ -48,6 +57,15 @@
       "mp": 0
     },
     {
+      "name": "Ismael Saibari",
+      "team": "Morocco",
+      "goals": 3,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
       "name": "Jonathan David",
       "team": "Canada",
       "goals": 3,
@@ -57,10 +75,10 @@
       "mp": 0
     },
     {
-      "name": "Vin\u00edcius J\u00fanior",
+      "name": "Matheus Cunha",
       "team": "Brazil",
-      "goals": 2,
-      "assists": 1,
+      "goals": 3,
+      "assists": 0,
       "yc": 0,
       "rc": 0,
       "mp": 0
@@ -111,6 +129,15 @@
       "mp": 0
     },
     {
+      "name": "Juli\u00e1n Qui\u00f1ones",
+      "team": "Mexico",
+      "goals": 2,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
       "name": "Cyle Larin",
       "team": "Canada",
       "goals": 2,
@@ -125,15 +152,6 @@
       "goals": 2,
       "assists": 0,
       "yc": 1,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Ismael Saibari",
-      "team": "Morocco",
-      "goals": 2,
-      "assists": 0,
-      "yc": 0,
       "rc": 0,
       "mp": 0
     },
@@ -201,26 +219,8 @@
       "mp": 0
     },
     {
-      "name": "Matheus Cunha",
-      "team": "Brazil",
-      "goals": 2,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
       "name": "Brian Brobbey",
       "team": "Netherlands",
-      "goals": 2,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Isma\u00efla Sarr",
-      "team": "Senegal",
       "goals": 2,
       "assists": 0,
       "yc": 0,
@@ -244,10 +244,30 @@
       "name": "Canada",
       "mp": 3,
       "w": 1,
-      "d": 2,
-      "l": 0,
+      "d": 1,
+      "l": 1,
       "gf": 8,
       "ga": 3
+    },
+    {
+      "tla": "SUI",
+      "name": "Switzerland",
+      "mp": 3,
+      "w": 2,
+      "d": 1,
+      "l": 0,
+      "gf": 7,
+      "ga": 3
+    },
+    {
+      "tla": "BRA",
+      "name": "Brazil",
+      "mp": 3,
+      "w": 2,
+      "d": 1,
+      "l": 0,
+      "gf": 7,
+      "ga": 1
     },
     {
       "tla": "NOR",
@@ -255,16 +275,6 @@
       "mp": 2,
       "w": 2,
       "d": 0,
-      "l": 0,
-      "gf": 7,
-      "ga": 3
-    },
-    {
-      "tla": "SUI",
-      "name": "Switzerland",
-      "mp": 3,
-      "w": 1,
-      "d": 2,
       "l": 0,
       "gf": 7,
       "ga": 3
@@ -280,6 +290,16 @@
       "ga": 3
     },
     {
+      "tla": "MEX",
+      "name": "Mexico",
+      "mp": 3,
+      "w": 3,
+      "d": 0,
+      "l": 0,
+      "gf": 6,
+      "ga": 0
+    },
+    {
       "tla": "USA",
       "name": "United States",
       "mp": 2,
@@ -288,6 +308,16 @@
       "l": 0,
       "gf": 6,
       "ga": 1
+    },
+    {
+      "tla": "MAR",
+      "name": "Morocco",
+      "mp": 3,
+      "w": 2,
+      "d": 1,
+      "l": 0,
+      "gf": 6,
+      "ga": 3
     },
     {
       "tla": "FRA",
@@ -343,8 +373,8 @@
       "tla": "BIH",
       "name": "Bosnia-Herzegovina",
       "mp": 3,
-      "w": 0,
-      "d": 2,
+      "w": 1,
+      "d": 1,
       "l": 1,
       "gf": 5,
       "ga": 6
@@ -355,16 +385,6 @@
       "mp": 2,
       "w": 2,
       "d": 0,
-      "l": 0,
-      "gf": 4,
-      "ga": 1
-    },
-    {
-      "tla": "BRA",
-      "name": "Brazil",
-      "mp": 2,
-      "w": 1,
-      "d": 1,
       "l": 0,
       "gf": 4,
       "ga": 1
@@ -398,16 +418,6 @@
       "l": 0,
       "gf": 4,
       "ga": 2
-    },
-    {
-      "tla": "MEX",
-      "name": "Mexico",
-      "mp": 2,
-      "w": 2,
-      "d": 0,
-      "l": 0,
-      "gf": 3,
-      "ga": 0
     },
     {
       "tla": "AUT",
@@ -460,14 +470,24 @@
       "ga": 6
     },
     {
-      "tla": "KOR",
-      "name": "South Korea",
-      "mp": 2,
+      "tla": "RSA",
+      "name": "South Africa",
+      "mp": 3,
       "w": 1,
-      "d": 0,
+      "d": 1,
       "l": 1,
       "gf": 2,
-      "ga": 2
+      "ga": 3
+    },
+    {
+      "tla": "KOR",
+      "name": "South Korea",
+      "mp": 3,
+      "w": 1,
+      "d": 0,
+      "l": 2,
+      "gf": 2,
+      "ga": 3
     },
     {
       "tla": "PAR",
@@ -478,16 +498,6 @@
       "l": 1,
       "gf": 2,
       "ga": 4
-    },
-    {
-      "tla": "MAR",
-      "name": "Morocco",
-      "mp": 2,
-      "w": 1,
-      "d": 1,
-      "l": 0,
-      "gf": 2,
-      "ga": 1
     },
     {
       "tla": "AUS",
@@ -522,32 +532,22 @@
     {
       "tla": "CZE",
       "name": "Czechia",
-      "mp": 2,
+      "mp": 3,
       "w": 0,
       "d": 1,
-      "l": 1,
+      "l": 2,
       "gf": 2,
-      "ga": 3
+      "ga": 6
     },
     {
       "tla": "QAT",
       "name": "Qatar",
       "mp": 3,
       "w": 0,
-      "d": 2,
-      "l": 1,
+      "d": 1,
+      "l": 2,
       "gf": 2,
       "ga": 10
-    },
-    {
-      "tla": "CPV",
-      "name": "Cape Verde Islands",
-      "mp": 2,
-      "w": 0,
-      "d": 2,
-      "l": 0,
-      "gf": 2,
-      "ga": 2
     }
   ]
 }
