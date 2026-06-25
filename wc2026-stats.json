@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-25T19:26:35Z",
+  "updated": "2026-06-25T22:58:10Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -232,12 +232,12 @@
     {
       "tla": "GER",
       "name": "Germany",
-      "mp": 2,
+      "mp": 3,
       "w": 2,
       "d": 0,
-      "l": 0,
-      "gf": 9,
-      "ga": 2
+      "l": 1,
+      "gf": 10,
+      "ga": 4
     },
     {
       "tla": "CAN",
@@ -380,6 +380,16 @@
       "ga": 6
     },
     {
+      "tla": "CIV",
+      "name": "Ivory Coast",
+      "mp": 3,
+      "w": 2,
+      "d": 0,
+      "l": 1,
+      "gf": 4,
+      "ga": 2
+    },
+    {
       "tla": "COL",
       "name": "Colombia",
       "mp": 2,
@@ -510,11 +520,11 @@
       "ga": 2
     },
     {
-      "tla": "CIV",
-      "name": "Ivory Coast",
-      "mp": 2,
+      "tla": "ECU",
+      "name": "Ecuador",
+      "mp": 3,
       "w": 1,
-      "d": 0,
+      "d": 1,
       "l": 1,
       "gf": 2,
       "ga": 2
@@ -538,16 +548,6 @@
       "l": 2,
       "gf": 2,
       "ga": 6
-    },
-    {
-      "tla": "QAT",
-      "name": "Qatar",
-      "mp": 3,
-      "w": 0,
-      "d": 1,
-      "l": 2,
-      "gf": 2,
-      "ga": 10
     }
   ]
 }
