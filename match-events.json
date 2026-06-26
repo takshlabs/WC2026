@@ -5452,5 +5452,286 @@
         "shotsOnTarget": 5
       }
     }
+  },
+  "537395": {
+    "goals": [
+      {
+        "minute": 7,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Ousmane Demb\u00e9l\u00e9",
+          "shortName": "Ousmane Demb\u00e9l\u00e9"
+        },
+        "assist": {
+          "name": "Kylian Mbapp\u00e9",
+          "shortName": "Kylian Mbapp\u00e9"
+        },
+        "team": {
+          "id": 773
+        }
+      },
+      {
+        "minute": 20,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Ousmane Demb\u00e9l\u00e9",
+          "shortName": "Ousmane Demb\u00e9l\u00e9"
+        },
+        "assist": {
+          "name": "Kylian Mbapp\u00e9",
+          "shortName": "Kylian Mbapp\u00e9"
+        },
+        "team": {
+          "id": 773
+        }
+      },
+      {
+        "minute": 21,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Thelo Aasgaard",
+          "shortName": "Thelo Aasgaard"
+        },
+        "assist": {
+          "name": "Andreas Schjelderup",
+          "shortName": "Andreas Schjelderup"
+        },
+        "team": {
+          "id": 8872
+        }
+      },
+      {
+        "minute": 32,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Ousmane Demb\u00e9l\u00e9",
+          "shortName": "Ousmane Demb\u00e9l\u00e9"
+        },
+        "assist": {
+          "name": "Aur\u00e9lien Tchouam\u00e9ni",
+          "shortName": "Aur\u00e9lien Tchouam\u00e9ni"
+        },
+        "team": {
+          "id": 773
+        }
+      },
+      {
+        "minute": 90,
+        "injuryTime": 4,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "D\u00e9sir\u00e9 Dou\u00e9",
+          "shortName": "D\u00e9sir\u00e9 Dou\u00e9"
+        },
+        "assist": {
+          "name": "Bradley Barcola",
+          "shortName": "Bradley Barcola"
+        },
+        "team": {
+          "id": 773
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 10,
+        "player": {
+          "name": "Patrick Berg",
+          "shortName": "Patrick Berg"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 8872
+        }
+      },
+      {
+        "minute": 74,
+        "player": {
+          "name": "Aur\u00e9lien Tchouam\u00e9ni",
+          "shortName": "Aur\u00e9lien Tchouam\u00e9ni"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 773
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 9,
+        "corners": 4,
+        "possession": 43.2,
+        "shots": 10,
+        "shotsOnTarget": 4
+      },
+      "away": {
+        "fouls": 11,
+        "corners": 5,
+        "possession": 56.8,
+        "shots": 18,
+        "shotsOnTarget": 9
+      }
+    }
+  },
+  "537396": {
+    "goals": [
+      {
+        "minute": 4,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Habib Diarra",
+          "shortName": "Habib Diarra"
+        },
+        "assist": {
+          "name": "Abdoulaye Seck",
+          "shortName": "Abdoulaye Seck"
+        },
+        "team": {
+          "id": 804
+        }
+      },
+      {
+        "minute": 56,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Isma\u00efla Sarr",
+          "shortName": "Isma\u00efla Sarr"
+        },
+        "assist": {
+          "name": "Lamine Camara",
+          "shortName": "Lamine Camara"
+        },
+        "team": {
+          "id": 804
+        }
+      },
+      {
+        "minute": 59,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Pape Gueye",
+          "shortName": "Pape Gueye"
+        },
+        "assist": {
+          "name": "Isma\u00efla Sarr",
+          "shortName": "Isma\u00efla Sarr"
+        },
+        "team": {
+          "id": 804
+        }
+      },
+      {
+        "minute": 71,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Pape Gueye",
+          "shortName": "Pape Gueye"
+        },
+        "assist": {
+          "name": "Iliman Ndiaye",
+          "shortName": "Iliman Ndiaye"
+        },
+        "team": {
+          "id": 804
+        }
+      },
+      {
+        "minute": 82,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Iliman Ndiaye",
+          "shortName": "Iliman Ndiaye"
+        },
+        "assist": {
+          "name": "Pape Gueye",
+          "shortName": "Pape Gueye"
+        },
+        "team": {
+          "id": 804
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 13,
+        "player": {
+          "name": "Rebin Sulaka",
+          "shortName": "Rebin Sulaka"
+        },
+        "card": "RED_CARD",
+        "team": {
+          "id": 8062
+        }
+      },
+      {
+        "minute": 18,
+        "player": {
+          "name": "Abdoulaye Seck",
+          "shortName": "Abdoulaye Seck"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 804
+        }
+      },
+      {
+        "minute": 75,
+        "player": {
+          "name": "Amir Al-Ammari",
+          "shortName": "Amir Al-Ammari"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 8062
+        }
+      },
+      {
+        "minute": 81,
+        "player": {
+          "name": "Pape Gueye",
+          "shortName": "Pape Gueye"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 804
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Merchas Doski",
+          "shortName": "Merchas Doski"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 8062
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 10,
+        "corners": 12,
+        "possession": 69.3,
+        "shots": 28,
+        "shotsOnTarget": 12
+      },
+      "away": {
+        "fouls": 11,
+        "corners": 3,
+        "possession": 30.7,
+        "shots": 6,
+        "shotsOnTarget": 1
+      }
+    }
   }
 }
