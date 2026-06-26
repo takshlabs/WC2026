@@ -5133,5 +5133,324 @@
         "shotsOnTarget": 3
       }
     }
+  },
+  "537361": {
+    "goals": [
+      {
+        "minute": 3,
+        "injuryTime": null,
+        "type": "OWN_GOAL",
+        "scorer": {
+          "name": "Ellyes Skhiri",
+          "shortName": "Ellyes Skhiri"
+        },
+        "assist": null,
+        "team": {
+          "id": 8601
+        }
+      },
+      {
+        "minute": 7,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Brian Brobbey",
+          "shortName": "Brian Brobbey"
+        },
+        "assist": {
+          "name": "Virgil van Dijk",
+          "shortName": "Virgil van Dijk"
+        },
+        "team": {
+          "id": 8601
+        }
+      },
+      {
+        "minute": 54,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Hazem Mastouri",
+          "shortName": "Hazem Mastouri"
+        },
+        "assist": {
+          "name": "Hannibal Mejbri",
+          "shortName": "Hannibal Mejbri"
+        },
+        "team": {
+          "id": 802
+        }
+      },
+      {
+        "minute": 62,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Jan Paul van Hecke",
+          "shortName": "Jan Paul van Hecke"
+        },
+        "assist": {
+          "name": "Tijjani Reijnders",
+          "shortName": "Tijjani Reijnders"
+        },
+        "team": {
+          "id": 8601
+        }
+      }
+    ],
+    "bookings": [],
+    "stats": {
+      "home": {
+        "fouls": 11,
+        "corners": 4,
+        "possession": 28.6,
+        "shots": 10,
+        "shotsOnTarget": 4
+      },
+      "away": {
+        "fouls": 10,
+        "corners": 6,
+        "possession": 71.4,
+        "shots": 20,
+        "shotsOnTarget": 7
+      }
+    }
+  },
+  "537362": {
+    "goals": [
+      {
+        "minute": 56,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Daizen Maeda",
+          "shortName": "Daizen Maeda"
+        },
+        "assist": {
+          "name": "Ritsu Doan",
+          "shortName": "Ritsu Doan"
+        },
+        "team": {
+          "id": 766
+        }
+      },
+      {
+        "minute": 62,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Anthony Elanga",
+          "shortName": "Anthony Elanga"
+        },
+        "assist": {
+          "name": "Viktor Gy\u00f6keres",
+          "shortName": "Viktor Gy\u00f6keres"
+        },
+        "team": {
+          "id": 792
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 32,
+        "player": {
+          "name": "Isak Hien",
+          "shortName": "Isak Hien"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 792
+        }
+      },
+      {
+        "minute": 77,
+        "player": {
+          "name": "Shogo Taniguchi",
+          "shortName": "Shogo Taniguchi"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 766
+        }
+      },
+      {
+        "minute": 85,
+        "player": {
+          "name": "Viktor Gy\u00f6keres",
+          "shortName": "Viktor Gy\u00f6keres"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 792
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 20,
+        "corners": 2,
+        "possession": 52.3,
+        "shots": 8,
+        "shotsOnTarget": 3
+      },
+      "away": {
+        "fouls": 11,
+        "corners": 8,
+        "possession": 47.7,
+        "shots": 11,
+        "shotsOnTarget": 5
+      }
+    }
+  },
+  "537349": {
+    "goals": [
+      {
+        "minute": 3,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Auston Trusty",
+          "shortName": "Auston Trusty"
+        },
+        "assist": {
+          "name": "Sebastian Berhalter",
+          "shortName": "Sebastian Berhalter"
+        },
+        "team": {
+          "id": 771
+        }
+      },
+      {
+        "minute": 10,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Arda G\u00fcler",
+          "shortName": "Arda G\u00fcler"
+        },
+        "assist": {
+          "name": "Baris Alper Yilmaz",
+          "shortName": "Baris Alper Yilmaz"
+        },
+        "team": {
+          "id": 803
+        }
+      },
+      {
+        "minute": 31,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Baris Alper Yilmaz",
+          "shortName": "Baris Alper Yilmaz"
+        },
+        "assist": {
+          "name": "Orkun K\u00f6k\u00e7\u00fc",
+          "shortName": "Orkun K\u00f6k\u00e7\u00fc"
+        },
+        "team": {
+          "id": 803
+        }
+      },
+      {
+        "minute": 49,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Sebastian Berhalter",
+          "shortName": "Sebastian Berhalter"
+        },
+        "assist": null,
+        "team": {
+          "id": 771
+        }
+      },
+      {
+        "minute": 90,
+        "injuryTime": 8,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Kaan Ayhan",
+          "shortName": "Kaan Ayhan"
+        },
+        "assist": null,
+        "team": {
+          "id": 803
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 19,
+        "player": {
+          "name": "Sebastian Berhalter",
+          "shortName": "Sebastian Berhalter"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 771
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 13,
+        "corners": 2,
+        "possession": 47.4,
+        "shots": 9,
+        "shotsOnTarget": 3
+      },
+      "away": {
+        "fouls": 13,
+        "corners": 9,
+        "possession": 52.6,
+        "shots": 18,
+        "shotsOnTarget": 7
+      }
+    }
+  },
+  "537350": {
+    "goals": [],
+    "bookings": [
+      {
+        "minute": 46,
+        "player": {
+          "name": "Jackson Irvine",
+          "shortName": "Jackson Irvine"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 779
+        }
+      },
+      {
+        "minute": 77,
+        "player": {
+          "name": "Diego G\u00f3mez",
+          "shortName": "Diego G\u00f3mez"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 761
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 9,
+        "corners": 1,
+        "possession": 44,
+        "shots": 7,
+        "shotsOnTarget": 2
+      },
+      "away": {
+        "fouls": 6,
+        "corners": 3,
+        "possession": 56,
+        "shots": 12,
+        "shotsOnTarget": 5
+      }
+    }
   }
 }
