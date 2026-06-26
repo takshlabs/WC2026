@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-26T11:26:33Z",
+  "updated": "2026-06-26T17:17:57Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -243,8 +243,8 @@
       "tla": "NED",
       "name": "Netherlands",
       "mp": 3,
-      "w": 1,
-      "d": 2,
+      "w": 2,
+      "d": 1,
       "l": 0,
       "gf": 10,
       "ga": 4
@@ -254,8 +254,8 @@
       "name": "United States",
       "mp": 3,
       "w": 2,
-      "d": 1,
-      "l": 0,
+      "d": 0,
+      "l": 1,
       "gf": 8,
       "ga": 4
     },
@@ -430,6 +430,16 @@
       "ga": 2
     },
     {
+      "tla": "TUR",
+      "name": "Turkey",
+      "mp": 3,
+      "w": 1,
+      "d": 0,
+      "l": 2,
+      "gf": 3,
+      "ga": 5
+    },
+    {
       "tla": "AUT",
       "name": "Austria",
       "mp": 2,
@@ -448,16 +458,6 @@
       "l": 1,
       "gf": 3,
       "ga": 4
-    },
-    {
-      "tla": "TUR",
-      "name": "Turkey",
-      "mp": 3,
-      "w": 0,
-      "d": 1,
-      "l": 2,
-      "gf": 3,
-      "ga": 5
     },
     {
       "tla": "URU",
