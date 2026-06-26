@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-25T22:58:10Z",
+  "updated": "2026-06-26T10:37:47Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -77,6 +77,15 @@
     {
       "name": "Matheus Cunha",
       "team": "Brazil",
+      "goals": 3,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Brian Brobbey",
+      "team": "Netherlands",
       "goals": 3,
       "assists": 0,
       "yc": 0,
@@ -217,15 +226,6 @@
       "yc": 1,
       "rc": 0,
       "mp": 0
-    },
-    {
-      "name": "Brian Brobbey",
-      "team": "Netherlands",
-      "goals": 2,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
     }
   ],
   "teamStats": [
@@ -237,6 +237,26 @@
       "d": 0,
       "l": 1,
       "gf": 10,
+      "ga": 4
+    },
+    {
+      "tla": "NED",
+      "name": "Netherlands",
+      "mp": 3,
+      "w": 1,
+      "d": 2,
+      "l": 0,
+      "gf": 10,
+      "ga": 4
+    },
+    {
+      "tla": "USA",
+      "name": "United States",
+      "mp": 3,
+      "w": 2,
+      "d": 1,
+      "l": 0,
+      "gf": 8,
       "ga": 4
     },
     {
@@ -280,14 +300,24 @@
       "ga": 3
     },
     {
-      "tla": "NED",
-      "name": "Netherlands",
-      "mp": 2,
+      "tla": "JPN",
+      "name": "Japan",
+      "mp": 3,
       "w": 1,
-      "d": 1,
+      "d": 2,
       "l": 0,
       "gf": 7,
       "ga": 3
+    },
+    {
+      "tla": "SWE",
+      "name": "Sweden",
+      "mp": 3,
+      "w": 1,
+      "d": 1,
+      "l": 1,
+      "gf": 7,
+      "ga": 7
     },
     {
       "tla": "MEX",
@@ -298,16 +328,6 @@
       "l": 0,
       "gf": 6,
       "ga": 0
-    },
-    {
-      "tla": "USA",
-      "name": "United States",
-      "mp": 2,
-      "w": 2,
-      "d": 0,
-      "l": 0,
-      "gf": 6,
-      "ga": 1
     },
     {
       "tla": "MAR",
@@ -328,26 +348,6 @@
       "l": 0,
       "gf": 6,
       "ga": 1
-    },
-    {
-      "tla": "JPN",
-      "name": "Japan",
-      "mp": 2,
-      "w": 1,
-      "d": 1,
-      "l": 0,
-      "gf": 6,
-      "ga": 2
-    },
-    {
-      "tla": "SWE",
-      "name": "Sweden",
-      "mp": 2,
-      "w": 1,
-      "d": 0,
-      "l": 1,
-      "gf": 6,
-      "ga": 6
     },
     {
       "tla": "POR",
@@ -450,6 +450,16 @@
       "ga": 4
     },
     {
+      "tla": "TUR",
+      "name": "Turkey",
+      "mp": 3,
+      "w": 0,
+      "d": 1,
+      "l": 2,
+      "gf": 3,
+      "ga": 5
+    },
+    {
       "tla": "URU",
       "name": "Uruguay",
       "mp": 2,
@@ -502,9 +512,9 @@
     {
       "tla": "PAR",
       "name": "Paraguay",
-      "mp": 2,
+      "mp": 3,
       "w": 1,
-      "d": 0,
+      "d": 1,
       "l": 1,
       "gf": 2,
       "ga": 4
@@ -512,9 +522,9 @@
     {
       "tla": "AUS",
       "name": "Australia",
-      "mp": 2,
+      "mp": 3,
       "w": 1,
-      "d": 0,
+      "d": 1,
       "l": 1,
       "gf": 2,
       "ga": 2
@@ -538,16 +548,6 @@
       "l": 1,
       "gf": 2,
       "ga": 4
-    },
-    {
-      "tla": "CZE",
-      "name": "Czechia",
-      "mp": 3,
-      "w": 0,
-      "d": 1,
-      "l": 2,
-      "gf": 2,
-      "ga": 6
     }
   ]
 }
