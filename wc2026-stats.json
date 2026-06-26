@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-26T18:14:39Z",
+  "updated": "2026-06-26T21:50:34Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -7,6 +7,15 @@
       "team": "Argentina",
       "goals": 5,
       "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Kylian Mbapp\u00e9",
+      "team": "France",
+      "goals": 4,
+      "assists": 2,
       "yc": 0,
       "rc": 0,
       "mp": 0
@@ -21,10 +30,10 @@
       "mp": 0
     },
     {
-      "name": "Kylian Mbapp\u00e9",
+      "name": "Ousmane Demb\u00e9l\u00e9",
       "team": "France",
       "goals": 4,
-      "assists": 0,
+      "assists": 1,
       "yc": 0,
       "rc": 0,
       "mp": 0
@@ -50,6 +59,15 @@
     {
       "name": "Johan Manzambi",
       "team": "Switzerland",
+      "goals": 3,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Isma\u00efla Sarr",
+      "team": "Senegal",
       "goals": 3,
       "assists": 1,
       "yc": 0,
@@ -138,6 +156,15 @@
       "mp": 0
     },
     {
+      "name": "Pape Gueye",
+      "team": "Senegal",
+      "goals": 2,
+      "assists": 1,
+      "yc": 1,
+      "rc": 0,
+      "mp": 0
+    },
+    {
       "name": "Juli\u00e1n Qui\u00f1ones",
       "team": "Mexico",
       "goals": 2,
@@ -199,33 +226,6 @@
       "yc": 0,
       "rc": 0,
       "mp": 0
-    },
-    {
-      "name": "Harry Kane",
-      "team": "England",
-      "goals": 2,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Daniel Mu\u00f1oz",
-      "team": "Colombia",
-      "goals": 2,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Ermin Mahmic",
-      "team": "Bosnia-Herzegovina",
-      "goals": 2,
-      "assists": 0,
-      "yc": 1,
-      "rc": 0,
-      "mp": 0
     }
   ],
   "teamStats": [
@@ -250,6 +250,16 @@
       "ga": 4
     },
     {
+      "tla": "FRA",
+      "name": "France",
+      "mp": 3,
+      "w": 2,
+      "d": 1,
+      "l": 0,
+      "gf": 10,
+      "ga": 2
+    },
+    {
       "tla": "USA",
       "name": "United States",
       "mp": 3,
@@ -260,6 +270,16 @@
       "ga": 4
     },
     {
+      "tla": "NOR",
+      "name": "Norway",
+      "mp": 3,
+      "w": 2,
+      "d": 1,
+      "l": 0,
+      "gf": 8,
+      "ga": 7
+    },
+    {
       "tla": "CAN",
       "name": "Canada",
       "mp": 3,
@@ -268,6 +288,16 @@
       "l": 1,
       "gf": 8,
       "ga": 3
+    },
+    {
+      "tla": "SEN",
+      "name": "Senegal",
+      "mp": 3,
+      "w": 0,
+      "d": 1,
+      "l": 2,
+      "gf": 8,
+      "ga": 6
     },
     {
       "tla": "SUI",
@@ -288,16 +318,6 @@
       "l": 0,
       "gf": 7,
       "ga": 1
-    },
-    {
-      "tla": "NOR",
-      "name": "Norway",
-      "mp": 2,
-      "w": 2,
-      "d": 0,
-      "l": 0,
-      "gf": 7,
-      "ga": 3
     },
     {
       "tla": "JPN",
@@ -338,16 +358,6 @@
       "l": 0,
       "gf": 6,
       "ga": 3
-    },
-    {
-      "tla": "FRA",
-      "name": "France",
-      "mp": 2,
-      "w": 2,
-      "d": 0,
-      "l": 0,
-      "gf": 6,
-      "ga": 1
     },
     {
       "tla": "POR",
@@ -478,16 +488,6 @@
       "l": 1,
       "gf": 3,
       "ga": 5
-    },
-    {
-      "tla": "SEN",
-      "name": "Senegal",
-      "mp": 2,
-      "w": 0,
-      "d": 0,
-      "l": 2,
-      "gf": 3,
-      "ga": 6
     },
     {
       "tla": "RSA",
