@@ -5733,5 +5733,357 @@
         "shotsOnTarget": 1
       }
     }
+  },
+  "537373": {
+    "goals": [
+      {
+        "minute": 42,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "\u00c1lex Baena",
+          "shortName": "\u00c1lex Baena"
+        },
+        "assist": {
+          "name": "Marcos Llorente",
+          "shortName": "Marcos Llorente"
+        },
+        "team": {
+          "id": 760
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 46,
+        "player": {
+          "name": "\u00c1lex Baena",
+          "shortName": "\u00c1lex Baena"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 760
+        }
+      },
+      {
+        "minute": 54,
+        "player": {
+          "name": "Juan Manuel Sanabria",
+          "shortName": "Juan Manuel Sanabria"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 758
+        }
+      },
+      {
+        "minute": 58,
+        "player": {
+          "name": "Guillermo Varela",
+          "shortName": "Guillermo Varela"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 758
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Nicol\u00e1s de la Cruz",
+          "shortName": "Nicol\u00e1s de la Cruz"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 758
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Agust\u00edn Canobbio",
+          "shortName": "Agust\u00edn Canobbio"
+        },
+        "card": "RED_CARD",
+        "team": {
+          "id": 758
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 14,
+        "corners": 1,
+        "possession": 33.1,
+        "shots": 5,
+        "shotsOnTarget": 1
+      },
+      "away": {
+        "fouls": 14,
+        "corners": 6,
+        "possession": 66.9,
+        "shots": 6,
+        "shotsOnTarget": 1
+      }
+    }
+  },
+  "537367": {
+    "goals": [
+      {
+        "minute": 28,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Leandro Trossard",
+          "shortName": "Leandro Trossard"
+        },
+        "assist": null,
+        "team": {
+          "id": 805
+        }
+      },
+      {
+        "minute": 50,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Leandro Trossard",
+          "shortName": "Leandro Trossard"
+        },
+        "assist": {
+          "name": "Hans Vanaken",
+          "shortName": "Hans Vanaken"
+        },
+        "team": {
+          "id": 805
+        }
+      },
+      {
+        "minute": 66,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Kevin De Bruyne",
+          "shortName": "Kevin De Bruyne"
+        },
+        "assist": null,
+        "team": {
+          "id": 805
+        }
+      },
+      {
+        "minute": 84,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Elijah Just",
+          "shortName": "Elijah Just"
+        },
+        "assist": null,
+        "team": {
+          "id": 783
+        }
+      },
+      {
+        "minute": 86,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Romelu Lukaku",
+          "shortName": "Romelu Lukaku"
+        },
+        "assist": {
+          "name": "Nicolas Raskin",
+          "shortName": "Nicolas Raskin"
+        },
+        "team": {
+          "id": 805
+        }
+      },
+      {
+        "minute": 90,
+        "injuryTime": 4,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Alexis Saelemaekers",
+          "shortName": "Alexis Saelemaekers"
+        },
+        "assist": {
+          "name": "Romelu Lukaku",
+          "shortName": "Romelu Lukaku"
+        },
+        "team": {
+          "id": 805
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 46,
+        "player": {
+          "name": "Marko Stamenic",
+          "shortName": "Marko Stamenic"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 783
+        }
+      },
+      {
+        "minute": 56,
+        "player": {
+          "name": "Elijah Just",
+          "shortName": "Elijah Just"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 783
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 10,
+        "corners": 5,
+        "possession": 45.5,
+        "shots": 6,
+        "shotsOnTarget": 2
+      },
+      "away": {
+        "fouls": 7,
+        "corners": 8,
+        "possession": 54.5,
+        "shots": 35,
+        "shotsOnTarget": 10
+      }
+    }
+  },
+  "537368": {
+    "goals": [
+      {
+        "minute": 5,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Mahmoud Saber",
+          "shortName": "Mahmoud Saber"
+        },
+        "assist": {
+          "name": "Tr\u00e9z\u00e9guet",
+          "shortName": "Tr\u00e9z\u00e9guet"
+        },
+        "team": {
+          "id": 825
+        }
+      },
+      {
+        "minute": 14,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Ramin Rezaeian",
+          "shortName": "Ramin Rezaeian"
+        },
+        "assist": null,
+        "team": {
+          "id": 840
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 19,
+        "player": {
+          "name": "Hossein Kanani",
+          "shortName": "Hossein Kanani"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 840
+        }
+      },
+      {
+        "minute": 20,
+        "player": {
+          "name": "Mahmoud Saber",
+          "shortName": "Mahmoud Saber"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 825
+        }
+      },
+      {
+        "minute": 42,
+        "player": {
+          "name": "Yasser Ibrahim",
+          "shortName": "Yasser Ibrahim"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 825
+        }
+      },
+      {
+        "minute": 43,
+        "player": {
+          "name": "Ali Nemati",
+          "shortName": "Ali Nemati"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 840
+        }
+      },
+      {
+        "minute": 79,
+        "player": {
+          "name": "Saeid Ezatolahi",
+          "shortName": "Saeid Ezatolahi"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 840
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Mohanad Lashin",
+          "shortName": "Mohanad Lashin"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 825
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Shoja Khalilzadeh",
+          "shortName": "Shoja Khalilzadeh"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 840
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 11,
+        "corners": 8,
+        "possession": 61.4,
+        "shots": 15,
+        "shotsOnTarget": 3
+      },
+      "away": {
+        "fouls": 16,
+        "corners": 2,
+        "possession": 38.6,
+        "shots": 13,
+        "shotsOnTarget": 4
+      }
+    }
   }
 }
