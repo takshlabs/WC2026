@@ -6085,5 +6085,184 @@
         "shotsOnTarget": 4
       }
     }
+  },
+  "537413": {
+    "goals": [
+      {
+        "minute": 62,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Jude Bellingham",
+          "shortName": "Jude Bellingham"
+        },
+        "assist": {
+          "name": "Bukayo Saka",
+          "shortName": "Bukayo Saka"
+        },
+        "team": {
+          "id": 770
+        }
+      },
+      {
+        "minute": 67,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Harry Kane",
+          "shortName": "Harry Kane"
+        },
+        "assist": {
+          "name": "Jude Bellingham",
+          "shortName": "Jude Bellingham"
+        },
+        "team": {
+          "id": 770
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 53,
+        "player": {
+          "name": "Jos\u00e9 Fajardo",
+          "shortName": "Jos\u00e9 Fajardo"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 1836
+        }
+      },
+      {
+        "minute": 60,
+        "player": {
+          "name": "Jarell Quansah",
+          "shortName": "Jarell Quansah"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 770
+        }
+      },
+      {
+        "minute": 84,
+        "player": {
+          "name": "Andr\u00e9s Andrade",
+          "shortName": "Andr\u00e9s Andrade"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 1836
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 16,
+        "corners": 3,
+        "possession": 32.8,
+        "shots": 13,
+        "shotsOnTarget": 2
+      },
+      "away": {
+        "fouls": 13,
+        "corners": 7,
+        "possession": 67.2,
+        "shots": 17,
+        "shotsOnTarget": 6
+      }
+    }
+  },
+  "537414": {
+    "goals": [
+      {
+        "minute": 31,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Petar Sucic",
+          "shortName": "Petar Sucic"
+        },
+        "assist": {
+          "name": "Mateo Kovacic",
+          "shortName": "Mateo Kovacic"
+        },
+        "team": {
+          "id": 799
+        }
+      },
+      {
+        "minute": 73,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Derrick Luckassen",
+          "shortName": "Derrick Luckassen"
+        },
+        "assist": {
+          "name": "Ernest Nuamah",
+          "shortName": "Ernest Nuamah"
+        },
+        "team": {
+          "id": 763
+        }
+      },
+      {
+        "minute": 83,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Nikola Vlasic",
+          "shortName": "Nikola Vlasic"
+        },
+        "assist": {
+          "name": "Luka Modric",
+          "shortName": "Luka Modric"
+        },
+        "team": {
+          "id": 799
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 68,
+        "player": {
+          "name": "Ivan Perisic",
+          "shortName": "Ivan Perisic"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 799
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Kojo Peprah Oppong",
+          "shortName": "Kojo Peprah Oppong"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 763
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 9,
+        "corners": 3,
+        "possession": 53.3,
+        "shots": 8,
+        "shotsOnTarget": 4
+      },
+      "away": {
+        "fouls": 13,
+        "corners": 2,
+        "possession": 46.7,
+        "shots": 6,
+        "shotsOnTarget": 1
+      }
+    }
   }
 }
