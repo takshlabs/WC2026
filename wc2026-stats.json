@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-28T21:46:22Z",
+  "updated": "2026-06-28T23:48:22Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -263,8 +263,8 @@
       "tla": "CAN",
       "name": "Canada",
       "mp": 4,
-      "w": 1,
-      "d": 2,
+      "w": 2,
+      "d": 1,
       "l": 1,
       "gf": 9,
       "ga": 3
@@ -544,8 +544,8 @@
       "name": "South Africa",
       "mp": 4,
       "w": 1,
-      "d": 2,
-      "l": 1,
+      "d": 1,
+      "l": 2,
       "gf": 2,
       "ga": 4
     }
