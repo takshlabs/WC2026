@@ -6667,5 +6667,62 @@
         "shotsOnTarget": 3
       }
     }
+  },
+  "537417": {
+    "goals": [
+      {
+        "minute": 90,
+        "injuryTime": 2,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Stephen Eust\u00e1quio",
+          "shortName": "Stephen Eust\u00e1quio"
+        },
+        "assist": null,
+        "team": {
+          "id": 828
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 54,
+        "player": {
+          "name": "Nathan Saliba",
+          "shortName": "Nathan Saliba"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 828
+        }
+      },
+      {
+        "minute": 67,
+        "player": {
+          "name": "Niko Sigur",
+          "shortName": "Niko Sigur"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 828
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 10,
+        "corners": 1,
+        "possession": 58.2,
+        "shots": 6,
+        "shotsOnTarget": 1
+      },
+      "away": {
+        "fouls": 16,
+        "corners": 4,
+        "possession": 41.8,
+        "shots": 12,
+        "shotsOnTarget": 7
+      }
+    }
   }
 }
