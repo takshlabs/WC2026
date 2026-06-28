@@ -6264,5 +6264,408 @@
         "shotsOnTarget": 1
       }
     }
+  },
+  "537407": {
+    "goals": [],
+    "bookings": [
+      {
+        "minute": 86,
+        "player": {
+          "name": "Gustavo Puerta",
+          "shortName": "Gustavo Puerta"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 818
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 12,
+        "corners": 5,
+        "possession": 54.6,
+        "shots": 24,
+        "shotsOnTarget": 6
+      },
+      "away": {
+        "fouls": 6,
+        "corners": 2,
+        "possession": 45.4,
+        "shots": 13,
+        "shotsOnTarget": 2
+      }
+    }
+  },
+  "537408": {
+    "goals": [
+      {
+        "minute": 10,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Eldor Shomurodov",
+          "shortName": "Eldor Shomurodov"
+        },
+        "assist": {
+          "name": "Akmal Mozgovoy",
+          "shortName": "Akmal Mozgovoy"
+        },
+        "team": {
+          "id": 8070
+        }
+      },
+      {
+        "minute": 68,
+        "injuryTime": null,
+        "type": "PENALTY",
+        "scorer": {
+          "name": "Yoane Wissa",
+          "shortName": "Yoane Wissa"
+        },
+        "assist": null,
+        "team": {
+          "id": 1934
+        }
+      },
+      {
+        "minute": 78,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Fiston Mayele",
+          "shortName": "Fiston Mayele"
+        },
+        "assist": null,
+        "team": {
+          "id": 1934
+        }
+      },
+      {
+        "minute": 90,
+        "injuryTime": 1,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Yoane Wissa",
+          "shortName": "Yoane Wissa"
+        },
+        "assist": {
+          "name": "Meschack Elia",
+          "shortName": "Meschack Elia"
+        },
+        "team": {
+          "id": 1934
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 21,
+        "player": {
+          "name": "Noah Sadiki",
+          "shortName": "Noah Sadiki"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 1934
+        }
+      },
+      {
+        "minute": 43,
+        "player": {
+          "name": "Abdukodir Khusanov",
+          "shortName": "Abdukodir Khusanov"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 8070
+        }
+      },
+      {
+        "minute": 45,
+        "player": {
+          "name": "Nathana\u00ebl Mbuku",
+          "shortName": "Nathana\u00ebl Mbuku"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 1934
+        }
+      },
+      {
+        "minute": 48,
+        "player": {
+          "name": "Sherzod Nasrullaev",
+          "shortName": "Sherzod Nasrullaev"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 8070
+        }
+      },
+      {
+        "minute": 62,
+        "player": {
+          "name": "Samuel Moutoussamy",
+          "shortName": "Samuel Moutoussamy"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 1934
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 6,
+        "corners": 2,
+        "possession": 57.6,
+        "shots": 19,
+        "shotsOnTarget": 4
+      },
+      "away": {
+        "fouls": 16,
+        "corners": 4,
+        "possession": 42.4,
+        "shots": 3,
+        "shotsOnTarget": 1
+      }
+    }
+  },
+  "537401": {
+    "goals": [
+      {
+        "minute": 19,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Giovani Lo Celso",
+          "shortName": "Giovani Lo Celso"
+        },
+        "assist": null,
+        "team": {
+          "id": 762
+        }
+      },
+      {
+        "minute": 31,
+        "injuryTime": null,
+        "type": "PENALTY",
+        "scorer": {
+          "name": "Lautaro Mart\u00ednez",
+          "shortName": "Lautaro Mart\u00ednez"
+        },
+        "assist": null,
+        "team": {
+          "id": 762
+        }
+      },
+      {
+        "minute": 55,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Mousa Al-Tamari",
+          "shortName": "Mousa Al-Tamari"
+        },
+        "assist": {
+          "name": "Ehsan Haddad",
+          "shortName": "Ehsan Haddad"
+        },
+        "team": {
+          "id": 8049
+        }
+      },
+      {
+        "minute": 80,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Lionel Messi",
+          "shortName": "Lionel Messi"
+        },
+        "assist": null,
+        "team": {
+          "id": 762
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 17,
+        "player": {
+          "name": "Mohannad Abu Taha",
+          "shortName": "Mohannad Abu Taha"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 8049
+        }
+      },
+      {
+        "minute": 64,
+        "player": {
+          "name": "Yazan Al-Arab",
+          "shortName": "Yazan Al-Arab"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 8049
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Mohammed Abu Zraiq",
+          "shortName": "Mohammed Abu Zraiq"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 8049
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 13,
+        "corners": 2,
+        "possession": 26.7,
+        "shots": 5,
+        "shotsOnTarget": 1
+      },
+      "away": {
+        "fouls": 7,
+        "corners": 6,
+        "possession": 73.3,
+        "shots": 12,
+        "shotsOnTarget": 4
+      }
+    }
+  },
+  "537402": {
+    "goals": [
+      {
+        "minute": 28,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Marko Arnautovic",
+          "shortName": "Marko Arnautovic"
+        },
+        "assist": {
+          "name": "David Alaba",
+          "shortName": "David Alaba"
+        },
+        "team": {
+          "id": 816
+        }
+      },
+      {
+        "minute": 45,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Rafik Belghali",
+          "shortName": "Rafik Belghali"
+        },
+        "assist": null,
+        "team": {
+          "id": 778
+        }
+      },
+      {
+        "minute": 55,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Marcel Sabitzer",
+          "shortName": "Marcel Sabitzer"
+        },
+        "assist": {
+          "name": "Konrad Laimer",
+          "shortName": "Konrad Laimer"
+        },
+        "team": {
+          "id": 816
+        }
+      },
+      {
+        "minute": 60,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Riyad Mahrez",
+          "shortName": "Riyad Mahrez"
+        },
+        "assist": {
+          "name": "Houssem Aouar",
+          "shortName": "Houssem Aouar"
+        },
+        "team": {
+          "id": 778
+        }
+      },
+      {
+        "minute": 90,
+        "injuryTime": 3,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Riyad Mahrez",
+          "shortName": "Riyad Mahrez"
+        },
+        "assist": {
+          "name": "Houssem Aouar",
+          "shortName": "Houssem Aouar"
+        },
+        "team": {
+          "id": 778
+        }
+      },
+      {
+        "minute": 90,
+        "injuryTime": 6,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Sasa Kalajdzic",
+          "shortName": "Sasa Kalajdzic"
+        },
+        "assist": {
+          "name": "Michael Gregoritsch",
+          "shortName": "Michael Gregoritsch"
+        },
+        "team": {
+          "id": 816
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 11,
+        "player": {
+          "name": "Marko Arnautovic",
+          "shortName": "Marko Arnautovic"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 816
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 3,
+        "corners": 0,
+        "possession": 65,
+        "shots": 12,
+        "shotsOnTarget": 5
+      },
+      "away": {
+        "fouls": 7,
+        "corners": 3,
+        "possession": 35,
+        "shots": 10,
+        "shotsOnTarget": 3
+      }
+    }
   }
 }
