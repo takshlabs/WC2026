@@ -3,6 +3,7 @@ import { TEAMS, VENUES } from '../data'
 import { convertTime, groupColor } from '../utils'
 import { useApp } from '../App'
 import FlagImg from '../components/FlagImg'
+import { useBracketTeams } from '../hooks/useBracketTeams'
 
 const ROUNDS_ORDER = [
   { key: 'r32',   label: 'Round of 32',   ids: [73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88] },
@@ -23,6 +24,7 @@ function savePredictions(p) {
 
 export default function Bracket() {
   const { tz, timeFormat, matches, setTeamModal, liveMap } = useApp()
+  const resolvedTeams = useBracketTeams(liveMap)
   const [tab, setTab] = useState('live')
   const [predictions, setPredictions] = useState(loadPredictions)
   const [editSlot, setEditSlot] = useState(null) // { matchId, side: 'home'|'away' }
@@ -105,6 +107,7 @@ export default function Bracket() {
                       tz={tz}
                       timeFormat={timeFormat}
                       liveMap={liveMap}
+                      resolvedTeams={resolvedTeams}
                       isFinal={round.key === 'final'}
                       onTeamClick={setTeamModal}
                     />
@@ -134,7 +137,7 @@ export default function Bracket() {
         <div className="section-title">3rd Place Match</div>
         <div style={{ maxWidth: 240 }}>
           {tab === 'live'
-            ? <BracketMatch m={matchById[103]} tz={tz} timeFormat={timeFormat} liveMap={liveMap} isFinal={false} onTeamClick={setTeamModal} />
+            ? <BracketMatch m={matchById[103]} tz={tz} timeFormat={timeFormat} liveMap={liveMap} resolvedTeams={resolvedTeams} isFinal={false} onTeamClick={setTeamModal} />
             : <PredictMatch m={matchById[103]} isFinal={false} predictions={predictions} editSlot={editSlot} setEditSlot={setEditSlot} searchQ={searchQ} setSearchQ={setSearchQ} setPick={setPick} />
           }
         </div>
@@ -143,16 +146,31 @@ export default function Bracket() {
   )
 }
 
-function BracketMatch({ m, tz, timeFormat, liveMap, isFinal, onTeamClick }) {
+function BracketMatch({ m, tz, timeFormat, liveMap, resolvedTeams, isFinal, onTeamClick }) {
   if (!m) return null
   const conv  = convertTime(m.date, m.time, tz, timeFormat)
   const live  = liveMap.get(m.id)
-  const homeT = TEAMS[m.home]
-  const awayT = TEAMS[m.away]
+
+  // Use static team codes when available (group stage), otherwise use computed
+  // bracket progression from useBracketTeams (knockout rounds).
+  const r = resolvedTeams?.get(m.id)
+  const homeCode = m.home ?? r?.home ?? null
+  const awayCode = m.away ?? r?.away ?? null
+  const homeT = TEAMS[homeCode]
+  const awayT = TEAMS[awayCode]
+
   const isLive     = live?.status === 'live'
   const isFinished = live?.status === 'finished'
-  const hs    = live?.homeScore ?? m.homeScore
-  const as_   = live?.awayScore ?? m.awayScore
+
+  // Use scoreByCode for KO matches (orientation-safe); fall back to positional.
+  let hs, as_
+  if (live?.scoreByCode && homeCode && awayCode) {
+    hs  = live.scoreByCode[homeCode] ?? live?.homeScore ?? m.homeScore
+    as_ = live.scoreByCode[awayCode] ?? live?.awayScore ?? m.awayScore
+  } else {
+    hs  = live?.homeScore ?? m.homeScore
+    as_ = live?.awayScore ?? m.awayScore
+  }
 
   return (
     <div className={`bracket-match${isFinal ? ' final-match' : ''}`}>
@@ -164,17 +182,17 @@ function BracketMatch({ m, tz, timeFormat, liveMap, isFinal, onTeamClick }) {
             : isFinished ? 'FT' : conv.dateShort}
         </span>
       </div>
-      <div className={`bm-team${!homeT ? ' tbd' : ''}`} onClick={() => homeT && onTeamClick(m.home)}>
+      <div className={`bm-team${!homeT ? ' tbd' : ''}`} onClick={() => homeT && onTeamClick(homeCode)}>
         <span className="bm-name" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-          {homeT ? <><FlagImg code={m.home} size={16} />{homeT.name}</> : (m.homeLabel || 'TBD')}
+          {homeT ? <><FlagImg code={homeCode} size={16} />{homeT.name}</> : (m.homeLabel || 'TBD')}
         </span>
         {hs !== undefined && (
           <span className="bm-score" style={{ color: hs > as_ ? 'var(--green)' : hs < as_ ? 'var(--red)' : 'var(--gold)' }}>{hs}</span>
         )}
       </div>
-      <div className={`bm-team${!awayT ? ' tbd' : ''}`} onClick={() => awayT && onTeamClick(m.away)}>
+      <div className={`bm-team${!awayT ? ' tbd' : ''}`} onClick={() => awayT && onTeamClick(awayCode)}>
         <span className="bm-name" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-          {awayT ? <><FlagImg code={m.away} size={16} />{awayT.name}</> : (m.awayLabel || 'TBD')}
+          {awayT ? <><FlagImg code={awayCode} size={16} />{awayT.name}</> : (m.awayLabel || 'TBD')}
         </span>
         {as_ !== undefined && (
           <span className="bm-score" style={{ color: as_ > hs ? 'var(--green)' : as_ < hs ? 'var(--red)' : 'var(--gold)' }}>{as_}</span>

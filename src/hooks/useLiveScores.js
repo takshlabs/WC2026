@@ -81,7 +81,10 @@ Object.entries(TEAMS).forEach(([code, t]) => {
   NAME_LOOKUP[normaliseName(t.name)] = code
 })
 
-function findLocalMatch(homeTla, awayTla, homeNameRaw, awayNameRaw) {
+// utcDatetime: ISO-8601 string from fd.org (m.utcDate) or ESPN (event.date).
+// Used as a third-level fallback for knockout matches whose static home/away
+// are null — each knockout slot has a unique UTC date+time in data.js.
+function findLocalMatch(homeTla, awayTla, homeNameRaw, awayNameRaw, utcDatetime) {
   const byTla = MATCHES.find(lm => lm.home === homeTla && lm.away === awayTla)
   if (byTla) return byTla
 
@@ -94,6 +97,19 @@ function findLocalMatch(homeTla, awayTla, homeNameRaw, awayNameRaw) {
       return byName
     }
   }
+
+  // Datetime fallback: knockout matches have home=null in static data but each
+  // has a unique UTC date+time. fd.org utcDate: '2026-06-28T19:00:00Z'.
+  if (utcDatetime) {
+    const date = utcDatetime.slice(0, 10)   // 'YYYY-MM-DD'
+    const time = utcDatetime.slice(11, 16)  // 'HH:MM'
+    const byDatetime = MATCHES.find(m => m.date === date && m.time === time && m.home === null)
+    if (byDatetime) {
+      console.info(`[live] datetime-matched knockout ${date} ${time} → match ${byDatetime.id} (${byDatetime.matchLabel})`)
+      return byDatetime
+    }
+  }
+
   return null
 }
 
@@ -144,7 +160,7 @@ export function useLiveScores() {
           const homeNameRaw = m.homeTeam?.name || m.homeTeam?.shortName || ''
           const awayNameRaw = m.awayTeam?.name || m.awayTeam?.shortName || ''
 
-          const local = findLocalMatch(homeTla, awayTla, homeNameRaw, awayNameRaw)
+          const local = findLocalMatch(homeTla, awayTla, homeNameRaw, awayNameRaw, m.utcDate)
           if (!local) {
             if (homeTla || homeNameRaw) {
               console.warn(`[live] unmatched: "${homeNameRaw}" (${m.homeTeam?.tla}) vs "${awayNameRaw}" (${m.awayTeam?.tla}) — add to TLA_MAP`)
@@ -205,6 +221,16 @@ export function useLiveScores() {
             console.info(`[live] stale IN_PLAY overridden → finished: ${homeNameRaw} vs ${awayNameRaw} (${ageHours.toFixed(1)}h old)`)
           }
 
+          // For knockout matches (local.home=null), build scoreByCode: {code → score}
+          // using fd.org TLAs so BracketMatch/useBracketTeams can look up scores
+          // by team identity rather than positional home/away (which may differ
+          // between fd.org's ordering and our bracket's home/away designation).
+          const hCode = normalizeTla(m.homeTeam?.tla || '')
+          const aCode = normalizeTla(m.awayTeam?.tla || '')
+          const scoreByCode = (local.home === null && TEAMS[hCode] && TEAMS[aCode] && hs != null && as_ != null)
+            ? { [hCode]: hs, [aCode]: as_ }
+            : null
+
           map.set(local.id, {
             homeScore:    hs  ?? 0,
             awayScore:    as_ ?? 0,
@@ -216,6 +242,8 @@ export function useLiveScores() {
             awayForm:     m.awayForm     || null,
             displayClock: m.displayClock || null,
             matchId:      String(m.id),
+            winner:       m.score?.winner || null,  // 'HOME_TEAM'|'AWAY_TEAM' — covers AET/pens
+            ...(scoreByCode ? { scoreByCode } : {}),
           })
         }
 
@@ -270,8 +298,9 @@ export function useLiveScores() {
             const hTla  = normalizeTla(hComp.team?.abbreviation || '')
             const aTla  = normalizeTla(aComp.team?.abbreviation || '')
 
-            // Use findLocalMatch (TLA-first, name-fallback, both orientations)
-            const local = findLocalMatch(hTla, aTla, hName, aName)
+            // Use findLocalMatch (TLA-first, name-fallback, datetime-fallback for KO)
+            const eventDatetime = event.date || comp?.startDate || null
+            const local = findLocalMatch(hTla, aTla, hName, aName, eventDatetime)
             if (!local) continue
 
             const sObj   = comp.status || {}
@@ -291,11 +320,26 @@ export function useLiveScores() {
             const hScore = scoreByName[hKey] ?? null
             const aScore = scoreByName[aKey] ?? null
 
-            // Check if local home matches ESPN home (or if ESPN has it reversed)
+            // isFlipped only applies when static home team is known (group stage).
+            // For knockout matches (local.home === null), there is no static home
+            // team to compare against, so don't flip — use scoreByCode instead.
             const homeCode = NAME_LOOKUP[hKey]
-            const isFlipped = homeCode && homeCode !== local.home
+            const isFlipped = local.home !== null && homeCode && homeCode !== local.home
             const finalHome = isFlipped ? aScore : hScore
             const finalAway = isFlipped ? hScore : aScore
+
+            // For KO matches: build scoreByCode {ourTeamCode → score} from ESPN
+            // team names, so BracketMatch/useBracketTeams get orientation-safe scores.
+            let espnScoreByCode = null
+            if (local.home === null) {
+              espnScoreByCode = {}
+              for (const c of competitors) {
+                const n = normEspnName(c.team?.displayName || '')
+                const code = NAME_LOOKUP[n]
+                if (code && TEAMS[code]) espnScoreByCode[code] = Number(c.score ?? 0)
+              }
+              if (Object.keys(espnScoreByCode).length !== 2) espnScoreByCode = null
+            }
 
             const existing = next.get(local.id)
             // Don't add new entries for purely scheduled matches (no existing floor entry)
@@ -307,6 +351,7 @@ export function useLiveScores() {
               awayScore:    finalAway ?? existing?.awayScore ?? 0,
               status:       espnStatus,
               displayClock: clock,
+              ...(espnScoreByCode ? { scoreByCode: espnScoreByCode } : {}),
             })
           }
           return next
