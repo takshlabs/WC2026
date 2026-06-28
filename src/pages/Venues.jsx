@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { VENUES, MATCHES } from '../data'
+import { VENUES } from '../data'
 import { useApp } from '../App'
 
 // Equirectangular projection: viewBox 0 0 700 420, lon -130→-65, lat 55→15
@@ -82,11 +82,11 @@ const VENUE_GEO = {
 const COUNTRY_COLOR = { USA: 'var(--blue)', Canada: '#E8002D', Mexico: 'var(--green)' }
 
 export default function Venues() {
-  const { navigate, setFixtureFilter } = useApp()
+  const { matches, navigate, setFixtureFilter } = useApp()
   const [selected, setSelected] = useState(null)
 
   const matchCounts = {}
-  MATCHES.forEach(m => {
+  matches.forEach(m => {
     if (m.venue) matchCounts[m.venue] = (matchCounts[m.venue] || 0) + 1
   })
 

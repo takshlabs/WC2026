@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { MATCHES, TEAMS, VENUES } from '../data'
+import { TEAMS, VENUES } from '../data'
 import { convertTime, groupColor } from '../utils'
 import { useApp } from '../App'
 import FlagImg from '../components/FlagImg'
@@ -22,13 +22,13 @@ function savePredictions(p) {
 }
 
 export default function Bracket() {
-  const { tz, timeFormat, setTeamModal, liveMap } = useApp()
+  const { tz, timeFormat, matches, setTeamModal, liveMap } = useApp()
   const [tab, setTab] = useState('live')
   const [predictions, setPredictions] = useState(loadPredictions)
   const [editSlot, setEditSlot] = useState(null) // { matchId, side: 'home'|'away' }
   const [searchQ, setSearchQ] = useState('')
 
-  const matchById = Object.fromEntries(MATCHES.map(m => [m.id, m]))
+  const matchById = Object.fromEntries(matches.map(m => [m.id, m]))
 
   function setPick(matchId, side, code) {
     const next = { ...predictions, [matchId]: { ...(predictions[matchId] || {}), [side]: code } }

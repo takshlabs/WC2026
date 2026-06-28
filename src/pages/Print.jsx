@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { MATCHES, TEAMS, VENUES } from '../data'
+import { TEAMS, VENUES } from '../data'
 import { convertTime, groupColor } from '../utils'
 import { useApp } from '../App'
 import FlagImg from '../components/FlagImg'
@@ -23,7 +23,7 @@ const SECTION_META = {
 }
 
 export default function Print() {
-  const { tz, timeFormat, liveMap } = useApp()
+  const { tz, timeFormat, matches, liveMap } = useApp()
   const [section, setSection] = useState('all')
 
   const showGroups   = section === 'all' || section === 'groups'
@@ -113,7 +113,7 @@ export default function Print() {
         {showSchedule && (
           <div className="print-section print-section--schedule">
             {showCover && <div className="print-section-title">Match Schedule ({tz.abbr})</div>}
-            <PrintSchedule tz={tz} timeFormat={timeFormat} liveMap={liveMap} />
+            <PrintSchedule matches={matches} tz={tz} timeFormat={timeFormat} liveMap={liveMap} />
           </div>
         )}
 
@@ -121,7 +121,7 @@ export default function Print() {
         {showBracket && (
           <div className="print-section print-section--bracket">
             {showCover && <div className="print-section-title">Knockout Stage</div>}
-            <PrintBracket tz={tz} timeFormat={timeFormat} liveMap={liveMap} />
+            <PrintBracket matches={matches} tz={tz} timeFormat={timeFormat} liveMap={liveMap} />
           </div>
         )}
 
@@ -182,13 +182,13 @@ function PrintGroup({ group }) {
 }
 
 /* ── Match schedule ─────────────────────────────────────────────────────── */
-function PrintSchedule({ tz, timeFormat, liveMap }) {
-  const matches = MATCHES
+function PrintSchedule({ matches, tz, timeFormat, liveMap }) {
+  const groupMatches = matches
     .filter(m => m.round === 'gs')
     .sort((a, b) => new Date(`${a.date}T${a.time}:00Z`) - new Date(`${b.date}T${b.time}:00Z`))
 
   const byDate = new Map()
-  matches.forEach(m => {
+  groupMatches.forEach(m => {
     const conv = convertTime(m.date, m.time, tz, timeFormat)
     if (!byDate.has(conv.date)) byDate.set(conv.date, [])
     byDate.get(conv.date).push({ ...m, conv, live: liveMap.get(m.id) })
@@ -239,8 +239,8 @@ function PrintSchedule({ tz, timeFormat, liveMap }) {
 }
 
 /* ── Knockout bracket ───────────────────────────────────────────────────── */
-function PrintBracket({ tz, timeFormat, liveMap }) {
-  const matchById = Object.fromEntries(MATCHES.map(m => [m.id, m]))
+function PrintBracket({ matches, tz, timeFormat, liveMap }) {
+  const matchById = Object.fromEntries(matches.map(m => [m.id, m]))
 
   return (
     <div className="print-bracket">

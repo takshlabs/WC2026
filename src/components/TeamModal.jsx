@@ -1,15 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { TEAMS, MATCHES, VENUES } from '../data'
+import { TEAMS, VENUES } from '../data'
 import { convertTime, groupColor, roundLabel } from '../utils'
 import { useApp } from '../App'
 
 export default function TeamModal({ code, onClose }) {
-  const { tz, timeFormat, navigate, setFixtureFilter } = useApp()
+  const { tz, timeFormat, matches, liveMap, navigate, setFixtureFilter } = useApp()
   const t = TEAMS[code]
   if (!t) return null
 
-  const teamMatches = MATCHES.filter(m => m.home === code || m.away === code)
+  const teamMatches = matches.filter(m => m.home === code || m.away === code)
 
   function focusTeam() {
     setFixtureFilter(f => ({ ...f, focus: code, team: '', group: '', round: '' }))
@@ -56,8 +56,9 @@ export default function TeamModal({ code, onClose }) {
           const opp    = isHome ? m.away : m.home
           const oppT   = opp ? TEAMS[opp] : null
           const conv   = convertTime(m.date, m.time, tz, timeFormat)
-          const hs     = m.homeScore
-          const as_    = m.awayScore
+          const live   = liveMap.get(m.id)
+          const hs     = live?.homeScore ?? m.homeScore
+          const as_    = live?.awayScore ?? m.awayScore
           const score  = hs !== undefined
             ? (isHome ? `${hs}–${as_}` : `${as_}–${hs}`)
             : '–'

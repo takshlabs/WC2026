@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { MATCHES, TEAMS } from '../data'
+import { roundLabel } from '../utils'
 
 const BASE = import.meta.env.BASE_URL || '/'
 const ICON = `${BASE}favicon.svg`
@@ -29,7 +30,7 @@ export async function showGoalNotif(m, homeScore, awayScore) {
   const homeT = TEAMS[m.home]; const awayT = TEAMS[m.away]
   const title = `⚽ GOAL! ${homeT?.name} ${homeScore}–${awayScore} ${awayT?.name}`
   await _show(title, {
-    body: `Group ${m.group} · tap to open`,
+    body: `${m.group ? `Group ${m.group}` : roundLabel(m.round)} · tap to open`,
     icon: ICON,
     tag: `goal-${m.id}-${homeScore}-${awayScore}`,
     data: { url: BASE },

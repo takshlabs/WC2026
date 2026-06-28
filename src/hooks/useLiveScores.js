@@ -125,6 +125,7 @@ async function fetchMatches() {
 
 // ── Hook ─────────────────────────────────────────────────────────────────────
 export function useLiveScores() {
+  const matches = MATCHES
   const [liveMap,     setLiveMap]     = useState(new Map())
   const [lastUpdated, setLastUpdated] = useState(null)  // Date | null
 
@@ -322,5 +323,5 @@ export function useLiveScores() {
     return () => { clearInterval(id); clearInterval(espnId) }
   }, [])
 
-  return { liveMap, lastUpdated }
+  return { matches, liveMap, lastUpdated }
 }
