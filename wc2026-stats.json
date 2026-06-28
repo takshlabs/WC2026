@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-28T19:58:01Z",
+  "updated": "2026-06-28T21:03:06Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -260,6 +260,16 @@
       "ga": 4
     },
     {
+      "tla": "CAN",
+      "name": "Canada",
+      "mp": 4,
+      "w": 1,
+      "d": 2,
+      "l": 1,
+      "gf": 9,
+      "ga": 3
+    },
+    {
       "tla": "ARG",
       "name": "Argentina",
       "mp": 3,
@@ -288,16 +298,6 @@
       "l": 1,
       "gf": 8,
       "ga": 7
-    },
-    {
-      "tla": "CAN",
-      "name": "Canada",
-      "mp": 3,
-      "w": 1,
-      "d": 1,
-      "l": 1,
-      "gf": 8,
-      "ga": 3
     },
     {
       "tla": "SEN",
@@ -542,12 +542,12 @@
     {
       "tla": "RSA",
       "name": "South Africa",
-      "mp": 3,
+      "mp": 4,
       "w": 1,
-      "d": 1,
+      "d": 2,
       "l": 1,
       "gf": 2,
-      "ga": 3
+      "ga": 4
     }
   ]
 }
