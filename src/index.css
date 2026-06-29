@@ -2879,6 +2879,78 @@ img { display: block; max-width: 100%; }
   letter-spacing: 0.1em;
 }
 
+/* ── Mini Knockout Bracket (Home page) ───────────────────────────────────── */
+.mb-scroll {
+  overflow-x: auto;
+  cursor: pointer;
+  padding-bottom: 4px;
+}
+.mb-scroll:hover { opacity: 0.92; }
+
+.mb-canvas {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.mb-svg {
+  position: absolute;
+  top: 0; left: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* Mini match card */
+.mb-card {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  overflow: hidden;
+  width: 100%;
+  transition: border-color 0.12s;
+}
+.mb-scroll:hover .mb-card { border-color: var(--border-2); }
+.mb-card--live  { border-color: var(--green) !important; }
+.mb-card--final { border-color: var(--gold) !important; }
+
+/* Mini team slot */
+.mb-slot {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 6px;
+  min-height: 22px;
+}
+.mb-slot + .mb-slot { border-top: 1px solid var(--border); }
+.mb-slot--win { background: var(--surface-2); }
+.mb-slot--tbd .mb-tla {
+  color: var(--text-3);
+  font-style: italic;
+  font-size: 0.5rem;
+  font-weight: 400;
+}
+.mb-flag {
+  width: 14px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+.mb-tla {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--text-1);
+  flex: 1;
+  letter-spacing: 0.04em;
+}
+.mb-score {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--gold);
+  min-width: 10px;
+  text-align: right;
+}
+
 .predictor-bar {
   display: flex;
   align-items: center;

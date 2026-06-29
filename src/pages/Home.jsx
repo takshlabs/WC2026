@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { MATCHES, TEAMS, VENUES } from '../data'
-import { convertTime, groupColor, calcStandings, computeFacts } from '../utils'
+import { convertTime, groupColor, computeFacts } from '../utils'
 import { useApp } from '../App'
 import { isPwa, isIos } from '../hooks/useNotifications'
 import FlagImg from '../components/FlagImg'
+import { useBracketTeams } from '../hooks/useBracketTeams'
 
 // ── Bookmark button ───────────────────────────────────────────────────────────
 function BookmarkButton() {
@@ -174,8 +175,152 @@ function YourTeamsSection({ goGroup }) {
   )
 }
 
+// ── Mini Knockout Bracket ────────────────────────────────────────────────────
+// Same absolute-grid + SVG connector approach as BracketTree, scaled down.
+const MB_COL_W   = 82
+const MB_COL_GAP = 12
+const MB_STEP    = MB_COL_W + MB_COL_GAP  // 94
+const MB_ROW_H   = 60
+const MB_N       = 8
+const MB_H       = MB_N * MB_ROW_H  // 480
+
+const MB_CENTER_GAP = 12
+const MB_FINAL_X = MB_STEP * 3 + MB_COL_W + MB_CENTER_GAP   // 376
+const MB_SF_R_X  = MB_FINAL_X + MB_COL_W + MB_CENTER_GAP    // 470
+const MB_X = {
+  R32_L: 0, R16_L: MB_STEP, QF_L: MB_STEP*2, SF_L: MB_STEP*3,
+  FINAL: MB_FINAL_X,
+  SF_R: MB_SF_R_X, QF_R: MB_SF_R_X+MB_STEP, R16_R: MB_SF_R_X+MB_STEP*2, R32_R: MB_SF_R_X+MB_STEP*3,
+}
+const MB_W = MB_X.R32_R + MB_COL_W  // 834
+
+const mbYCtr = i => i * MB_ROW_H + MB_ROW_H / 2
+const MB_R32_Y = Array.from({ length: 8 }, (_, i) => mbYCtr(i))
+const MB_R16_Y = [(MB_R32_Y[0]+MB_R32_Y[1])/2,(MB_R32_Y[2]+MB_R32_Y[3])/2,(MB_R32_Y[4]+MB_R32_Y[5])/2,(MB_R32_Y[6]+MB_R32_Y[7])/2]
+const MB_QF_Y  = [(MB_R16_Y[0]+MB_R16_Y[1])/2,(MB_R16_Y[2]+MB_R16_Y[3])/2]
+const MB_SF_Y  = (MB_QF_Y[0]+MB_QF_Y[1])/2
+
+const MB_POSITIONS = [
+  [73,MB_X.R32_L,MB_R32_Y[0]], [74,MB_X.R32_L,MB_R32_Y[1]],
+  [75,MB_X.R32_L,MB_R32_Y[2]], [76,MB_X.R32_L,MB_R32_Y[3]],
+  [77,MB_X.R32_L,MB_R32_Y[4]], [78,MB_X.R32_L,MB_R32_Y[5]],
+  [79,MB_X.R32_L,MB_R32_Y[6]], [80,MB_X.R32_L,MB_R32_Y[7]],
+  [89,MB_X.R16_L,MB_R16_Y[0]], [90,MB_X.R16_L,MB_R16_Y[1]],
+  [91,MB_X.R16_L,MB_R16_Y[2]], [92,MB_X.R16_L,MB_R16_Y[3]],
+  [97,MB_X.QF_L, MB_QF_Y[0]], [98,MB_X.QF_L, MB_QF_Y[1]],
+  [101,MB_X.SF_L,MB_SF_Y], [104,MB_FINAL_X,MB_SF_Y], [102,MB_SF_R_X,MB_SF_Y],
+  [99,MB_X.QF_R, MB_QF_Y[0]], [100,MB_X.QF_R,MB_QF_Y[1]],
+  [93,MB_X.R16_R,MB_R16_Y[0]], [94,MB_X.R16_R,MB_R16_Y[1]],
+  [95,MB_X.R16_R,MB_R16_Y[2]], [96,MB_X.R16_R,MB_R16_Y[3]],
+  [81,MB_X.R32_R,MB_R32_Y[0]], [82,MB_X.R32_R,MB_R32_Y[1]],
+  [83,MB_X.R32_R,MB_R32_Y[2]], [84,MB_X.R32_R,MB_R32_Y[3]],
+  [85,MB_X.R32_R,MB_R32_Y[4]], [86,MB_X.R32_R,MB_R32_Y[5]],
+  [87,MB_X.R32_R,MB_R32_Y[6]], [88,MB_X.R32_R,MB_R32_Y[7]],
+]
+
+const MB_L_CONN = [
+  {cx:MB_X.R32_L+MB_COL_W, yA:MB_R32_Y[0], yB:MB_R32_Y[1], px:MB_X.R16_L},
+  {cx:MB_X.R32_L+MB_COL_W, yA:MB_R32_Y[2], yB:MB_R32_Y[3], px:MB_X.R16_L},
+  {cx:MB_X.R32_L+MB_COL_W, yA:MB_R32_Y[4], yB:MB_R32_Y[5], px:MB_X.R16_L},
+  {cx:MB_X.R32_L+MB_COL_W, yA:MB_R32_Y[6], yB:MB_R32_Y[7], px:MB_X.R16_L},
+  {cx:MB_X.R16_L+MB_COL_W, yA:MB_R16_Y[0], yB:MB_R16_Y[1], px:MB_X.QF_L},
+  {cx:MB_X.R16_L+MB_COL_W, yA:MB_R16_Y[2], yB:MB_R16_Y[3], px:MB_X.QF_L},
+  {cx:MB_X.QF_L +MB_COL_W, yA:MB_QF_Y[0],  yB:MB_QF_Y[1],  px:MB_X.SF_L},
+]
+const MB_R_CONN = [
+  {cx:MB_X.R32_R, yA:MB_R32_Y[0], yB:MB_R32_Y[1], px:MB_X.R16_R+MB_COL_W},
+  {cx:MB_X.R32_R, yA:MB_R32_Y[2], yB:MB_R32_Y[3], px:MB_X.R16_R+MB_COL_W},
+  {cx:MB_X.R32_R, yA:MB_R32_Y[4], yB:MB_R32_Y[5], px:MB_X.R16_R+MB_COL_W},
+  {cx:MB_X.R32_R, yA:MB_R32_Y[6], yB:MB_R32_Y[7], px:MB_X.R16_R+MB_COL_W},
+  {cx:MB_X.R16_R, yA:MB_R16_Y[0], yB:MB_R16_Y[1], px:MB_X.QF_R+MB_COL_W},
+  {cx:MB_X.R16_R, yA:MB_R16_Y[2], yB:MB_R16_Y[3], px:MB_X.QF_R+MB_COL_W},
+  {cx:MB_X.QF_R,  yA:MB_QF_Y[0],  yB:MB_QF_Y[1],  px:MB_X.SF_R+MB_COL_W},
+]
+
+function MiniCard({ matchId, liveMap, resolvedTeams }) {
+  const m = MATCHES.find(mm => mm.id === matchId)
+  if (!m) return null
+  const live = liveMap?.get(matchId)
+  const r    = resolvedTeams?.get(matchId)
+  const homeCode = m.home ?? r?.home ?? null
+  const awayCode = m.away ?? r?.away ?? null
+  const isLive = live?.status === 'live'
+  const isFinished = live?.status === 'finished'
+  let hs = live?.homeScore ?? m.homeScore
+  let as_ = live?.awayScore ?? m.awayScore
+  if (live?.scoreByCode && homeCode && awayCode) {
+    hs  = live.scoreByCode[homeCode] ?? hs
+    as_ = live.scoreByCode[awayCode] ?? as_
+  }
+  const showScore = isLive || isFinished
+  const homeWin = showScore && hs != null && as_ != null && hs > as_
+  const awayWin = showScore && hs != null && as_ != null && as_ > hs
+
+  function Slot({ code, label, win }) {
+    const t = TEAMS[code]
+    return (
+      <div className={`mb-slot${win ? ' mb-slot--win' : ''}${!t ? ' mb-slot--tbd' : ''}`}>
+        <span className="mb-flag">{t ? <FlagImg code={code} size={13} /> : null}</span>
+        <span className="mb-tla">{code || (label && label.length <= 6 ? label : '—')}</span>
+        {showScore && <span className="mb-score">{win ? (homeCode===code ? hs : as_) : (homeCode===code ? hs : as_)}</span>}
+      </div>
+    )
+  }
+
+  return (
+    <div className={`mb-card${isLive ? ' mb-card--live' : ''}${matchId===104 ? ' mb-card--final' : ''}`}>
+      <Slot code={homeCode} label={m.homeLabel} win={homeWin} />
+      <Slot code={awayCode} label={m.awayLabel} win={awayWin} />
+    </div>
+  )
+}
+
+function MiniKnockoutBracket({ liveMap, resolvedTeams, onNavigate }) {
+  const clr = 'var(--border-2)'
+  const sw  = 1.5
+
+  function Connectors({ conns, side }) {
+    return conns.map(({ cx, yA, yB, px }, i) => {
+      const mid  = side === 'left' ? cx + MB_COL_GAP/2 : cx - MB_COL_GAP/2
+      const yMid = (yA + yB) / 2
+      return (
+        <g key={i} stroke={clr} strokeWidth={sw} fill="none" strokeLinecap="round">
+          <line x1={cx}  y1={yA}   x2={mid}  y2={yA}   />
+          <line x1={cx}  y1={yB}   x2={mid}  y2={yB}   />
+          <line x1={mid} y1={yA}   x2={mid}  y2={yB}   />
+          <line x1={mid} y1={yMid} x2={px}   y2={yMid} />
+        </g>
+      )
+    })
+  }
+
+  const cardProps = { liveMap, resolvedTeams }
+
+  return (
+    <div className="mb-scroll" onClick={onNavigate} title="Open full bracket">
+      <div className="mb-canvas" style={{ width: MB_W, height: MB_H }}>
+        <svg className="mb-svg" width={MB_W} height={MB_H}>
+          <Connectors conns={MB_L_CONN} side="left" />
+          <Connectors conns={MB_R_CONN} side="right" />
+          <line x1={MB_X.SF_L+MB_COL_W} y1={MB_SF_Y} x2={MB_FINAL_X}         y2={MB_SF_Y} stroke={clr} strokeWidth={sw} strokeLinecap="round" />
+          <line x1={MB_FINAL_X+MB_COL_W} y1={MB_SF_Y} x2={MB_SF_R_X}         y2={MB_SF_Y} stroke={clr} strokeWidth={sw} strokeLinecap="round" />
+        </svg>
+        {MB_POSITIONS.map(([matchId, x, yCenter]) => (
+          <div
+            key={matchId}
+            style={{ position: 'absolute', left: x, top: yCenter, transform: 'translateY(-50%)', width: MB_COL_W }}
+          >
+            <MiniCard matchId={matchId} {...cardProps} />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function Home() {
   const { tz, timeFormat, navigate, setFixtureFilter, liveMap, setTeamModal, myTeams, toggleMyTeam, notifPermission, requestPermission } = useApp()
+  const resolvedTeams = useBracketTeams(liveMap)
   const [streamsOpen,     setStreamsOpen]      = useState(false)
   const [highlightsOpen,  setHighlightsOpen]  = useState(false)
   const [newsArticles,    setNewsArticles]    = useState([])
@@ -220,8 +365,6 @@ export default function Home() {
     })
     .sort((a, b) => msToTs(b) - msToTs(a))
 
-  // Groups A–D preview
-  const previewGroups = ['A','B','C','D','E','F','G','H','I','J','K','L']
   const facts = computeFacts()
 
   function goGroup(g) {
@@ -536,85 +679,17 @@ export default function Home() {
           </div>
         )}
 
-        {/* ── Groups preview ─────────────────────────────────────────────── */}
+        {/* ── Knockout Bracket (mini) ─────────────────────────────────── */}
         <div className="home-section">
           <div className="home-section-header">
-            <h2>Group Standings</h2>
-            <span className="see-all" onClick={() => navigate('groups')}>All groups →</span>
-          </div>
-
-          <div className="preview-groups-grid">
-            {previewGroups.map(g => {
-              const rows = calcStandings(g, liveMap).slice(0, 4)
-              return (
-                <div className="preview-group" key={g} onClick={() => goGroup(g)} style={{ cursor: 'pointer' }}>
-                  <div className="preview-group-title">
-                    <span style={{ background: groupColor(g), width: 3, height: 10, borderRadius: 2, display: 'inline-block', flexShrink: 0 }} />
-                    Group {g}
-                  </div>
-                  <div className="preview-group-cols">
-                    <span className="preview-col-hdr preview-team-name">Team</span>
-                    <span className="preview-col-hdr">P</span>
-                    <span className="preview-col-hdr">W</span>
-                    <span className="preview-col-hdr">D</span>
-                    <span className="preview-col-hdr">GD</span>
-                    <span className="preview-col-hdr preview-col-pts">Pts</span>
-                  </div>
-                  {rows.map((r, i) => (
-                    <div className="preview-team-row preview-group-cols" key={r.code}>
-                      <span className="preview-team-name" style={{ color: i < 2 ? 'var(--text)' : 'var(--text-3)', display: 'flex', alignItems: 'center', gap: 5, overflow: 'hidden', minWidth: 0 }}>
-                        <FlagImg code={r.code} size={13} />
-                        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{TEAMS[r.code]?.name}</span>
-                      </span>
-                      <span className="preview-col-stat">{r.P}</span>
-                      <span className="preview-col-stat">{r.W}</span>
-                      <span className="preview-col-stat">{r.D}</span>
-                      <span className="preview-col-stat">{r.GD > 0 ? `+${r.GD}` : r.GD}</span>
-                      <span className="preview-team-pts preview-col-pts">{r.Pts}</span>
-                    </div>
-                  ))}
-                </div>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* ── Bracket preview ────────────────────────────────────────────── */}
-        <div className="home-section">
-          <div className="home-section-header">
-            <h2>Knockout Path</h2>
+            <h2>Knockout Bracket</h2>
             <span className="see-all" onClick={() => navigate('bracket')}>Full bracket →</span>
           </div>
-
-          <div style={{ display: 'flex', gap: '0', overflow: 'auto', paddingBottom: '4px' }}>
-            {[
-              { label: 'ROUND OF 32', dates: 'Jun 28 – Jul 5',  matches: '16 matches' },
-              { label: 'ROUND OF 16', dates: 'Jul 5–9',         matches: '8 matches'  },
-              { label: 'QUARTER-FINAL', dates: 'Jul 10–11',     matches: '4 matches'  },
-              { label: 'SEMI-FINAL',  dates: 'Jul 14–15',       matches: '2 matches'  },
-              { label: 'FINAL',       dates: '19 Jul · MetLife, NY', matches: '104th match', gold: true },
-            ].map((s, i) => (
-              <React.Fragment key={s.label}>
-                <div
-                  style={{
-                    padding: '12px 16px',
-                    background: s.gold ? 'var(--gold-dim)' : 'var(--surface)',
-                    border: `1px solid ${s.gold ? 'rgba(232,184,75,0.3)' : 'var(--border)'}`,
-                    borderRadius: 6,
-                    minWidth: 160,
-                    cursor: 'pointer',
-                    flexShrink: 0,
-                  }}
-                  onClick={() => navigate('bracket')}
-                >
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: s.gold ? 'var(--gold)' : 'var(--text-3)', marginBottom: 6 }}>{s.label}</div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '0.85rem', fontWeight: 700, color: s.gold ? 'var(--gold)' : 'var(--text)' }}>{s.dates}</div>
-                  <div style={{ fontSize: '0.7rem', color: 'var(--text-3)', marginTop: 3 }}>{s.matches}</div>
-                </div>
-                {i < 4 && <div style={{ display: 'flex', alignItems: 'center', padding: '0 4px', color: 'var(--text-3)', fontSize: '0.8rem', flexShrink: 0 }}>›</div>}
-              </React.Fragment>
-            ))}
-          </div>
+          <MiniKnockoutBracket
+            liveMap={liveMap}
+            resolvedTeams={resolvedTeams}
+            onNavigate={() => navigate('bracket')}
+          />
         </div>
 
         {/* ── Tournament facts ───────────────────────────────────────────── */}
