@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-29T14:51:56Z",
+  "updated": "2026-06-29T20:59:18Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -270,6 +270,16 @@
       "ga": 3
     },
     {
+      "tla": "BRA",
+      "name": "Brazil",
+      "mp": 4,
+      "w": 2,
+      "d": 2,
+      "l": 0,
+      "gf": 9,
+      "ga": 2
+    },
+    {
       "tla": "ARG",
       "name": "Argentina",
       "mp": 3,
@@ -300,6 +310,16 @@
       "ga": 7
     },
     {
+      "tla": "JPN",
+      "name": "Japan",
+      "mp": 4,
+      "w": 1,
+      "d": 3,
+      "l": 0,
+      "gf": 8,
+      "ga": 5
+    },
+    {
       "tla": "SEN",
       "name": "Senegal",
       "mp": 3,
@@ -315,26 +335,6 @@
       "mp": 3,
       "w": 2,
       "d": 1,
-      "l": 0,
-      "gf": 7,
-      "ga": 3
-    },
-    {
-      "tla": "BRA",
-      "name": "Brazil",
-      "mp": 3,
-      "w": 2,
-      "d": 1,
-      "l": 0,
-      "gf": 7,
-      "ga": 1
-    },
-    {
-      "tla": "JPN",
-      "name": "Japan",
-      "mp": 3,
-      "w": 1,
-      "d": 2,
       "l": 0,
       "gf": 7,
       "ga": 3
