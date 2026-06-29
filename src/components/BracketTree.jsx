@@ -4,28 +4,35 @@ import { convertTime } from '../utils'
 import FlagImg from './FlagImg'
 
 // ── Layout constants (px) ─────────────────────────────────────────────────────
-const COL_W   = 148   // card width — must match CSS .bts-card width
-const COL_GAP = 32    // gap between adjacent columns (connector space)
-const STEP    = COL_W + COL_GAP   // 180 px per column step
+// Sized to fit a 1440px MacBook without horizontal scroll (~1380px usable width).
+const COL_W   = 134   // card width — must match CSS .bts-card width
+const COL_GAP = 20    // gap between adjacent columns (connector space)
+const STEP    = COL_W + COL_GAP   // 154 px per column step
 
-const ROW_H   = 104   // vertical slot height per R32 match
+const ROW_H   = 96    // vertical slot height per R32 match
 const N       = 8     // R32 matches per side
-const H       = N * ROW_H          // 832 canvas height
+const H       = N * ROW_H          // 768 canvas height
 
-// Column left-edge x positions
-const CENTER_GAP = 28  // extra gap on each side of the Final card
+// Column left-edge x positions.
+// CENTER_SECTION = space taken by the Final card + its flanking gaps.
+// Right-half columns must add CENTER_SECTION (not just CENTER_GAP*2) so that
+// the right half mirrors the left half exactly.
+const CENTER_GAP = 20  // gap between SF cards and the Final card (each side)
+// Derived: FINAL left edge = right edge of SF_L + CENTER_GAP (perfectly symmetric)
+const FINAL_X = STEP * 3 + COL_W + CENTER_GAP   // 616
+const SF_R_X  = FINAL_X + COL_W + CENTER_GAP    // 770
 const X = {
   R32_L: 0,
-  R16_L: STEP,
-  QF_L:  STEP * 2,
-  SF_L:  STEP * 3,
-  FINAL: STEP * 4 + CENTER_GAP,
-  SF_R:  STEP * 4 + CENTER_GAP + COL_W + CENTER_GAP,
-  QF_R:  STEP * 5 + CENTER_GAP * 2,
-  R16_R: STEP * 6 + CENTER_GAP * 2,
-  R32_R: STEP * 7 + CENTER_GAP * 2,
+  R16_L: STEP,         // 154
+  QF_L:  STEP * 2,     // 308
+  SF_L:  STEP * 3,     // 462
+  FINAL: FINAL_X,      // 616
+  SF_R:  SF_R_X,       // 770
+  QF_R:  SF_R_X + STEP,        // 924
+  R16_R: SF_R_X + STEP * 2,    // 1078
+  R32_R: SF_R_X + STEP * 3,    // 1232
 }
-const TOTAL_W = X.R32_R + COL_W   // ≈ 1564 px
+const TOTAL_W = X.R32_R + COL_W   // 1366 px — fits MacBook 1440px
 
 // ── Y-center positions (derived from the binary tree) ────────────────────────
 const yCtr    = i => i * ROW_H + ROW_H / 2
