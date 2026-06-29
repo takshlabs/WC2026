@@ -2740,109 +2740,67 @@ img { display: block; max-width: 100%; }
   box-shadow: 0 0 8px rgba(212,168,67,0.2);
 }
 
-/* ── BracketTree ──────────────────────────────────────────────────────────── */
+/* ── BracketTree — absolute-grid + SVG connector approach ────────────────── */
+/* Cards are position:absolute at calculated pixel centers.
+   Connector lines are SVG <line> elements drawn at exact card y-centers.
+   No flex bracket tricks needed — layout is purely geometric.              */
+
 .bts-root {
   padding: 1.5rem 0 2rem;
 }
 
-/* Outer layout: left half | final col | right half */
-.bts-layout {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0;
+/* Horizontal scroll wrapper */
+.bts-scroll {
   overflow-x: auto;
   padding-bottom: 1rem;
 }
 
-.bts-half {
-  display: flex;
-  flex: none;
-}
-
-/* ── Recursive node ─────────────────────────────────────────────────────── */
-.bts-node {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-.bts-node--right {
-  flex-direction: row-reverse;
-}
-
-/* Pair: two children stacked vertically with equal height */
-.bts-pair {
-  display: flex;
-  flex-direction: column;
-}
-.bts-pair-top,
-.bts-pair-bot {
-  flex: 1;
-  display: flex;
-  align-items: center; /* vertically centers child match card in its half */
-}
-
-/* ── Bracket connector lines ─────────────────────────────────────────────── */
-/* Creates the classic "]" (left) or "[" (right) bracket shape.
-   bts-conn-top  = top half: border-right + border-bottom (the upper elbow)
-   bts-conn-bot  = bottom half: border-right + border-top (the lower elbow)
-   Together they form a vertical bar from 0%→50% + 50%→100% with horizontal
-   elbows at 50% pointing toward the next round's match card.              */
-.bts-conn {
-  display: flex;
-  flex-direction: column;
-  width: 14px;
+/* The canvas: fixed pixel size, cards and SVG inside are absolute */
+.bts-canvas {
+  position: relative;
   flex-shrink: 0;
-  align-self: stretch;
 }
-.bts-conn-top {
-  flex: 1;
-  border-right: 2px solid var(--border-2);
-  border-bottom: 2px solid var(--border-2);
-}
-.bts-conn-bot {
-  flex: 1;
-  border-right: 2px solid var(--border-2);
-  border-top: 2px solid var(--border-2);
-}
-/* Right-side connector uses the same "]" shape as the left.
-   In dir="left": pair is on the left  → junction (border-right) is at the card's left edge.
-   In dir="right": pair is on the right → junction (border-right) is at the pair's left edge.
-   Both produce the correct optical bracket: the elbow sits at the pair's inner edge,
-   and the horizontal arm points back toward the match card.
-   No override needed — the default border-right behaviour is correct for both sides. */
 
-/* SF → Final: just a horizontal line, since SF cards are vertically centered */
-.bts-hline {
-  width: 18px;
-  height: 2px;
-  background: var(--border-2);
-  flex-shrink: 0;
-  align-self: center;
+/* SVG overlay: sits behind cards (z-index 0) */
+.bts-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* Card wrapper: positions card at its calculated center via translateY(-50%) */
+.bts-card-wrap {
+  position: absolute;
+  /* left and top set inline; transform: translateY(-50%) centers vertically */
 }
 
 /* ── Match cards ─────────────────────────────────────────────────────────── */
 .bts-card {
   background: var(--surface-1);
   border: 1.5px solid var(--border);
-  border-radius: 6px;
+  border-radius: 7px;
   overflow: hidden;
-  flex-shrink: 0;
-  transition: border-color 0.15s;
-  min-width: 130px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  width: 100%;
 }
-.bts-card:hover { border-color: var(--border-2); }
+.bts-card:hover {
+  border-color: var(--border-2);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
 .bts-card--live  { border-color: var(--green) !important; }
-.bts-card--done  { opacity: 0.92; }
-.bts-card--final { border-color: var(--gold) !important; min-width: 148px; }
-.bts-card--sf    { min-width: 138px; }
-.bts-card--qf    { min-width: 132px; }
+.bts-card--done  { opacity: 0.9; }
+.bts-card--final {
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 0 1px var(--gold);
+}
 
 .bts-meta {
-  padding: 3px 8px;
+  padding: 4px 8px;
   border-bottom: 1px solid var(--border);
   background: var(--surface-2);
-  font-size: 0.58rem;
+  font-size: 0.57rem;
   font-family: var(--font-mono);
   color: var(--text-3);
   white-space: nowrap;
@@ -2863,20 +2821,22 @@ img { display: block; max-width: 100%; }
 .bts-team {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   padding: 5px 8px;
   min-height: 30px;
+  cursor: default;
 }
 .bts-team + .bts-team {
   border-top: 1px solid var(--border);
 }
 .bts-team--win {
-  background: var(--surface-2);
+  background: color-mix(in srgb, var(--surface-2) 70%, var(--gold) 30%);
 }
 .bts-team--tbd .bts-code {
   color: var(--text-3);
   font-style: italic;
   font-size: 0.6rem;
+  font-weight: 400;
 }
 .bts-flag {
   width: 18px;
@@ -2886,18 +2846,18 @@ img { display: block; max-width: 100%; }
 }
 .bts-code {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   font-weight: 700;
   color: var(--text-1);
   flex: 1;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
 }
 .bts-score {
   font-family: var(--font-mono);
-  font-size: 0.85rem;
-  font-weight: 700;
+  font-size: 0.88rem;
+  font-weight: 800;
   color: var(--gold);
-  min-width: 14px;
+  min-width: 16px;
   text-align: right;
 }
 
@@ -2913,17 +2873,10 @@ img { display: block; max-width: 100%; }
 }
 .bts-third-label {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   color: var(--text-3);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-/* Responsive: allow horizontal scroll on small screens */
-@media (max-width: 900px) {
-  .bts-layout {
-    align-items: flex-start;
-  }
+  letter-spacing: 0.1em;
 }
 
 .predictor-bar {

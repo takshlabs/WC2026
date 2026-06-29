@@ -3,46 +3,158 @@ import { MATCHES, TEAMS, VENUES } from '../data'
 import { convertTime } from '../utils'
 import FlagImg from './FlagImg'
 
-// ── Static bracket tree ───────────────────────────────────────────────────────
-// Each node: { id: matchId, top: node|null, bot: node|null }
-// Leaf nodes have no top/bot. Structure derived from the W-label chain in data.js.
-const L_TREE = {
-  id: 101,
-  top: { id: 97,  top: { id: 89, top: { id: 73 }, bot: { id: 74 } }, bot: { id: 90, top: { id: 75 }, bot: { id: 76 } } },
-  bot: { id: 98,  top: { id: 91, top: { id: 77 }, bot: { id: 78 } }, bot: { id: 92, top: { id: 79 }, bot: { id: 80 } } },
+// ── Layout constants (px) ─────────────────────────────────────────────────────
+const COL_W   = 148   // card width — must match CSS .bts-card width
+const COL_GAP = 32    // gap between adjacent columns (connector space)
+const STEP    = COL_W + COL_GAP   // 180 px per column step
+
+const ROW_H   = 104   // vertical slot height per R32 match
+const N       = 8     // R32 matches per side
+const H       = N * ROW_H          // 832 canvas height
+
+// Column left-edge x positions
+const CENTER_GAP = 28  // extra gap on each side of the Final card
+const X = {
+  R32_L: 0,
+  R16_L: STEP,
+  QF_L:  STEP * 2,
+  SF_L:  STEP * 3,
+  FINAL: STEP * 4 + CENTER_GAP,
+  SF_R:  STEP * 4 + CENTER_GAP + COL_W + CENTER_GAP,
+  QF_R:  STEP * 5 + CENTER_GAP * 2,
+  R16_R: STEP * 6 + CENTER_GAP * 2,
+  R32_R: STEP * 7 + CENTER_GAP * 2,
 }
-const R_TREE = {
-  id: 102,
-  top: { id: 99,  top: { id: 93, top: { id: 81 }, bot: { id: 82 } }, bot: { id: 94, top: { id: 83 }, bot: { id: 84 } } },
-  bot: { id: 100, top: { id: 95, top: { id: 85 }, bot: { id: 86 } }, bot: { id: 96, top: { id: 87 }, bot: { id: 88 } } },
+const TOTAL_W = X.R32_R + COL_W   // ≈ 1564 px
+
+// ── Y-center positions (derived from the binary tree) ────────────────────────
+const yCtr    = i => i * ROW_H + ROW_H / 2
+const R32_Y   = Array.from({ length: N }, (_, i) => yCtr(i))
+// [52, 156, 260, 364, 468, 572, 676, 780]
+
+const R16_Y   = [
+  (R32_Y[0] + R32_Y[1]) / 2,   // 104
+  (R32_Y[2] + R32_Y[3]) / 2,   // 312
+  (R32_Y[4] + R32_Y[5]) / 2,   // 520
+  (R32_Y[6] + R32_Y[7]) / 2,   // 728
+]
+const QF_Y    = [
+  (R16_Y[0] + R16_Y[1]) / 2,   // 208
+  (R16_Y[2] + R16_Y[3]) / 2,   // 624
+]
+const SF_Y    = (QF_Y[0] + QF_Y[1]) / 2   // 416
+const FINAL_Y = SF_Y
+
+// ── Card positions: [matchId, x (left edge), y (center), variant] ────────────
+const POSITIONS = [
+  // Left R32 (top → bottom)
+  [73, X.R32_L, R32_Y[0], 'r32'], [74, X.R32_L, R32_Y[1], 'r32'],
+  [75, X.R32_L, R32_Y[2], 'r32'], [76, X.R32_L, R32_Y[3], 'r32'],
+  [77, X.R32_L, R32_Y[4], 'r32'], [78, X.R32_L, R32_Y[5], 'r32'],
+  [79, X.R32_L, R32_Y[6], 'r32'], [80, X.R32_L, R32_Y[7], 'r32'],
+  // Left R16
+  [89, X.R16_L, R16_Y[0], 'r16'], [90, X.R16_L, R16_Y[1], 'r16'],
+  [91, X.R16_L, R16_Y[2], 'r16'], [92, X.R16_L, R16_Y[3], 'r16'],
+  // Left QF
+  [97, X.QF_L, QF_Y[0], 'qf'],   [98, X.QF_L, QF_Y[1], 'qf'],
+  // Left SF
+  [101, X.SF_L, SF_Y, 'sf'],
+  // Final
+  [104, X.FINAL, FINAL_Y, 'final'],
+  // Right SF
+  [102, X.SF_R, SF_Y, 'sf'],
+  // Right QF
+  [99,  X.QF_R, QF_Y[0], 'qf'],  [100, X.QF_R, QF_Y[1], 'qf'],
+  // Right R16
+  [93,  X.R16_R, R16_Y[0], 'r16'], [94,  X.R16_R, R16_Y[1], 'r16'],
+  [95,  X.R16_R, R16_Y[2], 'r16'], [96,  X.R16_R, R16_Y[3], 'r16'],
+  // Right R32 (top → bottom)
+  [81,  X.R32_R, R32_Y[0], 'r32'], [82,  X.R32_R, R32_Y[1], 'r32'],
+  [83,  X.R32_R, R32_Y[2], 'r32'], [84,  X.R32_R, R32_Y[3], 'r32'],
+  [85,  X.R32_R, R32_Y[4], 'r32'], [86,  X.R32_R, R32_Y[5], 'r32'],
+  [87,  X.R32_R, R32_Y[6], 'r32'], [88,  X.R32_R, R32_Y[7], 'r32'],
+]
+
+// ── Connector definitions ─────────────────────────────────────────────────────
+// Left connectors: children are to the LEFT, parent to the RIGHT.
+// cx = right edge of children column, px = left edge of parent column.
+const L_CONN = [
+  // R32 pairs → R16 (left)
+  { cx: X.R32_L + COL_W, yA: R32_Y[0], yB: R32_Y[1], px: X.R16_L },
+  { cx: X.R32_L + COL_W, yA: R32_Y[2], yB: R32_Y[3], px: X.R16_L },
+  { cx: X.R32_L + COL_W, yA: R32_Y[4], yB: R32_Y[5], px: X.R16_L },
+  { cx: X.R32_L + COL_W, yA: R32_Y[6], yB: R32_Y[7], px: X.R16_L },
+  // R16 pairs → QF (left)
+  { cx: X.R16_L + COL_W, yA: R16_Y[0], yB: R16_Y[1], px: X.QF_L },
+  { cx: X.R16_L + COL_W, yA: R16_Y[2], yB: R16_Y[3], px: X.QF_L },
+  // QF pair → SF (left)
+  { cx: X.QF_L  + COL_W, yA: QF_Y[0],  yB: QF_Y[1],  px: X.SF_L },
+]
+
+// Right connectors: children are to the RIGHT, parent to the LEFT.
+// cx = left edge of children column, px = right edge of parent column.
+const R_CONN = [
+  // R32 pairs → R16 (right)
+  { cx: X.R32_R, yA: R32_Y[0], yB: R32_Y[1], px: X.R16_R + COL_W },
+  { cx: X.R32_R, yA: R32_Y[2], yB: R32_Y[3], px: X.R16_R + COL_W },
+  { cx: X.R32_R, yA: R32_Y[4], yB: R32_Y[5], px: X.R16_R + COL_W },
+  { cx: X.R32_R, yA: R32_Y[6], yB: R32_Y[7], px: X.R16_R + COL_W },
+  // R16 pairs → QF (right)
+  { cx: X.R16_R, yA: R16_Y[0], yB: R16_Y[1], px: X.QF_R + COL_W },
+  { cx: X.R16_R, yA: R16_Y[2], yB: R16_Y[3], px: X.QF_R + COL_W },
+  // QF pair → SF (right)
+  { cx: X.QF_R,  yA: QF_Y[0],  yB: QF_Y[1],  px: X.SF_R + COL_W },
+]
+
+// ── SVG connector renderer ────────────────────────────────────────────────────
+// Each bracket connection draws 4 lines:
+//   top arm  : child_A right/left edge → spine x
+//   bot arm  : child_B right/left edge → spine x
+//   spine    : vertical from yA to yB at mid_x
+//   out arm  : mid_x at y_mid → parent left/right edge
+function BracketConnectors({ conns, side }) {
+  const clr = 'var(--border-2)'
+  const sw = 1.5
+
+  return conns.map(({ cx, yA, yB, px }, i) => {
+    const mid = side === 'left'
+      ? cx + COL_GAP / 2      // spine is in the middle of the gap (right of children)
+      : cx - COL_GAP / 2      // spine is in the middle of the gap (left of children)
+    const yMid = (yA + yB) / 2
+
+    return (
+      <g key={i} stroke={clr} strokeWidth={sw} fill="none" strokeLinecap="round">
+        <line x1={cx}   y1={yA}   x2={mid}  y2={yA}   />  {/* top arm */}
+        <line x1={cx}   y1={yB}   x2={mid}  y2={yB}   />  {/* bot arm */}
+        <line x1={mid}  y1={yA}   x2={mid}  y2={yB}   />  {/* spine  */}
+        <line x1={mid}  y1={yMid} x2={px}   y2={yMid} />  {/* output */}
+      </g>
+    )
+  })
 }
 
+// ── Match card ────────────────────────────────────────────────────────────────
 const M = Object.fromEntries(MATCHES.map(m => [m.id, m]))
 
-// ── Team slot ─────────────────────────────────────────────────────────────────
 function TeamSlot({ code, label, score, isWinner, onTeamClick }) {
   const t = TEAMS[code]
   return (
     <div
       className={`bts-team${isWinner ? ' bts-team--win' : ''}${!t ? ' bts-team--tbd' : ''}`}
-      onClick={() => t && onTeamClick && onTeamClick(code)}
-      style={{ cursor: t ? 'pointer' : 'default' }}
+      onClick={() => t && onTeamClick?.(code)}
     >
       <span className="bts-flag">{t ? <FlagImg code={code} size={16} /> : null}</span>
-      <span className="bts-code">{code || (label?.length <= 6 ? label : 'TBD')}</span>
+      <span className="bts-code">{code || (label && label.length <= 8 ? label : 'TBD')}</span>
       {score != null && <span className="bts-score">{score}</span>}
     </div>
   )
 }
 
-// ── Single match card ─────────────────────────────────────────────────────────
 function MatchCard({ matchId, liveMap, resolvedTeams, tz, timeFormat, onTeamClick, variant }) {
   const m = M[matchId]
   if (!m) return null
-
   const live = liveMap?.get(matchId)
   const r    = resolvedTeams?.get(matchId)
-
   const homeCode = m.home ?? r?.home ?? null
   const awayCode = m.away ?? r?.away ?? null
 
@@ -56,9 +168,9 @@ function MatchCard({ matchId, liveMap, resolvedTeams, tz, timeFormat, onTeamClic
     as_ = live.scoreByCode[awayCode] ?? as_
   }
 
-  const showScore  = isLive || isFinished
-  const homeWin    = showScore && hs != null && as_ != null && hs > as_
-  const awayWin    = showScore && hs != null && as_ != null && as_ > hs
+  const showScore = isLive || isFinished
+  const homeWin   = showScore && hs != null && as_ != null && hs > as_
+  const awayWin   = showScore && hs != null && as_ != null && as_ > hs
 
   const conv  = convertTime(m.date, m.time, tz, timeFormat)
   const venue = VENUES[m.venue]
@@ -79,70 +191,59 @@ function MatchCard({ matchId, liveMap, resolvedTeams, tz, timeFormat, onTeamClic
   )
 }
 
-// ── Recursive tree node ───────────────────────────────────────────────────────
-// dir='left':  children on the LEFT, connector lines, match card on RIGHT
-// dir='right': match card on LEFT, connector lines, children on RIGHT
-function TreeNode({ node, dir, depth, liveMap, resolvedTeams, tz, timeFormat, onTeamClick }) {
-  const isLeaf = !node.top && !node.bot
-  const variant = ['r32', 'r16', 'qf', 'sf'][depth] || 'sf'
-  const childProps = { dir, depth: depth - 1, liveMap, resolvedTeams, tz, timeFormat, onTeamClick }
-  const cardProps  = { liveMap, resolvedTeams, tz, timeFormat, onTeamClick, variant }
-
-  if (isLeaf) {
-    return <MatchCard matchId={node.id} {...cardProps} />
-  }
-
-  const card = <MatchCard matchId={node.id} {...cardProps} />
-  const pair = (
-    <div className="bts-pair">
-      <div className="bts-pair-top"><TreeNode node={node.top} {...childProps} /></div>
-      <div className="bts-pair-bot"><TreeNode node={node.bot} {...childProps} /></div>
-    </div>
-  )
-  const conn = (
-    <div className={`bts-conn bts-conn--${dir}`}>
-      <div className="bts-conn-top" />
-      <div className="bts-conn-bot" />
-    </div>
-  )
-
-  return (
-    <div className={`bts-node bts-node--${dir}`}>
-      {dir === 'left'  && pair}
-      {dir === 'left'  && conn}
-      {card}
-      {dir === 'right' && conn}
-      {dir === 'right' && pair}
-    </div>
-  )
-}
-
-// ── Root component ────────────────────────────────────────────────────────────
+// ── Root ──────────────────────────────────────────────────────────────────────
 export default function BracketTree({ liveMap, resolvedTeams, tz, timeFormat, onTeamClick }) {
-  const commonProps = { liveMap, resolvedTeams, tz, timeFormat, onTeamClick }
+  const cardProps = { liveMap, resolvedTeams, tz, timeFormat, onTeamClick }
 
   return (
     <div className="bts-root">
-      {/* Main bracket */}
-      <div className="bts-layout">
-        <div className="bts-half bts-half--left">
-          <TreeNode node={L_TREE} dir="left" depth={3} {...commonProps} />
-        </div>
+      <div className="bts-scroll">
+        <div className="bts-canvas" style={{ width: TOTAL_W, height: H }}>
 
-        {/* Simple horizontal lines SF-1 ─── Final ─── SF-2  */}
-        <div className="bts-hline" />
-        <MatchCard matchId={104} variant="final" {...commonProps} />
-        <div className="bts-hline" />
+          {/* ── SVG connector lines ─────────────────────────────────────── */}
+          <svg className="bts-svg" width={TOTAL_W} height={H}>
+            <BracketConnectors conns={L_CONN} side="left" />
+            <BracketConnectors conns={R_CONN} side="right" />
+            {/* SF-1 → Final (simple horizontal) */}
+            <line
+              x1={X.SF_L + COL_W} y1={SF_Y}
+              x2={X.FINAL}         y2={SF_Y}
+              stroke="var(--border-2)" strokeWidth={1.5} strokeLinecap="round"
+            />
+            {/* SF-2 → Final */}
+            <line
+              x1={X.FINAL + COL_W} y1={SF_Y}
+              x2={X.SF_R}           y2={SF_Y}
+              stroke="var(--border-2)" strokeWidth={1.5} strokeLinecap="round"
+            />
+          </svg>
 
-        <div className="bts-half bts-half--right">
-          <TreeNode node={R_TREE} dir="right" depth={3} {...commonProps} />
+          {/* ── Match cards (absolutely positioned at their y-centers) ──── */}
+          {POSITIONS.map(([matchId, x, yCenter, variant]) => (
+            <div
+              key={matchId}
+              className="bts-card-wrap"
+              style={{
+                position: 'absolute',
+                left: x,
+                top: yCenter,
+                transform: 'translateY(-50%)',
+                width: COL_W,
+              }}
+            >
+              <MatchCard matchId={matchId} variant={variant} {...cardProps} />
+            </div>
+          ))}
+
         </div>
       </div>
 
-      {/* 3rd place */}
+      {/* 3rd place match */}
       <div className="bts-third">
         <span className="bts-third-label">3rd Place Match</span>
-        <MatchCard matchId={103} variant="r16" {...commonProps} />
+        <div style={{ width: COL_W }}>
+          <MatchCard matchId={103} variant="r16" {...cardProps} />
+        </div>
       </div>
     </div>
   )
