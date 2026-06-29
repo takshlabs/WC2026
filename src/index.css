@@ -2805,19 +2805,12 @@ img { display: block; max-width: 100%; }
   border-right: 2px solid var(--border-2);
   border-top: 2px solid var(--border-2);
 }
-/* Mirror for right-side bracket:
-   Right connector = "[" shape: vertical bar on LEFT edge + horizontal arms.
-   Override border-right→none, border-left, keep border-bottom/top from base. */
-.bts-conn--right .bts-conn-top {
-  border-right: none;
-  border-left: 2px solid var(--border-2);
-  /* border-bottom inherited from .bts-conn-top ✓ */
-}
-.bts-conn--right .bts-conn-bot {
-  border-right: none;
-  border-left: 2px solid var(--border-2);
-  /* border-top inherited from .bts-conn-bot ✓ */
-}
+/* Right-side connector uses the same "]" shape as the left.
+   In dir="left": pair is on the left  → junction (border-right) is at the card's left edge.
+   In dir="right": pair is on the right → junction (border-right) is at the pair's left edge.
+   Both produce the correct optical bracket: the elbow sits at the pair's inner edge,
+   and the horizontal arm points back toward the match card.
+   No override needed — the default border-right behaviour is correct for both sides. */
 
 /* SF → Final: just a horizontal line, since SF cards are vertically centered */
 .bts-hline {
