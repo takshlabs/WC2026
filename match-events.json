@@ -6724,5 +6724,127 @@
         "shotsOnTarget": 7
       }
     }
+  },
+  "537423": {
+    "goals": [
+      {
+        "minute": 29,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Kaishu Sano",
+          "shortName": "Kaishu Sano"
+        },
+        "assist": null,
+        "team": {
+          "id": 766
+        }
+      },
+      {
+        "minute": 56,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Casemiro",
+          "shortName": "Casemiro"
+        },
+        "assist": {
+          "name": "Gabriel Magalh\u00e3es",
+          "shortName": "Gabriel Magalh\u00e3es"
+        },
+        "team": {
+          "id": 764
+        }
+      },
+      {
+        "minute": 90,
+        "injuryTime": 5,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Gabriel Martinelli",
+          "shortName": "Gabriel Martinelli"
+        },
+        "assist": {
+          "name": "Bruno Guimar\u00e3es",
+          "shortName": "Bruno Guimar\u00e3es"
+        },
+        "team": {
+          "id": 764
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 12,
+        "player": {
+          "name": "Kaishu Sano",
+          "shortName": "Kaishu Sano"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 766
+        }
+      },
+      {
+        "minute": 14,
+        "player": {
+          "name": "Casemiro",
+          "shortName": "Casemiro"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 764
+        }
+      },
+      {
+        "minute": 45,
+        "player": {
+          "name": "Daichi Kamada",
+          "shortName": "Daichi Kamada"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 766
+        }
+      },
+      {
+        "minute": 48,
+        "player": {
+          "name": "Danilo",
+          "shortName": "Danilo"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 764
+        }
+      },
+      {
+        "minute": 84,
+        "player": {
+          "name": "Junnosuke Suzuki",
+          "shortName": "Junnosuke Suzuki"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 766
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 4,
+        "corners": 6,
+        "possession": 68.6,
+        "shots": 19,
+        "shotsOnTarget": 7
+      },
+      "away": {
+        "fouls": 13,
+        "corners": 2,
+        "possession": 31.4,
+        "shots": 5,
+        "shotsOnTarget": 2
+      }
+    }
   }
 }
