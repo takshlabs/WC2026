@@ -147,7 +147,7 @@ function YourTeamsSection({ goGroup }) {
                 const hs = live?.homeScore ?? m.homeScore; const as_ = live?.awayScore ?? m.awayScore
                 const color = groupColor(m.group)
                 return (
-                  <div className="home-fx-card" key={m.id} onClick={() => goGroup(m.group)}>
+                  <div className="home-fx-card" key={m.id} onClick={() => m.group ? goGroup(m.group) : navigate('fixtures')}>
                     <div className="home-fx-accent" style={{ background: color }} />
                     <div className="home-fx-header">
                       <span className="home-fx-time">
@@ -547,7 +547,7 @@ export default function Home() {
             const color = groupColor(m.group)
 
             return (
-              <div className="home-fx-card" key={m.id} onClick={() => goGroup(m.group)}>
+              <div className="home-fx-card" key={m.id} onClick={() => m.group ? goGroup(m.group) : navigate('fixtures')}>
                 <div className="home-fx-accent" style={{ background: color }} />
                 <div className="home-fx-header">
                   <span className="home-fx-time">
@@ -599,7 +599,7 @@ export default function Home() {
                 const homeCards = (live?.bookings || []).filter(b => b.side === 'home')
                 const awayCards = (live?.bookings || []).filter(b => b.side === 'away')
                 return (
-                  <div key={m.id} className="yesterday-card" onClick={() => goGroup(m.group)}>
+                  <div key={m.id} className="yesterday-card" onClick={() => m.group ? goGroup(m.group) : navigate('fixtures')}>
                     <div className="yesterday-accent" style={{ background: color }} />
                     <div className="yesterday-inner">
                       <div className="yesterday-matchup">
@@ -685,6 +685,7 @@ export default function Home() {
             <h2>Knockout Bracket</h2>
             <span className="see-all" onClick={() => navigate('bracket')}>Full bracket →</span>
           </div>
+          <div className="mb-hint">← swipe to explore · tap to open full bracket →</div>
           <MiniKnockoutBracket
             liveMap={liveMap}
             resolvedTeams={resolvedTeams}

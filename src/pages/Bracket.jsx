@@ -89,6 +89,8 @@ export default function Bracket() {
         </div>
       )}
 
+      <div className="bracket-scroll-hint">← swipe to explore bracket →</div>
+
       {tab === 'live' ? (
         <BracketTree
           liveMap={liveMap}

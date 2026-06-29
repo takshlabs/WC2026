@@ -178,7 +178,7 @@ export default function Fixtures() {
               setLocalTeam(e.target.value)
               setFixtureFilter(f => ({ ...f, team: e.target.value }))
             }}
-            style={{ minWidth: 160 }}
+            style={{ width: '100%' }}
           />
         </div>
 
