@@ -4,6 +4,7 @@ import { convertTime, groupColor } from '../utils'
 import { useApp } from '../App'
 import FlagImg from '../components/FlagImg'
 import { useBracketTeams } from '../hooks/useBracketTeams'
+import BracketTree from '../components/BracketTree'
 
 const ROUNDS_ORDER = [
   { key: 'r32',   label: 'Round of 32',   ids: [73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88] },
@@ -88,60 +89,54 @@ export default function Bracket() {
         </div>
       )}
 
-      <div className="bracket-wrap">
-        <div
-          className="bracket-grid"
-          style={{ gridTemplateColumns: `repeat(${ROUNDS_ORDER.length}, minmax(200px, 1fr))` }}
-        >
-          {ROUNDS_ORDER.map(round => (
-            <div className="bracket-col" key={round.key}>
-              <div className="bracket-col-label">{round.label}</div>
-              {round.ids.map(id => {
-                const m = matchById[id]
-                if (!m) return null
-                if (tab === 'live') {
-                  return (
-                    <BracketMatch
-                      key={id}
-                      m={m}
-                      tz={tz}
-                      timeFormat={timeFormat}
-                      liveMap={liveMap}
-                      resolvedTeams={resolvedTeams}
-                      isFinal={round.key === 'final'}
-                      onTeamClick={setTeamModal}
-                    />
-                  )
-                }
-                return (
-                  <PredictMatch
-                    key={id}
-                    m={m}
-                    isFinal={round.key === 'final'}
-                    predictions={predictions}
-                    editSlot={editSlot}
-                    setEditSlot={setEditSlot}
-                    searchQ={searchQ}
-                    setSearchQ={setSearchQ}
-                    setPick={setPick}
-                    isR32={round.key === 'r32'}
-                  />
-                )
-              })}
+      {tab === 'live' ? (
+        <BracketTree
+          liveMap={liveMap}
+          resolvedTeams={resolvedTeams}
+          tz={tz}
+          timeFormat={timeFormat}
+          onTeamClick={setTeamModal}
+        />
+      ) : (
+        <>
+          <div className="bracket-wrap">
+            <div
+              className="bracket-grid"
+              style={{ gridTemplateColumns: `repeat(${ROUNDS_ORDER.length}, minmax(200px, 1fr))` }}
+            >
+              {ROUNDS_ORDER.map(round => (
+                <div className="bracket-col" key={round.key}>
+                  <div className="bracket-col-label">{round.label}</div>
+                  {round.ids.map(id => {
+                    const m = matchById[id]
+                    if (!m) return null
+                    return (
+                      <PredictMatch
+                        key={id}
+                        m={m}
+                        isFinal={round.key === 'final'}
+                        predictions={predictions}
+                        editSlot={editSlot}
+                        setEditSlot={setEditSlot}
+                        searchQ={searchQ}
+                        setSearchQ={setSearchQ}
+                        setPick={setPick}
+                        isR32={round.key === 'r32'}
+                      />
+                    )
+                  })}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
-
-      <div style={{ marginTop: '2rem' }}>
-        <div className="section-title">3rd Place Match</div>
-        <div style={{ maxWidth: 240 }}>
-          {tab === 'live'
-            ? <BracketMatch m={matchById[103]} tz={tz} timeFormat={timeFormat} liveMap={liveMap} resolvedTeams={resolvedTeams} isFinal={false} onTeamClick={setTeamModal} />
-            : <PredictMatch m={matchById[103]} isFinal={false} predictions={predictions} editSlot={editSlot} setEditSlot={setEditSlot} searchQ={searchQ} setSearchQ={setSearchQ} setPick={setPick} />
-          }
-        </div>
-      </div>
+          </div>
+          <div style={{ marginTop: '2rem' }}>
+            <div className="section-title">3rd Place Match</div>
+            <div style={{ maxWidth: 240 }}>
+              <PredictMatch m={matchById[103]} isFinal={false} predictions={predictions} editSlot={editSlot} setEditSlot={setEditSlot} searchQ={searchQ} setSearchQ={setSearchQ} setPick={setPick} />
+            </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }

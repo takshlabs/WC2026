@@ -2740,6 +2740,199 @@ img { display: block; max-width: 100%; }
   box-shadow: 0 0 8px rgba(212,168,67,0.2);
 }
 
+/* ── BracketTree ──────────────────────────────────────────────────────────── */
+.bts-root {
+  padding: 1.5rem 0 2rem;
+}
+
+/* Outer layout: left half | final col | right half */
+.bts-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+}
+
+.bts-half {
+  display: flex;
+  flex: none;
+}
+
+/* ── Recursive node ─────────────────────────────────────────────────────── */
+.bts-node {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.bts-node--right {
+  flex-direction: row-reverse;
+}
+
+/* Pair: two children stacked vertically with equal height */
+.bts-pair {
+  display: flex;
+  flex-direction: column;
+}
+.bts-pair-top,
+.bts-pair-bot {
+  flex: 1;
+  display: flex;
+  align-items: center; /* vertically centers child match card in its half */
+}
+
+/* ── Bracket connector lines ─────────────────────────────────────────────── */
+/* Creates the classic "]" (left) or "[" (right) bracket shape.
+   bts-conn-top  = top half: border-right + border-bottom (the upper elbow)
+   bts-conn-bot  = bottom half: border-right + border-top (the lower elbow)
+   Together they form a vertical bar from 0%→50% + 50%→100% with horizontal
+   elbows at 50% pointing toward the next round's match card.              */
+.bts-conn {
+  display: flex;
+  flex-direction: column;
+  width: 14px;
+  flex-shrink: 0;
+  align-self: stretch;
+}
+.bts-conn-top {
+  flex: 1;
+  border-right: 2px solid var(--border-2);
+  border-bottom: 2px solid var(--border-2);
+}
+.bts-conn-bot {
+  flex: 1;
+  border-right: 2px solid var(--border-2);
+  border-top: 2px solid var(--border-2);
+}
+/* Mirror for right-side bracket:
+   Right connector = "[" shape: vertical bar on LEFT edge + horizontal arms.
+   Override border-right→none, border-left, keep border-bottom/top from base. */
+.bts-conn--right .bts-conn-top {
+  border-right: none;
+  border-left: 2px solid var(--border-2);
+  /* border-bottom inherited from .bts-conn-top ✓ */
+}
+.bts-conn--right .bts-conn-bot {
+  border-right: none;
+  border-left: 2px solid var(--border-2);
+  /* border-top inherited from .bts-conn-bot ✓ */
+}
+
+/* SF → Final: just a horizontal line, since SF cards are vertically centered */
+.bts-hline {
+  width: 18px;
+  height: 2px;
+  background: var(--border-2);
+  flex-shrink: 0;
+  align-self: center;
+}
+
+/* ── Match cards ─────────────────────────────────────────────────────────── */
+.bts-card {
+  background: var(--surface-1);
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: border-color 0.15s;
+  min-width: 130px;
+}
+.bts-card:hover { border-color: var(--border-2); }
+.bts-card--live  { border-color: var(--green) !important; }
+.bts-card--done  { opacity: 0.92; }
+.bts-card--final { border-color: var(--gold) !important; min-width: 148px; }
+.bts-card--sf    { min-width: 138px; }
+.bts-card--qf    { min-width: 132px; }
+
+.bts-meta {
+  padding: 3px 8px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+  font-size: 0.58rem;
+  font-family: var(--font-mono);
+  color: var(--text-3);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.bts-live-badge {
+  color: var(--green);
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+.bts-ft   { color: var(--text-3); }
+.bts-date { color: var(--text-3); }
+
+/* ── Team slot ───────────────────────────────────────────────────────────── */
+.bts-team {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  min-height: 30px;
+}
+.bts-team + .bts-team {
+  border-top: 1px solid var(--border);
+}
+.bts-team--win {
+  background: var(--surface-2);
+}
+.bts-team--tbd .bts-code {
+  color: var(--text-3);
+  font-style: italic;
+  font-size: 0.6rem;
+}
+.bts-flag {
+  width: 18px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+.bts-code {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-1);
+  flex: 1;
+  letter-spacing: 0.04em;
+}
+.bts-score {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--gold);
+  min-width: 14px;
+  text-align: right;
+}
+
+/* ── 3rd place match ─────────────────────────────────────────────────────── */
+.bts-third {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+.bts-third-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Responsive: allow horizontal scroll on small screens */
+@media (max-width: 900px) {
+  .bts-layout {
+    align-items: flex-start;
+  }
+}
+
 .predictor-bar {
   display: flex;
   align-items: center;
