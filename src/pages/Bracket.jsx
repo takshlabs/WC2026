@@ -5,6 +5,7 @@ import { useApp } from '../App'
 import FlagImg from '../components/FlagImg'
 import { useBracketTeams } from '../hooks/useBracketTeams'
 import BracketTree from '../components/BracketTree'
+import BracketRadial from '../components/BracketRadial'
 
 const ROUNDS_ORDER = [
   { key: 'r32',   label: 'Round of 32',   ids: [73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88] },
@@ -61,13 +62,17 @@ export default function Bracket() {
             <p>Round of 32 → Round of 16 → Quarter-Finals → Semi-Finals → Final</p>
           </div>
           <div style={{ display: 'flex', gap: 4 }}>
-            {['live', 'predict'].map(t => (
+            {[
+              { key: 'live',    label: '📡 Live'   },
+              { key: 'radial',  label: '🌀 Radial'  },
+              { key: 'predict', label: '🔮 Predict', hint: true },
+            ].map(({ key, label, hint }) => (
               <button
-                key={t}
-                className={`bracket-tab${tab === t ? ' active' : ''}${t === 'predict' ? ' predict-tab-hint' : ''}`}
-                onClick={() => setTab(t)}
+                key={key}
+                className={`bracket-tab${tab === key ? ' active' : ''}${hint ? ' predict-tab-hint' : ''}`}
+                onClick={() => setTab(key)}
               >
-                {t === 'live' ? '📡 Live' : '🔮 Predict'}
+                {label}
               </button>
             ))}
             <button className="bracket-tab bracket-print-btn" onClick={() => window.print()}>🖨 Print</button>
@@ -89,7 +94,7 @@ export default function Bracket() {
         </div>
       )}
 
-      <div className="bracket-scroll-hint">← swipe to explore bracket →</div>
+      {tab !== 'radial' && <div className="bracket-scroll-hint">← swipe to explore bracket →</div>}
 
       {tab === 'live' ? (
         <BracketTree
@@ -97,6 +102,12 @@ export default function Bracket() {
           resolvedTeams={resolvedTeams}
           tz={tz}
           timeFormat={timeFormat}
+          onTeamClick={setTeamModal}
+        />
+      ) : tab === 'radial' ? (
+        <BracketRadial
+          liveMap={liveMap}
+          resolvedTeams={resolvedTeams}
           onTeamClick={setTeamModal}
         />
       ) : (
