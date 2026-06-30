@@ -17,13 +17,13 @@ const RINGS = {
 }
 const CENTER_R = 62
 
-// Font sizes [TLA, flag] per ring — large enough to read without zooming
+// Font sizes [TLA, flag] per ring
 const FONTS = {
-  r32: { tla: 10,  flag: 14 },
-  r16: { tla: 11,  flag: 15 },
-  qf:  { tla: 13,  flag: 17 },
-  sf:  { tla: 16,  flag: 19 },
-  fin: { tla: 18,  flag: 21 },
+  r32: { tla: 9,   flag: 20 },
+  r16: { tla: 11,  flag: 22 },
+  qf:  { tla: 13,  flag: 26 },
+  sf:  { tla: 15,  flag: 30 },
+  fin: { tla: 17,  flag: 34 },
 }
 
 // ── Team slot definitions ─────────────────────────────────────────────────────
@@ -151,12 +151,11 @@ export default function BracketRadial({ liveMap, resolvedTeams, onTeamClick }) {
       fill = fill.replace('0.2)', '0.35)').replace('0.15)', '0.28)').replace('var(--surface)', 'var(--surface-2)')
     }
 
-    // Radial positions: flag in outer half, TLA in inner half of ring
+    // Radial positions: flag in outer 70% of ring, TLA near inner edge
     const { mid } = arcMidPt(ri, ro, sa, ea)
-    const dr   = (ro - ri) / 4
-    const rMid = (ri + ro) / 2
-    const rFlag = rMid + dr
-    const rTLA  = rMid - dr
+    const thick = ro - ri
+    const rFlag = ri + thick * 0.70   // flag sits at 70% from inner edge
+    const rTLA  = ri + thick * 0.22   // TLA sits near inner edge
     const xFlag = CX + rFlag * Math.cos(mid)
     const yFlag = CY + rFlag * Math.sin(mid)
     const xTLA  = CX + rTLA  * Math.cos(mid)
