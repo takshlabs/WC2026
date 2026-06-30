@@ -7009,5 +7009,86 @@
         "shotsOnTarget": 5
       }
     }
+  },
+  "537424": {
+    "goals": [
+      {
+        "minute": 39,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Antonio Nusa",
+          "shortName": "Antonio Nusa"
+        },
+        "assist": {
+          "name": "Martin \u00d8degaard",
+          "shortName": "Martin \u00d8degaard"
+        },
+        "team": {
+          "id": 8872
+        }
+      },
+      {
+        "minute": 74,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Amad Diallo",
+          "shortName": "Amad Diallo"
+        },
+        "assist": {
+          "name": "Nicolas P\u00e9p\u00e9",
+          "shortName": "Nicolas P\u00e9p\u00e9"
+        },
+        "team": {
+          "id": 1935
+        }
+      },
+      {
+        "minute": 86,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Erling Haaland",
+          "shortName": "Erling Haaland"
+        },
+        "assist": {
+          "name": "Patrick Berg",
+          "shortName": "Patrick Berg"
+        },
+        "team": {
+          "id": 8872
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 45,
+        "player": {
+          "name": "Antonio Nusa",
+          "shortName": "Antonio Nusa"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 8872
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 6,
+        "corners": 14,
+        "possession": 47.1,
+        "shots": 14,
+        "shotsOnTarget": 5
+      },
+      "away": {
+        "fouls": 7,
+        "corners": 3,
+        "possession": 52.9,
+        "shots": 9,
+        "shotsOnTarget": 4
+      }
+    }
   }
 }
