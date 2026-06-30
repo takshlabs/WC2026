@@ -33,9 +33,22 @@ export default function Groups() {
   )
 }
 
+// Teams that appear in the Round of 32 bracket — the definitive qualified set
+const R32_TEAMS = new Set(
+  MATCHES
+    .filter(m => m.round === 'r32' && m.home && m.away)
+    .flatMap(m => [m.home, m.away])
+)
+
 function qualifyStatus(rows, totalMatches, played, liveMap = new Map(), group = '') {
   // Returns per-team status: 'safe' | 'alive' | 'eliminated'
   if (played === 0) return rows.map(() => 'alive')
+
+  // All group matches played — use the R32 bracket as the definitive source of truth
+  if (played === totalMatches) {
+    return rows.map(r => R32_TEAMS.has(r.code) ? 'safe' : 'eliminated')
+  }
+
   const groupLetter = group
 
   // A match counts as played if liveMap has a result OR data.js has a score
