@@ -144,10 +144,21 @@ export default function BracketRadial({ liveMap, resolvedTeams, onTeamClick }) {
     if (isLv)        { fill = 'rgba(34,197,94,0.12)'; stroke = 'rgba(34,197,94,0.5)'; tFill = 'var(--green)' }
     if (isHovered)   { fill = fill.replace('0.2','0.35').replace('0.15','0.28').replace('var(--surface)','var(--surface-2)') }
 
-    // Arc label: only if arc is wide enough
-    const arcLen = ((ri + ro) / 2) * (2 * Math.PI / nTotal)
-    const { x, y, mid } = arcMid(ri, ro, sa, ea)
-    const rot = textRot(mid)
+    // Radial positions: flag towards outer edge, TLA towards inner edge
+    const { mid } = arcMid(ri, ro, sa, ea)
+    const dr   = (ro - ri) / 4           // quarter of ring thickness
+    const rMid = (ri + ro) / 2
+    const rFlag = rMid + dr               // flag sits in outer half of ring
+    const rTLA  = rMid - dr               // TLA sits in inner half
+    const xFlag = CX + rFlag * Math.cos(mid)
+    const yFlag = CY + rFlag * Math.sin(mid)
+    const xTLA  = CX + rTLA  * Math.cos(mid)
+    const yTLA  = CY + rTLA  * Math.sin(mid)
+    const rot   = textRot(mid)
+
+    // Arc length at mid-ring — controls whether labels are visible
+    const arcLen = rMid * (2 * Math.PI / nTotal)
+    const flagSize = Math.min(Math.max(fontSize * 1.1, 7), 14)
 
     return (
       <g
@@ -157,34 +168,53 @@ export default function BracketRadial({ liveMap, resolvedTeams, onTeamClick }) {
         style={{ cursor: t ? 'pointer' : 'default' }}
       >
         <path d={arcPath(ri, ro, sa, ea)} fill={fill} stroke={stroke} strokeWidth={0.7} />
-        {arcLen > 16 && code && (
-          <text
-            x={x} y={y}
-            textAnchor="middle" dominantBaseline="middle"
-            fontSize={fontSize}
-            fontFamily="monospace" fontWeight="700"
-            fill={tFill} letterSpacing="0.05em"
-            transform={`rotate(${rot},${x},${y})`}
-            style={{ pointerEvents: 'none', userSelect: 'none' }}
-          >
-            {code}
-          </text>
+        {arcLen > 24 && code && (
+          <>
+            {/* Flag emoji — radially outward */}
+            {t?.flag && (
+              <text
+                x={xFlag} y={yFlag}
+                textAnchor="middle" dominantBaseline="middle"
+                fontSize={flagSize}
+                transform={`rotate(${rot},${xFlag},${yFlag})`}
+                style={{ pointerEvents: 'none', userSelect: 'none' }}
+              >
+                {t.flag}
+              </text>
+            )}
+            {/* TLA — radially inward */}
+            <text
+              x={xTLA} y={yTLA}
+              textAnchor="middle" dominantBaseline="middle"
+              fontSize={fontSize}
+              fontFamily="monospace" fontWeight="700"
+              fill={tFill} letterSpacing="0.05em"
+              transform={`rotate(${rot},${xTLA},${yTLA})`}
+              style={{ pointerEvents: 'none', userSelect: 'none' }}
+            >
+              {code}
+            </text>
+          </>
         )}
       </g>
     )
   }
 
-  // ── Match-boundary dividers in the R32 ring ──────────────────────────────────
-  // A thin radial line between each pair of team slots = between matches.
+  // ── Match-boundary dividers: full-radius radial lines ───────────────────────
+  // 16 bold lines, one per R32 match boundary (every 22.5°).
+  // Span from just inside the R32 outer edge all the way to near the center,
+  // creating clear "wedge" separation between each match progression path.
   const matchDividers = Array.from({ length: 16 }, (_, i) => {
-    const angle = START + i * 2 * (2 * Math.PI / 32)
-    const [ri, ro] = RINGS.r32
+    const angle = START + i * (2 * Math.PI / 16)  // every 22.5°
+    const ro = RINGS.r32[1] - 2   // just inside R32 outer edge
+    const ri = CENTER_R + 3       // just outside center circle
     const c = Math.cos, s = Math.sin
     return (
       <line key={i}
-        x1={CX + (ri + 2) * c(angle)} y1={CY + (ri + 2) * s(angle)}
-        x2={CX + (ro - 2) * c(angle)} y2={CY + (ro - 2) * s(angle)}
-        stroke="var(--border-2)" strokeWidth={1} opacity={0.5}
+        x1={CX + ro * c(angle)} y1={CY + ro * s(angle)}
+        x2={CX + ri * c(angle)} y2={CY + ri * s(angle)}
+        stroke="var(--border-2)" strokeWidth={2} opacity={0.75}
+        strokeLinecap="round"
       />
     )
   })
