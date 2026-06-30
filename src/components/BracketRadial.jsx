@@ -27,20 +27,23 @@ const FONTS = {
 }
 
 // ── Team slot definitions ─────────────────────────────────────────────────────
+// Ordered to match the FIFA bracket cross-pairings.
+// Left half: {73,76}→89  {75,78}→90  {84,83}→93  {82,81}→94
+// Right half: {74,77}→91  {79,80}→92  {87,86}→95  {85,88}→96
 const R32_SLOTS = [
-  [73,'home'],[73,'away'], [74,'home'],[74,'away'],
-  [75,'home'],[75,'away'], [76,'home'],[76,'away'],
-  [77,'home'],[77,'away'], [78,'home'],[78,'away'],
+  [73,'home'],[73,'away'], [76,'home'],[76,'away'],
+  [75,'home'],[75,'away'], [78,'home'],[78,'away'],
+  [84,'home'],[84,'away'], [83,'home'],[83,'away'],
+  [82,'home'],[82,'away'], [81,'home'],[81,'away'],
+  [74,'home'],[74,'away'], [77,'home'],[77,'away'],
   [79,'home'],[79,'away'], [80,'home'],[80,'away'],
-  [81,'home'],[81,'away'], [82,'home'],[82,'away'],
-  [83,'home'],[83,'away'], [84,'home'],[84,'away'],
-  [85,'home'],[85,'away'], [86,'home'],[86,'away'],
-  [87,'home'],[87,'away'], [88,'home'],[88,'away'],
+  [87,'home'],[87,'away'], [86,'home'],[86,'away'],
+  [85,'home'],[85,'away'], [88,'home'],[88,'away'],
 ]
 const R16_SLOTS = [
   [89,'home'],[89,'away'], [90,'home'],[90,'away'],
-  [91,'home'],[91,'away'], [92,'home'],[92,'away'],
   [93,'home'],[93,'away'], [94,'home'],[94,'away'],
+  [91,'home'],[91,'away'], [92,'home'],[92,'away'],
   [95,'home'],[95,'away'], [96,'home'],[96,'away'],
 ]
 const QF_SLOTS = [

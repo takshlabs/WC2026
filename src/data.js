@@ -205,18 +205,23 @@ export const MATCHES = [
   { id: 87, date:'2026-07-03', time:'22:00', home:'ARG', away:'CPV', venue:'HARDROCK',     round:'r32', matchLabel:'R32-15' },
   { id: 88, date:'2026-07-04', time:'01:30', home:'COL', away:'GHA', venue:'ARROWHEAD',    round:'r32', matchLabel:'R32-16' },
   // ROUND OF 16
-  { id: 89, date:'2026-07-04', time:'17:00', home:null, homeLabel:'W R32-1',  away:null, awayLabel:'W R32-2',  venue:'NRG',         round:'r16', matchLabel:'R16-1' },
-  { id: 90, date:'2026-07-04', time:'21:00', home:null, homeLabel:'W R32-3',  away:null, awayLabel:'W R32-4',  venue:'LINC',        round:'r16', matchLabel:'R16-2' },
-  { id: 91, date:'2026-07-05', time:'20:00', home:null, homeLabel:'W R32-5',  away:null, awayLabel:'W R32-6',  venue:'METLIFE',    round:'r16', matchLabel:'R16-3' },
+  // Correct FIFA bracket: R32 winners cross-pair, not sequential.
+  // Left half: {R32-1 vs R32-4}, {R32-3 vs R32-6}, {R32-12 vs R32-11}, {R32-10 vs R32-9}
+  // Right half: {R32-2 vs R32-5}, {R32-7 vs R32-8}, {R32-15 vs R32-14}, {R32-13 vs R32-16}
+  { id: 89, date:'2026-07-04', time:'17:00', home:null, homeLabel:'W R32-1',  away:null, awayLabel:'W R32-4',  venue:'NRG',         round:'r16', matchLabel:'R16-1' },
+  { id: 90, date:'2026-07-04', time:'21:00', home:null, homeLabel:'W R32-3',  away:null, awayLabel:'W R32-6',  venue:'LINC',        round:'r16', matchLabel:'R16-2' },
+  { id: 91, date:'2026-07-05', time:'20:00', home:null, homeLabel:'W R32-2',  away:null, awayLabel:'W R32-5',  venue:'METLIFE',    round:'r16', matchLabel:'R16-3' },
   { id: 92, date:'2026-07-06', time:'00:00', home:null, homeLabel:'W R32-7',  away:null, awayLabel:'W R32-8',  venue:'AZTECA',     round:'r16', matchLabel:'R16-4' },
-  { id: 93, date:'2026-07-06', time:'19:00', home:null, homeLabel:'W R32-9',  away:null, awayLabel:'W R32-10', venue:'ATT',        round:'r16', matchLabel:'R16-5' },
-  { id: 94, date:'2026-07-07', time:'00:00', home:null, homeLabel:'W R32-11', away:null, awayLabel:'W R32-12', venue:'LUMEN',      round:'r16', matchLabel:'R16-6' },
-  { id: 95, date:'2026-07-07', time:'16:00', home:null, homeLabel:'W R32-13', away:null, awayLabel:'W R32-14', venue:'MERCEDESBENZ', round:'r16', matchLabel:'R16-7' },
-  { id: 96, date:'2026-07-07', time:'20:00', home:null, homeLabel:'W R32-15', away:null, awayLabel:'W R32-16', venue:'BCPLACE',    round:'r16', matchLabel:'R16-8' },
+  { id: 93, date:'2026-07-06', time:'19:00', home:null, homeLabel:'W R32-12', away:null, awayLabel:'W R32-11', venue:'ATT',        round:'r16', matchLabel:'R16-5' },
+  { id: 94, date:'2026-07-07', time:'00:00', home:null, homeLabel:'W R32-10', away:null, awayLabel:'W R32-9',  venue:'LUMEN',      round:'r16', matchLabel:'R16-6' },
+  { id: 95, date:'2026-07-07', time:'16:00', home:null, homeLabel:'W R32-15', away:null, awayLabel:'W R32-14', venue:'MERCEDESBENZ', round:'r16', matchLabel:'R16-7' },
+  { id: 96, date:'2026-07-07', time:'20:00', home:null, homeLabel:'W R32-13', away:null, awayLabel:'W R32-16', venue:'BCPLACE',    round:'r16', matchLabel:'R16-8' },
   // QUARTER-FINALS
+  // Left half: QF-1 = {R16-1 vs R16-2}, QF-2 = {R16-5 vs R16-6}
+  // Right half: QF-3 = {R16-3 vs R16-4}, QF-4 = {R16-7 vs R16-8}
   { id: 97, date:'2026-07-09', time:'20:00', home:null, homeLabel:'W R16-1', away:null, awayLabel:'W R16-2', venue:'GILLETTE', round:'qf', matchLabel:'QF-1' },
-  { id: 98, date:'2026-07-10', time:'19:00', home:null, homeLabel:'W R16-3', away:null, awayLabel:'W R16-4', venue:'SOFI',     round:'qf', matchLabel:'QF-2' },
-  { id: 99, date:'2026-07-11', time:'21:00', home:null, homeLabel:'W R16-5', away:null, awayLabel:'W R16-6', venue:'HARDROCK', round:'qf', matchLabel:'QF-3' },
+  { id: 98, date:'2026-07-10', time:'19:00', home:null, homeLabel:'W R16-5', away:null, awayLabel:'W R16-6', venue:'SOFI',     round:'qf', matchLabel:'QF-2' },
+  { id: 99, date:'2026-07-11', time:'21:00', home:null, homeLabel:'W R16-3', away:null, awayLabel:'W R16-4', venue:'HARDROCK', round:'qf', matchLabel:'QF-3' },
   { id:100, date:'2026-07-12', time:'01:00', home:null, homeLabel:'W R16-7', away:null, awayLabel:'W R16-8', venue:'ARROWHEAD', round:'qf', matchLabel:'QF-4' },
   // SEMI-FINALS
   { id:101, date:'2026-07-14', time:'19:00', home:null, homeLabel:'W QF-1', away:null, awayLabel:'W QF-2', venue:'ATT',           round:'sf',    matchLabel:'SF-1'      },
