@@ -445,6 +445,7 @@ export default function Home() {
               </p>
               <div className="streams-links">
                 {[
+                  { label: 'XYZ Streams',      url: 'https://xyzstreams.st/',                      note: 'Live sports streams' },
                   { label: 'Tifo Live',        url: 'https://www.tifo-live.app',                    note: 'Football & WC coverage' },
                   { label: 'FIFA Footy Bitez', url: 'https://fifa.footybitez.is',                  note: 'WC 2026 coverage' },
                   { label: 'SportsBite',       url: 'https://sportsbite.xyz',                      note: 'Multi-sport streams' },
