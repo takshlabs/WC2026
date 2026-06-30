@@ -6846,5 +6846,168 @@
         "shotsOnTarget": 2
       }
     }
+  },
+  "537415": {
+    "goals": [
+      {
+        "minute": 42,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Julio Enciso",
+          "shortName": "Julio Enciso"
+        },
+        "assist": {
+          "name": "Mat\u00edas Galarza",
+          "shortName": "Mat\u00edas Galarza"
+        },
+        "team": {
+          "id": 761
+        }
+      },
+      {
+        "minute": 54,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Kai Havertz",
+          "shortName": "Kai Havertz"
+        },
+        "assist": {
+          "name": "Florian Wirtz",
+          "shortName": "Florian Wirtz"
+        },
+        "team": {
+          "id": 759
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 65,
+        "player": {
+          "name": "Andr\u00e9s Cubas",
+          "shortName": "Andr\u00e9s Cubas"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 761
+        }
+      },
+      {
+        "minute": 106,
+        "player": {
+          "name": "Kai Havertz",
+          "shortName": "Kai Havertz"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 759
+        }
+      },
+      {
+        "minute": 115,
+        "player": {
+          "name": "Jamal Musiala",
+          "shortName": "Jamal Musiala"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 759
+        }
+      },
+      {
+        "minute": 117,
+        "player": {
+          "name": "Mat\u00edas Galarza",
+          "shortName": "Mat\u00edas Galarza"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 761
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 18,
+        "corners": 16,
+        "possession": 75.6,
+        "shots": 21,
+        "shotsOnTarget": 6
+      },
+      "away": {
+        "fouls": 12,
+        "corners": 6,
+        "possession": 24.4,
+        "shots": 7,
+        "shotsOnTarget": 3
+      }
+    }
+  },
+  "537418": {
+    "goals": [
+      {
+        "minute": 72,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Cody Gakpo",
+          "shortName": "Cody Gakpo"
+        },
+        "assist": {
+          "name": "Crysencio Summerville",
+          "shortName": "Crysencio Summerville"
+        },
+        "team": {
+          "id": 8601
+        }
+      },
+      {
+        "minute": 90,
+        "injuryTime": 1,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Issa Diop",
+          "shortName": "Issa Diop"
+        },
+        "assist": {
+          "name": "Chemsdine Talbi",
+          "shortName": "Chemsdine Talbi"
+        },
+        "team": {
+          "id": 815
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 47,
+        "player": {
+          "name": "Issa Diop",
+          "shortName": "Issa Diop"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 815
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 18,
+        "corners": 5,
+        "possession": 29.9,
+        "shots": 6,
+        "shotsOnTarget": 2
+      },
+      "away": {
+        "fouls": 15,
+        "corners": 8,
+        "possession": 70.1,
+        "shots": 11,
+        "shotsOnTarget": 5
+      }
+    }
   }
 }
