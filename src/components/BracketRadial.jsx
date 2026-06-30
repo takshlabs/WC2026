@@ -154,6 +154,7 @@ export default function BracketRadial({ liveMap, resolvedTeams, onTeamClick }) {
     // Radial positions: flag in outer 70% of ring, TLA near inner edge
     const { mid } = arcMidPt(ri, ro, sa, ea)
     const thick = ro - ri
+    const rMid  = (ri + ro) / 2  // midpoint radius for arc length calc
     const rFlag = ri + thick * 0.70   // flag sits at 70% from inner edge
     const rTLA  = ri + thick * 0.22   // TLA sits near inner edge
     const xFlag = CX + rFlag * Math.cos(mid)
