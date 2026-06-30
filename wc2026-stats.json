@@ -1,11 +1,20 @@
 {
-  "updated": "2026-06-30T18:25:02Z",
+  "updated": "2026-06-30T21:21:23Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
       "name": "Lionel Messi",
       "team": "Argentina",
       "goals": 6,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Erling Haaland",
+      "team": "Norway",
+      "goals": 5,
       "assists": 0,
       "yc": 0,
       "rc": 0,
@@ -34,15 +43,6 @@
       "team": "France",
       "goals": 4,
       "assists": 1,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Erling Haaland",
-      "team": "Norway",
-      "goals": 4,
-      "assists": 0,
       "yc": 0,
       "rc": 0,
       "mp": 0
@@ -219,8 +219,8 @@
       "mp": 0
     },
     {
-      "name": "Pape Gueye",
-      "team": "Senegal",
+      "name": "Nicolas P\u00e9p\u00e9",
+      "team": "Ivory Coast",
       "goals": 2,
       "assists": 1,
       "yc": 1,
@@ -258,6 +258,16 @@
       "l": 0,
       "gf": 10,
       "ga": 2
+    },
+    {
+      "tla": "NOR",
+      "name": "Norway",
+      "mp": 4,
+      "w": 3,
+      "d": 0,
+      "l": 1,
+      "gf": 10,
+      "ga": 8
     },
     {
       "tla": "BRA",
@@ -298,16 +308,6 @@
       "l": 1,
       "gf": 8,
       "ga": 4
-    },
-    {
-      "tla": "NOR",
-      "name": "Norway",
-      "mp": 3,
-      "w": 2,
-      "d": 0,
-      "l": 1,
-      "gf": 8,
-      "ga": 7
     },
     {
       "tla": "JPN",
@@ -410,6 +410,16 @@
       "ga": 1
     },
     {
+      "tla": "CIV",
+      "name": "Ivory Coast",
+      "mp": 4,
+      "w": 2,
+      "d": 0,
+      "l": 2,
+      "gf": 5,
+      "ga": 4
+    },
+    {
       "tla": "ESP",
       "name": "Spain",
       "mp": 3,
@@ -458,16 +468,6 @@
       "l": 1,
       "gf": 5,
       "ga": 7
-    },
-    {
-      "tla": "CIV",
-      "name": "Ivory Coast",
-      "mp": 3,
-      "w": 2,
-      "d": 0,
-      "l": 1,
-      "gf": 4,
-      "ga": 2
     },
     {
       "tla": "COL",
