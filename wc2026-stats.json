@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-29T22:50:07Z",
+  "updated": "2026-06-30T08:32:39Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -66,6 +66,15 @@
       "mp": 0
     },
     {
+      "name": "Cody Gakpo",
+      "team": "Netherlands",
+      "goals": 3,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
       "name": "Isma\u00efla Sarr",
       "team": "Senegal",
       "goals": 3,
@@ -80,6 +89,15 @@
       "goals": 3,
       "assists": 0,
       "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Kai Havertz",
+      "team": "Germany",
+      "goals": 3,
+      "assists": 0,
+      "yc": 1,
       "rc": 0,
       "mp": 0
     },
@@ -141,7 +159,7 @@
       "name": "Crysencio Summerville",
       "team": "Netherlands",
       "goals": 2,
-      "assists": 1,
+      "assists": 2,
       "yc": 1,
       "rc": 0,
       "mp": 0
@@ -167,15 +185,6 @@
     {
       "name": "Rub\u00e9n Vargas",
       "team": "Switzerland",
-      "goals": 2,
-      "assists": 1,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Cody Gakpo",
-      "team": "Netherlands",
       "goals": 2,
       "assists": 1,
       "yc": 0,
@@ -217,18 +226,29 @@
       "yc": 1,
       "rc": 0,
       "mp": 0
-    },
-    {
-      "name": "Juli\u00e1n Qui\u00f1ones",
-      "team": "Mexico",
-      "goals": 2,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
     }
   ],
   "teamStats": [
+    {
+      "tla": "GER",
+      "name": "Germany",
+      "mp": 4,
+      "w": 2,
+      "d": 0,
+      "l": 2,
+      "gf": 11,
+      "ga": 5
+    },
+    {
+      "tla": "NED",
+      "name": "Netherlands",
+      "mp": 4,
+      "w": 2,
+      "d": 1,
+      "l": 1,
+      "gf": 11,
+      "ga": 5
+    },
     {
       "tla": "FRA",
       "name": "France",
@@ -240,24 +260,14 @@
       "ga": 2
     },
     {
-      "tla": "GER",
-      "name": "Germany",
-      "mp": 3,
-      "w": 2,
-      "d": 0,
-      "l": 1,
-      "gf": 10,
-      "ga": 4
-    },
-    {
-      "tla": "NED",
-      "name": "Netherlands",
-      "mp": 3,
-      "w": 2,
+      "tla": "BRA",
+      "name": "Brazil",
+      "mp": 4,
+      "w": 3,
       "d": 1,
       "l": 0,
-      "gf": 10,
-      "ga": 4
+      "gf": 9,
+      "ga": 2
     },
     {
       "tla": "CAN",
@@ -268,16 +278,6 @@
       "l": 1,
       "gf": 9,
       "ga": 3
-    },
-    {
-      "tla": "BRA",
-      "name": "Brazil",
-      "mp": 4,
-      "w": 2,
-      "d": 2,
-      "l": 0,
-      "gf": 9,
-      "ga": 2
     },
     {
       "tla": "ARG",
@@ -314,8 +314,8 @@
       "name": "Japan",
       "mp": 4,
       "w": 1,
-      "d": 3,
-      "l": 0,
+      "d": 2,
+      "l": 1,
       "gf": 8,
       "ga": 5
     },
@@ -328,6 +328,16 @@
       "l": 2,
       "gf": 8,
       "ga": 6
+    },
+    {
+      "tla": "MAR",
+      "name": "Morocco",
+      "mp": 4,
+      "w": 3,
+      "d": 1,
+      "l": 0,
+      "gf": 7,
+      "ga": 4
     },
     {
       "tla": "SUI",
@@ -358,16 +368,6 @@
       "l": 0,
       "gf": 6,
       "ga": 0
-    },
-    {
-      "tla": "MAR",
-      "name": "Morocco",
-      "mp": 3,
-      "w": 2,
-      "d": 1,
-      "l": 0,
-      "gf": 6,
-      "ga": 3
     },
     {
       "tla": "ENG",
@@ -500,6 +500,16 @@
       "ga": 10
     },
     {
+      "tla": "PAR",
+      "name": "Paraguay",
+      "mp": 4,
+      "w": 2,
+      "d": 1,
+      "l": 1,
+      "gf": 3,
+      "ga": 5
+    },
+    {
       "tla": "TUR",
       "name": "Turkey",
       "mp": 3,
@@ -538,16 +548,6 @@
       "l": 3,
       "gf": 3,
       "ga": 8
-    },
-    {
-      "tla": "RSA",
-      "name": "South Africa",
-      "mp": 4,
-      "w": 1,
-      "d": 1,
-      "l": 2,
-      "gf": 2,
-      "ga": 4
     }
   ]
 }
