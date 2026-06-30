@@ -40,9 +40,17 @@ jobs:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
+      - name: Preserve live data files from gh-pages
+        run: |
+          git fetch origin gh-pages 2>/dev/null || true
+          for f in live-scores.json wc2026-stats.json match-events.json match-details.json wc2026-schedule.json wc2026-news.json; do
+            git show origin/gh-pages:$f > dist/$f 2>/dev/null && echo "preserved $f" || echo "skipped $f (not found)"
+          done
+
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-          keep_files: true    # preserve live-scores.json written by the live-scores workflow
+          # keep_files intentionally removed — old hashed assets accumulate and bust the size limit.
+          # Live JSON files are explicitly copied from gh-pages above instead.
