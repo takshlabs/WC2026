@@ -7090,5 +7090,172 @@
         "shotsOnTarget": 4
       }
     }
+  },
+  "537416": {
+    "goals": [
+      {
+        "minute": 45,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Kylian Mbapp\u00e9",
+          "shortName": "Kylian Mbapp\u00e9"
+        },
+        "assist": {
+          "name": "Ousmane Demb\u00e9l\u00e9",
+          "shortName": "Ousmane Demb\u00e9l\u00e9"
+        },
+        "team": {
+          "id": 773
+        }
+      },
+      {
+        "minute": 53,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Bradley Barcola",
+          "shortName": "Bradley Barcola"
+        },
+        "assist": {
+          "name": "Michael Olise",
+          "shortName": "Michael Olise"
+        },
+        "team": {
+          "id": 773
+        }
+      },
+      {
+        "minute": 74,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Kylian Mbapp\u00e9",
+          "shortName": "Kylian Mbapp\u00e9"
+        },
+        "assist": {
+          "name": "Michael Olise",
+          "shortName": "Michael Olise"
+        },
+        "team": {
+          "id": 773
+        }
+      }
+    ],
+    "bookings": [],
+    "stats": {
+      "home": {
+        "fouls": 14,
+        "corners": 9,
+        "possession": 61,
+        "shots": 25,
+        "shotsOnTarget": 12
+      },
+      "away": {
+        "fouls": 10,
+        "corners": 1,
+        "possession": 39,
+        "shots": 8,
+        "shotsOnTarget": 3
+      }
+    }
+  },
+  "537425": {
+    "goals": [
+      {
+        "minute": 22,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Juli\u00e1n Qui\u00f1ones",
+          "shortName": "Juli\u00e1n Qui\u00f1ones"
+        },
+        "assist": {
+          "name": "Roberto Alvarado",
+          "shortName": "Roberto Alvarado"
+        },
+        "team": {
+          "id": 769
+        }
+      },
+      {
+        "minute": 31,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Ra\u00fal Jim\u00e9nez",
+          "shortName": "Ra\u00fal Jim\u00e9nez"
+        },
+        "assist": {
+          "name": "Juli\u00e1n Qui\u00f1ones",
+          "shortName": "Juli\u00e1n Qui\u00f1ones"
+        },
+        "team": {
+          "id": 769
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 45,
+        "player": {
+          "name": "Alan Franco",
+          "shortName": "Alan Franco"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 791
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Kendry P\u00e1ez",
+          "shortName": "Kendry P\u00e1ez"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 791
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Piero Hincapi\u00e9",
+          "shortName": "Piero Hincapi\u00e9"
+        },
+        "card": "RED_CARD",
+        "team": {
+          "id": 791
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Mois\u00e9s Caicedo",
+          "shortName": "Mois\u00e9s Caicedo"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 791
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 10,
+        "corners": 3,
+        "possession": 42.8,
+        "shots": 15,
+        "shotsOnTarget": 3
+      },
+      "away": {
+        "fouls": 14,
+        "corners": 8,
+        "possession": 57.2,
+        "shots": 7,
+        "shotsOnTarget": 1
+      }
+    }
   }
 }
