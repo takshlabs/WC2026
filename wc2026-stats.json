@@ -1,7 +1,16 @@
 {
-  "updated": "2026-06-30T22:02:27Z",
+  "updated": "2026-07-01T10:56:20Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
+    {
+      "name": "Kylian Mbapp\u00e9",
+      "team": "France",
+      "goals": 6,
+      "assists": 2,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
     {
       "name": "Lionel Messi",
       "team": "Argentina",
@@ -21,7 +30,7 @@
       "mp": 0
     },
     {
-      "name": "Kylian Mbapp\u00e9",
+      "name": "Ousmane Demb\u00e9l\u00e9",
       "team": "France",
       "goals": 4,
       "assists": 2,
@@ -39,19 +48,19 @@
       "mp": 0
     },
     {
-      "name": "Ousmane Demb\u00e9l\u00e9",
-      "team": "France",
-      "goals": 4,
-      "assists": 1,
+      "name": "Deniz Undav",
+      "team": "Germany",
+      "goals": 3,
+      "assists": 2,
       "yc": 0,
       "rc": 0,
       "mp": 0
     },
     {
-      "name": "Deniz Undav",
-      "team": "Germany",
+      "name": "Juli\u00e1n Qui\u00f1ones",
+      "team": "Mexico",
       "goals": 3,
-      "assists": 2,
+      "assists": 1,
       "yc": 0,
       "rc": 0,
       "mp": 0
@@ -174,6 +183,15 @@
       "mp": 0
     },
     {
+      "name": "Bradley Barcola",
+      "team": "France",
+      "goals": 2,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
       "name": "Jude Bellingham",
       "team": "England",
       "goals": 2,
@@ -208,24 +226,6 @@
       "yc": 0,
       "rc": 0,
       "mp": 0
-    },
-    {
-      "name": "Riyad Mahrez",
-      "team": "Algeria",
-      "goals": 2,
-      "assists": 1,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Nicolas P\u00e9p\u00e9",
-      "team": "Ivory Coast",
-      "goals": 2,
-      "assists": 1,
-      "yc": 1,
-      "rc": 0,
-      "mp": 0
     }
   ],
   "teamStats": [
@@ -236,8 +236,18 @@
       "w": 2,
       "d": 0,
       "l": 2,
-      "gf": 11,
-      "ga": 5
+      "gf": 14,
+      "ga": 9
+    },
+    {
+      "tla": "FRA",
+      "name": "France",
+      "mp": 4,
+      "w": 4,
+      "d": 0,
+      "l": 0,
+      "gf": 13,
+      "ga": 2
     },
     {
       "tla": "NED",
@@ -246,18 +256,18 @@
       "w": 2,
       "d": 1,
       "l": 1,
-      "gf": 11,
-      "ga": 5
+      "gf": 13,
+      "ga": 8
     },
     {
-      "tla": "FRA",
-      "name": "France",
-      "mp": 3,
+      "tla": "MAR",
+      "name": "Morocco",
+      "mp": 4,
       "w": 3,
-      "d": 0,
+      "d": 1,
       "l": 0,
       "gf": 10,
-      "ga": 2
+      "ga": 6
     },
     {
       "tla": "NOR",
@@ -288,6 +298,16 @@
       "l": 1,
       "gf": 9,
       "ga": 3
+    },
+    {
+      "tla": "MEX",
+      "name": "Mexico",
+      "mp": 4,
+      "w": 4,
+      "d": 0,
+      "l": 0,
+      "gf": 8,
+      "ga": 0
     },
     {
       "tla": "ARG",
@@ -330,14 +350,14 @@
       "ga": 6
     },
     {
-      "tla": "MAR",
-      "name": "Morocco",
+      "tla": "PAR",
+      "name": "Paraguay",
       "mp": 4,
-      "w": 3,
+      "w": 2,
       "d": 1,
-      "l": 0,
+      "l": 1,
       "gf": 7,
-      "ga": 4
+      "ga": 8
     },
     {
       "tla": "SUI",
@@ -352,22 +372,12 @@
     {
       "tla": "SWE",
       "name": "Sweden",
-      "mp": 3,
+      "mp": 4,
       "w": 1,
       "d": 1,
-      "l": 1,
+      "l": 2,
       "gf": 7,
-      "ga": 7
-    },
-    {
-      "tla": "MEX",
-      "name": "Mexico",
-      "mp": 3,
-      "w": 3,
-      "d": 0,
-      "l": 0,
-      "gf": 6,
-      "ga": 0
+      "ga": 10
     },
     {
       "tla": "ENG",
@@ -498,16 +508,6 @@
       "l": 2,
       "gf": 4,
       "ga": 10
-    },
-    {
-      "tla": "PAR",
-      "name": "Paraguay",
-      "mp": 4,
-      "w": 2,
-      "d": 1,
-      "l": 1,
-      "gf": 3,
-      "ga": 5
     },
     {
       "tla": "TUR",
