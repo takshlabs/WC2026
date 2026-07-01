@@ -7257,5 +7257,97 @@
         "shotsOnTarget": 1
       }
     }
+  },
+  "537426": {
+    "goals": [
+      {
+        "minute": 7,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Brian Cipenga",
+          "shortName": "Brian Cipenga"
+        },
+        "assist": {
+          "name": "Chancel Mbemba",
+          "shortName": "Chancel Mbemba"
+        },
+        "team": {
+          "id": 1934
+        }
+      },
+      {
+        "minute": 75,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Harry Kane",
+          "shortName": "Harry Kane"
+        },
+        "assist": {
+          "name": "Anthony Gordon",
+          "shortName": "Anthony Gordon"
+        },
+        "team": {
+          "id": 770
+        }
+      },
+      {
+        "minute": 86,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Harry Kane",
+          "shortName": "Harry Kane"
+        },
+        "assist": {
+          "name": "Anthony Gordon",
+          "shortName": "Anthony Gordon"
+        },
+        "team": {
+          "id": 770
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 19,
+        "player": {
+          "name": "Jude Bellingham",
+          "shortName": "Jude Bellingham"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 770
+        }
+      },
+      {
+        "minute": 28,
+        "player": {
+          "name": "Noah Sadiki",
+          "shortName": "Noah Sadiki"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 1934
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 10,
+        "corners": 5,
+        "possession": 59.7,
+        "shots": 16,
+        "shotsOnTarget": 7
+      },
+      "away": {
+        "fouls": 12,
+        "corners": 3,
+        "possession": 40.3,
+        "shots": 7,
+        "shotsOnTarget": 2
+      }
+    }
   }
 }
