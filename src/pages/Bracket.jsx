@@ -159,8 +159,6 @@ function BracketMatch({ m, tz, timeFormat, liveMap, resolvedTeams, isFinal, onTe
   const conv  = convertTime(m.date, m.time, tz, timeFormat)
   const live  = liveMap.get(m.id)
 
-  // Use static team codes when available (group stage), otherwise use computed
-  // bracket progression from useBracketTeams (knockout rounds).
   const r = resolvedTeams?.get(m.id)
   const homeCode = m.home ?? r?.home ?? null
   const awayCode = m.away ?? r?.away ?? null
@@ -170,7 +168,6 @@ function BracketMatch({ m, tz, timeFormat, liveMap, resolvedTeams, isFinal, onTe
   const isLive     = live?.status === 'live'
   const isFinished = live?.status === 'finished'
 
-  // Use scoreByCode for KO matches (orientation-safe); fall back to positional.
   let hs, as_
   if (live?.scoreByCode && homeCode && awayCode) {
     hs  = live.scoreByCode[homeCode] ?? live?.homeScore ?? m.homeScore
@@ -180,6 +177,26 @@ function BracketMatch({ m, tz, timeFormat, liveMap, resolvedTeams, isFinal, onTe
     as_ = live?.awayScore ?? m.awayScore
   }
 
+  let homeWin = hs != null && as_ != null && hs > as_
+  let awayWin = hs != null && as_ != null && as_ > hs
+  if (!homeWin && !awayWin && isFinished && live?.winnerCode) {
+    if (live.winnerCode === homeCode) homeWin = true
+    if (live.winnerCode === awayCode) awayWin = true
+  }
+
+  let penH = null, penA = null
+  if (live?.penaltiesByCode && homeCode && awayCode) {
+    penH = live.penaltiesByCode[homeCode]
+    penA = live.penaltiesByCode[awayCode]
+  } else if (live?.penalties) {
+    penH = live.penalties.home
+    penA = live.penalties.away
+  }
+  const hasPens = penH != null && penA != null
+
+  const ftLabel = live?.duration === 'PENALTY_SHOOTOUT' ? 'pens'
+                : live?.duration === 'EXTRA_TIME' ? 'AET' : 'FT'
+
   return (
     <div className={`bracket-match${isFinal ? ' final-match' : ''}`}>
       <div className="bm-meta">
@@ -187,7 +204,7 @@ function BracketMatch({ m, tz, timeFormat, liveMap, resolvedTeams, isFinal, onTe
         <span style={{ color: isLive ? 'var(--green)' : isFinished ? 'var(--text-3)' : 'inherit' }}>
           {isLive
             ? <><span className="live-dot" style={{ marginRight: 3 }}/>LIVE</>
-            : isFinished ? 'FT' : conv.dateShort}
+            : isFinished ? ftLabel : conv.dateShort}
         </span>
       </div>
       <div className={`bm-team${!homeT ? ' tbd' : ''}`} onClick={() => homeT && onTeamClick(homeCode)}>
@@ -195,7 +212,7 @@ function BracketMatch({ m, tz, timeFormat, liveMap, resolvedTeams, isFinal, onTe
           {homeT ? <><FlagImg code={homeCode} size={16} />{homeT.name}</> : (m.homeLabel || 'TBD')}
         </span>
         {hs !== undefined && (
-          <span className="bm-score" style={{ color: hs > as_ ? 'var(--green)' : hs < as_ ? 'var(--red)' : 'var(--gold)' }}>{hs}</span>
+          <span className="bm-score" style={{ color: homeWin ? 'var(--green)' : awayWin ? 'var(--red)' : 'var(--gold)' }}>{hs}</span>
         )}
       </div>
       <div className={`bm-team${!awayT ? ' tbd' : ''}`} onClick={() => awayT && onTeamClick(awayCode)}>
@@ -203,9 +220,14 @@ function BracketMatch({ m, tz, timeFormat, liveMap, resolvedTeams, isFinal, onTe
           {awayT ? <><FlagImg code={awayCode} size={16} />{awayT.name}</> : (m.awayLabel || 'TBD')}
         </span>
         {as_ !== undefined && (
-          <span className="bm-score" style={{ color: as_ > hs ? 'var(--green)' : as_ < hs ? 'var(--red)' : 'var(--gold)' }}>{as_}</span>
+          <span className="bm-score" style={{ color: awayWin ? 'var(--green)' : homeWin ? 'var(--red)' : 'var(--gold)' }}>{as_}</span>
         )}
       </div>
+      {hasPens && isFinished && (
+        <div style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '0.58rem', color: 'var(--text-3)', padding: '2px 0' }}>
+          pen {penH}–{penA}
+        </div>
+      )}
     </div>
   )
 }

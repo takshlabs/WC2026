@@ -177,8 +177,25 @@ function MatchCard({ matchId, liveMap, resolvedTeams, tz, timeFormat, onTeamClic
   }
 
   const showScore = isLive || isFinished
-  const homeWin   = showScore && hs != null && as_ != null && hs > as_
-  const awayWin   = showScore && hs != null && as_ != null && as_ > hs
+  let homeWin   = showScore && hs != null && as_ != null && hs > as_
+  let awayWin   = showScore && hs != null && as_ != null && as_ > hs
+  if (showScore && !homeWin && !awayWin && isFinished && live?.winnerCode) {
+    if (live.winnerCode === homeCode) homeWin = true
+    if (live.winnerCode === awayCode) awayWin = true
+  }
+
+  let penH = null, penA = null
+  if (live?.penaltiesByCode && homeCode && awayCode) {
+    penH = live.penaltiesByCode[homeCode]
+    penA = live.penaltiesByCode[awayCode]
+  } else if (live?.penalties) {
+    penH = live.penalties.home
+    penA = live.penalties.away
+  }
+  const hasPens = penH != null && penA != null
+
+  const ftLabel = live?.duration === 'PENALTY_SHOOTOUT' ? 'pens'
+                : live?.duration === 'EXTRA_TIME' ? 'AET' : 'FT'
 
   const conv  = convertTime(m.date, m.time, tz, timeFormat)
   const venue = VENUES[m.venue]
@@ -189,12 +206,17 @@ function MatchCard({ matchId, liveMap, resolvedTeams, tz, timeFormat, onTeamClic
         {isLive
           ? <span className="bts-live-badge"><span className="live-dot" style={{ marginRight: 3 }} />LIVE {live.displayClock || ''}</span>
           : isFinished
-            ? <span className="bts-ft">FT</span>
+            ? <span className="bts-ft">{ftLabel}</span>
             : <span className="bts-date">{venue?.city ? `${venue.city} · ` : ''}{conv.dateShort}</span>
         }
       </div>
       <TeamSlot code={homeCode} label={m.homeLabel} score={showScore ? hs : undefined} isWinner={homeWin} onTeamClick={onTeamClick} />
       <TeamSlot code={awayCode} label={m.awayLabel} score={showScore ? as_ : undefined} isWinner={awayWin} onTeamClick={onTeamClick} />
+      {hasPens && isFinished && (
+        <div style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: 'var(--text-3)', padding: '1px 0', letterSpacing: '0.03em' }}>
+          pen {penH}–{penA}
+        </div>
+      )}
     </div>
   )
 }

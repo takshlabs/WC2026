@@ -260,6 +260,7 @@ function MatchRow({ m, focus, latestFinishedId, upcomingRef }) {
   const as_   = live?.awayScore ?? m.awayScore
   const isLive     = live?.status === 'live'
   const isFinished = live?.status === 'finished'
+  const hasPens    = live?.penalties != null
   const isFocus = focus && (m.home === focus || m.away === focus)
   const color   = m.group ? groupColor(m.group) : 'var(--border-2)'
 
@@ -286,7 +287,7 @@ function MatchRow({ m, focus, latestFinishedId, upcomingRef }) {
               {live?.displayClock || 'LIVE'}
             </span>
           : isFinished
-            ? <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', color: 'var(--text-3)' }}>FT</span>
+            ? <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', color: 'var(--text-3)' }}>{live?.duration === 'PENALTY_SHOOTOUT' ? 'pens' : live?.duration === 'EXTRA_TIME' ? 'AET' : 'FT'}</span>
             : m.conv.time}
       </div>
       <div className={`fx-team home${!homeT ? ' tbd' : ''}`}>
@@ -305,7 +306,10 @@ function MatchRow({ m, focus, latestFinishedId, upcomingRef }) {
       </div>
       <div>
         {(isLive || isFinished) && hs != null
-          ? <span className="fx-score">{hs}–{as_}</span>
+          ? <>
+              <span className="fx-score">{hs}–{as_}</span>
+              {hasPens && isFinished && <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: 'var(--text-3)', textAlign: 'center' }}>pen {live.penalties.home}–{live.penalties.away}</div>}
+            </>
           : <span className="fx-vs">vs</span>}
       </div>
       <div className={`fx-team away${!awayT ? ' tbd' : ''}`}>

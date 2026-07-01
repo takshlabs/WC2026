@@ -78,9 +78,12 @@ function pickWinner(live, homeCode, awayCode) {
     if (hs != null && as_ != null) {
       if (hs > as_) return homeCode
       if (as_ > hs) return awayCode
-      // Scores level (AET/pens): use fd.org winner field if available.
-      // winner is 'HOME_TEAM'|'AWAY_TEAM' relative to fd.org's home.
-      // We identify fd.org's home by checking which code matches live.homeScore.
+      // Scores level (AET/pens): use winnerCode (orientation-safe) first,
+      // then fall back to fd.org winner field with positional heuristic.
+      if (live.winnerCode) {
+        if (live.winnerCode === homeCode) return homeCode
+        if (live.winnerCode === awayCode) return awayCode
+      }
       if (live.winner === 'HOME_TEAM' || live.winner === 'AWAY_TEAM') {
         const fdHomeIsOurHome = live.homeScore === hs
         const fdHomeWon = live.winner === 'HOME_TEAM'

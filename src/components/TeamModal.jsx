@@ -62,6 +62,9 @@ export default function TeamModal({ code, onClose }) {
           const score  = hs !== undefined
             ? (isHome ? `${hs}–${as_}` : `${as_}–${hs}`)
             : '–'
+          const penInfo = live?.penalties
+            ? ` (p ${isHome ? live.penalties.home : live.penalties.away}-${isHome ? live.penalties.away : live.penalties.home})`
+            : ''
 
           return (
             <div className="modal-match-row" key={m.id}>
@@ -70,7 +73,7 @@ export default function TeamModal({ code, onClose }) {
               <span className="mm-opp">
                 {oppT ? `${oppT.flag} ${oppT.name}` : m.homeLabel || m.awayLabel || 'TBD'}
               </span>
-              <span className="mm-score">{score}</span>
+              <span className="mm-score">{score}{penInfo}</span>
               {m.group
                 ? <span className="badge badge-group" style={{ background: groupColor(m.group), fontSize:'0.55rem' }}>Grp {m.group}</span>
                 : <span className="badge badge-round">{roundLabel(m.round)}</span>

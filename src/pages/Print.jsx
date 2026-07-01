@@ -223,7 +223,7 @@ function PrintSchedule({ matches, tz, timeFormat, liveMap }) {
                   <td className="print-sch-home">
                     <PrintTeamLine code={m.home} name={ht?.name} side="home" />
                   </td>
-                  <td className="print-sch-score">{hs !== undefined ? `${hs}–${as_}` : 'v'}</td>
+                  <td className="print-sch-score">{hs !== undefined ? `${hs}–${as_}${m.live?.penalties ? ` (p ${m.live.penalties.home}-${m.live.penalties.away})` : ''}` : 'v'}</td>
                   <td className="print-sch-away">
                     <PrintTeamLine code={m.away} name={at?.name} side="away" />
                   </td>
@@ -269,6 +269,7 @@ function PrintBracket({ matches, tz, timeFormat, liveMap }) {
                     {as_ !== undefined && <b className="print-ko-score">{as_}</b>}
                     <PrintTeamLine code={m.away} name={at?.name || m.awayLabel} side="away" />
                   </span>
+                  {live?.penalties && <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: '#888' }}>pen {live.penalties.home}–{live.penalties.away}</span>}
                   <span className="print-ko-venue">{VENUES[m.venue]?.city}</span>
                 </div>
               )

@@ -121,6 +121,8 @@ export default function BracketRadial({ liveMap, resolvedTeams, onTeamClick }) {
     const as_ = live.scoreByCode?.[fin.away] ?? live.awayScore ?? 0
     if (hs > as_) return fin.home
     if (as_ > hs) return fin.away
+    if (live.winnerCode === fin.home) return fin.home
+    if (live.winnerCode === fin.away) return fin.away
     if (live.winner === 'HOME_TEAM') return fin.home
     if (live.winner === 'AWAY_TEAM') return fin.away
     return null

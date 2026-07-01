@@ -168,12 +168,17 @@ export function useLiveScores() {
             continue
           }
 
-          const hs  = m.score?.fullTime?.home
-                   ?? m.score?.halfTime?.home
-                   ?? m.score?.regularTime?.home
-          const as_ = m.score?.fullTime?.away
-                   ?? m.score?.halfTime?.away
-                   ?? m.score?.regularTime?.away
+          const isPens = m.score?.duration === 'PENALTY_SHOOTOUT'
+          const hs  = isPens
+            ? (m.score?.regularTime?.home ?? 0) + (m.score?.extraTime?.home ?? 0)
+            : m.score?.fullTime?.home
+              ?? m.score?.halfTime?.home
+              ?? m.score?.regularTime?.home
+          const as_ = isPens
+            ? (m.score?.regularTime?.away ?? 0) + (m.score?.extraTime?.away ?? 0)
+            : m.score?.fullTime?.away
+              ?? m.score?.halfTime?.away
+              ?? m.score?.regularTime?.away
           if (hs == null && as_ == null) continue
 
           const homeTeamId = m.homeTeam?.id
@@ -231,6 +236,17 @@ export function useLiveScores() {
             ? { [hCode]: hs, [aCode]: as_ }
             : null
 
+          const winnerCode = m.score?.winner === 'HOME_TEAM' ? hCode
+                           : m.score?.winner === 'AWAY_TEAM' ? aCode
+                           : null
+          const penalties = isPens ? {
+            home: m.score?.penalties?.home ?? 0,
+            away: m.score?.penalties?.away ?? 0,
+          } : null
+          const penaltiesByCode = (penalties && local.home === null && TEAMS[hCode] && TEAMS[aCode])
+            ? { [hCode]: penalties.home, [aCode]: penalties.away }
+            : null
+
           map.set(local.id, {
             homeScore:    hs  ?? 0,
             awayScore:    as_ ?? 0,
@@ -242,7 +258,11 @@ export function useLiveScores() {
             awayForm:     m.awayForm     || null,
             displayClock: m.displayClock || null,
             matchId:      String(m.id),
-            winner:       m.score?.winner || null,  // 'HOME_TEAM'|'AWAY_TEAM' — covers AET/pens
+            winner:       m.score?.winner || null,
+            winnerCode:   winnerCode || null,
+            duration:     m.score?.duration || null,
+            penalties,
+            ...(penaltiesByCode ? { penaltiesByCode } : {}),
             ...(scoreByCode ? { scoreByCode } : {}),
           })
         }
@@ -345,13 +365,17 @@ export function useLiveScores() {
             // Don't add new entries for purely scheduled matches (no existing floor entry)
             if (!existing && espnStatus === 'upcoming') continue
 
+            // Don't let ESPN overwrite AET scores for penalty matches — ESPN
+            // reports the total including penalties, but we want the 120-min score.
+            const preserveScore = existing?.duration === 'PENALTY_SHOOTOUT'
+
             next.set(local.id, {
               ...(existing || {}),
-              homeScore:    finalHome ?? existing?.homeScore ?? 0,
-              awayScore:    finalAway ?? existing?.awayScore ?? 0,
+              homeScore:    preserveScore ? existing.homeScore : (finalHome ?? existing?.homeScore ?? 0),
+              awayScore:    preserveScore ? existing.awayScore : (finalAway ?? existing?.awayScore ?? 0),
               status:       espnStatus,
               displayClock: clock,
-              ...(espnScoreByCode ? { scoreByCode: espnScoreByCode } : {}),
+              ...(espnScoreByCode && !preserveScore ? { scoreByCode: espnScoreByCode } : {}),
             })
           }
           return next

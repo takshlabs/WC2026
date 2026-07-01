@@ -160,7 +160,14 @@ function YourTeamsSection({ goGroup }) {
                     <div className="home-fx-matchup">
                       <div className="home-fx-team home"><FlagImg code={m.home} size={18} /><span>{homeT?.name}</span></div>
                       <div className="home-fx-center">
-                        {hs !== undefined ? <span className="home-fx-score">{hs}–{as_}</span> : <span className="home-fx-vs">vs</span>}
+                        {hs !== undefined ? (
+                          <>
+                            <span className="home-fx-score">{hs}–{as_}</span>
+                            {live?.penalties && live?.status === 'finished' && (
+                              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.48rem', color: 'var(--text-3)' }}>pen {live.penalties.home}–{live.penalties.away}</div>
+                            )}
+                          </>
+                        ) : <span className="home-fx-vs">vs</span>}
                       </div>
                       <div className="home-fx-team away"><span>{awayT?.name}</span><FlagImg code={m.away} size={18} /></div>
                     </div>
@@ -253,8 +260,22 @@ function MiniCard({ matchId, liveMap, resolvedTeams }) {
     as_ = live.scoreByCode[awayCode] ?? as_
   }
   const showScore = isLive || isFinished
-  const homeWin = showScore && hs != null && as_ != null && hs > as_
-  const awayWin = showScore && hs != null && as_ != null && as_ > hs
+  let homeWin = showScore && hs != null && as_ != null && hs > as_
+  let awayWin = showScore && hs != null && as_ != null && as_ > hs
+  if (showScore && !homeWin && !awayWin && isFinished && live?.winnerCode) {
+    if (live.winnerCode === homeCode) homeWin = true
+    if (live.winnerCode === awayCode) awayWin = true
+  }
+
+  let penH = null, penA = null
+  if (live?.penaltiesByCode && homeCode && awayCode) {
+    penH = live.penaltiesByCode[homeCode]
+    penA = live.penaltiesByCode[awayCode]
+  } else if (live?.penalties) {
+    penH = live.penalties.home
+    penA = live.penalties.away
+  }
+  const hasPens = penH != null && penA != null
 
   function Slot({ code, label, win }) {
     const t = TEAMS[code]
@@ -262,7 +283,7 @@ function MiniCard({ matchId, liveMap, resolvedTeams }) {
       <div className={`mb-slot${win ? ' mb-slot--win' : ''}${!t ? ' mb-slot--tbd' : ''}`}>
         <span className="mb-flag">{t ? <FlagImg code={code} size={13} /> : null}</span>
         <span className="mb-tla">{code || (label && label.length <= 6 ? label : '—')}</span>
-        {showScore && <span className="mb-score">{win ? (homeCode===code ? hs : as_) : (homeCode===code ? hs : as_)}</span>}
+        {showScore && <span className="mb-score">{homeCode===code ? hs : as_}</span>}
       </div>
     )
   }
@@ -271,6 +292,11 @@ function MiniCard({ matchId, liveMap, resolvedTeams }) {
     <div className={`mb-card${isLive ? ' mb-card--live' : ''}${matchId===104 ? ' mb-card--final' : ''}`}>
       <Slot code={homeCode} label={m.homeLabel} win={homeWin} />
       <Slot code={awayCode} label={m.awayLabel} win={awayWin} />
+      {hasPens && isFinished && (
+        <div style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '0.42rem', color: 'var(--text-3)', lineHeight: 1.2 }}>
+          pen {penH}–{penA}
+        </div>
+      )}
     </div>
   )
 }
@@ -505,7 +531,7 @@ export default function Home() {
                         <a key={m.id} href={url} target="_blank" rel="noopener noreferrer" className="hl-row">
                           <FlagImg code={m.home} size={13} />
                           <span className="hl-name">{homeT?.name || m.home}</span>
-                          <span className="hl-sc">{live?.homeScore}–{live?.awayScore}</span>
+                          <span className="hl-sc">{live?.homeScore}–{live?.awayScore}{live?.penalties && <span style={{ fontSize: '0.55rem', color: 'var(--text-3)', marginLeft: 3 }}>(p {live.penalties.home}–{live.penalties.away})</span>}</span>
                           <span className="hl-name hl-name-r">{awayT?.name || m.away}</span>
                           <FlagImg code={m.away} size={13} />
                           <span className="hl-arrow">▶</span>
@@ -567,7 +593,12 @@ export default function Home() {
                   </div>
                   <div className="home-fx-center">
                     {hs !== undefined
-                      ? <span className="home-fx-score">{hs}–{as_}</span>
+                      ? <>
+                          <span className="home-fx-score">{hs}–{as_}</span>
+                          {live?.penalties && live?.status === 'finished' && (
+                            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.48rem', color: 'var(--text-3)' }}>pen {live.penalties.home}–{live.penalties.away}</div>
+                          )}
+                        </>
                       : <span className="home-fx-vs">vs</span>}
                   </div>
                   <div className="home-fx-team away">
@@ -610,7 +641,10 @@ export default function Home() {
                         </div>
                         <div className="yesterday-score-block">
                           <span className="yesterday-score">{hs}–{as_}</span>
-                          <span className="yesterday-ft">FT</span>
+                          <span className="yesterday-ft">{live?.duration === 'PENALTY_SHOOTOUT' ? 'pens' : live?.duration === 'EXTRA_TIME' ? 'AET' : 'FT'}</span>
+                          {live?.penalties && (
+                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: 'var(--text-3)' }}>pen {live.penalties.home}–{live.penalties.away}</span>
+                          )}
                         </div>
                         <div className="yesterday-team away">
                           <span>{awayT?.name}</span>
