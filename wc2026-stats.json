@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-01T11:45:04Z",
+  "updated": "2026-07-01T18:20:21Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -23,6 +23,15 @@
     {
       "name": "Erling Haaland",
       "team": "Norway",
+      "goals": 5,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Harry Kane",
+      "team": "England",
       "goals": 5,
       "assists": 0,
       "yc": 0,
@@ -129,15 +138,6 @@
       "mp": 0
     },
     {
-      "name": "Harry Kane",
-      "team": "England",
-      "goals": 3,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
       "name": "Jonathan David",
       "team": "Canada",
       "goals": 3,
@@ -196,7 +196,7 @@
       "team": "England",
       "goals": 2,
       "assists": 1,
-      "yc": 0,
+      "yc": 1,
       "rc": 0,
       "mp": 0
     },
@@ -330,6 +330,16 @@
       "ga": 4
     },
     {
+      "tla": "ENG",
+      "name": "England",
+      "mp": 4,
+      "w": 2,
+      "d": 2,
+      "l": 0,
+      "gf": 8,
+      "ga": 3
+    },
+    {
       "tla": "JPN",
       "name": "Japan",
       "mp": 4,
@@ -378,16 +388,6 @@
       "l": 2,
       "gf": 7,
       "ga": 10
-    },
-    {
-      "tla": "ENG",
-      "name": "England",
-      "mp": 3,
-      "w": 2,
-      "d": 1,
-      "l": 0,
-      "gf": 6,
-      "ga": 2
     },
     {
       "tla": "BEL",
@@ -480,6 +480,16 @@
       "ga": 7
     },
     {
+      "tla": "COD",
+      "name": "Congo DR",
+      "mp": 4,
+      "w": 1,
+      "d": 2,
+      "l": 1,
+      "gf": 5,
+      "ga": 5
+    },
+    {
       "tla": "COL",
       "name": "Colombia",
       "mp": 3,
@@ -488,16 +498,6 @@
       "l": 0,
       "gf": 4,
       "ga": 1
-    },
-    {
-      "tla": "COD",
-      "name": "Congo DR",
-      "mp": 3,
-      "w": 1,
-      "d": 1,
-      "l": 1,
-      "gf": 4,
-      "ga": 3
     },
     {
       "tla": "NZL",
