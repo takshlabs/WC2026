@@ -7349,5 +7349,193 @@
         "shotsOnTarget": 2
       }
     }
+  },
+  "537422": {
+    "goals": [
+      {
+        "minute": 24,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Habib Diarra",
+          "shortName": "Habib Diarra"
+        },
+        "assist": null,
+        "team": {
+          "id": 804
+        }
+      },
+      {
+        "minute": 51,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Isma\u00efla Sarr",
+          "shortName": "Isma\u00efla Sarr"
+        },
+        "assist": {
+          "name": "Moussa Niakhat\u00e9",
+          "shortName": "Moussa Niakhat\u00e9"
+        },
+        "team": {
+          "id": 804
+        }
+      },
+      {
+        "minute": 86,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Romelu Lukaku",
+          "shortName": "Romelu Lukaku"
+        },
+        "assist": {
+          "name": "Thomas Meunier",
+          "shortName": "Thomas Meunier"
+        },
+        "team": {
+          "id": 805
+        }
+      },
+      {
+        "minute": 89,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Youri Tielemans",
+          "shortName": "Youri Tielemans"
+        },
+        "assist": {
+          "name": "Leandro Trossard",
+          "shortName": "Leandro Trossard"
+        },
+        "team": {
+          "id": 805
+        }
+      },
+      {
+        "minute": 120,
+        "injuryTime": 5,
+        "type": "PENALTY",
+        "scorer": {
+          "name": "Youri Tielemans",
+          "shortName": "Youri Tielemans"
+        },
+        "assist": null,
+        "team": {
+          "id": 805
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 64,
+        "player": {
+          "name": "Brandon Mechele",
+          "shortName": "Brandon Mechele"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 805
+        }
+      },
+      {
+        "minute": 67,
+        "player": {
+          "name": "Lamine Camara",
+          "shortName": "Lamine Camara"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 804
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 22,
+        "corners": 4,
+        "possession": 52.3,
+        "shots": 19,
+        "shotsOnTarget": 5
+      },
+      "away": {
+        "fouls": 12,
+        "corners": 2,
+        "possession": 47.7,
+        "shots": 19,
+        "shotsOnTarget": 5
+      }
+    }
+  },
+  "537421": {
+    "goals": [
+      {
+        "minute": 45,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Folarin Balogun",
+          "shortName": "Folarin Balogun"
+        },
+        "assist": null,
+        "team": {
+          "id": 771
+        }
+      },
+      {
+        "minute": 82,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Malik Tillman",
+          "shortName": "Malik Tillman"
+        },
+        "assist": null,
+        "team": {
+          "id": 771
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 64,
+        "player": {
+          "name": "Folarin Balogun",
+          "shortName": "Folarin Balogun"
+        },
+        "card": "RED_CARD",
+        "team": {
+          "id": 771
+        }
+      },
+      {
+        "minute": 80,
+        "player": {
+          "name": "Stjepan Radeljic",
+          "shortName": "Stjepan Radeljic"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 1060
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 7,
+        "corners": 4,
+        "possession": 48.4,
+        "shots": 8,
+        "shotsOnTarget": 2
+      },
+      "away": {
+        "fouls": 13,
+        "corners": 3,
+        "possession": 51.6,
+        "shots": 10,
+        "shotsOnTarget": 3
+      }
+    }
   }
 }
