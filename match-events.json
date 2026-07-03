@@ -7788,5 +7788,78 @@
         "shotsOnTarget": 2
       }
     }
+  },
+  "537428": {
+    "goals": [
+      {
+        "minute": 13,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Emam Ashour",
+          "shortName": "Emam Ashour"
+        },
+        "assist": {
+          "name": "Karim Hafez",
+          "shortName": "Karim Hafez"
+        },
+        "team": {
+          "id": 825
+        }
+      },
+      {
+        "minute": 55,
+        "injuryTime": null,
+        "type": "OWN_GOAL",
+        "scorer": {
+          "name": "Mohamed Hany",
+          "shortName": "Mohamed Hany"
+        },
+        "assist": null,
+        "team": {
+          "id": 779
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 105,
+        "player": {
+          "name": "Haissem Hassan",
+          "shortName": "Haissem Hassan"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 825
+        }
+      },
+      {
+        "minute": 120,
+        "player": {
+          "name": "Yasser Ibrahim",
+          "shortName": "Yasser Ibrahim"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 825
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 12,
+        "corners": 4,
+        "possession": 41.7,
+        "shots": 16,
+        "shotsOnTarget": 1
+      },
+      "away": {
+        "fouls": 14,
+        "corners": 7,
+        "possession": 58.3,
+        "shots": 14,
+        "shotsOnTarget": 3
+      }
+    }
   }
 }
