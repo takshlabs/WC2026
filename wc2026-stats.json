@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-02T20:43:28Z",
+  "updated": "2026-07-03T08:37:14Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -57,6 +57,15 @@
       "mp": 0
     },
     {
+      "name": "Mikel Oyarzabal",
+      "team": "Spain",
+      "goals": 4,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
       "name": "Isma\u00efla Sarr",
       "team": "Senegal",
       "goals": 4,
@@ -75,17 +84,17 @@
       "mp": 0
     },
     {
-      "name": "Juli\u00e1n Qui\u00f1ones",
-      "team": "Mexico",
+      "name": "Johan Manzambi",
+      "team": "Switzerland",
       "goals": 3,
-      "assists": 1,
+      "assists": 2,
       "yc": 0,
       "rc": 0,
       "mp": 0
     },
     {
-      "name": "Johan Manzambi",
-      "team": "Switzerland",
+      "name": "Juli\u00e1n Qui\u00f1ones",
+      "team": "Mexico",
       "goals": 3,
       "assists": 1,
       "yc": 0,
@@ -174,6 +183,24 @@
       "mp": 0
     },
     {
+      "name": "Cristiano Ronaldo",
+      "team": "Portugal",
+      "goals": 3,
+      "assists": 0,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Breel Embolo",
+      "team": "Switzerland",
+      "goals": 2,
+      "assists": 2,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
       "name": "Crysencio Summerville",
       "team": "Netherlands",
       "goals": 2,
@@ -194,33 +221,6 @@
     {
       "name": "Bradley Barcola",
       "team": "France",
-      "goals": 2,
-      "assists": 1,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Jude Bellingham",
-      "team": "England",
-      "goals": 2,
-      "assists": 1,
-      "yc": 1,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Rub\u00e9n Vargas",
-      "team": "Switzerland",
-      "goals": 2,
-      "assists": 1,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Ayase Ueda",
-      "team": "Japan",
       "goals": 2,
       "assists": 1,
       "yc": 0,
@@ -300,6 +300,16 @@
       "ga": 9
     },
     {
+      "tla": "SUI",
+      "name": "Switzerland",
+      "mp": 4,
+      "w": 3,
+      "d": 1,
+      "l": 0,
+      "gf": 9,
+      "ga": 3
+    },
+    {
       "tla": "BRA",
       "name": "Brazil",
       "mp": 4,
@@ -340,6 +350,16 @@
       "ga": 0
     },
     {
+      "tla": "ESP",
+      "name": "Spain",
+      "mp": 4,
+      "w": 3,
+      "d": 1,
+      "l": 0,
+      "gf": 8,
+      "ga": 0
+    },
+    {
       "tla": "ARG",
       "name": "Argentina",
       "mp": 3,
@@ -358,6 +378,16 @@
       "l": 0,
       "gf": 8,
       "ga": 3
+    },
+    {
+      "tla": "POR",
+      "name": "Portugal",
+      "mp": 4,
+      "w": 2,
+      "d": 2,
+      "l": 0,
+      "gf": 8,
+      "ga": 2
     },
     {
       "tla": "JPN",
@@ -380,16 +410,6 @@
       "ga": 8
     },
     {
-      "tla": "SUI",
-      "name": "Switzerland",
-      "mp": 3,
-      "w": 2,
-      "d": 1,
-      "l": 0,
-      "gf": 7,
-      "ga": 3
-    },
-    {
       "tla": "SWE",
       "name": "Sweden",
       "mp": 4,
@@ -400,24 +420,24 @@
       "ga": 10
     },
     {
-      "tla": "AUT",
-      "name": "Austria",
-      "mp": 3,
-      "w": 1,
-      "d": 1,
-      "l": 1,
+      "tla": "CRO",
+      "name": "Croatia",
+      "mp": 4,
+      "w": 2,
+      "d": 0,
+      "l": 2,
       "gf": 6,
-      "ga": 6
+      "ga": 7
     },
     {
-      "tla": "POR",
-      "name": "Portugal",
-      "mp": 3,
+      "tla": "AUT",
+      "name": "Austria",
+      "mp": 4,
       "w": 1,
-      "d": 2,
-      "l": 0,
+      "d": 1,
+      "l": 2,
       "gf": 6,
-      "ga": 1
+      "ga": 9
     },
     {
       "tla": "CIV",
@@ -428,26 +448,6 @@
       "l": 2,
       "gf": 5,
       "ga": 4
-    },
-    {
-      "tla": "ESP",
-      "name": "Spain",
-      "mp": 3,
-      "w": 2,
-      "d": 1,
-      "l": 0,
-      "gf": 5,
-      "ga": 0
-    },
-    {
-      "tla": "CRO",
-      "name": "Croatia",
-      "mp": 3,
-      "w": 2,
-      "d": 0,
-      "l": 1,
-      "gf": 5,
-      "ga": 5
     },
     {
       "tla": "BIH",
@@ -472,12 +472,12 @@
     {
       "tla": "ALG",
       "name": "Algeria",
-      "mp": 3,
+      "mp": 4,
       "w": 1,
       "d": 1,
-      "l": 1,
+      "l": 2,
       "gf": 5,
-      "ga": 7
+      "ga": 9
     },
     {
       "tla": "COD",
