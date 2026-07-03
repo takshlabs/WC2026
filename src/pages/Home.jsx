@@ -208,21 +208,27 @@ const MB_QF_Y  = [(MB_R16_Y[0]+MB_R16_Y[1])/2,(MB_R16_Y[2]+MB_R16_Y[3])/2]
 const MB_SF_Y  = (MB_QF_Y[0]+MB_QF_Y[1])/2
 
 const MB_POSITIONS = [
-  [73,MB_X.R32_L,MB_R32_Y[0]], [74,MB_X.R32_L,MB_R32_Y[1]],
-  [75,MB_X.R32_L,MB_R32_Y[2]], [76,MB_X.R32_L,MB_R32_Y[3]],
-  [77,MB_X.R32_L,MB_R32_Y[4]], [78,MB_X.R32_L,MB_R32_Y[5]],
-  [79,MB_X.R32_L,MB_R32_Y[6]], [80,MB_X.R32_L,MB_R32_Y[7]],
+  // Left R32 — FIFA cross-pairings: {73,76}→89  {75,78}→90  {84,83}→93  {82,81}→94
+  [73,MB_X.R32_L,MB_R32_Y[0]], [76,MB_X.R32_L,MB_R32_Y[1]],
+  [75,MB_X.R32_L,MB_R32_Y[2]], [78,MB_X.R32_L,MB_R32_Y[3]],
+  [84,MB_X.R32_L,MB_R32_Y[4]], [83,MB_X.R32_L,MB_R32_Y[5]],
+  [82,MB_X.R32_L,MB_R32_Y[6]], [81,MB_X.R32_L,MB_R32_Y[7]],
+  // Left R16
   [89,MB_X.R16_L,MB_R16_Y[0]], [90,MB_X.R16_L,MB_R16_Y[1]],
-  [91,MB_X.R16_L,MB_R16_Y[2]], [92,MB_X.R16_L,MB_R16_Y[3]],
+  [93,MB_X.R16_L,MB_R16_Y[2]], [94,MB_X.R16_L,MB_R16_Y[3]],
+  // Left QF + SF + Final + Right SF
   [97,MB_X.QF_L, MB_QF_Y[0]], [98,MB_X.QF_L, MB_QF_Y[1]],
   [101,MB_X.SF_L,MB_SF_Y], [104,MB_FINAL_X,MB_SF_Y], [102,MB_SF_R_X,MB_SF_Y],
+  // Right QF
   [99,MB_X.QF_R, MB_QF_Y[0]], [100,MB_X.QF_R,MB_QF_Y[1]],
-  [93,MB_X.R16_R,MB_R16_Y[0]], [94,MB_X.R16_R,MB_R16_Y[1]],
+  // Right R16
+  [91,MB_X.R16_R,MB_R16_Y[0]], [92,MB_X.R16_R,MB_R16_Y[1]],
   [95,MB_X.R16_R,MB_R16_Y[2]], [96,MB_X.R16_R,MB_R16_Y[3]],
-  [81,MB_X.R32_R,MB_R32_Y[0]], [82,MB_X.R32_R,MB_R32_Y[1]],
-  [83,MB_X.R32_R,MB_R32_Y[2]], [84,MB_X.R32_R,MB_R32_Y[3]],
-  [85,MB_X.R32_R,MB_R32_Y[4]], [86,MB_X.R32_R,MB_R32_Y[5]],
-  [87,MB_X.R32_R,MB_R32_Y[6]], [88,MB_X.R32_R,MB_R32_Y[7]],
+  // Right R32 — {74,77}→91  {79,80}→92  {87,86}→95  {85,88}→96
+  [74,MB_X.R32_R,MB_R32_Y[0]], [77,MB_X.R32_R,MB_R32_Y[1]],
+  [79,MB_X.R32_R,MB_R32_Y[2]], [80,MB_X.R32_R,MB_R32_Y[3]],
+  [87,MB_X.R32_R,MB_R32_Y[4]], [86,MB_X.R32_R,MB_R32_Y[5]],
+  [85,MB_X.R32_R,MB_R32_Y[6]], [88,MB_X.R32_R,MB_R32_Y[7]],
 ]
 
 const MB_L_CONN = [
