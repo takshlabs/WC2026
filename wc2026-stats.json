@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-03T21:47:50Z",
+  "updated": "2026-07-03T23:03:14Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -430,6 +430,16 @@
       "ga": 7
     },
     {
+      "tla": "EGY",
+      "name": "Egypt",
+      "mp": 4,
+      "w": 1,
+      "d": 3,
+      "l": 0,
+      "gf": 6,
+      "ga": 4
+    },
+    {
       "tla": "AUT",
       "name": "Austria",
       "mp": 4,
@@ -458,16 +468,6 @@
       "l": 2,
       "gf": 5,
       "ga": 8
-    },
-    {
-      "tla": "EGY",
-      "name": "Egypt",
-      "mp": 3,
-      "w": 1,
-      "d": 2,
-      "l": 0,
-      "gf": 5,
-      "ga": 3
     },
     {
       "tla": "ALG",
@@ -510,6 +510,16 @@
       "ga": 10
     },
     {
+      "tla": "AUS",
+      "name": "Australia",
+      "mp": 4,
+      "w": 1,
+      "d": 2,
+      "l": 1,
+      "gf": 3,
+      "ga": 3
+    },
+    {
       "tla": "TUR",
       "name": "Turkey",
       "mp": 3,
@@ -538,16 +548,6 @@
       "l": 0,
       "gf": 3,
       "ga": 3
-    },
-    {
-      "tla": "JOR",
-      "name": "Jordan",
-      "mp": 3,
-      "w": 0,
-      "d": 0,
-      "l": 3,
-      "gf": 3,
-      "ga": 8
     }
   ]
 }
