@@ -7537,5 +7537,256 @@
         "shotsOnTarget": 3
       }
     }
+  },
+  "537420": {
+    "goals": [
+      {
+        "minute": 36,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Mikel Oyarzabal",
+          "shortName": "Mikel Oyarzabal"
+        },
+        "assist": {
+          "name": "Marc Cucurella",
+          "shortName": "Marc Cucurella"
+        },
+        "team": {
+          "id": 760
+        }
+      },
+      {
+        "minute": 66,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Pedro Porro",
+          "shortName": "Pedro Porro"
+        },
+        "assist": {
+          "name": "\u00c1lex Baena",
+          "shortName": "\u00c1lex Baena"
+        },
+        "team": {
+          "id": 760
+        }
+      },
+      {
+        "minute": 89,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Mikel Oyarzabal",
+          "shortName": "Mikel Oyarzabal"
+        },
+        "assist": {
+          "name": "Marc Cucurella",
+          "shortName": "Marc Cucurella"
+        },
+        "team": {
+          "id": 760
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 83,
+        "player": {
+          "name": "Stefan Posch",
+          "shortName": "Stefan Posch"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 816
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 8,
+        "corners": 9,
+        "possession": 64.4,
+        "shots": 23,
+        "shotsOnTarget": 10
+      },
+      "away": {
+        "fouls": 15,
+        "corners": 0,
+        "possession": 35.6,
+        "shots": 5,
+        "shotsOnTarget": 0
+      }
+    }
+  },
+  "537419": {
+    "goals": [
+      {
+        "minute": 53,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Ivan Perisic",
+          "shortName": "Ivan Perisic"
+        },
+        "assist": null,
+        "team": {
+          "id": 799
+        }
+      },
+      {
+        "minute": 68,
+        "injuryTime": null,
+        "type": "PENALTY",
+        "scorer": {
+          "name": "Cristiano Ronaldo",
+          "shortName": "Cristiano Ronaldo"
+        },
+        "assist": null,
+        "team": {
+          "id": 765
+        }
+      },
+      {
+        "minute": 90,
+        "injuryTime": 4,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Gon\u00e7alo Ramos",
+          "shortName": "Gon\u00e7alo Ramos"
+        },
+        "assist": {
+          "name": "Rafael Le\u00e3o",
+          "shortName": "Rafael Le\u00e3o"
+        },
+        "team": {
+          "id": 765
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 17,
+        "player": {
+          "name": "R\u00faben Dias",
+          "shortName": "R\u00faben Dias"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 765
+        }
+      },
+      {
+        "minute": 59,
+        "player": {
+          "name": "Luka Modric",
+          "shortName": "Luka Modric"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 799
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Ivan Perisic",
+          "shortName": "Ivan Perisic"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 799
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 6,
+        "corners": 9,
+        "possession": 60.4,
+        "shots": 15,
+        "shotsOnTarget": 3
+      },
+      "away": {
+        "fouls": 12,
+        "corners": 5,
+        "possession": 39.6,
+        "shots": 13,
+        "shotsOnTarget": 6
+      }
+    }
+  },
+  "537429": {
+    "goals": [
+      {
+        "minute": 10,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Breel Embolo",
+          "shortName": "Breel Embolo"
+        },
+        "assist": {
+          "name": "Johan Manzambi",
+          "shortName": "Johan Manzambi"
+        },
+        "team": {
+          "id": 788
+        }
+      },
+      {
+        "minute": 46,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Dan Ndoye",
+          "shortName": "Dan Ndoye"
+        },
+        "assist": null,
+        "team": {
+          "id": 788
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 36,
+        "player": {
+          "name": "Far\u00e8s Cha\u00efbi",
+          "shortName": "Far\u00e8s Cha\u00efbi"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 778
+        }
+      },
+      {
+        "minute": 72,
+        "player": {
+          "name": "Hicham Boudaoui",
+          "shortName": "Hicham Boudaoui"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 778
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 10,
+        "corners": 4,
+        "possession": 44.5,
+        "shots": 11,
+        "shotsOnTarget": 5
+      },
+      "away": {
+        "fouls": 12,
+        "corners": 2,
+        "possession": 55.5,
+        "shots": 8,
+        "shotsOnTarget": 2
+      }
+    }
   }
 }
