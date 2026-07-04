@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-04T16:34:27Z",
+  "updated": "2026-07-04T20:16:58Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -160,7 +160,7 @@
       "team": "Canada",
       "goals": 3,
       "assists": 0,
-      "yc": 0,
+      "yc": 1,
       "rc": 0,
       "mp": 0
     },
@@ -250,6 +250,16 @@
       "ga": 2
     },
     {
+      "tla": "MAR",
+      "name": "Morocco",
+      "mp": 5,
+      "w": 3,
+      "d": 2,
+      "l": 0,
+      "gf": 13,
+      "ga": 6
+    },
+    {
       "tla": "NED",
       "name": "Netherlands",
       "mp": 4,
@@ -278,16 +288,6 @@
       "l": 1,
       "gf": 10,
       "ga": 4
-    },
-    {
-      "tla": "MAR",
-      "name": "Morocco",
-      "mp": 4,
-      "w": 3,
-      "d": 1,
-      "l": 0,
-      "gf": 10,
-      "ga": 6
     },
     {
       "tla": "NOR",
@@ -332,12 +332,12 @@
     {
       "tla": "CAN",
       "name": "Canada",
-      "mp": 4,
+      "mp": 5,
       "w": 2,
-      "d": 1,
+      "d": 2,
       "l": 1,
       "gf": 9,
-      "ga": 3
+      "ga": 6
     },
     {
       "tla": "BEL",
