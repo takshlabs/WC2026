@@ -7954,5 +7954,163 @@
         "shotsOnTarget": 0
       }
     }
+  },
+  "537376": {
+    "goals": [
+      {
+        "minute": 50,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Azzedine Ounahi",
+          "shortName": "Azzedine Ounahi"
+        },
+        "assist": {
+          "name": "Achraf Hakimi",
+          "shortName": "Achraf Hakimi"
+        },
+        "team": {
+          "id": 815
+        }
+      },
+      {
+        "minute": 82,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Azzedine Ounahi",
+          "shortName": "Azzedine Ounahi"
+        },
+        "assist": {
+          "name": "Brahim D\u00edaz",
+          "shortName": "Brahim D\u00edaz"
+        },
+        "team": {
+          "id": 815
+        }
+      },
+      {
+        "minute": 90,
+        "injuryTime": 8,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Soufiane Rahimi",
+          "shortName": "Soufiane Rahimi"
+        },
+        "assist": {
+          "name": "Brahim D\u00edaz",
+          "shortName": "Brahim D\u00edaz"
+        },
+        "team": {
+          "id": 815
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 20,
+        "player": {
+          "name": "Redouane Halhal",
+          "shortName": "Redouane Halhal"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 815
+        }
+      },
+      {
+        "minute": 40,
+        "player": {
+          "name": "Achraf Hakimi",
+          "shortName": "Achraf Hakimi"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 815
+        }
+      },
+      {
+        "minute": 40,
+        "player": {
+          "name": "Richie Laryea",
+          "shortName": "Richie Laryea"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 828
+        }
+      },
+      {
+        "minute": 43,
+        "player": {
+          "name": "Jonathan David",
+          "shortName": "Jonathan David"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 828
+        }
+      },
+      {
+        "minute": 45,
+        "player": {
+          "name": "Azzedine Ounahi",
+          "shortName": "Azzedine Ounahi"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 815
+        }
+      },
+      {
+        "minute": 45,
+        "player": {
+          "name": "Bilal El Khannouss",
+          "shortName": "Bilal El Khannouss"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 815
+        }
+      },
+      {
+        "minute": 49,
+        "player": {
+          "name": "Luc de Fougerolles",
+          "shortName": "Luc de Fougerolles"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 828
+        }
+      },
+      {
+        "minute": 67,
+        "player": {
+          "name": "Cyle Larin",
+          "shortName": "Cyle Larin"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 828
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 24,
+        "corners": 11,
+        "possession": 44.6,
+        "shots": 10,
+        "shotsOnTarget": 3
+      },
+      "away": {
+        "fouls": 14,
+        "corners": 1,
+        "possession": 55.4,
+        "shots": 5,
+        "shotsOnTarget": 4
+      }
+    }
   }
 }
