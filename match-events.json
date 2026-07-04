@@ -8112,5 +8112,73 @@
         "shotsOnTarget": 4
       }
     }
+  },
+  "537375": {
+    "goals": [
+      {
+        "minute": 70,
+        "injuryTime": null,
+        "type": "PENALTY",
+        "scorer": {
+          "name": "Kylian Mbapp\u00e9",
+          "shortName": "Kylian Mbapp\u00e9"
+        },
+        "assist": null,
+        "team": {
+          "id": 773
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 19,
+        "player": {
+          "name": "Bradley Barcola",
+          "shortName": "Bradley Barcola"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 773
+        }
+      },
+      {
+        "minute": 81,
+        "player": {
+          "name": "Manu Kon\u00e9",
+          "shortName": "Manu Kon\u00e9"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 773
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Michael Olise",
+          "shortName": "Michael Olise"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 773
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 13,
+        "corners": 2,
+        "possession": 24,
+        "shots": 5,
+        "shotsOnTarget": 1
+      },
+      "away": {
+        "fouls": 11,
+        "corners": 12,
+        "possession": 76,
+        "shots": 15,
+        "shotsOnTarget": 5
+      }
+    }
   }
 }
