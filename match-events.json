@@ -7861,5 +7861,98 @@
         "shotsOnTarget": 3
       }
     }
+  },
+  "537430": {
+    "goals": [
+      {
+        "minute": 14,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Jhon Arias",
+          "shortName": "Jhon Arias"
+        },
+        "assist": {
+          "name": "Luis Su\u00e1rez",
+          "shortName": "Luis Su\u00e1rez"
+        },
+        "team": {
+          "id": 818
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 12,
+        "player": {
+          "name": "Jhon Arias",
+          "shortName": "Jhon Arias"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 818
+        }
+      },
+      {
+        "minute": 49,
+        "player": {
+          "name": "Caleb Yirenkyi",
+          "shortName": "Caleb Yirenkyi"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 763
+        }
+      },
+      {
+        "minute": 66,
+        "player": {
+          "name": "Fatawu Issahaku",
+          "shortName": "Fatawu Issahaku"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 763
+        }
+      },
+      {
+        "minute": 76,
+        "player": {
+          "name": "Alidu Seidu",
+          "shortName": "Alidu Seidu"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 763
+        }
+      },
+      {
+        "minute": 78,
+        "player": {
+          "name": "Richard R\u00edos",
+          "shortName": "Richard R\u00edos"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 818
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 14,
+        "corners": 3,
+        "possession": 60.7,
+        "shots": 20,
+        "shotsOnTarget": 8
+      },
+      "away": {
+        "fouls": 10,
+        "corners": 2,
+        "possession": 39.3,
+        "shots": 8,
+        "shotsOnTarget": 0
+      }
+    }
   }
 }
