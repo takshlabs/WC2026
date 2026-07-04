@@ -1,11 +1,11 @@
 {
-  "updated": "2026-07-04T21:38:15Z",
+  "updated": "2026-07-04T23:46:17Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
       "name": "Kylian Mbapp\u00e9",
       "team": "France",
-      "goals": 6,
+      "goals": 7,
       "assists": 2,
       "yc": 0,
       "rc": 0,
@@ -223,12 +223,22 @@
       "team": "France",
       "goals": 2,
       "assists": 1,
-      "yc": 0,
+      "yc": 1,
       "rc": 0,
       "mp": 0
     }
   ],
   "teamStats": [
+    {
+      "tla": "FRA",
+      "name": "France",
+      "mp": 5,
+      "w": 4,
+      "d": 1,
+      "l": 0,
+      "gf": 14,
+      "ga": 2
+    },
     {
       "tla": "GER",
       "name": "Germany",
@@ -238,16 +248,6 @@
       "l": 2,
       "gf": 14,
       "ga": 9
-    },
-    {
-      "tla": "FRA",
-      "name": "France",
-      "mp": 4,
-      "w": 4,
-      "d": 0,
-      "l": 0,
-      "gf": 13,
-      "ga": 2
     },
     {
       "tla": "MAR",
@@ -402,12 +402,12 @@
     {
       "tla": "PAR",
       "name": "Paraguay",
-      "mp": 4,
+      "mp": 5,
       "w": 2,
-      "d": 1,
+      "d": 2,
       "l": 1,
       "gf": 7,
-      "ga": 8
+      "ga": 9
     },
     {
       "tla": "SWE",
