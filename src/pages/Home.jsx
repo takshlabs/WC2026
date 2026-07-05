@@ -71,12 +71,17 @@ function TeamPicker() {
 }
 
 // ── Your Teams section (always visible) ──────────────────────────────────────
-function YourTeamsSection({ goGroup }) {
+function YourTeamsSection({ goGroup, resolvedTeams }) {
   const { tz, timeFormat, liveMap, myTeams, toggleMyTeam, notifPermission, requestPermission } = useApp()
   const [showPicker, setShowPicker] = useState(false)
 
   const myNext = MATCHES
-    .filter(m => m.home && (myTeams.includes(m.home) || myTeams.includes(m.away)) && new Date(`${m.date}T${m.time}:00Z`) >= new Date())
+    .filter(m => {
+      const r = resolvedTeams?.get(m.id)
+      const hCode = m.home ?? r?.home
+      const aCode = m.away ?? r?.away
+      return hCode && aCode && (myTeams.includes(hCode) || myTeams.includes(aCode)) && new Date(`${m.date}T${m.time}:00Z`) >= new Date()
+    })
     .sort((a, b) => new Date(`${a.date}T${a.time}:00Z`) - new Date(`${b.date}T${b.time}:00Z`))
     .slice(0, 4)
 
@@ -142,7 +147,10 @@ function YourTeamsSection({ goGroup }) {
               {myNext.map(m => {
                 const live = liveMap.get(m.id)
                 const conv = convertTime(m.date, m.time, tz, timeFormat)
-                const homeT = TEAMS[m.home]; const awayT = TEAMS[m.away]
+                const r = resolvedTeams?.get(m.id)
+                const homeCode = m.home ?? r?.home ?? null
+                const awayCode = m.away ?? r?.away ?? null
+                const homeT = TEAMS[homeCode]; const awayT = TEAMS[awayCode]
                 const v = VENUES[m.venue]
                 const hs = live?.homeScore ?? m.homeScore; const as_ = live?.awayScore ?? m.awayScore
                 const color = groupColor(m.group)
@@ -158,7 +166,7 @@ function YourTeamsSection({ goGroup }) {
                       <span className="badge badge-group" style={{ background: color, fontSize: '0.55rem' }}>Grp {m.group}</span>
                     </div>
                     <div className="home-fx-matchup">
-                      <div className="home-fx-team home"><FlagImg code={m.home} size={18} /><span>{homeT?.name}</span></div>
+                      <div className="home-fx-team home"><FlagImg code={homeCode} size={18} /><span>{homeT?.name}</span></div>
                       <div className="home-fx-center">
                         {hs !== undefined ? (
                           <>
@@ -169,7 +177,7 @@ function YourTeamsSection({ goGroup }) {
                           </>
                         ) : <span className="home-fx-vs">vs</span>}
                       </div>
-                      <div className="home-fx-team away"><span>{awayT?.name}</span><FlagImg code={m.away} size={18} /></div>
+                      <div className="home-fx-team away"><span>{awayT?.name}</span><FlagImg code={awayCode} size={18} /></div>
                     </div>
                     <div className="home-fx-venue">{v?.city}</div>
                   </div>
@@ -377,7 +385,7 @@ export default function Home() {
   const now = Date.now()
   const msToTs = m => new Date(`${m.date}T${m.time}:00Z`).getTime()
   const upcoming = MATCHES
-    .filter(m => m.home && msToTs(m) >= now)
+    .filter(m => (m.home || resolvedTeams?.get(m.id)?.home) && msToTs(m) >= now)
     .sort((a, b) => msToTs(a) - msToTs(b))
     .slice(0, 8)
 
@@ -555,7 +563,7 @@ export default function Home() {
       <div className="container">
 
         {/* ── My Teams ───────────────────────────────────────────────────── */}
-        <YourTeamsSection goGroup={goGroup} />
+        <YourTeamsSection goGroup={goGroup} resolvedTeams={resolvedTeams} />
 
         {/* ── Live scores or upcoming ────────────────────────────────────── */}
         <div className="home-section">
@@ -572,8 +580,11 @@ export default function Home() {
           {(liveMatches.length > 0 ? liveMatches : upcoming).map(m => {
             const live = liveMap.get(m.id)
             const conv = convertTime(m.date, m.time, tz, timeFormat)
-            const homeT = TEAMS[m.home]
-            const awayT = TEAMS[m.away]
+            const r = resolvedTeams?.get(m.id)
+            const homeCode = m.home ?? r?.home ?? null
+            const awayCode = m.away ?? r?.away ?? null
+            const homeT = TEAMS[homeCode]
+            const awayT = TEAMS[awayCode]
             const v = VENUES[m.venue]
             const hs = live?.homeScore ?? m.homeScore
             const as_ = live?.awayScore ?? m.awayScore
@@ -594,8 +605,8 @@ export default function Home() {
                 </div>
                 <div className="home-fx-matchup">
                   <div className="home-fx-team home">
-                    <FlagImg code={m.home} size={18} />
-                    <span>{homeT?.name || '–'}</span>
+                    <FlagImg code={homeCode} size={18} />
+                    <span>{homeT?.name || (m.homeLabel || '–')}</span>
                   </div>
                   <div className="home-fx-center">
                     {hs !== undefined
@@ -608,8 +619,8 @@ export default function Home() {
                       : <span className="home-fx-vs">vs</span>}
                   </div>
                   <div className="home-fx-team away">
-                    <span>{awayT?.name || '–'}</span>
-                    <FlagImg code={m.away} size={18} />
+                    <span>{awayT?.name || (m.awayLabel || '–')}</span>
+                    <FlagImg code={awayCode} size={18} />
                   </div>
                 </div>
                 <div className="home-fx-venue">{v?.city}</div>
@@ -629,7 +640,10 @@ export default function Home() {
             <div className="yesterday-grid">
               {recentResults.map(m => {
                 const live = liveMap.get(m.id)
-                const homeT = TEAMS[m.home]; const awayT = TEAMS[m.away]
+                const r = resolvedTeams?.get(m.id)
+                const homeCode = m.home ?? r?.home ?? null
+                const awayCode = m.away ?? r?.away ?? null
+                const homeT = TEAMS[homeCode]; const awayT = TEAMS[awayCode]
                 const hs = live?.homeScore; const as_ = live?.awayScore
                 const color = groupColor(m.group)
                 const homeGoals = (live?.goals || []).filter(g => g.side === 'home')
@@ -642,8 +656,8 @@ export default function Home() {
                     <div className="yesterday-inner">
                       <div className="yesterday-matchup">
                         <div className="yesterday-team">
-                          <FlagImg code={m.home} size={20} />
-                          <span>{homeT?.name}</span>
+                          <FlagImg code={homeCode} size={20} />
+                          <span>{homeT?.name || (m.homeLabel || '–')}</span>
                         </div>
                         <div className="yesterday-score-block">
                           <span className="yesterday-score">{hs}–{as_}</span>
@@ -653,8 +667,8 @@ export default function Home() {
                           )}
                         </div>
                         <div className="yesterday-team away">
-                          <span>{awayT?.name}</span>
-                          <FlagImg code={m.away} size={20} />
+                          <span>{awayT?.name || (m.awayLabel || '–')}</span>
+                          <FlagImg code={awayCode} size={20} />
                         </div>
                       </div>
                       {(homeGoals.length > 0 || awayGoals.length > 0 || homeCards.length > 0 || awayCards.length > 0) && (

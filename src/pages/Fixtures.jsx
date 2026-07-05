@@ -4,6 +4,7 @@ import { convertTime, groupColor, roundLabel } from '../utils'
 import { useApp } from '../App'
 import FlagImg from '../components/FlagImg'
 import MatchFacts from '../components/MatchFacts'
+import { useBracketTeams } from '../hooks/useBracketTeams'
 
 const GROUPS = ['A','B','C','D','E','F','G','H','I','J','K','L']
 const ROUNDS  = [
@@ -40,6 +41,7 @@ function useAgo(date) {
 
 export default function Fixtures() {
   const { tz, timeFormat, setTeamModal, liveMap, lastUpdated, fixtureFilter, setFixtureFilter } = useApp()
+  const resolvedTeams = useBracketTeams(liveMap)
   const { group, round, team, focus, timeSlot, venue } = fixtureFilter
   const [localTeam, setLocalTeam] = useState(team || '')
   const ago = useAgo(lastUpdated)
@@ -73,8 +75,11 @@ export default function Fixtures() {
       }
       if (round && m.round !== round) return false
       if (teamQ) {
-        const hn = TEAMS[m.home]?.name.toLowerCase() || (m.homeLabel||'').toLowerCase()
-        const an = TEAMS[m.away]?.name.toLowerCase() || (m.awayLabel||'').toLowerCase()
+        const r = resolvedTeams?.get(m.id)
+        const homeCode = m.home ?? r?.home ?? null
+        const awayCode = m.away ?? r?.away ?? null
+        const hn = TEAMS[homeCode]?.name.toLowerCase() || (m.homeLabel||'').toLowerCase()
+        const an = TEAMS[awayCode]?.name.toLowerCase() || (m.awayLabel||'').toLowerCase()
         if (!hn.includes(teamQ) && !an.includes(teamQ)) return false
       }
       if (focus && m.home !== focus && m.away !== focus) return false
@@ -238,6 +243,7 @@ export default function Fixtures() {
                       focus={focus}
                       latestFinishedId={latestFinishedId}
                       upcomingRef={m.id === firstUpcomingId ? upcomingRef : null}
+                      resolvedTeams={resolvedTeams}
                     />
                   ))}
                 </div>
@@ -250,10 +256,13 @@ export default function Fixtures() {
   )
 }
 
-function MatchRow({ m, focus, latestFinishedId, upcomingRef }) {
+function MatchRow({ m, focus, latestFinishedId, upcomingRef, resolvedTeams }) {
   const { setTeamModal, myTeams, toggleMyTeam } = useApp()
-  const homeT = TEAMS[m.home]
-  const awayT = TEAMS[m.away]
+  const r = resolvedTeams?.get(m.id)
+  const homeCode = m.home ?? r?.home ?? null
+  const awayCode = m.away ?? r?.away ?? null
+  const homeT = TEAMS[homeCode]
+  const awayT = TEAMS[awayCode]
   const v     = VENUES[m.venue]
   const live  = m.live
   const hs    = live?.homeScore ?? m.homeScore
@@ -261,7 +270,7 @@ function MatchRow({ m, focus, latestFinishedId, upcomingRef }) {
   const isLive     = live?.status === 'live'
   const isFinished = live?.status === 'finished'
   const hasPens    = live?.penalties != null
-  const isFocus = focus && (m.home === focus || m.away === focus)
+  const isFocus = focus && (homeCode === focus || awayCode === focus)
   const color   = m.group ? groupColor(m.group) : 'var(--border-2)'
 
   // Auto-expand: live matches + the single most recently finished match only
@@ -292,15 +301,15 @@ function MatchRow({ m, focus, latestFinishedId, upcomingRef }) {
       </div>
       <div className={`fx-team home${!homeT ? ' tbd' : ''}`}>
         {homeT && (
-          <button className={`fx-star${myTeams.includes(m.home) ? ' starred' : ''}`}
-            onClick={e => { e.stopPropagation(); toggleMyTeam(m.home) }}
-            title={myTeams.includes(m.home) ? 'Unwatch' : 'Watch team'}>★</button>
+          <button className={`fx-star${myTeams.includes(homeCode) ? ' starred' : ''}`}
+            onClick={e => { e.stopPropagation(); toggleMyTeam(homeCode) }}
+            title={myTeams.includes(homeCode) ? 'Unwatch' : 'Watch team'}>★</button>
         )}
         <span
-          onClick={e => { e.stopPropagation(); homeT && setTeamModal(m.home) }}
+          onClick={e => { e.stopPropagation(); homeT && setTeamModal(homeCode) }}
           style={{ display:'inline-flex', alignItems:'center', gap:5, cursor: homeT ? 'pointer' : 'default' }}
         >
-          {homeT && <FlagImg code={m.home} size={16} />}
+          {homeT && <FlagImg code={homeCode} size={16} />}
           {homeT ? homeT.name : (m.homeLabel || 'TBD')}
         </span>
       </div>
@@ -314,16 +323,16 @@ function MatchRow({ m, focus, latestFinishedId, upcomingRef }) {
       </div>
       <div className={`fx-team away${!awayT ? ' tbd' : ''}`}>
         <span
-          onClick={e => { e.stopPropagation(); awayT && setTeamModal(m.away) }}
+          onClick={e => { e.stopPropagation(); awayT && setTeamModal(awayCode) }}
           style={{ display:'inline-flex', alignItems:'center', gap:5, cursor: awayT ? 'pointer' : 'default' }}
         >
           {awayT ? awayT.name : (m.awayLabel || 'TBD')}
-          {awayT && <FlagImg code={m.away} size={16} />}
+          {awayT && <FlagImg code={awayCode} size={16} />}
         </span>
         {awayT && (
-          <button className={`fx-star${myTeams.includes(m.away) ? ' starred' : ''}`}
-            onClick={e => { e.stopPropagation(); toggleMyTeam(m.away) }}
-            title={myTeams.includes(m.away) ? 'Unwatch' : 'Watch team'}>★</button>
+          <button className={`fx-star${myTeams.includes(awayCode) ? ' starred' : ''}`}
+            onClick={e => { e.stopPropagation(); toggleMyTeam(awayCode) }}
+            title={myTeams.includes(awayCode) ? 'Unwatch' : 'Watch team'}>★</button>
         )}
       </div>
       <div className="fx-venue">{v?.city || '-'}</div>
