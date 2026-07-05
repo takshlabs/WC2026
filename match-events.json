@@ -8180,5 +8180,83 @@
         "shotsOnTarget": 5
       }
     }
+  },
+  "537377": {
+    "goals": [
+      {
+        "minute": 79,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Erling Haaland",
+          "shortName": "Erling Haaland"
+        },
+        "assist": {
+          "name": "Andreas Schjelderup",
+          "shortName": "Andreas Schjelderup"
+        },
+        "team": {
+          "id": 8872
+        }
+      },
+      {
+        "minute": 90,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Erling Haaland",
+          "shortName": "Erling Haaland"
+        },
+        "assist": {
+          "name": "Andreas Schjelderup",
+          "shortName": "Andreas Schjelderup"
+        },
+        "team": {
+          "id": 8872
+        }
+      },
+      {
+        "minute": 90,
+        "injuryTime": 10,
+        "type": "PENALTY",
+        "scorer": {
+          "name": "Neymar",
+          "shortName": "Neymar"
+        },
+        "assist": null,
+        "team": {
+          "id": 764
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 90,
+        "player": {
+          "name": "Neymar",
+          "shortName": "Neymar"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 764
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 7,
+        "corners": 5,
+        "possession": 33.5,
+        "shots": 14,
+        "shotsOnTarget": 4
+      },
+      "away": {
+        "fouls": 6,
+        "corners": 5,
+        "possession": 66.5,
+        "shots": 9,
+        "shotsOnTarget": 5
+      }
+    }
   }
 }
