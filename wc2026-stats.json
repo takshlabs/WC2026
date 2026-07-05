@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-05T21:40:20Z",
+  "updated": "2026-07-05T22:15:32Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -12,18 +12,18 @@
       "mp": 0
     },
     {
-      "name": "Lionel Messi",
-      "team": "Argentina",
-      "goals": 6,
+      "name": "Erling Haaland",
+      "team": "Norway",
+      "goals": 7,
       "assists": 0,
       "yc": 0,
       "rc": 0,
       "mp": 0
     },
     {
-      "name": "Erling Haaland",
-      "team": "Norway",
-      "goals": 5,
+      "name": "Lionel Messi",
+      "team": "Argentina",
+      "goals": 6,
       "assists": 0,
       "yc": 0,
       "rc": 0,
@@ -270,6 +270,16 @@
       "ga": 8
     },
     {
+      "tla": "NOR",
+      "name": "Norway",
+      "mp": 5,
+      "w": 4,
+      "d": 0,
+      "l": 1,
+      "gf": 12,
+      "ga": 9
+    },
+    {
       "tla": "ARG",
       "name": "Argentina",
       "mp": 4,
@@ -290,14 +300,14 @@
       "ga": 4
     },
     {
-      "tla": "NOR",
-      "name": "Norway",
-      "mp": 4,
+      "tla": "BRA",
+      "name": "Brazil",
+      "mp": 5,
       "w": 3,
-      "d": 0,
+      "d": 1,
       "l": 1,
       "gf": 10,
-      "ga": 8
+      "ga": 4
     },
     {
       "tla": "EGY",
@@ -328,16 +338,6 @@
       "l": 0,
       "gf": 9,
       "ga": 3
-    },
-    {
-      "tla": "BRA",
-      "name": "Brazil",
-      "mp": 4,
-      "w": 3,
-      "d": 1,
-      "l": 0,
-      "gf": 9,
-      "ga": 2
     },
     {
       "tla": "CAN",
