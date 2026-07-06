@@ -8258,5 +8258,175 @@
         "shotsOnTarget": 5
       }
     }
+  },
+  "537378": {
+    "goals": [
+      {
+        "minute": 36,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Jude Bellingham",
+          "shortName": "Jude Bellingham"
+        },
+        "assist": {
+          "name": "Bukayo Saka",
+          "shortName": "Bukayo Saka"
+        },
+        "team": {
+          "id": 770
+        }
+      },
+      {
+        "minute": 38,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Jude Bellingham",
+          "shortName": "Jude Bellingham"
+        },
+        "assist": {
+          "name": "Harry Kane",
+          "shortName": "Harry Kane"
+        },
+        "team": {
+          "id": 770
+        }
+      },
+      {
+        "minute": 42,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Juli\u00e1n Qui\u00f1ones",
+          "shortName": "Juli\u00e1n Qui\u00f1ones"
+        },
+        "assist": null,
+        "team": {
+          "id": 769
+        }
+      },
+      {
+        "minute": 60,
+        "injuryTime": null,
+        "type": "PENALTY",
+        "scorer": {
+          "name": "Harry Kane",
+          "shortName": "Harry Kane"
+        },
+        "assist": null,
+        "team": {
+          "id": 770
+        }
+      },
+      {
+        "minute": 69,
+        "injuryTime": null,
+        "type": "PENALTY",
+        "scorer": {
+          "name": "Ra\u00fal Jim\u00e9nez",
+          "shortName": "Ra\u00fal Jim\u00e9nez"
+        },
+        "assist": null,
+        "team": {
+          "id": 769
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 1,
+        "player": {
+          "name": "Declan Rice",
+          "shortName": "Declan Rice"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 770
+        }
+      },
+      {
+        "minute": 54,
+        "player": {
+          "name": "Jarell Quansah",
+          "shortName": "Jarell Quansah"
+        },
+        "card": "RED_CARD",
+        "team": {
+          "id": 770
+        }
+      },
+      {
+        "minute": 68,
+        "player": {
+          "name": "Marc Gu\u00e9hi",
+          "shortName": "Marc Gu\u00e9hi"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 770
+        }
+      },
+      {
+        "minute": 71,
+        "player": {
+          "name": "Jorge S\u00e1nchez",
+          "shortName": "Jorge S\u00e1nchez"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 769
+        }
+      },
+      {
+        "minute": 72,
+        "player": {
+          "name": "Nico O'Reilly",
+          "shortName": "Nico O'Reilly"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 770
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Johan V\u00e1squez",
+          "shortName": "Johan V\u00e1squez"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 769
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Jordan Henderson",
+          "shortName": "Jordan Henderson"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 770
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 14,
+        "corners": 12,
+        "possession": 66.9,
+        "shots": 20,
+        "shotsOnTarget": 5
+      },
+      "away": {
+        "fouls": 7,
+        "corners": 2,
+        "possession": 33.1,
+        "shots": 6,
+        "shotsOnTarget": 5
+      }
+    }
   }
 }
