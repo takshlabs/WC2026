@@ -8428,5 +8428,76 @@
         "shotsOnTarget": 5
       }
     }
+  },
+  "537379": {
+    "goals": [
+      {
+        "minute": 90,
+        "injuryTime": 1,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Mikel Merino",
+          "shortName": "Mikel Merino"
+        },
+        "assist": {
+          "name": "Ferran Torres",
+          "shortName": "Ferran Torres"
+        },
+        "team": {
+          "id": 760
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 89,
+        "player": {
+          "name": "Bernardo Silva",
+          "shortName": "Bernardo Silva"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 765
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Renato Veiga",
+          "shortName": "Renato Veiga"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 765
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Ferran Torres",
+          "shortName": "Ferran Torres"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 760
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 9,
+        "corners": 3,
+        "possession": 44.5,
+        "shots": 10,
+        "shotsOnTarget": 2
+      },
+      "away": {
+        "fouls": 13,
+        "corners": 7,
+        "possession": 55.5,
+        "shots": 15,
+        "shotsOnTarget": 6
+      }
+    }
   }
 }
