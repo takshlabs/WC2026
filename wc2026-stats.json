@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-05T22:15:32Z",
+  "updated": "2026-07-06T12:32:03Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -21,18 +21,18 @@
       "mp": 0
     },
     {
-      "name": "Lionel Messi",
-      "team": "Argentina",
+      "name": "Harry Kane",
+      "team": "England",
       "goals": 6,
-      "assists": 0,
+      "assists": 1,
       "yc": 0,
       "rc": 0,
       "mp": 0
     },
     {
-      "name": "Harry Kane",
-      "team": "England",
-      "goals": 5,
+      "name": "Lionel Messi",
+      "team": "Argentina",
+      "goals": 6,
       "assists": 0,
       "yc": 0,
       "rc": 0,
@@ -48,11 +48,29 @@
       "mp": 0
     },
     {
+      "name": "Juli\u00e1n Qui\u00f1ones",
+      "team": "Mexico",
+      "goals": 4,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
       "name": "Vin\u00edcius J\u00fanior",
       "team": "Brazil",
       "goals": 4,
       "assists": 1,
       "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Jude Bellingham",
+      "team": "England",
+      "goals": 4,
+      "assists": 1,
+      "yc": 1,
       "rc": 0,
       "mp": 0
     },
@@ -93,8 +111,8 @@
       "mp": 0
     },
     {
-      "name": "Juli\u00e1n Qui\u00f1ones",
-      "team": "Mexico",
+      "name": "Cody Gakpo",
+      "team": "Netherlands",
       "goals": 3,
       "assists": 1,
       "yc": 0,
@@ -102,10 +120,10 @@
       "mp": 0
     },
     {
-      "name": "Cody Gakpo",
-      "team": "Netherlands",
+      "name": "Ra\u00fal Jim\u00e9nez",
+      "team": "Mexico",
       "goals": 3,
-      "assists": 1,
+      "assists": 0,
       "yc": 0,
       "rc": 0,
       "mp": 0
@@ -208,24 +226,6 @@
       "yc": 1,
       "rc": 0,
       "mp": 0
-    },
-    {
-      "name": "Ramin Rezaeian",
-      "team": "Iran",
-      "goals": 2,
-      "assists": 1,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Bradley Barcola",
-      "team": "France",
-      "goals": 2,
-      "assists": 1,
-      "yc": 1,
-      "rc": 0,
-      "mp": 0
     }
   ],
   "teamStats": [
@@ -287,6 +287,26 @@
       "d": 0,
       "l": 0,
       "gf": 11,
+      "ga": 3
+    },
+    {
+      "tla": "ENG",
+      "name": "England",
+      "mp": 5,
+      "w": 4,
+      "d": 1,
+      "l": 0,
+      "gf": 11,
+      "ga": 5
+    },
+    {
+      "tla": "MEX",
+      "name": "Mexico",
+      "mp": 5,
+      "w": 4,
+      "d": 0,
+      "l": 1,
+      "gf": 10,
       "ga": 3
     },
     {
@@ -360,16 +380,6 @@
       "ga": 4
     },
     {
-      "tla": "MEX",
-      "name": "Mexico",
-      "mp": 4,
-      "w": 4,
-      "d": 0,
-      "l": 0,
-      "gf": 8,
-      "ga": 0
-    },
-    {
       "tla": "ESP",
       "name": "Spain",
       "mp": 4,
@@ -378,16 +388,6 @@
       "l": 0,
       "gf": 8,
       "ga": 0
-    },
-    {
-      "tla": "ENG",
-      "name": "England",
-      "mp": 4,
-      "w": 3,
-      "d": 1,
-      "l": 0,
-      "gf": 8,
-      "ga": 3
     },
     {
       "tla": "POR",
