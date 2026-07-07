@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-06T23:35:35Z",
+  "updated": "2026-07-07T10:40:49Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -120,6 +120,15 @@
       "mp": 0
     },
     {
+      "name": "Romelu Lukaku",
+      "team": "Belgium",
+      "goals": 3,
+      "assists": 1,
+      "yc": 1,
+      "rc": 0,
+      "mp": 0
+    },
+    {
       "name": "Ra\u00fal Jim\u00e9nez",
       "team": "Mexico",
       "goals": 3,
@@ -217,15 +226,6 @@
       "yc": 0,
       "rc": 0,
       "mp": 0
-    },
-    {
-      "name": "Crysencio Summerville",
-      "team": "Netherlands",
-      "goals": 2,
-      "assists": 2,
-      "yc": 1,
-      "rc": 0,
-      "mp": 0
     }
   ],
   "teamStats": [
@@ -258,6 +258,16 @@
       "l": 0,
       "gf": 13,
       "ga": 6
+    },
+    {
+      "tla": "BEL",
+      "name": "Belgium",
+      "mp": 5,
+      "w": 3,
+      "d": 2,
+      "l": 0,
+      "gf": 13,
+      "ga": 5
     },
     {
       "tla": "NED",
@@ -300,6 +310,16 @@
       "ga": 5
     },
     {
+      "tla": "USA",
+      "name": "United States",
+      "mp": 5,
+      "w": 3,
+      "d": 0,
+      "l": 2,
+      "gf": 11,
+      "ga": 8
+    },
+    {
       "tla": "MEX",
       "name": "Mexico",
       "mp": 5,
@@ -308,16 +328,6 @@
       "l": 1,
       "gf": 10,
       "ga": 3
-    },
-    {
-      "tla": "USA",
-      "name": "United States",
-      "mp": 4,
-      "w": 3,
-      "d": 0,
-      "l": 1,
-      "gf": 10,
-      "ga": 4
     },
     {
       "tla": "BRA",
@@ -350,6 +360,16 @@
       "ga": 9
     },
     {
+      "tla": "ESP",
+      "name": "Spain",
+      "mp": 5,
+      "w": 4,
+      "d": 1,
+      "l": 0,
+      "gf": 9,
+      "ga": 0
+    },
+    {
       "tla": "SUI",
       "name": "Switzerland",
       "mp": 4,
@@ -358,16 +378,6 @@
       "l": 0,
       "gf": 9,
       "ga": 3
-    },
-    {
-      "tla": "ESP",
-      "name": "Spain",
-      "mp": 5,
-      "w": 3,
-      "d": 2,
-      "l": 0,
-      "gf": 9,
-      "ga": 0
     },
     {
       "tla": "CAN",
@@ -380,22 +390,12 @@
       "ga": 6
     },
     {
-      "tla": "BEL",
-      "name": "Belgium",
-      "mp": 4,
-      "w": 2,
-      "d": 2,
-      "l": 0,
-      "gf": 9,
-      "ga": 4
-    },
-    {
       "tla": "POR",
       "name": "Portugal",
       "mp": 5,
       "w": 2,
-      "d": 3,
-      "l": 0,
+      "d": 2,
+      "l": 1,
       "gf": 8,
       "ga": 3
     },
