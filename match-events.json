@@ -8499,5 +8499,126 @@
         "shotsOnTarget": 6
       }
     }
+  },
+  "537380": {
+    "goals": [
+      {
+        "minute": 9,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Charles De Ketelaere",
+          "shortName": "Charles De Ketelaere"
+        },
+        "assist": {
+          "name": "Nicolas Raskin",
+          "shortName": "Nicolas Raskin"
+        },
+        "team": {
+          "id": 805
+        }
+      },
+      {
+        "minute": 31,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Malik Tillman",
+          "shortName": "Malik Tillman"
+        },
+        "assist": null,
+        "team": {
+          "id": 771
+        }
+      },
+      {
+        "minute": 33,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Charles De Ketelaere",
+          "shortName": "Charles De Ketelaere"
+        },
+        "assist": {
+          "name": "Leandro Trossard",
+          "shortName": "Leandro Trossard"
+        },
+        "team": {
+          "id": 805
+        }
+      },
+      {
+        "minute": 57,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Hans Vanaken",
+          "shortName": "Hans Vanaken"
+        },
+        "assist": {
+          "name": "Charles De Ketelaere",
+          "shortName": "Charles De Ketelaere"
+        },
+        "team": {
+          "id": 805
+        }
+      },
+      {
+        "minute": 90,
+        "injuryTime": 3,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Romelu Lukaku",
+          "shortName": "Romelu Lukaku"
+        },
+        "assist": {
+          "name": "Hans Vanaken",
+          "shortName": "Hans Vanaken"
+        },
+        "team": {
+          "id": 805
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 35,
+        "player": {
+          "name": "Weston McKennie",
+          "shortName": "Weston McKennie"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 771
+        }
+      },
+      {
+        "minute": 69,
+        "player": {
+          "name": "Malik Tillman",
+          "shortName": "Malik Tillman"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 771
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 11,
+        "corners": 3,
+        "possession": 55.9,
+        "shots": 7,
+        "shotsOnTarget": 2
+      },
+      "away": {
+        "fouls": 9,
+        "corners": 5,
+        "possession": 44.1,
+        "shots": 15,
+        "shotsOnTarget": 7
+      }
+    }
   }
 }
