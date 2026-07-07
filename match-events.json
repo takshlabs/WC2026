@@ -8620,5 +8620,151 @@
         "shotsOnTarget": 7
       }
     }
+  },
+  "537381": {
+    "goals": [
+      {
+        "minute": 15,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Yasser Ibrahim",
+          "shortName": "Yasser Ibrahim"
+        },
+        "assist": {
+          "name": "Marawan Attia",
+          "shortName": "Marawan Attia"
+        },
+        "team": {
+          "id": 825
+        }
+      },
+      {
+        "minute": 67,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Mostafa Zico",
+          "shortName": "Mostafa Zico"
+        },
+        "assist": {
+          "name": "Haissem Hassan",
+          "shortName": "Haissem Hassan"
+        },
+        "team": {
+          "id": 825
+        }
+      },
+      {
+        "minute": 79,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Cristian Romero",
+          "shortName": "Cristian Romero"
+        },
+        "assist": {
+          "name": "Lionel Messi",
+          "shortName": "Lionel Messi"
+        },
+        "team": {
+          "id": 762
+        }
+      },
+      {
+        "minute": 83,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Lionel Messi",
+          "shortName": "Lionel Messi"
+        },
+        "assist": {
+          "name": "Gonzalo Montiel",
+          "shortName": "Gonzalo Montiel"
+        },
+        "team": {
+          "id": 762
+        }
+      },
+      {
+        "minute": 90,
+        "injuryTime": 2,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Enzo Fern\u00e1ndez",
+          "shortName": "Enzo Fern\u00e1ndez"
+        },
+        "assist": {
+          "name": "Lautaro Mart\u00ednez",
+          "shortName": "Lautaro Mart\u00ednez"
+        },
+        "team": {
+          "id": 762
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 90,
+        "player": {
+          "name": "Mostafa Shoubir",
+          "shortName": "Mostafa Shoubir"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 825
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Hamdy Fathy",
+          "shortName": "Hamdy Fathy"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 825
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Marawan Attia",
+          "shortName": "Marawan Attia"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 825
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Haissem Hassan",
+          "shortName": "Haissem Hassan"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 825
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 13,
+        "corners": 6,
+        "possession": 63.6,
+        "shots": 19,
+        "shotsOnTarget": 7
+      },
+      "away": {
+        "fouls": 11,
+        "corners": 1,
+        "possession": 36.4,
+        "shots": 5,
+        "shotsOnTarget": 2
+      }
+    }
   }
 }
