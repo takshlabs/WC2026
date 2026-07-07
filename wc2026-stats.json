@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-07T11:25:29Z",
+  "updated": "2026-07-07T18:25:37Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -7,6 +7,15 @@
       "team": "France",
       "goals": 7,
       "assists": 2,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Lionel Messi",
+      "team": "Argentina",
+      "goals": 7,
+      "assists": 1,
       "yc": 0,
       "rc": 0,
       "mp": 0
@@ -25,15 +34,6 @@
       "team": "England",
       "goals": 6,
       "assists": 1,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Lionel Messi",
-      "team": "Argentina",
-      "goals": 6,
-      "assists": 0,
       "yc": 0,
       "rc": 0,
       "mp": 0
@@ -240,6 +240,16 @@
       "ga": 2
     },
     {
+      "tla": "ARG",
+      "name": "Argentina",
+      "mp": 5,
+      "w": 4,
+      "d": 1,
+      "l": 0,
+      "gf": 14,
+      "ga": 5
+    },
+    {
       "tla": "GER",
       "name": "Germany",
       "mp": 4,
@@ -290,14 +300,14 @@
       "ga": 9
     },
     {
-      "tla": "ARG",
-      "name": "Argentina",
-      "mp": 4,
-      "w": 4,
-      "d": 0,
+      "tla": "EGY",
+      "name": "Egypt",
+      "mp": 5,
+      "w": 2,
+      "d": 3,
       "l": 0,
-      "gf": 11,
-      "ga": 3
+      "gf": 12,
+      "ga": 9
     },
     {
       "tla": "ENG",
@@ -338,16 +348,6 @@
       "l": 1,
       "gf": 10,
       "ga": 4
-    },
-    {
-      "tla": "EGY",
-      "name": "Egypt",
-      "mp": 4,
-      "w": 2,
-      "d": 2,
-      "l": 0,
-      "gf": 10,
-      "ga": 6
     },
     {
       "tla": "SEN",
