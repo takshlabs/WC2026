@@ -8766,5 +8766,81 @@
         "shotsOnTarget": 2
       }
     }
+  },
+  "537382": {
+    "goals": [],
+    "bookings": [
+      {
+        "minute": 51,
+        "player": {
+          "name": "Granit Xhaka",
+          "shortName": "Granit Xhaka"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 788
+        }
+      },
+      {
+        "minute": 59,
+        "player": {
+          "name": "Denis Zakaria",
+          "shortName": "Denis Zakaria"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 788
+        }
+      },
+      {
+        "minute": 60,
+        "player": {
+          "name": "Luis Su\u00e1rez",
+          "shortName": "Luis Su\u00e1rez"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 818
+        }
+      },
+      {
+        "minute": 95,
+        "player": {
+          "name": "Davinson S\u00e1nchez",
+          "shortName": "Davinson S\u00e1nchez"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 818
+        }
+      },
+      {
+        "minute": 105,
+        "player": {
+          "name": "Miro Muheim",
+          "shortName": "Miro Muheim"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 788
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 22,
+        "corners": 3,
+        "possession": 53.4,
+        "shots": 7,
+        "shotsOnTarget": 2
+      },
+      "away": {
+        "fouls": 21,
+        "corners": 7,
+        "possession": 46.6,
+        "shots": 15,
+        "shotsOnTarget": 3
+      }
+    }
   }
 }
