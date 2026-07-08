@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-07T22:37:20Z",
+  "updated": "2026-07-08T07:42:27Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -243,8 +243,8 @@
       "tla": "ARG",
       "name": "Argentina",
       "mp": 5,
-      "w": 4,
-      "d": 1,
+      "w": 5,
+      "d": 0,
       "l": 0,
       "gf": 14,
       "ga": 5
@@ -304,8 +304,8 @@
       "name": "Egypt",
       "mp": 5,
       "w": 2,
-      "d": 3,
-      "l": 0,
+      "d": 2,
+      "l": 1,
       "gf": 12,
       "ga": 9
     },
@@ -360,6 +360,16 @@
       "ga": 9
     },
     {
+      "tla": "SUI",
+      "name": "Switzerland",
+      "mp": 5,
+      "w": 4,
+      "d": 1,
+      "l": 0,
+      "gf": 9,
+      "ga": 3
+    },
+    {
       "tla": "ESP",
       "name": "Spain",
       "mp": 5,
@@ -368,16 +378,6 @@
       "l": 0,
       "gf": 9,
       "ga": 0
-    },
-    {
-      "tla": "SUI",
-      "name": "Switzerland",
-      "mp": 4,
-      "w": 3,
-      "d": 1,
-      "l": 0,
-      "gf": 9,
-      "ga": 3
     },
     {
       "tla": "CAN",
@@ -452,10 +452,10 @@
     {
       "tla": "COL",
       "name": "Colombia",
-      "mp": 4,
+      "mp": 5,
       "w": 3,
       "d": 1,
-      "l": 0,
+      "l": 1,
       "gf": 5,
       "ga": 1
     },
