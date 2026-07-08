@@ -103,10 +103,22 @@ function findLocalMatch(homeTla, awayTla, homeNameRaw, awayNameRaw, utcDatetime)
   if (utcDatetime) {
     const date = utcDatetime.slice(0, 10)   // 'YYYY-MM-DD'
     const time = utcDatetime.slice(11, 16)  // 'HH:MM'
-    const byDatetime = MATCHES.find(m => m.date === date && m.time === time && m.home === null)
-    if (byDatetime) {
-      console.info(`[live] datetime-matched knockout ${date} ${time} → match ${byDatetime.id} (${byDatetime.matchLabel})`)
-      return byDatetime
+    const koMatchesOnDate = MATCHES.filter(m => m.date === date && m.home === null)
+    
+    const exact = koMatchesOnDate.find(m => m.time === time)
+    if (exact) {
+      console.info(`[live] datetime-matched knockout ${date} ${time} → match ${exact.id} (${exact.matchLabel})`)
+      return exact
+    }
+
+    const eMin = parseInt(time.slice(0,2))*60 + parseInt(time.slice(3,5))
+    const fuzzy = koMatchesOnDate.find(m => {
+      const mMin = parseInt(m.time.slice(0,2))*60 + parseInt(m.time.slice(3,5))
+      return Math.abs(mMin - eMin) <= 120
+    })
+    if (fuzzy) {
+      console.info(`[live] fuzzy datetime-matched knockout ${date} ${time} → match ${fuzzy.id} (${fuzzy.matchLabel})`)
+      return fuzzy
     }
   }
 
@@ -351,14 +363,22 @@ export function useLiveScores() {
             // For KO matches: build scoreByCode {ourTeamCode → score} from ESPN
             // team names, so BracketMatch/useBracketTeams get orientation-safe scores.
             let espnScoreByCode = null
+            let espnWinnerCode = null
+            let espnPenaltiesByCode = null
             if (local.home === null) {
               espnScoreByCode = {}
+              espnPenaltiesByCode = {}
               for (const c of competitors) {
                 const n = normEspnName(c.team?.displayName || '')
                 const code = NAME_LOOKUP[n]
-                if (code && TEAMS[code]) espnScoreByCode[code] = Number(c.score ?? 0)
+                if (code && TEAMS[code]) {
+                  espnScoreByCode[code] = Number(c.score ?? 0)
+                  if (c.winner) espnWinnerCode = code
+                  if (c.shootoutScore != null) espnPenaltiesByCode[code] = Number(c.shootoutScore)
+                }
               }
               if (Object.keys(espnScoreByCode).length !== 2) espnScoreByCode = null
+              if (Object.keys(espnPenaltiesByCode).length !== 2) espnPenaltiesByCode = null
             }
 
             const existing = next.get(local.id)
@@ -376,6 +396,8 @@ export function useLiveScores() {
               status:       espnStatus,
               displayClock: clock,
               ...(espnScoreByCode && !preserveScore ? { scoreByCode: espnScoreByCode } : {}),
+              ...(espnWinnerCode ? { winnerCode: espnWinnerCode } : {}),
+              ...(espnPenaltiesByCode ? { penaltiesByCode: espnPenaltiesByCode, duration: 'PENALTY_SHOOTOUT' } : {}),
             })
           }
           return next
