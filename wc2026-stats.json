@@ -1,12 +1,12 @@
 {
-  "updated": "2026-07-09T21:50:11Z",
+  "updated": "2026-07-09T22:59:00Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
       "name": "Kylian Mbapp\u00e9",
       "team": "France",
-      "goals": 7,
-      "assists": 2,
+      "goals": 8,
+      "assists": 3,
       "yc": 0,
       "rc": 0,
       "mp": 0
@@ -41,7 +41,7 @@
     {
       "name": "Ousmane Demb\u00e9l\u00e9",
       "team": "France",
-      "goals": 4,
+      "goals": 5,
       "assists": 2,
       "yc": 0,
       "rc": 0,
@@ -232,11 +232,11 @@
     {
       "tla": "FRA",
       "name": "France",
-      "mp": 5,
-      "w": 5,
+      "mp": 6,
+      "w": 6,
       "d": 0,
       "l": 0,
-      "gf": 14,
+      "gf": 16,
       "ga": 2
     },
     {
@@ -272,12 +272,12 @@
     {
       "tla": "MAR",
       "name": "Morocco",
-      "mp": 5,
+      "mp": 6,
       "w": 4,
       "d": 1,
-      "l": 0,
+      "l": 1,
       "gf": 13,
-      "ga": 6
+      "ga": 8
     },
     {
       "tla": "BEL",
