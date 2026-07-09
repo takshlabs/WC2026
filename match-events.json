@@ -8842,5 +8842,70 @@
         "shotsOnTarget": 3
       }
     }
+  },
+  "537383": {
+    "goals": [
+      {
+        "minute": 60,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Kylian Mbapp\u00e9",
+          "shortName": "Kylian Mbapp\u00e9"
+        },
+        "assist": {
+          "name": "D\u00e9sir\u00e9 Dou\u00e9",
+          "shortName": "D\u00e9sir\u00e9 Dou\u00e9"
+        },
+        "team": {
+          "id": 773
+        }
+      },
+      {
+        "minute": 66,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Ousmane Demb\u00e9l\u00e9",
+          "shortName": "Ousmane Demb\u00e9l\u00e9"
+        },
+        "assist": {
+          "name": "Kylian Mbapp\u00e9",
+          "shortName": "Kylian Mbapp\u00e9"
+        },
+        "team": {
+          "id": 773
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 63,
+        "player": {
+          "name": "Issa Diop",
+          "shortName": "Issa Diop"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 815
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 10,
+        "corners": 5,
+        "possession": 48.1,
+        "shots": 22,
+        "shotsOnTarget": 8
+      },
+      "away": {
+        "fouls": 13,
+        "corners": 5,
+        "possession": 51.9,
+        "shots": 5,
+        "shotsOnTarget": 1
+      }
+    }
   }
 }
