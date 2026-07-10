@@ -274,6 +274,8 @@ export function useLiveScores() {
             winnerCode:   winnerCode || null,
             duration:     m.score?.duration || null,
             penalties,
+            espnHome:     hCode || null,
+            espnAway:     aCode || null,
             ...(penaltiesByCode ? { penaltiesByCode } : {}),
             ...(scoreByCode ? { scoreByCode } : {}),
           })

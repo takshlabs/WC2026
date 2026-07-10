@@ -644,12 +644,25 @@ export default function Home() {
                 const homeCode = m.home ?? r?.home ?? null
                 const awayCode = m.away ?? r?.away ?? null
                 const homeT = TEAMS[homeCode]; const awayT = TEAMS[awayCode]
-                const hs = live?.homeScore; const as_ = live?.awayScore
+                let hs = live?.homeScore; let as_ = live?.awayScore
+                if (live?.scoreByCode && homeCode && awayCode) {
+                  hs = live.scoreByCode[homeCode] ?? hs
+                  as_ = live.scoreByCode[awayCode] ?? as_
+                }
                 const color = groupColor(m.group)
-                const homeGoals = (live?.goals || []).filter(g => g.side === 'home')
-                const awayGoals = (live?.goals || []).filter(g => g.side === 'away')
-                const homeCards = (live?.bookings || []).filter(b => b.side === 'home')
-                const awayCards = (live?.bookings || []).filter(b => b.side === 'away')
+                
+                const isFlipped = live?.espnHome === awayCode && live?.espnAway === homeCode
+                const homeGoals = (live?.goals || []).filter(g => g.side === (isFlipped ? 'away' : 'home'))
+                const awayGoals = (live?.goals || []).filter(g => g.side === (isFlipped ? 'home' : 'away'))
+                const homeCards = (live?.bookings || []).filter(b => b.side === (isFlipped ? 'away' : 'home'))
+                const awayCards = (live?.bookings || []).filter(b => b.side === (isFlipped ? 'home' : 'away'))
+                
+                let penH = live?.penalties?.home; let penA = live?.penalties?.away;
+                if (live?.penaltiesByCode && homeCode && awayCode) {
+                  penH = live.penaltiesByCode[homeCode] ?? penH
+                  penA = live.penaltiesByCode[awayCode] ?? penA
+                }
+
                 return (
                   <div key={m.id} className="yesterday-card" onClick={() => m.group ? goGroup(m.group) : navigate('fixtures')}>
                     <div className="yesterday-accent" style={{ background: color }} />
@@ -662,8 +675,8 @@ export default function Home() {
                         <div className="yesterday-score-block">
                           <span className="yesterday-score">{hs}–{as_}</span>
                           <span className="yesterday-ft">{live?.duration === 'PENALTY_SHOOTOUT' ? 'pens' : live?.duration === 'EXTRA_TIME' ? 'AET' : 'FT'}</span>
-                          {live?.penalties && (
-                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: 'var(--text-3)' }}>pen {live.penalties.home}–{live.penalties.away}</span>
+                          {penH != null && penA != null && (
+                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: 'var(--text-3)' }}>pen {penH}–{penA}</span>
                           )}
                         </div>
                         <div className="yesterday-team away">
