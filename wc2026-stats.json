@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-10T20:15:24Z",
+  "updated": "2026-07-10T21:29:47Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -129,6 +129,15 @@
       "mp": 0
     },
     {
+      "name": "Charles De Ketelaere",
+      "team": "Belgium",
+      "goals": 3,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
       "name": "Ra\u00fal Jim\u00e9nez",
       "team": "Mexico",
       "goals": 3,
@@ -217,15 +226,6 @@
       "yc": 0,
       "rc": 0,
       "mp": 0
-    },
-    {
-      "name": "Breel Embolo",
-      "team": "Switzerland",
-      "goals": 2,
-      "assists": 2,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
     }
   ],
   "teamStats": [
@@ -248,6 +248,16 @@
       "l": 0,
       "gf": 14,
       "ga": 5
+    },
+    {
+      "tla": "BEL",
+      "name": "Belgium",
+      "mp": 6,
+      "w": 3,
+      "d": 3,
+      "l": 0,
+      "gf": 14,
+      "ga": 7
     },
     {
       "tla": "GER",
@@ -280,16 +290,6 @@
       "ga": 8
     },
     {
-      "tla": "BEL",
-      "name": "Belgium",
-      "mp": 5,
-      "w": 3,
-      "d": 2,
-      "l": 0,
-      "gf": 13,
-      "ga": 5
-    },
-    {
       "tla": "NED",
       "name": "Netherlands",
       "mp": 4,
@@ -318,6 +318,16 @@
       "l": 1,
       "gf": 12,
       "ga": 9
+    },
+    {
+      "tla": "ESP",
+      "name": "Spain",
+      "mp": 6,
+      "w": 4,
+      "d": 2,
+      "l": 0,
+      "gf": 11,
+      "ga": 1
     },
     {
       "tla": "ENG",
@@ -368,16 +378,6 @@
       "l": 3,
       "gf": 10,
       "ga": 9
-    },
-    {
-      "tla": "ESP",
-      "name": "Spain",
-      "mp": 5,
-      "w": 4,
-      "d": 1,
-      "l": 0,
-      "gf": 9,
-      "ga": 0
     },
     {
       "tla": "CAN",
