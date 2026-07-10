@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-10T22:33:53Z",
+  "updated": "2026-07-10T23:04:16Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -254,8 +254,8 @@
       "name": "Belgium",
       "mp": 6,
       "w": 3,
-      "d": 3,
-      "l": 0,
+      "d": 2,
+      "l": 1,
       "gf": 14,
       "ga": 7
     },
@@ -323,8 +323,8 @@
       "tla": "ESP",
       "name": "Spain",
       "mp": 6,
-      "w": 4,
-      "d": 2,
+      "w": 5,
+      "d": 1,
       "l": 0,
       "gf": 11,
       "ga": 1
