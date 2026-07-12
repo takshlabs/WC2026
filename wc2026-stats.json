@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-12T00:08:24Z",
+  "updated": "2026-07-12T03:52:59Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -15,7 +15,7 @@
       "name": "Lionel Messi",
       "team": "Argentina",
       "goals": 7,
-      "assists": 1,
+      "assists": 2,
       "yc": 0,
       "rc": 0,
       "mp": 0
@@ -223,12 +223,22 @@
       "team": "Switzerland",
       "goals": 2,
       "assists": 2,
-      "yc": 0,
-      "rc": 0,
+      "yc": 1,
+      "rc": 1,
       "mp": 0
     }
   ],
   "teamStats": [
+    {
+      "tla": "ARG",
+      "name": "Argentina",
+      "mp": 6,
+      "w": 5,
+      "d": 1,
+      "l": 0,
+      "gf": 17,
+      "ga": 6
+    },
     {
       "tla": "FRA",
       "name": "France",
@@ -240,14 +250,14 @@
       "ga": 2
     },
     {
-      "tla": "ARG",
-      "name": "Argentina",
-      "mp": 5,
-      "w": 5,
-      "d": 0,
+      "tla": "SUI",
+      "name": "Switzerland",
+      "mp": 6,
+      "w": 4,
+      "d": 2,
       "l": 0,
       "gf": 14,
-      "ga": 5
+      "ga": 9
     },
     {
       "tla": "BEL",
@@ -268,16 +278,6 @@
       "l": 2,
       "gf": 14,
       "ga": 9
-    },
-    {
-      "tla": "SUI",
-      "name": "Switzerland",
-      "mp": 5,
-      "w": 4,
-      "d": 1,
-      "l": 0,
-      "gf": 13,
-      "ga": 6
     },
     {
       "tla": "MAR",
