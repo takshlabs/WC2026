@@ -9093,5 +9093,143 @@
         "shotsOnTarget": 8
       }
     }
+  },
+  "537386": {
+    "goals": [
+      {
+        "minute": 10,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Alexis Mac Allister",
+          "shortName": "Alexis Mac Allister"
+        },
+        "assist": {
+          "name": "Lionel Messi",
+          "shortName": "Lionel Messi"
+        },
+        "team": {
+          "id": 762
+        }
+      },
+      {
+        "minute": 67,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Dan Ndoye",
+          "shortName": "Dan Ndoye"
+        },
+        "assist": {
+          "name": "Ricardo Rodr\u00edguez",
+          "shortName": "Ricardo Rodr\u00edguez"
+        },
+        "team": {
+          "id": 788
+        }
+      },
+      {
+        "minute": 112,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Juli\u00e1n \u00c1lvarez",
+          "shortName": "Juli\u00e1n \u00c1lvarez"
+        },
+        "assist": {
+          "name": "Jos\u00e9 Manuel L\u00f3pez",
+          "shortName": "Jos\u00e9 Manuel L\u00f3pez"
+        },
+        "team": {
+          "id": 762
+        }
+      },
+      {
+        "minute": 120,
+        "injuryTime": 1,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Lautaro Mart\u00ednez",
+          "shortName": "Lautaro Mart\u00ednez"
+        },
+        "assist": null,
+        "team": {
+          "id": 762
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 44,
+        "player": {
+          "name": "Breel Embolo",
+          "shortName": "Breel Embolo"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 788
+        }
+      },
+      {
+        "minute": 72,
+        "player": {
+          "name": "Breel Embolo",
+          "shortName": "Breel Embolo"
+        },
+        "card": "RED_CARD",
+        "team": {
+          "id": 788
+        }
+      },
+      {
+        "minute": 97,
+        "player": {
+          "name": "Thiago Almada",
+          "shortName": "Thiago Almada"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 762
+        }
+      },
+      {
+        "minute": 98,
+        "player": {
+          "name": "Lautaro Mart\u00ednez",
+          "shortName": "Lautaro Mart\u00ednez"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 762
+        }
+      },
+      {
+        "minute": 114,
+        "player": {
+          "name": "Jos\u00e9 Manuel L\u00f3pez",
+          "shortName": "Jos\u00e9 Manuel L\u00f3pez"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 762
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 14,
+        "corners": 8,
+        "possession": 59.1,
+        "shots": 22,
+        "shotsOnTarget": 7
+      },
+      "away": {
+        "fouls": 18,
+        "corners": 2,
+        "possession": 40.9,
+        "shots": 11,
+        "shotsOnTarget": 5
+      }
+    }
   }
 }
