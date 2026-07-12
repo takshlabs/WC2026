@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-12T11:31:55Z",
+  "updated": "2026-07-12T12:30:04Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -30,6 +30,24 @@
       "mp": 0
     },
     {
+      "name": "Harry Kane",
+      "team": "England",
+      "goals": 6,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Jude Bellingham",
+      "team": "England",
+      "goals": 6,
+      "assists": 1,
+      "yc": 1,
+      "rc": 0,
+      "mp": 0
+    },
+    {
       "name": "Ousmane Demb\u00e9l\u00e9",
       "team": "France",
       "goals": 5,
@@ -39,10 +57,10 @@
       "mp": 0
     },
     {
-      "name": "Harry Kane",
-      "team": "England",
-      "goals": 5,
-      "assists": 0,
+      "name": "Juli\u00e1n Qui\u00f1ones",
+      "team": "Mexico",
+      "goals": 4,
+      "assists": 1,
       "yc": 0,
       "rc": 0,
       "mp": 0
@@ -53,15 +71,6 @@
       "goals": 4,
       "assists": 1,
       "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Jude Bellingham",
-      "team": "England",
-      "goals": 4,
-      "assists": 1,
-      "yc": 1,
       "rc": 0,
       "mp": 0
     },
@@ -102,15 +111,6 @@
       "mp": 0
     },
     {
-      "name": "Juli\u00e1n Qui\u00f1ones",
-      "team": "Mexico",
-      "goals": 3,
-      "assists": 1,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
       "name": "Cody Gakpo",
       "team": "Netherlands",
       "goals": 3,
@@ -133,6 +133,15 @@
       "team": "Belgium",
       "goals": 3,
       "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
+      "name": "Ra\u00fal Jim\u00e9nez",
+      "team": "Mexico",
+      "goals": 3,
+      "assists": 0,
       "yc": 0,
       "rc": 0,
       "mp": 0
@@ -217,15 +226,6 @@
       "yc": 0,
       "rc": 0,
       "mp": 0
-    },
-    {
-      "name": "Breel Embolo",
-      "team": "Switzerland",
-      "goals": 2,
-      "assists": 2,
-      "yc": 1,
-      "rc": 1,
-      "mp": 0
     }
   ],
   "teamStats": [
@@ -233,8 +233,8 @@
       "tla": "ARG",
       "name": "Argentina",
       "mp": 6,
-      "w": 5,
-      "d": 1,
+      "w": 6,
+      "d": 0,
       "l": 0,
       "gf": 17,
       "ga": 6
@@ -254,8 +254,8 @@
       "name": "Switzerland",
       "mp": 6,
       "w": 4,
-      "d": 2,
-      "l": 0,
+      "d": 1,
+      "l": 1,
       "gf": 14,
       "ga": 9
     },
@@ -278,6 +278,16 @@
       "l": 2,
       "gf": 14,
       "ga": 9
+    },
+    {
+      "tla": "ENG",
+      "name": "England",
+      "mp": 6,
+      "w": 5,
+      "d": 1,
+      "l": 0,
+      "gf": 13,
+      "ga": 6
     },
     {
       "tla": "MAR",
@@ -340,14 +350,14 @@
       "ga": 8
     },
     {
-      "tla": "ENG",
-      "name": "England",
+      "tla": "MEX",
+      "name": "Mexico",
       "mp": 5,
       "w": 4,
-      "d": 1,
-      "l": 0,
+      "d": 0,
+      "l": 1,
       "gf": 10,
-      "ga": 4
+      "ga": 3
     },
     {
       "tla": "BRA",
@@ -378,16 +388,6 @@
       "l": 2,
       "gf": 9,
       "ga": 6
-    },
-    {
-      "tla": "MEX",
-      "name": "Mexico",
-      "mp": 4,
-      "w": 4,
-      "d": 0,
-      "l": 0,
-      "gf": 8,
-      "ga": 0
     },
     {
       "tla": "COL",
