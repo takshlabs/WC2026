@@ -9015,5 +9015,83 @@
         "shotsOnTarget": 2
       }
     }
+  },
+  "537385": {
+    "goals": [
+      {
+        "minute": 36,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Andreas Schjelderup",
+          "shortName": "Andreas Schjelderup"
+        },
+        "assist": {
+          "name": "Martin \u00d8degaard",
+          "shortName": "Martin \u00d8degaard"
+        },
+        "team": {
+          "id": 8872
+        }
+      },
+      {
+        "minute": 45,
+        "injuryTime": 2,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Jude Bellingham",
+          "shortName": "Jude Bellingham"
+        },
+        "assist": {
+          "name": "Anthony Gordon",
+          "shortName": "Anthony Gordon"
+        },
+        "team": {
+          "id": 770
+        }
+      },
+      {
+        "minute": 93,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Jude Bellingham",
+          "shortName": "Jude Bellingham"
+        },
+        "assist": null,
+        "team": {
+          "id": 770
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 117,
+        "player": {
+          "name": "Kristoffer Ajer",
+          "shortName": "Kristoffer Ajer"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 8872
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 10,
+        "corners": 7,
+        "possession": 47.7,
+        "shots": 13,
+        "shotsOnTarget": 4
+      },
+      "away": {
+        "fouls": 8,
+        "corners": 4,
+        "possession": 52.3,
+        "shots": 14,
+        "shotsOnTarget": 8
+      }
+    }
   }
 }
