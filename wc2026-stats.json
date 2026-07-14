@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-14T20:49:05Z",
+  "updated": "2026-07-14T21:42:06Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -7,7 +7,7 @@
       "team": "France",
       "goals": 8,
       "assists": 3,
-      "yc": 0,
+      "yc": 1,
       "rc": 0,
       "mp": 0
     },
@@ -57,6 +57,15 @@
       "mp": 0
     },
     {
+      "name": "Mikel Oyarzabal",
+      "team": "Spain",
+      "goals": 5,
+      "assists": 1,
+      "yc": 0,
+      "rc": 0,
+      "mp": 0
+    },
+    {
       "name": "Juli\u00e1n Qui\u00f1ones",
       "team": "Mexico",
       "goals": 4,
@@ -68,15 +77,6 @@
     {
       "name": "Vin\u00edcius J\u00fanior",
       "team": "Brazil",
-      "goals": 4,
-      "assists": 1,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
-    },
-    {
-      "name": "Mikel Oyarzabal",
-      "team": "Spain",
       "goals": 4,
       "assists": 1,
       "yc": 0,
@@ -242,12 +242,12 @@
     {
       "tla": "FRA",
       "name": "France",
-      "mp": 6,
+      "mp": 7,
       "w": 6,
-      "d": 0,
+      "d": 1,
       "l": 0,
       "gf": 16,
-      "ga": 2
+      "ga": 4
     },
     {
       "tla": "SUI",
@@ -278,6 +278,16 @@
       "l": 2,
       "gf": 14,
       "ga": 9
+    },
+    {
+      "tla": "ESP",
+      "name": "Spain",
+      "mp": 7,
+      "w": 5,
+      "d": 2,
+      "l": 0,
+      "gf": 13,
+      "ga": 1
     },
     {
       "tla": "ENG",
@@ -328,16 +338,6 @@
       "l": 1,
       "gf": 12,
       "ga": 9
-    },
-    {
-      "tla": "ESP",
-      "name": "Spain",
-      "mp": 6,
-      "w": 5,
-      "d": 1,
-      "l": 0,
-      "gf": 11,
-      "ga": 1
     },
     {
       "tla": "USA",
