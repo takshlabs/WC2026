@@ -9231,5 +9231,89 @@
         "shotsOnTarget": 5
       }
     }
+  },
+  "537387": {
+    "goals": [
+      {
+        "minute": 22,
+        "injuryTime": null,
+        "type": "PENALTY",
+        "scorer": {
+          "name": "Mikel Oyarzabal",
+          "shortName": "Mikel Oyarzabal"
+        },
+        "assist": null,
+        "team": {
+          "id": 760
+        }
+      },
+      {
+        "minute": 58,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Pedro Porro",
+          "shortName": "Pedro Porro"
+        },
+        "assist": {
+          "name": "Dani Olmo",
+          "shortName": "Dani Olmo"
+        },
+        "team": {
+          "id": 760
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 9,
+        "player": {
+          "name": "Adrien Rabiot",
+          "shortName": "Adrien Rabiot"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 773
+        }
+      },
+      {
+        "minute": 31,
+        "player": {
+          "name": "Marc Cucurella",
+          "shortName": "Marc Cucurella"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 760
+        }
+      },
+      {
+        "minute": 86,
+        "player": {
+          "name": "Kylian Mbapp\u00e9",
+          "shortName": "Kylian Mbapp\u00e9"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 773
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 11,
+        "corners": 7,
+        "possession": 49.1,
+        "shots": 10,
+        "shotsOnTarget": 3
+      },
+      "away": {
+        "fouls": 12,
+        "corners": 1,
+        "possession": 50.9,
+        "shots": 10,
+        "shotsOnTarget": 2
+      }
+    }
   }
 }
