@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-15T08:33:59Z",
+  "updated": "2026-07-15T10:25:17Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -244,8 +244,8 @@
       "name": "France",
       "mp": 7,
       "w": 6,
-      "d": 1,
-      "l": 0,
+      "d": 0,
+      "l": 1,
       "gf": 16,
       "ga": 4
     },
@@ -283,8 +283,8 @@
       "tla": "ESP",
       "name": "Spain",
       "mp": 7,
-      "w": 5,
-      "d": 2,
+      "w": 6,
+      "d": 1,
       "l": 0,
       "gf": 13,
       "ga": 1
