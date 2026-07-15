@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-15T20:18:22Z",
+  "updated": "2026-07-15T21:25:49Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -15,7 +15,7 @@
       "name": "Lionel Messi",
       "team": "Argentina",
       "goals": 7,
-      "assists": 2,
+      "assists": 4,
       "yc": 0,
       "rc": 0,
       "mp": 0
@@ -129,6 +129,15 @@
       "mp": 0
     },
     {
+      "name": "Lautaro Mart\u00ednez",
+      "team": "Argentina",
+      "goals": 3,
+      "assists": 1,
+      "yc": 1,
+      "rc": 0,
+      "mp": 0
+    },
+    {
       "name": "Charles De Ketelaere",
       "team": "Belgium",
       "goals": 3,
@@ -217,27 +226,18 @@
       "yc": 0,
       "rc": 0,
       "mp": 0
-    },
-    {
-      "name": "Cristiano Ronaldo",
-      "team": "Portugal",
-      "goals": 3,
-      "assists": 0,
-      "yc": 0,
-      "rc": 0,
-      "mp": 0
     }
   ],
   "teamStats": [
     {
       "tla": "ARG",
       "name": "Argentina",
-      "mp": 6,
+      "mp": 7,
       "w": 6,
-      "d": 0,
+      "d": 1,
       "l": 0,
-      "gf": 17,
-      "ga": 6
+      "gf": 19,
+      "ga": 7
     },
     {
       "tla": "FRA",
@@ -248,6 +248,16 @@
       "l": 1,
       "gf": 16,
       "ga": 4
+    },
+    {
+      "tla": "ENG",
+      "name": "England",
+      "mp": 7,
+      "w": 5,
+      "d": 2,
+      "l": 0,
+      "gf": 14,
+      "ga": 8
     },
     {
       "tla": "SUI",
@@ -288,16 +298,6 @@
       "l": 0,
       "gf": 13,
       "ga": 1
-    },
-    {
-      "tla": "ENG",
-      "name": "England",
-      "mp": 6,
-      "w": 5,
-      "d": 1,
-      "l": 0,
-      "gf": 13,
-      "ga": 6
     },
     {
       "tla": "MAR",
