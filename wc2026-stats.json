@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-15T21:25:49Z",
+  "updated": "2026-07-15T22:28:36Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -233,8 +233,8 @@
       "tla": "ARG",
       "name": "Argentina",
       "mp": 7,
-      "w": 6,
-      "d": 1,
+      "w": 7,
+      "d": 0,
       "l": 0,
       "gf": 19,
       "ga": 7
@@ -254,8 +254,8 @@
       "name": "England",
       "mp": 7,
       "w": 5,
-      "d": 2,
-      "l": 0,
+      "d": 1,
+      "l": 1,
       "gf": 14,
       "ga": 8
     },
