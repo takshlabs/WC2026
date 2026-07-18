@@ -9429,5 +9429,177 @@
         "shotsOnTarget": 5
       }
     }
+  },
+  "537389": {
+    "goals": [
+      {
+        "minute": 3,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Declan Rice",
+          "shortName": "Declan Rice"
+        },
+        "assist": null,
+        "team": {
+          "id": 770
+        }
+      },
+      {
+        "minute": 18,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Ezri Konsa",
+          "shortName": "Ezri Konsa"
+        },
+        "assist": {
+          "name": "Declan Rice",
+          "shortName": "Declan Rice"
+        },
+        "team": {
+          "id": 770
+        }
+      },
+      {
+        "minute": 37,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Bukayo Saka",
+          "shortName": "Bukayo Saka"
+        },
+        "assist": {
+          "name": "Marcus Rashford",
+          "shortName": "Marcus Rashford"
+        },
+        "team": {
+          "id": 770
+        }
+      },
+      {
+        "minute": 45,
+        "injuryTime": 1,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Bukayo Saka",
+          "shortName": "Bukayo Saka"
+        },
+        "assist": {
+          "name": "Eberechi Eze",
+          "shortName": "Eberechi Eze"
+        },
+        "team": {
+          "id": 770
+        }
+      },
+      {
+        "minute": 48,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Kylian Mbapp\u00e9",
+          "shortName": "Kylian Mbapp\u00e9"
+        },
+        "assist": {
+          "name": "Michael Olise",
+          "shortName": "Michael Olise"
+        },
+        "team": {
+          "id": 773
+        }
+      },
+      {
+        "minute": 54,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Bradley Barcola",
+          "shortName": "Bradley Barcola"
+        },
+        "assist": {
+          "name": "Kylian Mbapp\u00e9",
+          "shortName": "Kylian Mbapp\u00e9"
+        },
+        "team": {
+          "id": 773
+        }
+      },
+      {
+        "minute": 66,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Kylian Mbapp\u00e9",
+          "shortName": "Kylian Mbapp\u00e9"
+        },
+        "assist": {
+          "name": "Michael Olise",
+          "shortName": "Michael Olise"
+        },
+        "team": {
+          "id": 773
+        }
+      },
+      {
+        "minute": 87,
+        "injuryTime": null,
+        "type": "PENALTY",
+        "scorer": {
+          "name": "Bukayo Saka",
+          "shortName": "Bukayo Saka"
+        },
+        "assist": null,
+        "team": {
+          "id": 770
+        }
+      },
+      {
+        "minute": 90,
+        "injuryTime": 6,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Ousmane Demb\u00e9l\u00e9",
+          "shortName": "Ousmane Demb\u00e9l\u00e9"
+        },
+        "assist": {
+          "name": "Dayot Upamecano",
+          "shortName": "Dayot Upamecano"
+        },
+        "team": {
+          "id": 773
+        }
+      },
+      {
+        "minute": 90,
+        "injuryTime": 8,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Jude Bellingham",
+          "shortName": "Jude Bellingham"
+        },
+        "assist": null,
+        "team": {
+          "id": 770
+        }
+      }
+    ],
+    "bookings": [],
+    "stats": {
+      "home": {
+        "fouls": 14,
+        "corners": 3,
+        "possession": 45.9,
+        "shots": 19,
+        "shotsOnTarget": 9
+      },
+      "away": {
+        "fouls": 8,
+        "corners": 4,
+        "possession": 54.1,
+        "shots": 19,
+        "shotsOnTarget": 11
+      }
+    }
   }
 }
