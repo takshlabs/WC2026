@@ -9601,5 +9601,120 @@
         "shotsOnTarget": 11
       }
     }
+  },
+  "537390": {
+    "goals": [
+      {
+        "minute": 106,
+        "injuryTime": null,
+        "type": "REGULAR",
+        "scorer": {
+          "name": "Ferran Torres",
+          "shortName": "Ferran Torres"
+        },
+        "assist": {
+          "name": "Nico Williams",
+          "shortName": "Nico Williams"
+        },
+        "team": {
+          "id": 760
+        }
+      }
+    ],
+    "bookings": [
+      {
+        "minute": 41,
+        "player": {
+          "name": "Lisandro Mart\u00ednez",
+          "shortName": "Lisandro Mart\u00ednez"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 762
+        }
+      },
+      {
+        "minute": 52,
+        "player": {
+          "name": "Leandro Paredes",
+          "shortName": "Leandro Paredes"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 762
+        }
+      },
+      {
+        "minute": 82,
+        "player": {
+          "name": "Enzo Fern\u00e1ndez",
+          "shortName": "Enzo Fern\u00e1ndez"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 762
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Cristian Romero",
+          "shortName": "Cristian Romero"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 762
+        }
+      },
+      {
+        "minute": 90,
+        "player": {
+          "name": "Enzo Fern\u00e1ndez",
+          "shortName": "Enzo Fern\u00e1ndez"
+        },
+        "card": "RED_CARD",
+        "team": {
+          "id": 762
+        }
+      },
+      {
+        "minute": 111,
+        "player": {
+          "name": "Alexis Mac Allister",
+          "shortName": "Alexis Mac Allister"
+        },
+        "card": "YELLOW_CARD",
+        "team": {
+          "id": 762
+        }
+      },
+      {
+        "minute": 120,
+        "player": {
+          "name": "Leandro Paredes",
+          "shortName": "Leandro Paredes"
+        },
+        "card": "RED_CARD",
+        "team": {
+          "id": 762
+        }
+      }
+    ],
+    "stats": {
+      "home": {
+        "fouls": 21,
+        "corners": 9,
+        "possession": 65.1,
+        "shots": 20,
+        "shotsOnTarget": 12
+      },
+      "away": {
+        "fouls": 25,
+        "corners": 4,
+        "possession": 34.9,
+        "shots": 2,
+        "shotsOnTarget": 0
+      }
+    }
   }
 }
