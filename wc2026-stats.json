@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-19T21:14:01Z",
+  "updated": "2026-07-19T22:10:18Z",
   "source": "live-scores.json (ESPN events)",
   "topScorers": [
     {
@@ -252,12 +252,22 @@
     {
       "tla": "ARG",
       "name": "Argentina",
-      "mp": 7,
+      "mp": 8,
       "w": 7,
-      "d": 0,
+      "d": 1,
       "l": 0,
       "gf": 19,
-      "ga": 7
+      "ga": 8
+    },
+    {
+      "tla": "ESP",
+      "name": "Spain",
+      "mp": 8,
+      "w": 6,
+      "d": 2,
+      "l": 0,
+      "gf": 14,
+      "ga": 1
     },
     {
       "tla": "SUI",
@@ -288,16 +298,6 @@
       "l": 2,
       "gf": 14,
       "ga": 9
-    },
-    {
-      "tla": "ESP",
-      "name": "Spain",
-      "mp": 7,
-      "w": 6,
-      "d": 1,
-      "l": 0,
-      "gf": 13,
-      "ga": 1
     },
     {
       "tla": "MAR",
